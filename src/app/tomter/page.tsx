@@ -1,18 +1,66 @@
+'use client'
+
+import { useState, useMemo } from 'react'
 import Link from 'next/link'
-import { MapPin, SlidersHorizontal, Search, ArrowUpDown } from 'lucide-react'
+import { Search, ArrowUpDown } from 'lucide-react'
 import { formatNOK, formatM2, getScoreFarge } from '@/lib/utils'
 
 // ============================================================
 // TOMTLISTE – Alle tomter med filtrering og sortering
 // ============================================================
 
-const DEMO_TOMTER = [
-  { id: 'bjornemyrveien-20', adresse: 'Bjørnemyrveien 20', poststed: 'Bjørnemyr', kommune: 'Nesodden', areal_m2: 605, score: 84, pris: 3000000, type: 'Eneboligtomt – flat', bilde: '/tomter/bjornemyrveien-shared/render-parsell-b.jpg' },
-  { id: 'bjornemyrveien-22', adresse: 'Bjørnemyrveien 22', poststed: 'Bjørnemyr', kommune: 'Nesodden', areal_m2: 613, score: 80, pris: 3000000, type: 'Eneboligtomt – skrå', bilde: '/tomter/bjornemyrveien-shared/render-parsell-c.jpg' },
-  { id: 'alvaern-67', adresse: 'Gamle Alværnvei 67', poststed: 'Alværn', kommune: 'Nesodden', areal_m2: 900, score: 86, pris: 3200000, type: 'Eneboligtomt – fjordutsikt', bilde: '/tomter/alvaern-shared/alvaern-render-aerial-1-DvVXdDku.jpg' },
+const TOMTER = [
+  { id: 'bjornemyrveien-20', adresse: 'Bjørnemyrveien 20', poststed: 'Bjørnemyr', kommune: 'Nesodden', areal_m2: 605, score: 84, pris: 3000000, type: 'Eneboligtomt', bilde: '/tomter/bjornemyrveien-shared/render-parsell-b.jpg' },
+  { id: 'bjornemyrveien-22', adresse: 'Bjørnemyrveien 22', poststed: 'Bjørnemyr', kommune: 'Nesodden', areal_m2: 613, score: 80, pris: 3000000, type: 'Eneboligtomt', bilde: '/tomter/bjornemyrveien-shared/render-parsell-c.jpg' },
+  { id: 'alvaern-67', adresse: 'Gamle Alværnvei 67', poststed: 'Alværn', kommune: 'Nesodden', areal_m2: 900, score: 86, pris: 3200000, type: 'Eneboligtomt', bilde: '/tomter/alvaern-shared/alvaern-render-aerial-1-DvVXdDku.jpg' },
 ]
 
+const KOMMUNER = [...new Set(TOMTER.map((t) => t.kommune))]
+const TYPER = [...new Set(TOMTER.map((t) => t.type))]
+
+type SortOption = 'score_desc' | 'score_asc' | 'pris_asc' | 'pris_desc' | 'areal_desc'
+
 export default function TomtListeSide() {
+  const [search, setSearch] = useState('')
+  const [kommune, setKommune] = useState('')
+  const [type, setType] = useState('')
+  const [sort, setSort] = useState<SortOption>('score_desc')
+
+  const filtered = useMemo(() => {
+    let result = TOMTER
+
+    if (search) {
+      const q = search.toLowerCase()
+      result = result.filter(
+        (t) =>
+          t.adresse.toLowerCase().includes(q) ||
+          t.poststed.toLowerCase().includes(q) ||
+          t.kommune.toLowerCase().includes(q)
+      )
+    }
+
+    if (kommune) {
+      result = result.filter((t) => t.kommune === kommune)
+    }
+
+    if (type) {
+      result = result.filter((t) => t.type === type)
+    }
+
+    result = [...result].sort((a, b) => {
+      switch (sort) {
+        case 'score_desc': return b.score - a.score
+        case 'score_asc': return a.score - b.score
+        case 'pris_asc': return a.pris - b.pris
+        case 'pris_desc': return b.pris - a.pris
+        case 'areal_desc': return b.areal_m2 - a.areal_m2
+        default: return 0
+      }
+    })
+
+    return result
+  }, [search, kommune, type, sort])
+
   return (
     <div className="bg-brand-50 min-h-screen">
       {/* Header */}
@@ -22,7 +70,7 @@ export default function TomtListeSide() {
             Alle tomter
           </h1>
           <p className="text-brand-600">
-            {DEMO_TOMTER.length} tomter med ferdig analyse og mulighetsstudie
+            {filtered.length} tomter med ferdig analyse og mulighetsstudie
           </p>
         </div>
       </div>
@@ -36,82 +84,103 @@ export default function TomtListeSide() {
               <input
                 type="text"
                 placeholder="Søk på adresse, kommune..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 bg-brand-50 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20 focus:border-tomtly-accent"
               />
             </div>
 
-            <select className="px-3 py-2.5 bg-brand-50 border border-brand-200 rounded-lg text-sm text-brand-700">
-              <option>Alle kommuner</option>
-              <option>Nordre Follo</option>
-              <option>Vestby</option>
-              <option>Frogn</option>
-              <option>Ås</option>
+            <select
+              value={kommune}
+              onChange={(e) => setKommune(e.target.value)}
+              className="px-3 py-2.5 bg-brand-50 border border-brand-200 rounded-lg text-sm text-brand-700"
+            >
+              <option value="">Alle kommuner</option>
+              {KOMMUNER.map((k) => (
+                <option key={k} value={k}>{k}</option>
+              ))}
             </select>
 
-            <select className="px-3 py-2.5 bg-brand-50 border border-brand-200 rounded-lg text-sm text-brand-700">
-              <option>Alle typer</option>
-              <option>Eneboligtomt</option>
-              <option>Tomannsboligtomt</option>
-              <option>Utviklingstomt</option>
+            <select
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              className="px-3 py-2.5 bg-brand-50 border border-brand-200 rounded-lg text-sm text-brand-700"
+            >
+              <option value="">Alle typer</option>
+              {TYPER.map((t) => (
+                <option key={t} value={t}>{t}</option>
+              ))}
             </select>
 
-            <select className="px-3 py-2.5 bg-brand-50 border border-brand-200 rounded-lg text-sm text-brand-700">
-              <option>Min. score: 0</option>
-              <option>Min. score: 50</option>
-              <option>Min. score: 70</option>
-              <option>Min. score: 80</option>
+            <select
+              value={sort}
+              onChange={(e) => setSort(e.target.value as SortOption)}
+              className="px-3 py-2.5 bg-brand-50 border border-brand-200 rounded-lg text-sm text-brand-700"
+            >
+              <option value="score_desc">Score (høyest)</option>
+              <option value="score_asc">Score (lavest)</option>
+              <option value="pris_asc">Pris (lavest)</option>
+              <option value="pris_desc">Pris (høyest)</option>
+              <option value="areal_desc">Areal (størst)</option>
             </select>
-
-            <button className="flex items-center gap-2 px-3 py-2.5 border border-brand-200 rounded-lg text-sm text-brand-700 hover:bg-brand-50">
-              <ArrowUpDown className="w-4 h-4" />
-              Score (høyest)
-            </button>
           </div>
         </div>
       </div>
 
       {/* Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {DEMO_TOMTER.map((t) => (
-            <Link
-              key={t.id}
-              href={`/tomter/${t.id}`}
-              className="group bg-white border border-brand-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300"
+        {filtered.length === 0 ? (
+          <div className="text-center py-16">
+            <p className="text-lg text-brand-400">Ingen tomter matcher filteret ditt.</p>
+            <button
+              onClick={() => { setSearch(''); setKommune(''); setType('') }}
+              className="mt-3 text-sm text-tomtly-accent hover:underline"
             >
-              <div className="aspect-[4/3] bg-brand-100 relative">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                {'bilde' in t && t.bilde && <img src={t.bilde as string} alt={t.adresse} className="absolute inset-0 w-full h-full object-cover" />}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                <div className="absolute top-3 right-3">
-                  <div
-                    className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-white text-xs font-bold"
-                    style={{ backgroundColor: getScoreFarge(t.score) }}
-                  >
-                    {t.score}
+              Nullstill filter
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filtered.map((t) => (
+              <Link
+                key={t.id}
+                href={`/tomter/${t.id}`}
+                className="group bg-white border border-brand-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300"
+              >
+                <div className="aspect-[4/3] bg-brand-100 relative">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={t.bilde} alt={t.adresse} className="absolute inset-0 w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                  <div className="absolute top-3 right-3">
+                    <div
+                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-white text-xs font-bold"
+                      style={{ backgroundColor: getScoreFarge(t.score) }}
+                    >
+                      {t.score}
+                    </div>
+                  </div>
+                  <div className="absolute bottom-3 left-3">
+                    <span className="px-2 py-1 bg-white/90 backdrop-blur-sm rounded text-xs font-medium text-brand-800">
+                      {t.type}
+                    </span>
                   </div>
                 </div>
-                <div className="absolute bottom-3 left-3">
-                  <span className="px-2 py-1 bg-white/90 backdrop-blur-sm rounded text-xs font-medium text-brand-800">
-                    {t.type}
-                  </span>
-                </div>
-              </div>
 
-              {/* Info */}
-              <div className="p-4">
-                <h3 className="font-semibold text-tomtly-dark group-hover:text-tomtly-accent transition-colors">
-                  {t.adresse}
-                </h3>
-                <p className="text-sm text-brand-500">{t.poststed}, {t.kommune}</p>
-                <div className="flex items-center justify-between mt-3 pt-3 border-t border-brand-100">
-                  <span className="text-sm text-brand-600">{formatM2(t.areal_m2)}</span>
-                  <span className="font-semibold text-tomtly-dark">{formatNOK(t.pris)}</span>
+                {/* Info */}
+                <div className="p-4">
+                  <h3 className="font-semibold text-tomtly-dark group-hover:text-tomtly-accent transition-colors">
+                    {t.adresse}
+                  </h3>
+                  <p className="text-sm text-brand-500">{t.poststed}, {t.kommune}</p>
+                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-brand-100">
+                    <span className="text-sm text-brand-600">{formatM2(t.areal_m2)}</span>
+                    <span className="font-semibold text-tomtly-dark">{formatNOK(t.pris)}</span>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )

@@ -1,11 +1,48 @@
 'use client'
 
 import { useState } from 'react'
-import { X, CheckCircle2 } from 'lucide-react'
+import { X, CheckCircle2, Loader2 } from 'lucide-react'
 
 export function SkreddersyddAvtale() {
   const [open, setOpen] = useState(false)
   const [sendt, setSendt] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  const [firma, setFirma] = useState('')
+  const [kontaktperson, setKontaktperson] = useState('')
+  const [email, setEmail] = useState('')
+  const [telefon, setTelefon] = useState('')
+  const [antallTomter, setAntallTomter] = useState('1-5')
+  const [melding, setMelding] = useState('')
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setLoading(true)
+
+    try {
+      const res = await fetch('/api/henvendelse', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'skreddersydd_avtale',
+          navn: kontaktperson,
+          email,
+          telefon,
+          melding,
+          firma,
+          antallTomter,
+        }),
+      })
+
+      if (res.ok) {
+        setSendt(true)
+      }
+    } catch (err) {
+      console.error('Feil ved innsending:', err)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <section className="bg-brand-50 rounded-xl border border-brand-200 p-8 mt-10">
@@ -59,15 +96,14 @@ export function SkreddersyddAvtale() {
                   Fyll ut skjemaet, så tar vi kontakt.
                 </p>
 
-                <form
-                  onSubmit={(e) => { e.preventDefault(); setSendt(true) }}
-                  className="space-y-4"
-                >
+                <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-brand-700 mb-1">Firma</label>
                     <input
                       type="text"
                       required
+                      value={firma}
+                      onChange={(e) => setFirma(e.target.value)}
                       className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20"
                     />
                   </div>
@@ -76,6 +112,8 @@ export function SkreddersyddAvtale() {
                     <input
                       type="text"
                       required
+                      value={kontaktperson}
+                      onChange={(e) => setKontaktperson(e.target.value)}
                       className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20"
                     />
                   </div>
@@ -85,6 +123,8 @@ export function SkreddersyddAvtale() {
                       <input
                         type="email"
                         required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20"
                       />
                     </div>
@@ -93,13 +133,19 @@ export function SkreddersyddAvtale() {
                       <input
                         type="tel"
                         required
+                        value={telefon}
+                        onChange={(e) => setTelefon(e.target.value)}
                         className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20"
                       />
                     </div>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-brand-700 mb-1">Antall tomter per år</label>
-                    <select className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20">
+                    <select
+                      value={antallTomter}
+                      onChange={(e) => setAntallTomter(e.target.value)}
+                      className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20"
+                    >
                       <option>1-5</option>
                       <option>6-15</option>
                       <option>16-50</option>
@@ -110,15 +156,25 @@ export function SkreddersyddAvtale() {
                     <label className="block text-sm font-medium text-brand-700 mb-1">Melding</label>
                     <textarea
                       rows={3}
+                      value={melding}
+                      onChange={(e) => setMelding(e.target.value)}
                       className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20 resize-none"
                       placeholder="Beskriv ditt behov..."
                     />
                   </div>
                   <button
                     type="submit"
-                    className="w-full py-3 bg-tomtly-accent text-white font-medium rounded-lg hover:bg-forest-700 transition-colors"
+                    disabled={loading}
+                    className="w-full py-3 bg-tomtly-accent text-white font-medium rounded-lg hover:bg-forest-700 transition-colors disabled:opacity-60 flex items-center justify-center gap-2"
                   >
-                    Send forespørsel
+                    {loading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Sender...
+                      </>
+                    ) : (
+                      'Send forespørsel'
+                    )}
                   </button>
                   <p className="text-xs text-brand-400 text-center">
                     Vi tar kontakt innen 1 virkedag. hey@nops.no

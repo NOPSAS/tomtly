@@ -453,11 +453,11 @@ function Prismodell() {
 
         <AbonnementKort />
 
-        <SkreddersyddAvtale />
-
         <p className="text-center text-xs text-brand-400 mt-8">
           Alle priser er eks. mva. 1 måneds oppsigelsestid. Du betaler for inneværende dager i måneden. Meglere: se egne planer under «For meglere».
         </p>
+
+        <SkreddersyddAvtale />
       </div>
     </section>
   )
