@@ -1,16 +1,27 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState, useMemo } from 'react'
 import { createClient } from '@/lib/supabase'
 import type { User, Session } from '@supabase/supabase-js'
+
+interface Profile {
+  full_name: string
+  phone: string
+  company_name: string
+  role: string
+  created_at: string
+}
 
 interface AuthContextType {
   user: User | null
   session: Session | null
+  profile: Profile | null
+  isAdmin: boolean
   loading: boolean
   signIn: (email: string, password: string) => Promise<{ error: any }>
   signUp: (email: string, password: string, metadata: Record<string, any>) => Promise<{ error: any }>
   signOut: () => Promise<void>
+  refreshProfile: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
@@ -18,24 +29,48 @@ const AuthContext = createContext<AuthContextType | null>(null)
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [session, setSession] = useState<Session | null>(null)
+  const [profile, setProfile] = useState<Profile | null>(null)
   const [loading, setLoading] = useState(true)
-  const supabase = createClient()
+
+  const supabase = useMemo(() => createClient(), [])
+
+  const fetchProfile = async (userId: string) => {
+    const { data } = await supabase
+      .from('profiles')
+      .select('full_name, phone, company_name, role, created_at')
+      .eq('id', userId)
+      .single()
+    setProfile(data)
+  }
+
+  const refreshProfile = async () => {
+    if (user) await fetchProfile(user.id)
+  }
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
       setUser(session?.user ?? null)
-      setLoading(false)
+      if (session?.user) {
+        fetchProfile(session.user.id).then(() => setLoading(false))
+      } else {
+        setLoading(false)
+      }
     })
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
       setUser(session?.user ?? null)
+      if (session?.user) {
+        fetchProfile(session.user.id)
+      } else {
+        setProfile(null)
+      }
       setLoading(false)
     })
 
     return () => subscription.unsubscribe()
-  }, [])
+  }, [supabase])
 
   const signIn = async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({ email, password })
@@ -56,10 +91,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signOut = async () => {
     await supabase.auth.signOut()
+    setProfile(null)
   }
 
+  const isAdmin = profile?.role === 'admin'
+
   return (
-    <AuthContext.Provider value={{ user, session, loading, signIn, signUp, signOut }}>
+    <AuthContext.Provider value={{ user, session, profile, isAdmin, loading, signIn, signUp, signOut, refreshProfile }}>
       {children}
     </AuthContext.Provider>
   )

@@ -33,7 +33,7 @@ const TOMTER = [
 ]
 
 export default function AdminDashboard() {
-  const { user, loading: authLoading } = useAuth()
+  const { user, isAdmin, loading: authLoading } = useAuth()
   const [tab, setTab] = useState<'tomter' | 'kunder' | 'henvendelser'>('tomter')
   const [profiles, setProfiles] = useState<Profile[]>([])
   const [henvendelser, setHenvendelser] = useState<Henvendelse[]>([])

@@ -1,23 +1,13 @@
 'use client'
 
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Menu, X, MapPin, ChevronDown, Shield, User } from 'lucide-react'
 import { useAuth } from '@/lib/auth-context'
-import { createClient } from '@/lib/supabase'
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
-  const { user, signOut, loading } = useAuth()
-  const [isAdmin, setIsAdmin] = useState(false)
-
-  useEffect(() => {
-    if (!user) { setIsAdmin(false); return }
-    const supabase = createClient()
-    supabase.from('profiles').select('role').eq('id', user.id).single().then(({ data }) => {
-      setIsAdmin(data?.role === 'admin')
-    })
-  }, [user])
+  const { user, signOut, isAdmin, loading } = useAuth()
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-brand-200">
