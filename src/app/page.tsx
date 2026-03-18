@@ -387,16 +387,31 @@ function Prismodell() {
           For tomteeiere
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-16">
+          {/* Standard */}
           <div className="border-2 border-brand-200 rounded-2xl p-7">
             <div className="text-sm font-medium text-brand-500 mb-2">Standard</div>
             <div className="flex items-baseline gap-1 mb-1">
               <span className="text-4xl font-bold text-tomtly-dark">4 900</span>
               <span className="text-brand-500">kr</span>
             </div>
-            <p className="text-sm text-brand-500 mb-4">engangsbetaling</p>
-            <p className="text-sm text-brand-600 mb-6">
-              Komplett tomtanalyse med mulighetsstudie, 3 husmodeller, tomtescore, visualiseringer, byggekalkyle og publisering på Tomtly.
-            </p>
+            <p className="text-sm text-brand-500 mb-5">engangsbetaling</p>
+            <p className="text-sm font-medium text-tomtly-dark mb-3">Du får en komplett analyse av tomten:</p>
+            <ul className="space-y-2 mb-6">
+              {[
+                'Mulighetsstudie fra arkitektteamet',
+                '3 husmodeller tilpasset tomten',
+                'Tomtescore (0-100)',
+                'Byggekalkyle og verdivurdering',
+                'Reguleringsanalyse',
+                'Publisering på Tomtly',
+              ].map((f) => (
+                <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
+                  <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <p className="text-xs text-brand-400 mb-4">Du selger tomten selv eller via egen megler.</p>
             <Link
               href="/selger/onboarding"
               className="block w-full text-center px-4 py-3 border-2 border-tomtly-accent text-tomtly-accent font-medium rounded-lg hover:bg-forest-50 transition-colors"
@@ -405,6 +420,7 @@ function Prismodell() {
             </Link>
           </div>
 
+          {/* Med salgsoppdrag */}
           <div className="border-2 border-tomtly-accent rounded-2xl p-7 relative">
             <div className="absolute -top-3 right-6 px-3 py-1 bg-tomtly-accent text-white text-xs font-semibold rounded-full">
               Mest populær
@@ -412,12 +428,26 @@ function Prismodell() {
             <div className="text-sm font-medium text-brand-500 mb-2">Med salgsoppdrag</div>
             <div className="flex items-baseline gap-1 mb-1">
               <span className="text-4xl font-bold text-tomtly-dark">4 900</span>
-              <span className="text-brand-500">kr</span>
+              <span className="text-brand-500">kr + 1%</span>
             </div>
-            <p className="text-sm text-brand-500 mb-4">+ 1% av salgssum</p>
-            <p className="text-sm text-brand-600 mb-6">
-              Alt i Standard + Tomtly håndterer salgsprosess, oppgjør via Propr.
-            </p>
+            <p className="text-sm text-brand-500 mb-5">1% betales kun ved salg</p>
+            <p className="text-sm font-medium text-tomtly-dark mb-3">Alt i Standard, pluss vi selger for deg:</p>
+            <ul className="space-y-2 mb-6">
+              {[
+                'Alt i Standard-pakken',
+                'Tomtly håndterer hele salgsprosessen',
+                'Annonsering og markedsføring',
+                'Visninger og kjøperdialog',
+                'Oppgjør via Propr (trygt og enkelt)',
+                'Du betaler 1% kun når tomten er solgt',
+              ].map((f) => (
+                <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
+                  <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <p className="text-xs text-brand-400 mb-4">Ingen risiko – du betaler kun ved suksess.</p>
             <Link
               href="/selger/onboarding"
               className="block w-full text-center px-4 py-3 bg-tomtly-accent text-white font-medium rounded-lg hover:bg-forest-700 transition-colors"
@@ -426,16 +456,31 @@ function Prismodell() {
             </Link>
           </div>
 
+          {/* Premium */}
           <div className="border-2 border-brand-200 rounded-2xl p-7">
             <div className="text-sm font-medium text-brand-500 mb-2">Premium</div>
             <div className="flex items-baseline gap-1 mb-1">
               <span className="text-4xl font-bold text-tomtly-dark">19 900</span>
               <span className="text-brand-500">kr</span>
             </div>
-            <p className="text-sm text-brand-500 mb-4">engangsbetaling, uten binding</p>
-            <p className="text-sm text-brand-600 mb-6">
-              Alt i Standard, ingen suksesshonorar, du eier alt.
-            </p>
+            <p className="text-sm text-brand-500 mb-5">engangsbetaling</p>
+            <p className="text-sm font-medium text-tomtly-dark mb-3">For deg som vil eie alt uten løpende kostnader:</p>
+            <ul className="space-y-2 mb-6">
+              {[
+                'Alt i Standard-pakken',
+                'Alle filer og tegninger tilhører deg',
+                'Ingen suksesshonorar eller provisjon',
+                'Bruk materialet fritt – FINN, megler, egen salg',
+                'Ingen binding eller løpende kostnad',
+                'Prioritert analyse fra arkitektteamet',
+              ].map((f) => (
+                <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
+                  <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <p className="text-xs text-brand-400 mb-4">Ideell for deg som allerede har megler eller selger selv.</p>
             <Link
               href="/selger/onboarding"
               className="block w-full text-center px-4 py-3 border-2 border-tomtly-accent text-tomtly-accent font-medium rounded-lg hover:bg-forest-50 transition-colors"
