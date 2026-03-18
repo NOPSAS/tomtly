@@ -8,6 +8,7 @@ import {
   ArrowRight,
   ArrowLeft,
 } from 'lucide-react'
+import { SkreddersyddAvtale } from '@/components/SkreddersyddAvtale'
 
 // ============================================================
 // SELGER ONBOARDING – 3-stegs wizard
@@ -93,6 +94,8 @@ export default function SelgerOnboarding() {
             </button>
           )}
         </div>
+
+        <SkreddersyddAvtale />
       </div>
     </div>
   )
@@ -138,6 +141,62 @@ function Steg1Tomt() {
           <p className="text-xs text-brand-400 mt-1.5">
             Jo mer du forteller, jo bedre kan vi tilpasse analysen.
           </p>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-brand-700 mb-1.5">
+            Budsjett for husbygging
+          </label>
+          <select className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20 focus:border-tomtly-accent">
+            <option value="">Velg budsjett</option>
+            <option value="under-3">Under 3 MNOK</option>
+            <option value="3-5">3-5 MNOK</option>
+            <option value="5-7">5-7 MNOK</option>
+            <option value="7-10">7-10 MNOK</option>
+            <option value="over-10">Over 10 MNOK</option>
+            <option value="usikker">Usikker</option>
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-brand-700 mb-1.5">
+            Forventet salgsverdi (valgfritt)
+          </label>
+          <input
+            type="number"
+            placeholder="F.eks. 8 000 000"
+            className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20 focus:border-tomtly-accent"
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-brand-700 mb-1.5">
+              Foretrukket hustype
+            </label>
+            <select className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20 focus:border-tomtly-accent">
+              <option value="">Velg hustype</option>
+              <option value="enebolig">Enebolig</option>
+              <option value="tomannsbolig">Tomannsbolig</option>
+              <option value="rekkehus">Rekkehus</option>
+              <option value="leilighetsbygg">Leilighetsbygg</option>
+              <option value="hytte">Hytte/fritidsbolig</option>
+              <option value="aapen">Åpen for forslag</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-brand-700 mb-1.5">
+              Stilpreferanse
+            </label>
+            <select className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20 focus:border-tomtly-accent">
+              <option value="">Velg stil</option>
+              <option value="moderne">Moderne/funkis</option>
+              <option value="tradisjonell">Tradisjonell/klassisk</option>
+              <option value="skandinavisk">Skandinavisk minimalistisk</option>
+              <option value="herskapelig">Herskapelig</option>
+              <option value="aapen">Åpen for forslag</option>
+            </select>
+          </div>
         </div>
 
         <div className="pt-4 border-t border-brand-200">

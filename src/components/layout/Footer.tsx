@@ -21,7 +21,7 @@ export function Footer() {
               som utviklingsprosjekter.
             </p>
             <p className="text-xs text-brand-500 mt-4">
-              En del av NOPS-plattformen
+              Tomtly er en del av NOPS-plattformen
             </p>
           </div>
 
@@ -41,7 +41,7 @@ export function Footer() {
             <ul className="space-y-2.5">
               <li><Link href="/selger/onboarding" className="text-sm hover:text-white transition-colors">Tomteeiere</Link></li>
               <li><Link href="/megler/onboarding" className="text-sm hover:text-white transition-colors">Meglere</Link></li>
-              <li><Link href="#" className="text-sm hover:text-white transition-colors">Utviklere</Link></li>
+              <li><Link href="/utvikler" className="text-sm hover:text-white transition-colors">Utviklere</Link></li>
             </ul>
           </div>
 
@@ -49,7 +49,7 @@ export function Footer() {
           <div>
             <h4 className="text-sm font-semibold text-white mb-4">Kontakt</h4>
             <ul className="space-y-2.5">
-              <li className="text-sm">hei@tomtly.no</li>
+              <li className="text-sm">hey@nops.no</li>
               <li className="text-sm">Konsepthus AS</li>
               <li className="text-sm">Org.nr: 123 456 789</li>
             </ul>

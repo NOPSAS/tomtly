@@ -15,6 +15,7 @@ export function Header() {
           <Link href="/" className="flex items-center gap-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.svg" alt="Tomtly" className="h-8" />
+            <span className="text-[10px] text-brand-400 ml-1 hidden sm:inline">En del av NOPS</span>
           </Link>
 
           {/* Desktop nav */}
@@ -56,6 +57,12 @@ export function Header() {
                   >
                     Husleverandører
                   </Link>
+                  <Link
+                    href="/utvikler"
+                    className="block px-4 py-2 text-sm text-brand-700 hover:bg-brand-50"
+                  >
+                    Utviklere
+                  </Link>
                 </div>
               </div>
             </div>
@@ -63,6 +70,12 @@ export function Header() {
 
           {/* CTA */}
           <div className="hidden md:flex items-center gap-3">
+            <Link
+              href="/logg-inn"
+              className="px-4 py-2 text-sm text-brand-600 hover:text-tomtly-accent transition-colors"
+            >
+              Logg inn
+            </Link>
             <Link
               href="/selger/onboarding"
               className="px-4 py-2 text-sm font-medium text-tomtly-accent border border-tomtly-accent rounded-lg hover:bg-forest-50 transition-colors"
@@ -100,6 +113,12 @@ export function Header() {
             </Link>
             <Link href="/megler/onboarding" className="block text-sm text-brand-700 py-2">
               For meglere
+            </Link>
+            <Link href="/utvikler" className="block text-sm text-brand-700 py-2">
+              For utviklere
+            </Link>
+            <Link href="/logg-inn" className="block text-sm text-brand-700 py-2">
+              Logg inn
             </Link>
             <div className="pt-3 border-t border-brand-200">
               <Link

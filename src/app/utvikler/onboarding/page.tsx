@@ -3,19 +3,15 @@
 import { useState } from 'react'
 import {
   Building2,
-  Users,
   CreditCard,
   CheckCircle2,
   ArrowRight,
   ArrowLeft,
   BarChart3,
   Shield,
+  Users,
 } from 'lucide-react'
 import { SkreddersyddAvtale } from '@/components/SkreddersyddAvtale'
-
-// ============================================================
-// MEGLER ONBOARDING – 3-stegs wizard for eiendomsmeglere
-// ============================================================
 
 const STEG = [
   { nummer: 1, tittel: 'Firma', ikon: Building2 },
@@ -23,19 +19,18 @@ const STEG = [
   { nummer: 3, tittel: 'Velkommen', ikon: CheckCircle2 },
 ]
 
-export default function MeglerOnboarding() {
+export default function UtviklerOnboarding() {
   const [steg, setSteg] = useState(1)
 
   return (
     <div className="min-h-screen bg-brand-50">
-      {/* Header */}
       <div className="bg-white border-b border-brand-200">
         <div className="max-w-3xl mx-auto px-4 py-6">
           <h1 className="font-display text-2xl font-bold text-tomtly-dark mb-1">
-            Tomtly for meglere
+            Tomtly for eiendomsutviklere
           </h1>
           <p className="text-sm text-brand-500">
-            Gi kundene dine et unikt salgsverktøy for tomter.
+            Finn tomter med potensial og få full analyse for raskere beslutninger.
           </p>
 
           <div className="flex items-center gap-2 mt-6">
@@ -91,7 +86,7 @@ export default function MeglerOnboarding() {
           ) : (
             <button className="flex items-center gap-2 px-6 py-2.5 bg-tomtly-accent text-white font-medium rounded-lg hover:bg-forest-700 transition-colors">
               <CheckCircle2 className="w-4 h-4" />
-              Opprett meglerkonto
+              Opprett utviklerkonto
             </button>
           )}
         </div>
@@ -106,7 +101,7 @@ function Steg1Firma() {
   return (
     <div className="bg-white rounded-xl border border-brand-200 p-8">
       <h2 className="text-lg font-semibold text-tomtly-dark mb-6">
-        Om meglerforetaket
+        Om utviklerselskapet
       </h2>
 
       <div className="space-y-5">
@@ -116,7 +111,7 @@ function Steg1Firma() {
           </label>
           <input
             type="text"
-            placeholder="F.eks. Krogsveen Oppegård"
+            placeholder="F.eks. Veidekke Eiendom"
             className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20"
           />
         </div>
@@ -134,13 +129,14 @@ function Steg1Firma() {
           </div>
           <div>
             <label className="block text-sm font-medium text-brand-700 mb-1.5">
-              Meglerforetaksnr
+              Antall prosjekter per år
             </label>
-            <input
-              type="text"
-              placeholder="XX-XXXX"
-              className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20"
-            />
+            <select className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20">
+              <option>1-5</option>
+              <option>6-15</option>
+              <option>16-50</option>
+              <option>50+</option>
+            </select>
           </div>
         </div>
 
@@ -170,18 +166,6 @@ function Steg1Firma() {
             />
           </div>
         </div>
-
-        <div>
-          <label className="block text-sm font-medium text-brand-700 mb-1.5">
-            Antall meglere
-          </label>
-          <select className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20">
-            <option>1-5</option>
-            <option>6-15</option>
-            <option>16-50</option>
-            <option>50+</option>
-          </select>
-        </div>
       </div>
     </div>
   )
@@ -193,7 +177,7 @@ function Steg2Plan() {
   const planer = [
     {
       id: 'starter' as const,
-      navn: 'Megler',
+      navn: 'Utvikler',
       pris: '10 000',
       periode: '/mnd',
       tomter: '2 tomter inkludert',
@@ -206,7 +190,7 @@ function Steg2Plan() {
     },
     {
       id: 'pro' as const,
-      navn: 'Megler Pro',
+      navn: 'Utvikler Pro',
       pris: '20 000',
       periode: '/mnd',
       tomter: '5 tomter inkludert',
@@ -232,7 +216,7 @@ function Steg2Plan() {
     'Risikoanalyse',
     'Prosjektsjekkliste',
     'Fastpris tegning og søknad via Tegnebua',
-    'Meglerdashboard',
+    'Utviklerdashboard',
   ]
 
   return (
@@ -304,7 +288,7 @@ function Steg3Velkommen() {
         Velkommen til Tomtly!
       </h2>
       <p className="text-brand-600 max-w-md mx-auto mb-8">
-        Du er klar til å gi dine kunder Norges beste tomtepresentasjon.
+        Du er klar til å finne tomter med utviklingspotensial og få full analyse.
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-lg mx-auto">

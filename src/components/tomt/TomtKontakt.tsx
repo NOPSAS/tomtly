@@ -14,14 +14,15 @@ export function TomtKontakt() {
       </div>
 
       <div className="space-y-3">
-        <button className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-tomtly-accent text-white font-medium rounded-lg hover:bg-forest-700 transition-colors">
+        <a href="tel:+4700000000" className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-tomtly-accent text-white font-medium rounded-lg hover:bg-forest-700 transition-colors">
           <Phone className="w-4 h-4" />
           Ring oss
-        </button>
-        <button className="w-full flex items-center justify-center gap-2 px-4 py-3 border border-brand-200 text-brand-700 font-medium rounded-lg hover:bg-brand-50 transition-colors">
+        </a>
+        <a href="mailto:hey@nops.no" className="w-full flex items-center justify-center gap-2 px-4 py-3 border border-brand-200 text-brand-700 font-medium rounded-lg hover:bg-brand-50 transition-colors">
           <Mail className="w-4 h-4" />
           Send melding
-        </button>
+        </a>
+        <p className="text-xs text-brand-400 text-center mt-1">hey@nops.no</p>
       </div>
 
       {/* Prismodell */}

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { AbonnementKort } from '@/components/forside/Prismodell'
+import { SkreddersyddAvtale } from '@/components/SkreddersyddAvtale'
 import {
   MapPin,
   BarChart3,
@@ -451,6 +452,8 @@ function Prismodell() {
         </div>
 
         <AbonnementKort />
+
+        <SkreddersyddAvtale />
 
         <p className="text-center text-xs text-brand-400 mt-8">
           Alle priser er eks. mva. 1 måneds oppsigelsestid. Du betaler for inneværende dager i måneden. Meglere: se egne planer under «For meglere».
