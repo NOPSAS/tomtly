@@ -50,8 +50,8 @@ export function Footer() {
             <h4 className="text-sm font-semibold text-white mb-4">Kontakt</h4>
             <ul className="space-y-2.5">
               <li className="text-sm">hey@nops.no</li>
-              <li className="text-sm">Konsepthus AS</li>
-              <li className="text-sm">Org.nr: 123 456 789</li>
+              <li className="text-sm">NOPS AS</li>
+              <li className="text-sm">Org.nr: 933 819 086</li>
             </ul>
           </div>
         </div>
