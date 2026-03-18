@@ -27,9 +27,9 @@ interface Henvendelse {
 }
 
 const TOMTER = [
-  { id: 'bjornemyrveien-20', adresse: 'Bjørnemyrveien 20', sted: 'Bjørnemyr, Nesodden', score: 84, status: 'Publisert' },
-  { id: 'bjornemyrveien-22', adresse: 'Bjørnemyrveien 22', sted: 'Bjørnemyr, Nesodden', score: 80, status: 'Publisert' },
-  { id: 'alvaern-67', adresse: 'Gamle Alværnvei 67', sted: 'Alværn, Nesodden', score: 86, status: 'Publisert' },
+  { id: 'bjornemyrveien-20', adresse: 'Bjørnemyrveien 20', sted: 'Bjørnemyr, Nesodden', status: 'Publisert' },
+  { id: 'bjornemyrveien-22', adresse: 'Bjørnemyrveien 22', sted: 'Bjørnemyr, Nesodden', status: 'Publisert' },
+  { id: 'alvaern-67', adresse: 'Gamle Alværnvei 67', sted: 'Alværn, Nesodden', status: 'Publisert' },
 ]
 
 export default function AdminDashboard() {
@@ -144,7 +144,6 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
-                    <span className="text-sm font-bold text-tomtly-accent">{t.score}</span>
                     <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">{t.status}</span>
                     <ChevronRight className="w-4 h-4 text-brand-400" />
                   </div>

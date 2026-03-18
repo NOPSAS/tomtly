@@ -2,29 +2,29 @@
 
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
-import { Search, ArrowUpDown } from 'lucide-react'
-import { formatNOK, formatM2, getScoreFarge } from '@/lib/utils'
+import { Search } from 'lucide-react'
+import { formatNOK, formatM2 } from '@/lib/utils'
 
 // ============================================================
 // TOMTLISTE – Alle tomter med filtrering og sortering
 // ============================================================
 
 const TOMTER = [
-  { id: 'bjornemyrveien-20', adresse: 'Bjørnemyrveien 20', poststed: 'Bjørnemyr', kommune: 'Nesodden', areal_m2: 605, score: 84, pris: 3000000, type: 'Eneboligtomt', bilde: '/tomter/bjornemyrveien-shared/render-parsell-b.jpg' },
-  { id: 'bjornemyrveien-22', adresse: 'Bjørnemyrveien 22', poststed: 'Bjørnemyr', kommune: 'Nesodden', areal_m2: 613, score: 80, pris: 3000000, type: 'Eneboligtomt', bilde: '/tomter/bjornemyrveien-shared/render-parsell-c.jpg' },
-  { id: 'alvaern-67', adresse: 'Gamle Alværnvei 67', poststed: 'Alværn', kommune: 'Nesodden', areal_m2: 900, score: 86, pris: 3200000, type: 'Eneboligtomt', bilde: '/tomter/alvaern-shared/alvaern-render-aerial-1-DvVXdDku.jpg' },
+  { id: 'bjornemyrveien-20', adresse: 'Bjørnemyrveien 20', poststed: 'Bjørnemyr', kommune: 'Nesodden', areal_m2: 605, pris: 3000000, type: 'Eneboligtomt', bilde: '/tomter/bjornemyrveien-shared/render-parsell-b.jpg' },
+  { id: 'bjornemyrveien-22', adresse: 'Bjørnemyrveien 22', poststed: 'Bjørnemyr', kommune: 'Nesodden', areal_m2: 613, pris: 3000000, type: 'Eneboligtomt', bilde: '/tomter/bjornemyrveien-shared/render-parsell-c.jpg' },
+  { id: 'alvaern-67', adresse: 'Gamle Alværnvei 67', poststed: 'Alværn', kommune: 'Nesodden', areal_m2: 900, pris: 3200000, type: 'Eneboligtomt', bilde: '/tomter/alvaern-shared/alvaern-render-aerial-1-DvVXdDku.jpg' },
 ]
 
 const KOMMUNER = [...new Set(TOMTER.map((t) => t.kommune))]
 const TYPER = [...new Set(TOMTER.map((t) => t.type))]
 
-type SortOption = 'score_desc' | 'score_asc' | 'pris_asc' | 'pris_desc' | 'areal_desc'
+type SortOption = 'pris_asc' | 'pris_desc' | 'areal_desc'
 
 export default function TomtListeSide() {
   const [search, setSearch] = useState('')
   const [kommune, setKommune] = useState('')
   const [type, setType] = useState('')
-  const [sort, setSort] = useState<SortOption>('score_desc')
+  const [sort, setSort] = useState<SortOption>('pris_asc')
 
   const filtered = useMemo(() => {
     let result = TOMTER
@@ -49,8 +49,6 @@ export default function TomtListeSide() {
 
     result = [...result].sort((a, b) => {
       switch (sort) {
-        case 'score_desc': return b.score - a.score
-        case 'score_asc': return a.score - b.score
         case 'pris_asc': return a.pris - b.pris
         case 'pris_desc': return b.pris - a.pris
         case 'areal_desc': return b.areal_m2 - a.areal_m2
@@ -117,8 +115,6 @@ export default function TomtListeSide() {
               onChange={(e) => setSort(e.target.value as SortOption)}
               className="px-3 py-2.5 bg-brand-50 border border-brand-200 rounded-lg text-sm text-brand-700"
             >
-              <option value="score_desc">Score (høyest)</option>
-              <option value="score_asc">Score (lavest)</option>
               <option value="pris_asc">Pris (lavest)</option>
               <option value="pris_desc">Pris (høyest)</option>
               <option value="areal_desc">Areal (størst)</option>
@@ -151,14 +147,6 @@ export default function TomtListeSide() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={t.bilde} alt={t.adresse} className="absolute inset-0 w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                  <div className="absolute top-3 right-3">
-                    <div
-                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-white text-xs font-bold"
-                      style={{ backgroundColor: getScoreFarge(t.score) }}
-                    >
-                      {t.score}
-                    </div>
-                  </div>
                   <div className="absolute bottom-3 left-3">
                     <span className="px-2 py-1 bg-white/90 backdrop-blur-sm rounded text-xs font-medium text-brand-800">
                       {t.type}

@@ -252,7 +252,7 @@ function Partnernivaaer() {
     {
       id: 'basis',
       navn: 'Basis',
-      pris: '5 000',
+      pris: '10 000',
       periode: '/mnd',
       beskrivelse: 'For leverandører som vil teste plattformen.',
       features: [
@@ -265,7 +265,7 @@ function Partnernivaaer() {
     {
       id: 'partner',
       navn: 'Partner',
-      pris: '15 000',
+      pris: '20 000',
       periode: '/mnd',
       popular: true,
       beskrivelse: 'For leverandører som satser på digital salgskanal.',
@@ -286,7 +286,6 @@ function Partnernivaaer() {
       beskrivelse: 'For store leverandører med nasjonale ambisjoner.',
       features: [
         'Alt i Partner',
-        'Eksklusiv i utvalgte regioner',
         'Egne landingssider',
         'API-integrasjon',
         'Dedikert kontaktperson',

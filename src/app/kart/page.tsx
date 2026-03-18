@@ -3,16 +3,16 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Search, ChevronRight } from 'lucide-react'
-import { formatNOK, formatM2, getScoreFarge } from '@/lib/utils'
+import { formatNOK, formatM2 } from '@/lib/utils'
 
 // ============================================================
 // KARTSIDEN – OpenStreetMap med ekte tomter
 // ============================================================
 
 const TOMTER = [
-  { id: 'bjornemyrveien-20', adresse: 'Bjørnemyrveien 20', poststed: 'Bjørnemyr', kommune: 'Nesodden', areal_m2: 605, score: 84, pris: 3000000, bilde: '/tomter/bjornemyrveien-shared/render-parsell-b.jpg' },
-  { id: 'bjornemyrveien-22', adresse: 'Bjørnemyrveien 22', poststed: 'Bjørnemyr', kommune: 'Nesodden', areal_m2: 613, score: 80, pris: 3000000, bilde: '/tomter/bjornemyrveien-shared/render-parsell-c.jpg' },
-  { id: 'alvaern-67', adresse: 'Gamle Alværnvei 67', poststed: 'Alværn', kommune: 'Nesodden', areal_m2: 900, score: 86, pris: 3200000, bilde: '/tomter/alvaern-shared/alvaern-render-aerial-1-DvVXdDku.jpg' },
+  { id: 'bjornemyrveien-20', adresse: 'Bjørnemyrveien 20', poststed: 'Bjørnemyr', kommune: 'Nesodden', areal_m2: 605, pris: 3000000, bilde: '/tomter/bjornemyrveien-shared/render-parsell-b.jpg' },
+  { id: 'bjornemyrveien-22', adresse: 'Bjørnemyrveien 22', poststed: 'Bjørnemyr', kommune: 'Nesodden', areal_m2: 613, pris: 3000000, bilde: '/tomter/bjornemyrveien-shared/render-parsell-c.jpg' },
+  { id: 'alvaern-67', adresse: 'Gamle Alværnvei 67', poststed: 'Alværn', kommune: 'Nesodden', areal_m2: 900, pris: 3200000, bilde: '/tomter/alvaern-shared/alvaern-render-aerial-1-DvVXdDku.jpg' },
 ]
 
 export default function KartSide() {
@@ -62,20 +62,12 @@ export default function KartSide() {
                 onClick={() => setSelectedId(selectedId === t.id ? null : t.id)}
                 className="w-full text-left p-4 hover:bg-brand-50 transition-colors"
               >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h3 className="font-semibold text-sm text-tomtly-dark">{t.adresse}</h3>
-                    <p className="text-xs text-brand-500">{t.poststed}, {t.kommune}</p>
-                    <div className="flex items-center gap-3 mt-1.5">
-                      <span className="text-xs text-brand-500">{formatM2(t.areal_m2)}</span>
-                      <span className="text-xs font-semibold text-tomtly-dark">{formatNOK(t.pris)}</span>
-                    </div>
-                  </div>
-                  <div
-                    className="flex items-center justify-center w-8 h-8 rounded-full text-white text-xs font-bold shrink-0"
-                    style={{ backgroundColor: getScoreFarge(t.score) }}
-                  >
-                    {t.score}
+                <div>
+                  <h3 className="font-semibold text-sm text-tomtly-dark">{t.adresse}</h3>
+                  <p className="text-xs text-brand-500">{t.poststed}, {t.kommune}</p>
+                  <div className="flex items-center gap-3 mt-1.5">
+                    <span className="text-xs text-brand-500">{formatM2(t.areal_m2)}</span>
+                    <span className="text-xs font-semibold text-tomtly-dark">{formatNOK(t.pris)}</span>
                   </div>
                 </div>
               </button>

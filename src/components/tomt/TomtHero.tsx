@@ -1,5 +1,5 @@
 import { MapPin, Maximize, Landmark, Lock } from 'lucide-react'
-import { formatM2, getScoreFarge, getScoreLabel } from '@/lib/utils'
+import { formatM2 } from '@/lib/utils'
 
 interface TomtHeroProps {
   adresse: string
@@ -8,7 +8,6 @@ interface TomtHeroProps {
   areal_m2: number
   gnr: number
   bnr: number
-  score: number
   skjulAdresse?: boolean
 }
 
@@ -19,7 +18,6 @@ export function TomtHero({
   areal_m2,
   gnr,
   bnr,
-  score,
   skjulAdresse = false,
 }: TomtHeroProps) {
   const visningsAdresse = skjulAdresse ? `${poststed}, ${kommune}` : adresse
@@ -76,40 +74,6 @@ export function TomtHero({
             </div>
           </div>
 
-          {/* Score badge */}
-          <div className="flex items-center gap-4 bg-white/10 backdrop-blur-sm rounded-xl px-6 py-4 border border-white/10">
-            <div className="relative w-16 h-16">
-              <svg className="score-ring w-full h-full" viewBox="0 0 100 100">
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="45"
-                  fill="none"
-                  stroke="rgba(255,255,255,0.1)"
-                  strokeWidth="6"
-                />
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="45"
-                  fill="none"
-                  stroke={getScoreFarge(score)}
-                  strokeWidth="6"
-                  strokeLinecap="round"
-                  strokeDasharray="283"
-                  strokeDashoffset={283 - (283 * score) / 100}
-                  className="animate-score-fill"
-                />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-xl font-bold text-white">{score}</span>
-              </div>
-            </div>
-            <div>
-              <p className="text-sm font-medium text-white">Tomtescore</p>
-              <p className="text-xs text-brand-400">{getScoreLabel(score)}</p>
-            </div>
-          </div>
         </div>
       </div>
     </section>

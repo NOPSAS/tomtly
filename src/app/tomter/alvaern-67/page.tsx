@@ -1,5 +1,4 @@
 import { TomtHero } from '@/components/tomt/TomtHero'
-import { TomtScore } from '@/components/tomt/TomtScore'
 import { TomtBildegalleri } from '@/components/tomt/TomtBildegalleri'
 import { TomtHusmodeller } from '@/components/tomt/TomtHusmodeller'
 import { TomtRegulering } from '@/components/tomt/TomtRegulering'
@@ -122,13 +121,6 @@ const TOMT = {
   gnr: 30, bnr: 45,
   senterpunkt: { lat: 59.8155, lng: 10.6196 },
 
-  tomtescore: {
-    total: 86,
-    delscorer: { beliggenhet: 90, regulering: 82, topografi: 78, infrastruktur: 85, marked: 92, okonomi: 84 },
-    beregnet_dato: '2026-03-18',
-    forklaring: 'Tomten scorer 86 av 100. Sterke sider: Beliggenhet (fjordutsikt, +81 moh), Marked (sterk etterspørsel). 900 m² skrånende tomt med 20% BYA (180 m²). 4 husmodeller med totalbudsjett 8,2–10,1 MNOK og verdiskaping 2,3–2,9 MNOK.',
-  },
-
   regulering: {
     arealformaal: 'Boligbebyggelse – åpen småhusbebyggelse (B4)',
     utnyttelsesgrad_bya: 20, maks_hoyde_m: 9, maks_etasjer: 2, byggegrense_m: 4,
@@ -192,13 +184,12 @@ const TIDSPLAN = [
 export default function Alvaern67() {
   return (
     <div className="bg-white">
-      <TomtHero adresse={TOMT.adresse} poststed={TOMT.poststed} kommune={TOMT.kommune} areal_m2={TOMT.areal_m2} gnr={TOMT.gnr} bnr={TOMT.bnr} score={TOMT.tomtescore.total} />
+      <TomtHero adresse={TOMT.adresse} poststed={TOMT.poststed} kommune={TOMT.kommune} areal_m2={TOMT.areal_m2} gnr={TOMT.gnr} bnr={TOMT.bnr} />
 
       <nav className="sticky top-16 z-40 bg-white border-b border-brand-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex gap-6 overflow-x-auto py-3 text-sm">
             {[
-              { href: '#oversikt', label: 'Oversikt' },
               { href: '#bilder', label: 'Bilder' },
               { href: '#husmodeller', label: 'Husmodeller' },
               { href: '#tegnebua', label: 'Tegning og søknad' },
@@ -217,7 +208,6 @@ export default function Alvaern67() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2 space-y-16">
-            <section id="oversikt"><TomtScore tomtescore={TOMT.tomtescore} /></section>
             <section id="bilder"><TomtBildegalleri bilder={BILDER} adresse={TOMT.adresse} /></section>
             <section id="husmodeller"><TomtHusmodeller modeller={HUSMODELLER as any} tomtType="skra" tomtNavn="Gamle Alværnvei 67 (skrånende tomt)" /></section>
             <section id="tegnebua"><TomtTegnebua valgte_husmodeller={1} /></section>

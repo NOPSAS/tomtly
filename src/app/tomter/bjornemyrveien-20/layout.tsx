@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Bjørnemyrveien 20 – Flat eneboligtomt på Bjørnemyr | Tomtly',
-  description: '605 m² flat tomt på Bjørnemyr, Nesodden. 4 husmodeller fra 7,9 MNOK. Tomtescore 84/100. Godkjent fradeling, klar for bygging.',
+  description: '605 m² flat tomt på Bjørnemyr, Nesodden. 4 husmodeller fra 7,9 MNOK. Godkjent fradeling, klar for bygging.',
   openGraph: {
     title: 'Bjørnemyrveien 20 – Eneboligtomt på Bjørnemyr',
     description: '605 m² flat tomt. 4 husmodeller, komplett kostnadsoverslag. Fra kjøp til nøkkel på under ett år.',

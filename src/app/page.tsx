@@ -90,8 +90,8 @@ function HeroSection() {
               <p className="text-sm text-brand-500">Tomter analysert</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-white">78</p>
-              <p className="text-sm text-brand-500">Gj.snitt tomtescore</p>
+              <p className="text-2xl font-bold text-white">4</p>
+              <p className="text-sm text-brand-500">Husmodeller per tomt</p>
             </div>
             <div>
               <p className="text-2xl font-bold text-white">14 dager</p>
@@ -182,7 +182,6 @@ function FremhevedeTomter() {
       adresse: 'Bjørnemyrveien 20',
       poststed: 'Bjørnemyr, Nesodden',
       areal: 605,
-      score: 84,
       pris: 3000000,
       type: 'Eneboligtomt – flat',
       bilde: '/tomter/bjornemyrveien-shared/render-parsell-b.jpg',
@@ -192,7 +191,6 @@ function FremhevedeTomter() {
       adresse: 'Bjørnemyrveien 22',
       poststed: 'Bjørnemyr, Nesodden',
       areal: 613,
-      score: 80,
       pris: 3000000,
       type: 'Eneboligtomt – skrå',
       bilde: '/tomter/bjornemyrveien-shared/render-parsell-c.jpg',
@@ -202,7 +200,6 @@ function FremhevedeTomter() {
       adresse: 'Gamle Alværnvei 67',
       poststed: 'Alværn, Nesodden',
       areal: 900,
-      score: 86,
       pris: 3200000,
       type: 'Eneboligtomt – fjordutsikt',
       bilde: '/tomter/alvaern-shared/alvaern-render-aerial-1-DvVXdDku.jpg',
@@ -241,11 +238,6 @@ function FremhevedeTomter() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={t.bilde} alt={t.adresse} className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md">
-                  <span className="text-xs font-semibold text-tomtly-accent">
-                    Score {t.score}
-                  </span>
-                </div>
                 <div className="absolute bottom-3 left-3">
                   <span className="inline-block px-2 py-1 bg-white/90 backdrop-blur-sm rounded text-xs font-medium text-brand-800">
                     {t.type}
@@ -317,7 +309,7 @@ function ForHvem() {
       beskrivelse:
         'Finn tomter med høyt utviklingspotensial. Spar tid på due diligence.',
       fordeler: [
-        'Tomtescore-filtrering',
+        'Analyse-filtrering',
         'ROI-beregning',
         'Reguleringsanalyse',
       ],
@@ -400,7 +392,6 @@ function Prismodell() {
               {[
                 'Mulighetsstudie fra arkitektteamet',
                 '3 husmodeller tilpasset tomten',
-                'Tomtescore (0-100)',
                 'Byggekalkyle og verdivurdering',
                 'Reguleringsanalyse',
                 'Publisering på Tomtly',

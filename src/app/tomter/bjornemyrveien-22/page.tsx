@@ -1,5 +1,4 @@
 import { TomtHero } from '@/components/tomt/TomtHero'
-import { TomtScore } from '@/components/tomt/TomtScore'
 import { TomtBildegalleri } from '@/components/tomt/TomtBildegalleri'
 import { TomtHusmodeller } from '@/components/tomt/TomtHusmodeller'
 import { TomtRegulering } from '@/components/tomt/TomtRegulering'
@@ -144,13 +143,6 @@ const TOMT = {
   gnr: 1, bnr: 1012,
   senterpunkt: { lat: 59.8347, lng: 10.6422 },
 
-  tomtescore: {
-    total: 80,
-    delscorer: { beliggenhet: 82, regulering: 80, topografi: 74, infrastruktur: 85, marked: 88, okonomi: 76 },
-    beregnet_dato: '2026-03-18',
-    forklaring: 'Tomten scorer 80 av 100. Skrånende tomt gir noe høyere grunnarbeidskostnader, men Skogly er spesialdesignet for skråtomter. Godkjent fradeling og komplett dokumentasjon.',
-  },
-
   regulering: {
     arealformaal: 'Boligbebyggelse – frittliggende småhusbebyggelse',
     utnyttelsesgrad_bya: 20, maks_hoyde_m: 9, maks_etasjer: 2, byggegrense_m: 4,
@@ -207,13 +199,12 @@ const TIDSPLAN = [
 export default function Bjornemyrveien22() {
   return (
     <div className="bg-white">
-      <TomtHero adresse={TOMT.adresse} poststed={TOMT.poststed} kommune={TOMT.kommune} areal_m2={TOMT.areal_m2} gnr={TOMT.gnr} bnr={TOMT.bnr} score={TOMT.tomtescore.total} />
+      <TomtHero adresse={TOMT.adresse} poststed={TOMT.poststed} kommune={TOMT.kommune} areal_m2={TOMT.areal_m2} gnr={TOMT.gnr} bnr={TOMT.bnr} />
 
       <nav className="sticky top-16 z-40 bg-white border-b border-brand-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex gap-6 overflow-x-auto py-3 text-sm">
             {[
-              { href: '#oversikt', label: 'Oversikt' },
               { href: '#bilder', label: 'Bilder' },
               { href: '#husmodeller', label: 'Husmodeller' },
               { href: '#tegnebua', label: 'Tegning og søknad' },
@@ -232,7 +223,6 @@ export default function Bjornemyrveien22() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2 space-y-16">
-            <section id="oversikt"><TomtScore tomtescore={TOMT.tomtescore} /></section>
             <section id="bilder"><TomtBildegalleri bilder={BILDER} adresse={TOMT.adresse} /></section>
             <section id="husmodeller"><TomtHusmodeller modeller={HUSMODELLER as any} tomtType="skra" tomtNavn="Tomt C (skrå tomt)" /></section>
             <section id="tegnebua"><TomtTegnebua valgte_husmodeller={1} /></section>
