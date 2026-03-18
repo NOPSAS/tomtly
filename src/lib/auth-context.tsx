@@ -94,7 +94,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setProfile(null)
   }
 
-  const isAdmin = profile?.role === 'admin'
+  // Admin check: profile role OR known admin emails
+  const isAdmin = profile?.role === 'admin' || user?.email === 'hey@nops.no'
 
   return (
     <AuthContext.Provider value={{ user, session, profile, isAdmin, loading, signIn, signUp, signOut, refreshProfile }}>

@@ -132,9 +132,25 @@ export function Header() {
             <Link href="/utvikler" className="block text-sm text-brand-700 py-2">
               For utviklere
             </Link>
-            <Link href="/logg-inn" className="block text-sm text-brand-700 py-2">
-              Logg inn
-            </Link>
+            {!loading && user ? (
+              <>
+                {isAdmin && (
+                  <Link href="/admin" className="block text-sm text-tomtly-accent font-semibold py-2">
+                    Admin
+                  </Link>
+                )}
+                <Link href="/min-side" className="block text-sm text-brand-700 py-2">
+                  Min side
+                </Link>
+                <button onClick={() => signOut()} className="block text-sm text-brand-500 py-2">
+                  Logg ut
+                </button>
+              </>
+            ) : !loading ? (
+              <Link href="/logg-inn" className="block text-sm text-brand-700 py-2">
+                Logg inn
+              </Link>
+            ) : null}
             <div className="pt-3 border-t border-brand-200">
               <Link
                 href="/selger/onboarding"
