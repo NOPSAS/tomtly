@@ -252,7 +252,7 @@ export default function LoggInnPage() {
         </div>
 
         <p className="text-center text-xs text-brand-400 mt-6">
-          Sporsmal? Kontakt oss pa hey@nops.no
+          Spørsmål? Kontakt oss på hey@nops.no
         </p>
       </div>
     </div>
