@@ -35,24 +35,22 @@ export default function Forside() {
 
 function HeroSection() {
   return (
-    <section className="relative bg-tomtly-dark overflow-hidden">
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
-            backgroundSize: '40px 40px',
-          }}
-        />
-      </div>
+    <section className="relative overflow-hidden">
+      {/* Bakgrunnsbilde – dronefoto fra Bjørnemyr */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/tomter/bjornemyrveien-shared/oversiktsbilde.jpg"
+        alt=""
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      {/* Overlay for lesbarhet */}
+      <div className="absolute inset-0 bg-gradient-to-r from-tomtly-dark/95 via-tomtly-dark/85 to-tomtly-dark/50" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-36">
         <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-forest-900/50 border border-forest-700/30 rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full mb-6">
             <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-            <span className="text-xs text-forest-300 font-medium">
+            <span className="text-xs text-white/80 font-medium">
               Ny plattform for tomtesalg
             </span>
           </div>
@@ -60,7 +58,7 @@ function HeroSection() {
           <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1] mb-6">
             Se potensialet
             <br />
-            <span className="text-forest-400">i tomten</span>
+            <span className="text-green-400">i tomten</span>
           </h1>
 
           <p className="text-lg text-brand-400 leading-relaxed mb-10 max-w-xl">
@@ -198,34 +196,34 @@ function HvordanDetFungerer() {
 function FremhevedeTomter() {
   const tomter = [
     {
-      id: '1',
-      adresse: 'Bjørnemyrveien 24',
-      poststed: 'Oppegård',
-      areal: 1240,
-      score: 82,
-      pris: 4500000,
-      type: 'Eneboligtomt',
-      bilde: '/placeholder-tomt-1.jpg',
+      id: 'bjornemyrveien-20',
+      adresse: 'Bjørnemyrveien 20',
+      poststed: 'Bjørnemyr, Nesodden',
+      areal: 605,
+      score: 84,
+      pris: 3000000,
+      type: 'Eneboligtomt – flat',
+      bilde: '/tomter/bjornemyrveien-shared/render-parsell-b.jpg',
     },
     {
-      id: '2',
-      adresse: 'Solveien 8',
-      poststed: 'Ski',
-      areal: 890,
-      score: 74,
+      id: 'bjornemyrveien-22',
+      adresse: 'Bjørnemyrveien 22',
+      poststed: 'Bjørnemyr, Nesodden',
+      areal: 613,
+      score: 80,
+      pris: 3000000,
+      type: 'Eneboligtomt – skrå',
+      bilde: '/tomter/bjornemyrveien-shared/render-parsell-c.jpg',
+    },
+    {
+      id: 'alvaern-67',
+      adresse: 'Gamle Alværnvei 67',
+      poststed: 'Alværn, Nesodden',
+      areal: 900,
+      score: 86,
       pris: 3200000,
-      type: 'Tomannsboligtomt',
-      bilde: '/placeholder-tomt-2.jpg',
-    },
-    {
-      id: '3',
-      adresse: 'Granåsveien 15',
-      poststed: 'Kolbotn',
-      areal: 2100,
-      score: 91,
-      pris: 8500000,
-      type: 'Utviklingstomt',
-      bilde: '/placeholder-tomt-3.jpg',
+      type: 'Eneboligtomt – fjordutsikt',
+      bilde: '/tomter/alvaern-shared/alvaern-render-aerial-1-DvVXdDku.jpg',
     },
   ]
 
@@ -235,10 +233,10 @@ function FremhevedeTomter() {
         <div className="flex items-end justify-between mb-12">
           <div>
             <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-3">
-              Utvalgte tomter
+              Tomter til salgs
             </h2>
             <p className="text-brand-600">
-              Ferdig analysert med mulighetsstudie og utviklingsscenario.
+              Ferdig analysert med husmodeller, kostnadsoverslag og verdivurdering.
             </p>
           </div>
           <Link
@@ -257,8 +255,9 @@ function FremhevedeTomter() {
               href={`/tomter/${t.id}`}
               className="group bg-white border border-brand-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300"
             >
-              {/* Image placeholder */}
               <div className="aspect-[4/3] bg-brand-100 relative overflow-hidden">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={t.bilde} alt={t.adresse} className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                 <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md">
                   <span className="text-xs font-semibold text-tomtly-accent">

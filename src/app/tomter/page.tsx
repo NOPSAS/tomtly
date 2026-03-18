@@ -7,12 +7,9 @@ import { formatNOK, formatM2, getScoreFarge } from '@/lib/utils'
 // ============================================================
 
 const DEMO_TOMTER = [
-  { id: '1', adresse: 'Bjørnemyrveien 24', poststed: 'Oppegård', kommune: 'Nordre Follo', areal_m2: 1240, score: 82, pris: 4500000, type: 'Eneboligtomt' },
-  { id: '2', adresse: 'Solveien 8', poststed: 'Ski', kommune: 'Nordre Follo', areal_m2: 890, score: 74, pris: 3200000, type: 'Tomannsboligtomt' },
-  { id: '3', adresse: 'Granåsveien 15', poststed: 'Kolbotn', kommune: 'Nordre Follo', areal_m2: 2100, score: 91, pris: 8500000, type: 'Utviklingstomt' },
-  { id: '4', adresse: 'Vestbyveien 112', poststed: 'Vestby', kommune: 'Vestby', areal_m2: 1580, score: 68, pris: 2900000, type: 'Eneboligtomt' },
-  { id: '5', adresse: 'Skogsveien 3', poststed: 'Drøbak', kommune: 'Frogn', areal_m2: 750, score: 77, pris: 3800000, type: 'Eneboligtomt' },
-  { id: '6', adresse: 'Industrigata 44', poststed: 'Ås', kommune: 'Ås', areal_m2: 4200, score: 85, pris: 12000000, type: 'Utviklingstomt' },
+  { id: 'bjornemyrveien-20', adresse: 'Bjørnemyrveien 20', poststed: 'Bjørnemyr', kommune: 'Nesodden', areal_m2: 605, score: 84, pris: 3000000, type: 'Eneboligtomt – flat', bilde: '/tomter/bjornemyrveien-shared/render-parsell-b.jpg' },
+  { id: 'bjornemyrveien-22', adresse: 'Bjørnemyrveien 22', poststed: 'Bjørnemyr', kommune: 'Nesodden', areal_m2: 613, score: 80, pris: 3000000, type: 'Eneboligtomt – skrå', bilde: '/tomter/bjornemyrveien-shared/render-parsell-c.jpg' },
+  { id: 'alvaern-67', adresse: 'Gamle Alværnvei 67', poststed: 'Alværn', kommune: 'Nesodden', areal_m2: 900, score: 86, pris: 3200000, type: 'Eneboligtomt – fjordutsikt', bilde: '/tomter/alvaern-shared/alvaern-render-aerial-1-DvVXdDku.jpg' },
 ]
 
 export default function TomtListeSide() {
@@ -82,8 +79,9 @@ export default function TomtListeSide() {
               href={`/tomter/${t.id}`}
               className="group bg-white border border-brand-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300"
             >
-              {/* Image */}
               <div className="aspect-[4/3] bg-brand-100 relative">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                {'bilde' in t && t.bilde && <img src={t.bilde as string} alt={t.adresse} className="absolute inset-0 w-full h-full object-cover" />}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                 <div className="absolute top-3 right-3">
                   <div
@@ -97,9 +95,6 @@ export default function TomtListeSide() {
                   <span className="px-2 py-1 bg-white/90 backdrop-blur-sm rounded text-xs font-medium text-brand-800">
                     {t.type}
                   </span>
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <MapPin className="w-8 h-8 text-brand-300" />
                 </div>
               </div>
 

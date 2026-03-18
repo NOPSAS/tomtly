@@ -680,12 +680,7 @@ export default async function Tomteside({
             </section>
 
             <section id="tegnebua">
-              <TomtTegnebua
-                valgte_husmodeller={1}
-                estimert_pris_tegning={85000}
-                estimert_pris_soknad={45000}
-                estimert_tid_uker={4}
-              />
+              <TomtTegnebua valgte_husmodeller={1} />
             </section>
 
             <section id="visualisering">
