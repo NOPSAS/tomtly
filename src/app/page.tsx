@@ -112,9 +112,9 @@ function HvordanDetFungerer() {
     {
       nummer: '01',
       ikon: MapPin,
-      tittel: 'Last opp tomten',
+      tittel: 'Oppgi adressen',
       beskrivelse:
-        'Legg inn adresse og tomtegrenser. Vi henter reguleringsdata automatisk.',
+        'Legg inn adressen og fortell oss hva du ser for deg. Vi henter resten automatisk.',
     },
     {
       nummer: '02',

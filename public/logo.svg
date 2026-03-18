@@ -1,6 +1,23 @@
-<svg width="140" height="32" viewBox="0 0 140 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="28" height="28" rx="6" y="2" fill="#2d5a3d"/>
-  <path d="M14 8 L14 20 M10 12 L14 8 L18 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="14" cy="20" r="2.5" fill="white"/>
-  <text x="36" y="22" font-family="Georgia, serif" font-size="20" font-weight="700" fill="#1a1a1a">Tomtly</text>
+<svg width="150" height="36" viewBox="0 0 150 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Ikon: hustak + pin -->
+  <rect width="32" height="32" rx="6" y="2" fill="#2d5a3d"/>
+  <!-- Hustak -->
+  <path d="M8 18 L16 10 L24 18" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Pin-prikk -->
+  <circle cx="16" cy="22" r="2.5" fill="white"/>
+  <!-- Tekst: Tomtly med hustak på T-en -->
+  <!-- T med hustak -->
+  <path d="M42 12 L52 6 L62 12" stroke="#2d5a3d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="52" y1="12" x2="52" y2="28" stroke="#2d5a3d" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- o -->
+  <circle cx="68" cy="22" r="6" stroke="#1a1a1a" stroke-width="2.2" fill="none"/>
+  <!-- m -->
+  <path d="M78 28 L78 19 C78 16 81 16 82 19 L82 28 M82 19 C82 16 85 16 86 19 L86 28" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+  <!-- t -->
+  <line x1="93" y1="13" x2="93" y2="28" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+  <line x1="89" y1="18" x2="97" y2="18" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+  <!-- l -->
+  <line x1="103" y1="12" x2="103" y2="28" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round"/>
+  <!-- y -->
+  <path d="M110 16 L114 24 L118 16 M114 24 L112 32" stroke="#1a1a1a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
 </svg>
