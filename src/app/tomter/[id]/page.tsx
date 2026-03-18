@@ -613,7 +613,6 @@ export default async function Tomteside({
         areal_m2={tomt.areal_m2}
         gnr={tomt.gnr}
         bnr={tomt.bnr}
-        score={tomt.tomtescore.total}
       />
 
       {/* Sticky navigasjon for seksjoner */}
