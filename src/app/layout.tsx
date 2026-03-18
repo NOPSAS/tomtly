@@ -22,11 +22,14 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   title: 'Tomtly – Se potensialet i tomten',
   description:
-    'Tomtly analyserer tomter og viser hva som kan bygges. For meglere, tomteeiere og utviklere.',
+    'Tomtly viser hva som kan bygges på tomten. Faglig analyse fra arkitekt- og eiendomsteam med husmodeller, kostnadsoverslag og verdivurdering.',
+  icons: {
+    icon: '/favicon.svg',
+  },
   openGraph: {
     title: 'Tomtly – Se potensialet i tomten',
     description:
-      'Tomtly analyserer tomter og viser hva som kan bygges. For meglere, tomteeiere og utviklere.',
+      'Tomtly viser hva som kan bygges på tomten. Faglig analyse med husmodeller, kostnadsoverslag og verdivurdering.',
     type: 'website',
     locale: 'nb_NO',
   },

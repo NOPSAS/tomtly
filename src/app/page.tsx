@@ -21,7 +21,6 @@ export default function Forside() {
   return (
     <>
       <HeroSection />
-      <LogoBar />
       <HvordanDetFungerer />
       <FremhevedeTomter />
       <ForHvem />
@@ -104,25 +103,7 @@ function HeroSection() {
   )
 }
 
-// ---- Logobar ----
-
-function LogoBar() {
-  return (
-    <section className="border-b border-brand-200 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <p className="text-center text-xs text-brand-400 uppercase tracking-widest mb-6">
-          Brukt av ledende aktører
-        </p>
-        <div className="flex items-center justify-center gap-12 opacity-40 grayscale">
-          <span className="text-lg font-semibold text-brand-600">DNB Eiendom</span>
-          <span className="text-lg font-semibold text-brand-600">Krogsveen</span>
-          <span className="text-lg font-semibold text-brand-600">Privatmegleren</span>
-          <span className="text-lg font-semibold text-brand-600">EiendomsMegler 1</span>
-        </div>
-      </div>
-    </section>
-  )
-}
+// LogoBar fjernet – legges tilbake når vi har ekte partnere
 
 // ---- Hvordan det fungerer ----
 
@@ -138,9 +119,9 @@ function HvordanDetFungerer() {
     {
       nummer: '02',
       ikon: BarChart3,
-      tittel: 'AI-analyse',
+      tittel: 'Faglig analyse',
       beskrivelse:
-        'Vårt system analyserer regulering, topografi, marked og infrastruktur.',
+        'Vårt arkitekt- og eiendomsteam analyserer regulering, topografi, marked og infrastruktur.',
     },
     {
       nummer: '03',
@@ -326,7 +307,7 @@ function ForHvem() {
       fordeler: [
         'Meglerdashboard',
         'Porteføljeoversikt',
-        'Automatisk analyse',
+        'Faglig analyse per tomt',
       ],
     },
     {

@@ -120,7 +120,7 @@ const TOMT = {
   kommune: 'Nesodden',
   areal_m2: 900,
   gnr: 30, bnr: 45,
-  senterpunkt: { lat: 59.8533, lng: 10.6148 },
+  senterpunkt: { lat: 59.8155, lng: 10.6196 },
 
   tomtescore: {
     total: 86,

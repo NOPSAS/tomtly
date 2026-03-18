@@ -334,8 +334,8 @@ function Steg4Bekreftelse() {
         Alt ser bra ut!
       </h2>
       <p className="text-brand-600 max-w-md mx-auto mb-8">
-        Når du sender inn, starter vår AI-analyse av tomten. Du vil motta en
-        komplett mulighetsstudie innen 3-5 virkedager.
+        Når du sender inn, starter vårt arkitekt- og eiendomsteam analysen av tomten.
+        Du vil motta en komplett mulighetsstudie innen 3-5 virkedager.
       </p>
 
       <div className="bg-brand-50 rounded-xl p-6 text-left max-w-md mx-auto">
@@ -343,7 +343,7 @@ function Steg4Bekreftelse() {
         <ol className="space-y-3">
           {[
             'Vi analyserer reguleringsplan og bestemmelser',
-            'AI beregner tomtescore og utviklingsscenarioer',
+            'Vi beregner tomtescore og utviklingsscenarioer',
             'Arkitekt vurderer mulighetene',
             'Du mottar ferdig analyse med visualiseringer',
             'Tomten publiseres på Tomtly',

@@ -13,12 +13,8 @@ export function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-tomtly-accent rounded-md flex items-center justify-center">
-              <MapPin className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-display text-xl font-bold text-tomtly-dark">
-              Tomtly
-            </span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.svg" alt="Tomtly" className="h-8" />
           </Link>
 
           {/* Desktop nav */}
