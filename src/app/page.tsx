@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { AbonnementKort } from '@/components/forside/Prismodell'
 import {
   MapPin,
   BarChart3,
@@ -369,47 +370,6 @@ function ForHvem() {
 // ---- Prismodell (Abonnement) ----
 
 function Prismodell() {
-  const abonnementer = [
-    {
-      id: 'basis',
-      navn: 'Basis',
-      pris: '5 000',
-      periode: '/mnd',
-      husmodeller: '1 husmodell',
-    },
-    {
-      id: 'standard',
-      navn: 'Standard',
-      pris: '7 500',
-      periode: '/mnd',
-      popular: true,
-      husmodeller: '3 husmodeller',
-    },
-    {
-      id: 'pro',
-      navn: 'Pro',
-      pris: '10 000',
-      periode: '/mnd',
-      husmodeller: '5 husmodeller',
-    },
-  ]
-
-  const inkludertAlt = [
-    'Full tomteanalyse og tomtescore',
-    'Reguleringsanalyse',
-    'Mulighetsstudie og scenarioer',
-    'Byggekostnad og salgsverdi',
-    'Dispensasjons- og kravanalyse',
-    'Godkjente tiltak i nærområdet',
-    'Entreprenørprising',
-    'Finansieringsberegner',
-    'Tidslinje for byggesøknad',
-    'Risikoanalyse',
-    'Prosjektsjekkliste',
-    'Fastpris tegning og søknad via Tegnebua',
-    'Publisering på Tomtly',
-  ]
-
   return (
     <section className="bg-white py-20 lg:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -418,13 +378,12 @@ function Prismodell() {
             Velg din modell
           </h2>
           <p className="text-brand-600 max-w-lg mx-auto">
-            Tre måter å komme i gang. Alle gir deg full tomteanalyse – forskjellen er hvordan du betaler og hvor mange husmodeller du kan velge.
+            Tre måter å komme i gang. Alle gir deg full faglig analyse – forskjellen er hvordan du betaler og hvor mange husmodeller du kan velge.
           </p>
         </div>
 
         {/* Betalingsmodeller */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-12">
-          {/* Fastpris */}
           <div className="border-2 border-brand-200 rounded-2xl p-7">
             <div className="text-sm font-medium text-brand-500 mb-2">Fastpris</div>
             <div className="flex items-baseline gap-1 mb-1">
@@ -446,7 +405,6 @@ function Prismodell() {
             </Link>
           </div>
 
-          {/* Provisjon */}
           <div className="border-2 border-tomtly-accent rounded-2xl p-7 relative">
             <div className="absolute -top-3 right-6 px-3 py-1 bg-tomtly-accent text-white text-xs font-semibold rounded-full">
               Ingen risiko
@@ -470,19 +428,18 @@ function Prismodell() {
             </Link>
           </div>
 
-          {/* Abonnement */}
           <div className="border-2 border-brand-200 rounded-2xl p-7">
             <div className="text-sm font-medium text-brand-500 mb-2">Abonnement</div>
             <div className="flex items-baseline gap-1 mb-1">
-              <span className="text-4xl font-bold text-tomtly-dark">5 000</span>
+              <span className="text-4xl font-bold text-tomtly-dark">7 500</span>
               <span className="text-brand-500">kr/mnd</span>
             </div>
-            <p className="text-sm text-brand-500 mb-2">fra-pris, ingen bindingstid</p>
+            <p className="text-sm text-brand-500 mb-2">fra-pris, 1 mnd oppsigelsestid</p>
             <div className="inline-block px-2 py-1 bg-forest-50 text-forest-700 text-xs font-semibold rounded mb-5">
               1–5 husmodeller
             </div>
             <p className="text-sm text-brand-600 mb-6">
-              Fleksibelt. Velg antall husmodeller. Avslutt når du vil. Se priser under.
+              Fleksibelt. Velg antall husmodeller. 1 mnd oppsigelse. Se detaljer under.
             </p>
             <Link
               href="/selger/onboarding"
@@ -493,47 +450,10 @@ function Prismodell() {
           </div>
         </div>
 
-        {/* Abonnements-tabell */}
-        <div className="max-w-3xl mx-auto mb-10">
-          <h3 className="text-center text-sm font-semibold text-brand-700 mb-4">
-            Abonnement – velg antall husmodeller
-          </h3>
-          <div className="grid grid-cols-3 gap-4">
-            {abonnementer.map((abo) => (
-              <div
-                key={abo.id}
-                className={`text-center p-5 rounded-xl border-2 ${
-                  abo.popular ? 'border-tomtly-accent bg-forest-50' : 'border-brand-200'
-                }`}
-              >
-                {abo.popular && (
-                  <span className="text-[10px] font-semibold text-tomtly-accent uppercase tracking-wide">Mest populær</span>
-                )}
-                <p className="text-sm font-medium text-brand-500">{abo.navn}</p>
-                <p className="text-2xl font-bold text-tomtly-dark mt-1">{abo.pris} <span className="text-sm font-normal text-brand-400">kr/mnd</span></p>
-                <p className="text-xs font-semibold text-forest-700 mt-1">{abo.husmodeller}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Inkludert i alle */}
-        <div className="max-w-3xl mx-auto bg-brand-50 rounded-xl p-6 border border-brand-200">
-          <h3 className="text-sm font-semibold text-brand-700 mb-4 text-center">
-            Inkludert i alle modeller – per tomt
-          </h3>
-          <div className="grid grid-cols-2 gap-2">
-            {inkludertAlt.map((f) => (
-              <div key={f} className="flex items-center gap-2 text-sm text-brand-700">
-                <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0" />
-                {f}
-              </div>
-            ))}
-          </div>
-        </div>
+        <AbonnementKort />
 
         <p className="text-center text-xs text-brand-400 mt-8">
-          Alle priser er eks. mva. Meglere: se egne planer under «For meglere».
+          Alle priser er eks. mva. 1 måneds oppsigelsestid. Du betaler for inneværende dager i måneden. Meglere: se egne planer under «For meglere».
         </p>
       </div>
     </section>
