@@ -219,7 +219,7 @@ export default function Alvaern67() {
           <div className="lg:col-span-2 space-y-16">
             <section id="oversikt"><TomtScore tomtescore={TOMT.tomtescore} /></section>
             <section id="bilder"><TomtBildegalleri bilder={BILDER} adresse={TOMT.adresse} /></section>
-            <section id="husmodeller"><TomtHusmodeller modeller={HUSMODELLER} tomtType="skra" tomtNavn="Gamle Alværnvei 67 (skrånende tomt)" /></section>
+            <section id="husmodeller"><TomtHusmodeller modeller={HUSMODELLER as any} tomtType="skra" tomtNavn="Gamle Alværnvei 67 (skrånende tomt)" /></section>
             <section id="tegnebua"><TomtTegnebua valgte_husmodeller={1} /></section>
 
             <section id="tidsplan">

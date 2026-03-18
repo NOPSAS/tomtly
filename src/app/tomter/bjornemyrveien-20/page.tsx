@@ -245,7 +245,7 @@ export default function Bjornemyrveien20() {
           <div className="lg:col-span-2 space-y-16">
             <section id="oversikt"><TomtScore tomtescore={TOMT.tomtescore} /></section>
             <section id="bilder"><TomtBildegalleri bilder={BILDER} adresse={TOMT.adresse} /></section>
-            <section id="husmodeller"><TomtHusmodeller modeller={HUSMODELLER} tomtType="flat" tomtNavn="Tomt B (flat tomt)" /></section>
+            <section id="husmodeller"><TomtHusmodeller modeller={HUSMODELLER as any} tomtType="flat" tomtNavn="Tomt B (flat tomt)" /></section>
             <section id="tegnebua"><TomtTegnebua valgte_husmodeller={1} /></section>
 
             <section id="tidsplan">
