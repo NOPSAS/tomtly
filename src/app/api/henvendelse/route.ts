@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
 
 export async function POST(request: NextRequest) {
   try {
@@ -6,7 +7,6 @@ export async function POST(request: NextRequest) {
 
     const { type, navn, email, telefon, melding, ...extra } = body
 
-    // Validate required fields
     if (!type || !navn || !email) {
       return NextResponse.json(
         { success: false, message: 'Mangler påkrevde felt (type, navn, email)' },
@@ -14,18 +14,22 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Log the submission
-    console.log('=== Ny henvendelse ===')
-    console.log('Type:', type)
-    console.log('Navn:', navn)
-    console.log('E-post:', email)
-    console.log('Telefon:', telefon || '–')
-    console.log('Melding:', melding || '–')
-    if (Object.keys(extra).length > 0) {
-      console.log('Ekstra:', extra)
+    // Lagre i Supabase
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    if (supabaseUrl && supabaseKey && !supabaseUrl.includes('placeholder')) {
+      try {
+        const supabase = createClient(supabaseUrl, supabaseKey)
+        await supabase.from('henvendelser').insert({
+          type, navn, email, telefon, melding,
+          ekstra: Object.keys(extra).length > 0 ? extra : null,
+        })
+      } catch (dbErr) {
+        console.error('Supabase insert error:', dbErr)
+      }
     }
-    console.log('Tidspunkt:', new Date().toISOString())
-    console.log('======================')
+
+    console.log(`[Henvendelse] ${type} fra ${navn} (${email})`)
 
     // Send email via Resend API
     if (process.env.RESEND_API_KEY) {
@@ -60,7 +64,7 @@ export async function POST(request: NextRequest) {
             'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
           },
           body: JSON.stringify({
-            from: 'Tomtly <noreply@tomtly.no>',
+            from: 'Tomtly <onboarding@resend.dev>',
             to: 'hey@nops.no',
             subject: `Ny henvendelse: ${type} – ${navn}`,
             html: htmlBody,
