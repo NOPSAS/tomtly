@@ -231,7 +231,7 @@ function Steg1Tomt() {
 }
 
 function Steg2Prismodell() {
-  const [valgt, setValgt] = useState<'fastpris' | 'provisjon' | 'abonnement'>('provisjon')
+  const [valgt, setValgt] = useState<'standard' | 'salgsoppdrag' | 'premium'>('salgsoppdrag')
 
   return (
     <div className="bg-white rounded-xl border border-brand-200 p-8">
@@ -239,61 +239,61 @@ function Steg2Prismodell() {
         Velg prismodell
       </h2>
       <p className="text-sm text-brand-500 mb-6">
-        Alle modeller gir deg full faglig analyse av tomten med husmodeller, kostnadsoverslag og verdivurdering.
+        Alle modeller gir deg komplett tomtanalyse med mulighetsstudie, husmodeller og byggekalkyle.
       </p>
 
       <div className="space-y-3">
         <button
-          onClick={() => setValgt('fastpris')}
+          onClick={() => setValgt('standard')}
           className={`w-full text-left p-5 rounded-xl border-2 transition-all ${
-            valgt === 'fastpris'
+            valgt === 'standard'
               ? 'border-tomtly-accent bg-forest-50'
               : 'border-brand-200 hover:border-brand-300'
           }`}
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-semibold text-tomtly-dark">Fastpris</p>
-              <p className="text-sm text-brand-500 mt-0.5">Betal én gang – 3 husmodeller inkludert</p>
+              <p className="font-semibold text-tomtly-dark">Standard</p>
+              <p className="text-sm text-brand-500 mt-0.5">Komplett tomtanalyse med mulighetsstudie, 3 husmodeller, tomtescore, visualiseringer, byggekalkyle og publisering.</p>
             </div>
-            <p className="text-2xl font-bold text-tomtly-dark">20 000 kr</p>
+            <p className="text-2xl font-bold text-tomtly-dark whitespace-nowrap ml-4">4 900 kr</p>
           </div>
         </button>
 
         <button
-          onClick={() => setValgt('provisjon')}
+          onClick={() => setValgt('salgsoppdrag')}
           className={`w-full text-left p-5 rounded-xl border-2 transition-all relative ${
-            valgt === 'provisjon'
+            valgt === 'salgsoppdrag'
               ? 'border-tomtly-accent bg-forest-50'
               : 'border-brand-200 hover:border-brand-300'
           }`}
         >
           <div className="absolute -top-2.5 right-4 px-2 py-0.5 bg-tomtly-accent text-white text-xs rounded-full">
-            Ingen risiko
+            Mest populær
           </div>
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-semibold text-tomtly-dark">Provisjon</p>
-              <p className="text-sm text-brand-500 mt-0.5">Ingen kostnad før salg – 5 husmodeller inkludert</p>
+              <p className="font-semibold text-tomtly-dark">Med salgsoppdrag</p>
+              <p className="text-sm text-brand-500 mt-0.5">Alt i Standard + Tomtly håndterer salgsprosess, oppgjør via Propr.</p>
             </div>
-            <p className="text-2xl font-bold text-tomtly-dark">2%</p>
+            <p className="text-2xl font-bold text-tomtly-dark whitespace-nowrap ml-4">4 900 kr <span className="text-sm font-normal text-brand-400">+ 1%</span></p>
           </div>
         </button>
 
         <button
-          onClick={() => setValgt('abonnement')}
+          onClick={() => setValgt('premium')}
           className={`w-full text-left p-5 rounded-xl border-2 transition-all ${
-            valgt === 'abonnement'
+            valgt === 'premium'
               ? 'border-tomtly-accent bg-forest-50'
               : 'border-brand-200 hover:border-brand-300'
           }`}
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-semibold text-tomtly-dark">Abonnement</p>
-              <p className="text-sm text-brand-500 mt-0.5">Fleksibelt, ingen bindingstid – fra 1 husmodell</p>
+              <p className="font-semibold text-tomtly-dark">Premium</p>
+              <p className="text-sm text-brand-500 mt-0.5">Alt i Standard, ingen suksesshonorar, du eier alt. Ingen binding.</p>
             </div>
-            <p className="text-2xl font-bold text-tomtly-dark">fra 5 000 <span className="text-sm font-normal text-brand-400">kr/mnd</span></p>
+            <p className="text-2xl font-bold text-tomtly-dark whitespace-nowrap ml-4">19 900 kr</p>
           </div>
         </button>
       </div>

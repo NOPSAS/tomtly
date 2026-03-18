@@ -93,6 +93,18 @@ export default function AdminDashboard() {
         </div>
       </div>
 
+      {/* Admin navigation */}
+      <div className="bg-white border-b border-brand-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex gap-4 py-3">
+          <Link href="/admin/pitch" className="px-4 py-2 bg-brand-50 border border-brand-200 rounded-lg text-sm font-medium text-brand-700 hover:bg-brand-100 transition-colors">
+            Pitch &amp; Forretningsmodell
+          </Link>
+          <Link href="/admin/salg" className="px-4 py-2 bg-brand-50 border border-brand-200 rounded-lg text-sm font-medium text-brand-700 hover:bg-brand-100 transition-colors">
+            Salg &amp; GTM
+          </Link>
+        </div>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">

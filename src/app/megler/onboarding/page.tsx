@@ -188,37 +188,7 @@ function Steg1Firma() {
 }
 
 function Steg2Plan() {
-  const [valgt, setValgt] = useState<'starter' | 'pro'>('pro')
-
-  const planer = [
-    {
-      id: 'starter' as const,
-      navn: 'Megler',
-      pris: '10 000',
-      periode: '/mnd',
-      tomter: '2 tomter inkludert',
-      husmodeller: '3 husmodeller per tomt',
-      tillegg: '5 000 kr per ekstra tomt',
-      features: [
-        '2 tomter med full analyse',
-        '3 husmodeller per tomt',
-      ],
-    },
-    {
-      id: 'pro' as const,
-      navn: 'Megler Pro',
-      pris: '20 000',
-      periode: '/mnd',
-      tomter: '5 tomter inkludert',
-      husmodeller: '5 husmodeller per tomt',
-      tillegg: '5 000 kr per ekstra tomt',
-      popular: true,
-      features: [
-        '5 tomter med full analyse',
-        '5 husmodeller per tomt',
-      ],
-    },
-  ]
+  const [valgt, setValgt] = useState<'abonnement' | 'per-tomt'>('abonnement')
 
   const inkludertAllePlaner = [
     'Tomtescore og reguleringsanalyse',
@@ -241,39 +211,50 @@ function Steg2Plan() {
         Velg plan
       </h2>
       <p className="text-sm text-brand-500 mb-6">
-        Alle planer inkluderer full tomteanalyse og mulighetsstudie.
+        Alle planer inkluderer full tomteanalyse og mulighetsstudie per tomt.
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        {planer.map((plan) => (
-          <button
-            key={plan.id}
-            onClick={() => setValgt(plan.id)}
-            className={`text-left p-6 rounded-xl border-2 transition-all relative ${
-              valgt === plan.id
-                ? 'border-tomtly-accent bg-forest-50'
-                : 'border-brand-200 hover:border-brand-300'
-            }`}
-          >
-            {plan.popular && (
-              <div className="absolute -top-2.5 right-4 px-2 py-0.5 bg-tomtly-accent text-white text-xs rounded-full">
-                Anbefalt
-              </div>
-            )}
-            <p className="text-sm font-medium text-brand-500">{plan.navn}</p>
-            <p className="text-2xl font-bold text-tomtly-dark mt-1">
-              {plan.pris}
-              <span className="text-sm font-normal text-brand-400"> kr{plan.periode}</span>
-            </p>
-            <p className="text-xs font-semibold text-forest-700 mt-2">{plan.tomter}</p>
-            <p className="text-xs text-brand-600">{plan.husmodeller}</p>
-            <p className="text-[10px] text-brand-400 mt-1">{plan.tillegg}</p>
-          </button>
-        ))}
+        <button
+          onClick={() => setValgt('abonnement')}
+          className={`text-left p-6 rounded-xl border-2 transition-all relative ${
+            valgt === 'abonnement'
+              ? 'border-tomtly-accent bg-forest-50'
+              : 'border-brand-200 hover:border-brand-300'
+          }`}
+        >
+          <div className="absolute -top-2.5 right-4 px-2 py-0.5 bg-tomtly-accent text-white text-xs rounded-full">
+            Anbefalt
+          </div>
+          <p className="text-sm font-medium text-brand-500">Abonnement</p>
+          <p className="text-2xl font-bold text-tomtly-dark mt-1">
+            7 500
+            <span className="text-sm font-normal text-brand-400"> kr/mnd</span>
+          </p>
+          <p className="text-xs text-brand-600 mt-2">Inkluderer alt per tomt</p>
+          <p className="text-xs text-brand-600">Full tilgang til plattformen</p>
+        </button>
+
+        <button
+          onClick={() => setValgt('per-tomt')}
+          className={`text-left p-6 rounded-xl border-2 transition-all ${
+            valgt === 'per-tomt'
+              ? 'border-tomtly-accent bg-forest-50'
+              : 'border-brand-200 hover:border-brand-300'
+          }`}
+        >
+          <p className="text-sm font-medium text-brand-500">Per tomt</p>
+          <p className="text-2xl font-bold text-tomtly-dark mt-1">
+            5 000
+            <span className="text-sm font-normal text-brand-400"> kr</span>
+          </p>
+          <p className="text-xs text-brand-600 mt-2">Rabattert engangspris per tomt</p>
+          <p className="text-xs text-brand-600">Ingen abonnement nødvendig</p>
+        </button>
       </div>
 
       <div className="bg-brand-50 rounded-xl p-5 border border-brand-200">
-        <h4 className="text-sm font-semibold text-brand-700 mb-3">Inkludert i alle planer – per tomt</h4>
+        <h4 className="text-sm font-semibold text-brand-700 mb-3">Inkludert per tomt</h4>
         <div className="grid grid-cols-2 gap-2">
           {inkludertAllePlaner.map((f) => (
             <div key={f} className="flex items-center gap-1.5 text-xs text-brand-600">

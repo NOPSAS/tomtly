@@ -1,4 +1,4 @@
-import { MapPin, Maximize, Landmark } from 'lucide-react'
+import { MapPin, Maximize, Landmark, Lock } from 'lucide-react'
 import { formatM2, getScoreFarge, getScoreLabel } from '@/lib/utils'
 
 interface TomtHeroProps {
@@ -9,6 +9,7 @@ interface TomtHeroProps {
   gnr: number
   bnr: number
   score: number
+  skjulAdresse?: boolean
 }
 
 export function TomtHero({
@@ -19,7 +20,10 @@ export function TomtHero({
   gnr,
   bnr,
   score,
+  skjulAdresse = false,
 }: TomtHeroProps) {
+  const visningsAdresse = skjulAdresse ? `${poststed}, ${kommune}` : adresse
+
   return (
     <section className="relative bg-tomtly-dark">
       {/* Background – i produksjon: drone-bilde eller 3D-visualisering */}
@@ -42,12 +46,19 @@ export function TomtHero({
               <span>/</span>
               <span>{kommune}</span>
               <span>/</span>
-              <span className="text-brand-300">{adresse}</span>
+              <span className="text-brand-300">{visningsAdresse}</span>
             </div>
 
             <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-3">
-              {adresse}
+              {visningsAdresse}
             </h1>
+
+            {skjulAdresse && (
+              <div className="flex items-center gap-2 mb-3 px-3 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg w-fit">
+                <Lock className="w-3.5 h-3.5 text-brand-400" />
+                <span className="text-sm text-brand-300">Registrer deg for å se adressen</span>
+              </div>
+            )}
 
             <div className="flex items-center gap-4 text-brand-400">
               <span className="flex items-center gap-1.5">

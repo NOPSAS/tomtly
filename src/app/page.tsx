@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { AbonnementKort } from '@/components/forside/Prismodell'
 import { SkreddersyddAvtale } from '@/components/SkreddersyddAvtale'
 import {
   MapPin,
@@ -368,7 +367,7 @@ function ForHvem() {
   )
 }
 
-// ---- Prismodell (Abonnement) ----
+// ---- Prismodell ----
 
 function Prismodell() {
   return (
@@ -376,27 +375,27 @@ function Prismodell() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-4">
-            Velg din modell
+            Enkel og rettferdig prising
           </h2>
           <p className="text-brand-600 max-w-lg mx-auto">
-            Tre måter å komme i gang. Alle gir deg full faglig analyse – forskjellen er hvordan du betaler og hvor mange husmodeller du kan velge.
+            Velg modellen som passer deg best. Alle gir deg komplett tomtanalyse med mulighetsstudie.
           </p>
         </div>
 
-        {/* Betalingsmodeller */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-12">
+        {/* For tomteeiere */}
+        <h3 className="text-center text-sm font-semibold text-brand-500 uppercase tracking-wide mb-6">
+          For tomteeiere
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-16">
           <div className="border-2 border-brand-200 rounded-2xl p-7">
-            <div className="text-sm font-medium text-brand-500 mb-2">Fastpris</div>
+            <div className="text-sm font-medium text-brand-500 mb-2">Standard</div>
             <div className="flex items-baseline gap-1 mb-1">
-              <span className="text-4xl font-bold text-tomtly-dark">20 000</span>
+              <span className="text-4xl font-bold text-tomtly-dark">4 900</span>
               <span className="text-brand-500">kr</span>
             </div>
-            <p className="text-sm text-brand-500 mb-2">engangsbetaling per tomt</p>
-            <div className="inline-block px-2 py-1 bg-forest-50 text-forest-700 text-xs font-semibold rounded mb-5">
-              3 husmodeller
-            </div>
+            <p className="text-sm text-brand-500 mb-4">engangsbetaling</p>
             <p className="text-sm text-brand-600 mb-6">
-              Betal én gang. Full analyse og 3 husmodeller på tomten. Ingen løpende kostnad.
+              Komplett tomtanalyse med mulighetsstudie, 3 husmodeller, tomtescore, visualiseringer, byggekalkyle og publisering på Tomtly.
             </p>
             <Link
               href="/selger/onboarding"
@@ -408,18 +407,16 @@ function Prismodell() {
 
           <div className="border-2 border-tomtly-accent rounded-2xl p-7 relative">
             <div className="absolute -top-3 right-6 px-3 py-1 bg-tomtly-accent text-white text-xs font-semibold rounded-full">
-              Ingen risiko
+              Mest populær
             </div>
-            <div className="text-sm font-medium text-brand-500 mb-2">Provisjon</div>
+            <div className="text-sm font-medium text-brand-500 mb-2">Med salgsoppdrag</div>
             <div className="flex items-baseline gap-1 mb-1">
-              <span className="text-4xl font-bold text-tomtly-dark">2%</span>
+              <span className="text-4xl font-bold text-tomtly-dark">4 900</span>
+              <span className="text-brand-500">kr</span>
             </div>
-            <p className="text-sm text-brand-500 mb-2">av salgssummen ved salg</p>
-            <div className="inline-block px-2 py-1 bg-forest-50 text-forest-700 text-xs font-semibold rounded mb-5">
-              5 husmodeller
-            </div>
+            <p className="text-sm text-brand-500 mb-4">+ 1% av salgssum</p>
             <p className="text-sm text-brand-600 mb-6">
-              Ingen kostnad før tomten er solgt. Full analyse med 5 husmodeller. Du betaler kun ved suksess.
+              Alt i Standard + Tomtly håndterer salgsprosess, oppgjør via Propr.
             </p>
             <Link
               href="/selger/onboarding"
@@ -430,17 +427,14 @@ function Prismodell() {
           </div>
 
           <div className="border-2 border-brand-200 rounded-2xl p-7">
-            <div className="text-sm font-medium text-brand-500 mb-2">Abonnement</div>
+            <div className="text-sm font-medium text-brand-500 mb-2">Premium</div>
             <div className="flex items-baseline gap-1 mb-1">
-              <span className="text-4xl font-bold text-tomtly-dark">7 500</span>
-              <span className="text-brand-500">kr/mnd</span>
+              <span className="text-4xl font-bold text-tomtly-dark">19 900</span>
+              <span className="text-brand-500">kr</span>
             </div>
-            <p className="text-sm text-brand-500 mb-2">fra-pris, 1 mnd oppsigelsestid</p>
-            <div className="inline-block px-2 py-1 bg-forest-50 text-forest-700 text-xs font-semibold rounded mb-5">
-              1–5 husmodeller
-            </div>
+            <p className="text-sm text-brand-500 mb-4">engangsbetaling, uten binding</p>
             <p className="text-sm text-brand-600 mb-6">
-              Fleksibelt. Velg antall husmodeller. 1 mnd oppsigelse. Se detaljer under.
+              Alt i Standard, ingen suksesshonorar, du eier alt.
             </p>
             <Link
               href="/selger/onboarding"
@@ -451,10 +445,36 @@ function Prismodell() {
           </div>
         </div>
 
-        <AbonnementKort />
+        {/* For meglere */}
+        <h3 className="text-center text-sm font-semibold text-brand-500 uppercase tracking-wide mb-6">
+          For eiendomsmeglere
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto mb-8">
+          <div className="border-2 border-brand-200 rounded-2xl p-7">
+            <div className="text-sm font-medium text-brand-500 mb-2">Abonnement</div>
+            <div className="flex items-baseline gap-1 mb-1">
+              <span className="text-4xl font-bold text-tomtly-dark">7 500</span>
+              <span className="text-brand-500">kr/mnd</span>
+            </div>
+            <p className="text-sm text-brand-600 mt-4">
+              Full tilgang til Tomtly-plattformen med dashboard, tomtanalyser og meglerprofil.
+            </p>
+          </div>
+
+          <div className="border-2 border-brand-200 rounded-2xl p-7">
+            <div className="text-sm font-medium text-brand-500 mb-2">Per tomt (rabattert)</div>
+            <div className="flex items-baseline gap-1 mb-1">
+              <span className="text-4xl font-bold text-tomtly-dark">5 000</span>
+              <span className="text-brand-500">kr</span>
+            </div>
+            <p className="text-sm text-brand-600 mt-4">
+              Rabattert engangspris per tomt for meglere.
+            </p>
+          </div>
+        </div>
 
         <p className="text-center text-xs text-brand-400 mt-8">
-          Alle priser er eks. mva. 1 måneds oppsigelsestid. Du betaler for inneværende dager i måneden. Meglere: se egne planer under «For meglere».
+          Alle priser er eks. mva.
         </p>
 
         <SkreddersyddAvtale />
