@@ -427,7 +427,7 @@ function Prismodell() {
               {[
                 'Alt i tomtanalysen',
                 'Tomtly håndterer hele salgsprosessen',
-                'Annonsering, visninger og kjøperdialog',
+                'Annonsering, booking av visninger og kjøperdialog',
                 'Trygt oppgjør via Propr',
                 'Ingen risiko – du betaler kun ved suksess',
               ].map((f) => (
