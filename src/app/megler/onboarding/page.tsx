@@ -19,8 +19,7 @@ import { SkreddersyddAvtale } from '@/components/SkreddersyddAvtale'
 
 const STEG = [
   { nummer: 1, tittel: 'Firma', ikon: Building2 },
-  { nummer: 2, tittel: 'Plan', ikon: CreditCard },
-  { nummer: 3, tittel: 'Velkommen', ikon: CheckCircle2 },
+  { nummer: 2, tittel: 'Velkommen', ikon: CheckCircle2 },
 ]
 
 export default function MeglerOnboarding() {
@@ -35,7 +34,7 @@ export default function MeglerOnboarding() {
             Tomtly for meglere
           </h1>
           <p className="text-sm text-brand-500">
-            Gi kundene dine et unikt salgsverktøy for tomter.
+            Gratis for meglere. Legg til tomtene dine – vi lager mulighetsstudie. Du beholder provisjonen.
           </p>
 
           <div className="flex items-center gap-2 mt-6">
@@ -64,8 +63,7 @@ export default function MeglerOnboarding() {
 
       <div className="max-w-3xl mx-auto px-4 py-10">
         {steg === 1 && <Steg1Firma />}
-        {steg === 2 && <Steg2Plan />}
-        {steg === 3 && <Steg3Velkommen />}
+        {steg === 2 && <Steg3Velkommen />}
 
         <div className="flex justify-between mt-10">
           {steg > 1 ? (
@@ -80,7 +78,7 @@ export default function MeglerOnboarding() {
             <div />
           )}
 
-          {steg < 3 ? (
+          {steg < 2 ? (
             <button
               onClick={() => setSteg(steg + 1)}
               className="flex items-center gap-2 px-6 py-2.5 bg-tomtly-accent text-white font-medium rounded-lg hover:bg-forest-700 transition-colors"
@@ -91,7 +89,7 @@ export default function MeglerOnboarding() {
           ) : (
             <button className="flex items-center gap-2 px-6 py-2.5 bg-tomtly-accent text-white font-medium rounded-lg hover:bg-forest-700 transition-colors">
               <CheckCircle2 className="w-4 h-4" />
-              Opprett meglerkonto
+              Opprett gratis meglerkonto
             </button>
           )}
         </div>
