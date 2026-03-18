@@ -495,26 +495,71 @@ function Prismodell() {
           For eiendomsmeglere
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto mb-8">
-          <div className="border-2 border-brand-200 rounded-2xl p-7">
-            <div className="text-sm font-medium text-brand-500 mb-2">Abonnement</div>
+          {/* Abonnement */}
+          <div className="border-2 border-tomtly-accent rounded-2xl p-7 relative">
+            <div className="absolute -top-3 right-6 px-3 py-1 bg-tomtly-accent text-white text-xs font-semibold rounded-full">
+              Best verdi
+            </div>
+            <div className="text-sm font-medium text-brand-500 mb-2">Meglerabo</div>
             <div className="flex items-baseline gap-1 mb-1">
               <span className="text-4xl font-bold text-tomtly-dark">7 500</span>
               <span className="text-brand-500">kr/mnd</span>
             </div>
-            <p className="text-sm text-brand-600 mt-4">
-              Full tilgang til Tomtly-plattformen med dashboard, tomtanalyser og meglerprofil.
-            </p>
+            <p className="text-sm text-brand-500 mb-4">ubegrenset antall tomter</p>
+            <p className="text-sm font-medium text-tomtly-dark mb-3">For meglere som selger tomter jevnlig:</p>
+            <ul className="space-y-2 mb-6">
+              {[
+                'Ubegrenset tomtanalyser',
+                'Komplett mulighetsstudie per tomt',
+                'Husmodeller, byggekalkyle og verdivurdering',
+                'Meglerdashboard med porteføljeoversikt',
+                'Egen meglerprofil på Tomtly',
+                '1 mnd oppsigelse',
+              ].map((f) => (
+                <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
+                  <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <p className="text-xs text-brand-400 mb-4">Lønner seg fra 2 tomter i måneden.</p>
+            <Link
+              href="/megler/onboarding"
+              className="block w-full text-center px-4 py-3 bg-tomtly-accent text-white font-medium rounded-lg hover:bg-forest-700 transition-colors"
+            >
+              Kom i gang
+            </Link>
           </div>
 
+          {/* Per tomt */}
           <div className="border-2 border-brand-200 rounded-2xl p-7">
-            <div className="text-sm font-medium text-brand-500 mb-2">Per tomt (rabattert)</div>
+            <div className="text-sm font-medium text-brand-500 mb-2">Per tomt</div>
             <div className="flex items-baseline gap-1 mb-1">
               <span className="text-4xl font-bold text-tomtly-dark">5 000</span>
-              <span className="text-brand-500">kr</span>
+              <span className="text-brand-500">kr/tomt</span>
             </div>
-            <p className="text-sm text-brand-600 mt-4">
-              Rabattert engangspris per tomt for meglere.
-            </p>
+            <p className="text-sm text-brand-500 mb-4">engangspris, ingen binding</p>
+            <p className="text-sm font-medium text-tomtly-dark mb-3">For meglere med enkeltstående tomteoppdrag:</p>
+            <ul className="space-y-2 mb-6">
+              {[
+                'Samme analyse som i abonnementet',
+                'Betal kun for tomtene du trenger',
+                'Ingen månedskostnad',
+                'Tilgang til meglerdashboard',
+              ].map((f) => (
+                <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
+                  <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <p className="text-xs text-brand-400 mb-4">Perfekt om du har 1-2 tomter innimellom.</p>
+            <Link
+              href="/megler/onboarding"
+              className="block w-full text-center px-4 py-3 border-2 border-tomtly-accent text-tomtly-accent font-medium rounded-lg hover:bg-forest-50 transition-colors"
+            >
+              Kom i gang
+            </Link>
           </div>
         </div>
 
