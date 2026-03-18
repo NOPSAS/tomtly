@@ -1,11 +1,23 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
-import { Menu, X, MapPin, ChevronDown } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Menu, X, MapPin, ChevronDown, Shield, User } from 'lucide-react'
+import { useAuth } from '@/lib/auth-context'
+import { createClient } from '@/lib/supabase'
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const { user, signOut, loading } = useAuth()
+  const [isAdmin, setIsAdmin] = useState(false)
+
+  useEffect(() => {
+    if (!user) { setIsAdmin(false); return }
+    const supabase = createClient()
+    supabase.from('profiles').select('role').eq('id', user.id).single().then(({ data }) => {
+      setIsAdmin(data?.role === 'admin')
+    })
+  }, [user])
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-brand-200">
@@ -70,12 +82,25 @@ export function Header() {
 
           {/* CTA */}
           <div className="hidden md:flex items-center gap-3">
-            <Link
-              href="/logg-inn"
-              className="px-4 py-2 text-sm text-brand-600 hover:text-tomtly-accent transition-colors"
-            >
-              Logg inn
-            </Link>
+            {!loading && user ? (
+              <>
+                {isAdmin && (
+                  <Link href="/admin" className="flex items-center gap-1 px-3 py-1.5 bg-tomtly-dark text-white text-xs font-medium rounded-lg">
+                    <Shield className="w-3.5 h-3.5" /> Admin
+                  </Link>
+                )}
+                <Link href="/min-side" className="flex items-center gap-1 px-3 py-2 text-sm text-brand-600 hover:text-tomtly-accent">
+                  <User className="w-4 h-4" /> Min side
+                </Link>
+                <button onClick={() => signOut()} className="px-3 py-2 text-sm text-brand-500 hover:text-brand-700">
+                  Logg ut
+                </button>
+              </>
+            ) : !loading ? (
+              <Link href="/logg-inn" className="px-4 py-2 text-sm text-brand-600 hover:text-tomtly-accent transition-colors">
+                Logg inn
+              </Link>
+            ) : null}
             <Link
               href="/selger/onboarding"
               className="px-4 py-2 text-sm font-medium text-tomtly-accent border border-tomtly-accent rounded-lg hover:bg-forest-50 transition-colors"

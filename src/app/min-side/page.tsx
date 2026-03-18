@@ -1,76 +1,106 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+import { useAuth } from '@/lib/auth-context'
+import { createClient } from '@/lib/supabase'
 import Link from 'next/link'
-import { MapPin, ShoppingBag, User, Lock } from 'lucide-react'
+import { MapPin, FileText, Settings, User, LogOut } from 'lucide-react'
+
+interface Profile {
+  full_name: string
+  phone: string
+  company_name: string
+  role: string
+  created_at: string
+}
 
 export default function MinSidePage() {
+  const { user, signOut, loading: authLoading } = useAuth()
+  const [profile, setProfile] = useState<Profile | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (!user) return
+    const supabase = createClient()
+    supabase.from('profiles').select('*').eq('id', user.id).single().then(({ data }) => {
+      setProfile(data)
+      setLoading(false)
+    })
+  }, [user])
+
+  if (authLoading || loading) {
+    return <div className="min-h-screen bg-brand-50 flex items-center justify-center"><p className="text-brand-500">Laster...</p></div>
+  }
+
   return (
     <div className="min-h-screen bg-brand-50">
       <div className="bg-white border-b border-brand-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="font-display text-2xl font-bold text-tomtly-dark">
-            Min side
-          </h1>
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <h1 className="font-display text-2xl font-bold text-tomtly-dark">Min side</h1>
+          <p className="text-sm text-brand-500">{user?.email}</p>
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Login prompt */}
-        <div className="bg-white rounded-xl border border-brand-200 p-8 text-center mb-10">
-          <div className="w-14 h-14 bg-brand-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Lock className="w-7 h-7 text-brand-400" />
-          </div>
-          <h2 className="text-lg font-semibold text-tomtly-dark mb-2">
-            Logg inn for å se dine tomter og bestillinger
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+        {/* Profil */}
+        <div className="bg-white rounded-xl border border-brand-200 p-6">
+          <h2 className="font-semibold text-tomtly-dark mb-4 flex items-center gap-2">
+            <User className="w-5 h-5 text-brand-400" /> Profil
           </h2>
-          <p className="text-sm text-brand-500 mb-6 max-w-md mx-auto">
-            Brukerportalen er under utvikling. Snart kan du logge inn og se alle
-            dine tomter, bestillinger og profilinnstillinger.
-          </p>
-          <Link
-            href="/logg-inn"
-            className="inline-flex px-6 py-3 bg-tomtly-accent text-white font-medium rounded-lg hover:bg-forest-700 transition-colors"
-          >
-            Logg inn
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <p className="text-xs text-brand-500">Navn</p>
+              <p className="text-sm font-medium text-tomtly-dark">{profile?.full_name || '–'}</p>
+            </div>
+            <div>
+              <p className="text-xs text-brand-500">Telefon</p>
+              <p className="text-sm font-medium text-tomtly-dark">{profile?.phone || '–'}</p>
+            </div>
+            <div>
+              <p className="text-xs text-brand-500">E-post</p>
+              <p className="text-sm font-medium text-tomtly-dark">{user?.email}</p>
+            </div>
+            <div>
+              <p className="text-xs text-brand-500">Firma</p>
+              <p className="text-sm font-medium text-tomtly-dark">{profile?.company_name || 'Privat'}</p>
+            </div>
+            <div>
+              <p className="text-xs text-brand-500">Rolle</p>
+              <p className="text-sm font-medium text-tomtly-dark capitalize">{profile?.role || '–'}</p>
+            </div>
+            <div>
+              <p className="text-xs text-brand-500">Registrert</p>
+              <p className="text-sm font-medium text-tomtly-dark">{profile?.created_at ? new Date(profile.created_at).toLocaleDateString('nb-NO') : '–'}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Mine tomter */}
+        <div className="bg-white rounded-xl border border-brand-200 p-6">
+          <h2 className="font-semibold text-tomtly-dark mb-3 flex items-center gap-2">
+            <MapPin className="w-5 h-5 text-brand-400" /> Mine tomter
+          </h2>
+          <p className="text-sm text-brand-500 mb-4">Ingen tomter registrert ennå.</p>
+          <Link href="/selger/onboarding" className="inline-flex px-4 py-2 bg-tomtly-accent text-white text-sm font-medium rounded-lg hover:bg-forest-700 transition-colors">
+            Legg ut tomt
           </Link>
         </div>
 
-        {/* Preview sections */}
-        <h3 className="text-sm font-semibold text-brand-500 uppercase tracking-wide mb-4">
-          Forhåndsvisning av portalen
-        </h3>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-white rounded-xl border border-brand-200 p-6 text-center">
-            <div className="w-10 h-10 bg-forest-50 rounded-lg flex items-center justify-center mx-auto mb-3">
-              <MapPin className="w-5 h-5 text-tomtly-accent" />
-            </div>
-            <h4 className="font-semibold text-tomtly-dark mb-1">Mine tomter</h4>
-            <p className="text-xs text-brand-500">
-              Se status, analyse og visninger for dine tomter.
-            </p>
-          </div>
-
-          <div className="bg-white rounded-xl border border-brand-200 p-6 text-center">
-            <div className="w-10 h-10 bg-forest-50 rounded-lg flex items-center justify-center mx-auto mb-3">
-              <ShoppingBag className="w-5 h-5 text-tomtly-accent" />
-            </div>
-            <h4 className="font-semibold text-tomtly-dark mb-1">Bestillinger</h4>
-            <p className="text-xs text-brand-500">
-              Oversikt over analyser, abonnementer og fakturaer.
-            </p>
-          </div>
-
-          <div className="bg-white rounded-xl border border-brand-200 p-6 text-center">
-            <div className="w-10 h-10 bg-forest-50 rounded-lg flex items-center justify-center mx-auto mb-3">
-              <User className="w-5 h-5 text-tomtly-accent" />
-            </div>
-            <h4 className="font-semibold text-tomtly-dark mb-1">Profil</h4>
-            <p className="text-xs text-brand-500">
-              Oppdater kontaktinfo, firma og innstillinger.
-            </p>
-          </div>
+        {/* Bestillinger */}
+        <div className="bg-white rounded-xl border border-brand-200 p-6">
+          <h2 className="font-semibold text-tomtly-dark mb-3 flex items-center gap-2">
+            <FileText className="w-5 h-5 text-brand-400" /> Bestillinger
+          </h2>
+          <p className="text-sm text-brand-500">Ingen bestillinger ennå.</p>
         </div>
+
+        {/* Logg ut */}
+        <button
+          onClick={() => signOut()}
+          className="flex items-center gap-2 text-sm text-brand-500 hover:text-brand-700"
+        >
+          <LogOut className="w-4 h-4" /> Logg ut
+        </button>
       </div>
     </div>
   )
