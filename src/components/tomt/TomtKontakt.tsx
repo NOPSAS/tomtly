@@ -129,20 +129,6 @@ export function TomtKontakt() {
         </a>
       </div>
 
-      {/* Prismodell */}
-      <div className="mt-6 pt-6 border-t border-brand-200">
-        <p className="text-xs text-brand-500 mb-2">Prismodell</p>
-        <div className="space-y-2">
-          <div className="flex justify-between text-sm">
-            <span className="text-brand-600">Fastpris</span>
-            <span className="font-semibold text-tomtly-dark">20 000 kr</span>
-          </div>
-          <div className="flex justify-between text-sm">
-            <span className="text-brand-600">Provisjon</span>
-            <span className="font-semibold text-tomtly-dark">2% av salgssum</span>
-          </div>
-        </div>
-      </div>
     </div>
   )
 }

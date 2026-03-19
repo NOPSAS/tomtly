@@ -7,8 +7,8 @@ import {
   CheckCircle2,
   ArrowRight,
   ArrowLeft,
+  Upload,
 } from 'lucide-react'
-import { SkreddersyddAvtale } from '@/components/SkreddersyddAvtale'
 
 // ============================================================
 // SELGER ONBOARDING – 3-stegs wizard
@@ -95,7 +95,6 @@ export default function SelgerOnboarding() {
           )}
         </div>
 
-        <SkreddersyddAvtale />
       </div>
     </div>
   )
@@ -199,6 +198,19 @@ function Steg1Tomt() {
           </div>
         </div>
 
+        {/* Bilder av tomten */}
+        <div className="pt-4 border-t border-brand-200">
+          <h3 className="text-sm font-semibold text-brand-700 mb-1.5">Bilder av tomten</h3>
+          <p className="text-xs text-brand-400 mb-3">
+            Last opp bilder for et bedre resultat. Dronebilder, panorama eller vanlige bilder. Valgfritt, men anbefalt.
+          </p>
+          <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-brand-300 rounded-lg cursor-pointer hover:border-tomtly-accent hover:bg-forest-50/30 transition-colors">
+            <Upload className="w-6 h-6 text-brand-400 mb-2" />
+            <span className="text-sm text-brand-500">Klikk eller dra bilder hit (JPG, PNG)</span>
+            <input type="file" multiple accept="image/jpeg,image/png" className="hidden" />
+          </label>
+        </div>
+
         <div className="pt-4 border-t border-brand-200">
           <h3 className="text-sm font-semibold text-brand-700 mb-4">Dine opplysninger</h3>
           <div className="grid grid-cols-2 gap-4">
@@ -231,7 +243,7 @@ function Steg1Tomt() {
 }
 
 function Steg2Prismodell() {
-  const [valgt, setValgt] = useState<'standard' | 'salgsoppdrag' | 'premium'>('salgsoppdrag')
+  const [valgt, setValgt] = useState<'standard' | 'salgsoppdrag'>('salgsoppdrag')
 
   return (
     <div className="bg-white rounded-xl border border-brand-200 p-8">
@@ -239,7 +251,7 @@ function Steg2Prismodell() {
         Velg prismodell
       </h2>
       <p className="text-sm text-brand-500 mb-6">
-        Alle modeller gir deg komplett tomtanalyse med mulighetsstudie, husmodeller og byggekalkyle.
+        Begge modeller gir deg komplett tomtanalyse med mulighetsstudie, husmodeller og byggekalkyle.
       </p>
 
       <div className="space-y-3">
@@ -253,8 +265,8 @@ function Steg2Prismodell() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-semibold text-tomtly-dark">Standard</p>
-              <p className="text-sm text-brand-500 mt-0.5">Komplett tomtanalyse med mulighetsstudie, 3 husmodeller, tomtescore, visualiseringer, byggekalkyle og publisering.</p>
+              <p className="font-semibold text-tomtly-dark">Selg selv</p>
+              <p className="text-sm text-brand-500 mt-0.5">Komplett tomtanalyse med mulighetsstudie, husmodeller, byggekalkyle og publisering. Du selger selv.</p>
             </div>
             <p className="text-2xl font-bold text-tomtly-dark whitespace-nowrap ml-4">4 900 kr</p>
           </div>
@@ -273,28 +285,14 @@ function Steg2Prismodell() {
           </div>
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-semibold text-tomtly-dark">Med salgsoppdrag</p>
-              <p className="text-sm text-brand-500 mt-0.5">Alt i Standard + Tomtly håndterer salgsprosess, oppgjør via Propr.</p>
+              <p className="font-semibold text-tomtly-dark">Vi selger for deg</p>
+              <p className="text-sm text-brand-500 mt-0.5">Vi setter markedspris og håndterer salgsprosessen via Propr.</p>
             </div>
             <p className="text-2xl font-bold text-tomtly-dark whitespace-nowrap ml-4">4 900 kr <span className="text-sm font-normal text-brand-400">+ 1%</span></p>
           </div>
-        </button>
-
-        <button
-          onClick={() => setValgt('premium')}
-          className={`w-full text-left p-5 rounded-xl border-2 transition-all ${
-            valgt === 'premium'
-              ? 'border-tomtly-accent bg-forest-50'
-              : 'border-brand-200 hover:border-brand-300'
-          }`}
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="font-semibold text-tomtly-dark">Premium</p>
-              <p className="text-sm text-brand-500 mt-0.5">Alt i Standard, ingen suksesshonorar, du eier alt. Ingen binding.</p>
-            </div>
-            <p className="text-2xl font-bold text-tomtly-dark whitespace-nowrap ml-4">19 900 kr</p>
-          </div>
+          <p className="text-xs text-brand-400 mt-2">
+            Salg gjennomføres via Propr – en godkjent plattform for eiendomsoppgjør. Tomtly er ikke et eiendomsmeglerforetak.
+          </p>
         </button>
       </div>
     </div>

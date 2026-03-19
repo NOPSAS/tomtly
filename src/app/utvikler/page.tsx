@@ -4,23 +4,22 @@ import { useState } from 'react'
 import Link from 'next/link'
 import {
   Building2,
-  Search,
-  BarChart3,
-  Clock,
   CheckCircle2,
   ArrowRight,
-  Shield,
+  Eye,
   TrendingUp,
-  FileText,
-  MapPin,
+  Search,
+  BarChart3,
+  Zap,
 } from 'lucide-react'
 
 export default function UtviklerPage() {
   return (
     <>
       <HeroSection />
-      <Features />
-      <Pricing />
+      <Fordeler />
+      <Abonnement />
+      <Prising />
       <ContactForm />
     </>
   )
@@ -39,30 +38,29 @@ function HeroSection() {
           </div>
 
           <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1] mb-6">
-            Tomtly for
+            Selg tomtene
             <br />
-            <span className="text-green-400">eiendomsutviklere</span>
+            <span className="text-green-400">pa en helt ny mate</span>
           </h1>
 
           <p className="text-lg text-brand-400 leading-relaxed mb-10 max-w-xl">
-            Finn tomter med utviklingspotensial, få full analyse og spar tid på
-            due diligence. Alt du trenger for å vurdere en tomt – samlet på ett sted.
+            Bruk Tomtly som salgsverktoy. Vi lager profesjonelle mulighetsstudier som viser kjopere noyaktig hva de kan bygge.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
             <Link
-              href="/utvikler/onboarding"
+              href="/selger/onboarding"
               className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-tomtly-accent text-white font-medium rounded-lg hover:bg-forest-700 transition-colors"
             >
-              Kom i gang
+              Legg til tomter
               <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link
+            <a
               href="#kontakt"
               className="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-brand-600 text-brand-300 font-medium rounded-lg hover:bg-brand-900 transition-colors"
             >
-              Kontakt oss
-            </Link>
+              Kontakt oss for abonnement
+            </a>
           </div>
         </div>
       </div>
@@ -70,37 +68,27 @@ function HeroSection() {
   )
 }
 
-function Features() {
-  const features = [
+function Fordeler() {
+  const fordeler = [
     {
-      ikon: Search,
-      tittel: 'Finn tomter med potensial',
-      beskrivelse: 'Filtrer tomter basert på tomtescore, regulering, beliggenhet og utviklingspotensial.',
-    },
-    {
-      ikon: BarChart3,
-      tittel: 'Full analyse per tomt',
-      beskrivelse: 'Tomtescore, reguleringsanalyse, mulighetsstudie, byggekostnader og salgsverdi.',
-    },
-    {
-      ikon: Clock,
-      tittel: 'Spar tid på due diligence',
-      beskrivelse: 'Vi henter matrikkeldata, reguleringsplan og analyserer alt automatisk.',
+      ikon: Eye,
+      tittel: 'Profesjonell presentasjon',
+      beskrivelse: 'Hver tomt far en komplett mulighetsstudie med husmodeller, 3D-visualiseringer og byggekalkyle. Kjopere ser potensial umiddelbart.',
     },
     {
       ikon: TrendingUp,
-      tittel: 'ROI-beregning',
-      beskrivelse: 'Se estimert avkastning basert på tomtekostnad, byggekostnad og salgspris.',
+      tittel: 'Raskere salg til hoyere pris',
+      beskrivelse: 'Kjopere ser konkrete byggemuligheter, ikke bare en tom tomt. Det gir raskere beslutninger og hoyere betalingsvilje.',
     },
     {
-      ikon: FileText,
-      tittel: 'Dispensasjons- og kravanalyse',
-      beskrivelse: 'Forstå hvilke dispensasjoner som trengs og hva reguleringsplanen krever.',
+      ikon: BarChart3,
+      tittel: 'Kjopere ser konkrete byggemuligheter',
+      beskrivelse: 'Hver tomt presenteres med husmodeller tilpasset regulering og tomtens forutsetninger. Kjoperen kan se sitt fremtidige hjem.',
     },
     {
-      ikon: Shield,
-      tittel: 'Risikoanalyse',
-      beskrivelse: 'Identifiser risikofaktorer som grunnforhold, flom, radon og infrastruktur.',
+      ikon: Search,
+      tittel: 'Finn nye prosjekter via plattformen',
+      beskrivelse: 'I tillegg til a selge egne tomter kan dere finne nye utviklingsprosjekter og tomter med potensial på plattformen.',
     },
   ]
 
@@ -109,15 +97,15 @@ function Features() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-4">
-            Alt du trenger for tomtevurdering
+            Fordeler for utviklere
           </h2>
           <p className="text-brand-600 max-w-lg mx-auto">
-            Tomtly gir deg komplett innsikt for hver tomt – slik at du kan ta raske, informerte beslutninger.
+            Tomtly gjør tomtene deres enklere a selge.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((f) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {fordeler.map((f) => (
             <div key={f.tittel} className="bg-brand-50 rounded-xl p-6 border border-brand-200">
               <div className="w-10 h-10 bg-forest-50 rounded-lg flex items-center justify-center mb-4">
                 <f.ikon className="w-5 h-5 text-tomtly-accent" />
@@ -132,88 +120,106 @@ function Features() {
   )
 }
 
-function Pricing() {
-  const inkludert = [
-    'Tomtescore og reguleringsanalyse',
-    'Mulighetsstudie og scenarioer',
-    'Byggekostnad og salgsverdi',
-    'Dispensasjons- og kravanalyse',
-    'Godkjente tiltak i nærområdet',
-    'Entreprenørprising',
-    'Finansieringsberegner',
-    'Tidslinje for byggesøknad',
-    'Risikoanalyse',
-    'Prosjektsjekkliste',
-    'Fastpris tegning og søknad via Tegnebua',
-    'Utviklerdashboard',
-  ]
+function Abonnement() {
+  return (
+    <section className="bg-tomtly-warm py-20 lg:py-28">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-6">
+          For utviklere med flere prosjekter
+        </h2>
+        <p className="text-brand-600 leading-relaxed mb-6">
+          Send oss tomter fortlopende – vi analyserer og publiserer. Abonnement for utviklere med flere prosjekter gir dere kontinuerlig tilgang til profesjonelle mulighetsstudier for alle tomtene deres.
+        </p>
+        <div className="bg-white rounded-xl border border-brand-200 p-6">
+          <ul className="space-y-3 text-left">
+            {[
+              'Fortlopende analyse og publisering av tomter',
+              'Dedikert kontaktperson',
+              'Prioritert behandling',
+              'Volumrabatt på analyser',
+              'Utviklerdashboard med portefoljeoversikt',
+            ].map((f) => (
+              <li key={f} className="flex items-start gap-2 text-sm text-brand-700">
+                <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
+                {f}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  )
+}
 
+function Prising() {
   return (
     <section className="bg-brand-50 py-20 lg:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-4">
-            Priser for utviklere
+            Prising
           </h2>
-          <p className="text-brand-600 max-w-lg mx-auto">
-            Alle planer inkluderer full tomteanalyse og mulighetsstudie per tomt.
-          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
           <div className="bg-white border-2 border-brand-200 rounded-2xl p-7">
-            <p className="text-sm font-medium text-brand-500 mb-1">Utvikler</p>
+            <p className="text-sm font-medium text-brand-500 mb-1">Enkelttomter</p>
             <div className="flex items-baseline gap-1 mb-1">
-              <span className="text-3xl font-bold text-tomtly-dark">10 000</span>
-              <span className="text-brand-500 text-sm">kr/mnd</span>
+              <span className="text-3xl font-bold text-tomtly-accent">Gratis</span>
             </div>
-            <p className="text-xs font-semibold text-forest-700 mt-2">2 tomter inkludert</p>
-            <p className="text-xs text-brand-600">3 husmodeller per tomt</p>
-            <p className="text-[10px] text-brand-400 mt-1">5 000 kr per ekstra tomt</p>
+            <p className="text-sm text-brand-500 mb-5">som megler – legg til tomter gratis</p>
+            <ul className="space-y-2 mb-6">
+              {[
+                'Komplett mulighetsstudie per tomt',
+                'Husmodeller med byggekalkyle',
+                'Publisering på Tomtly',
+                'Profesjonell presentasjon',
+              ].map((f) => (
+                <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
+                  <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
+                  {f}
+                </li>
+              ))}
+            </ul>
             <Link
-              href="/utvikler/onboarding"
-              className="block w-full text-center mt-6 px-4 py-3 border-2 border-tomtly-accent text-tomtly-accent font-medium rounded-lg hover:bg-forest-50 transition-colors"
+              href="/selger/onboarding"
+              className="block w-full text-center px-4 py-3 border-2 border-tomtly-accent text-tomtly-accent font-medium rounded-lg hover:bg-forest-50 transition-colors"
             >
-              Kom i gang
+              Legg til tomter
             </Link>
           </div>
 
           <div className="bg-white border-2 border-tomtly-accent rounded-2xl p-7 relative">
             <div className="absolute -top-2.5 right-4 px-2 py-0.5 bg-tomtly-accent text-white text-xs rounded-full">
-              Anbefalt
+              For volum
             </div>
-            <p className="text-sm font-medium text-brand-500 mb-1">Utvikler Pro</p>
+            <p className="text-sm font-medium text-brand-500 mb-1">Abonnement</p>
             <div className="flex items-baseline gap-1 mb-1">
-              <span className="text-3xl font-bold text-tomtly-dark">20 000</span>
-              <span className="text-brand-500 text-sm">kr/mnd</span>
+              <span className="text-3xl font-bold text-tomtly-dark">Kontakt oss</span>
             </div>
-            <p className="text-xs font-semibold text-forest-700 mt-2">5 tomter inkludert</p>
-            <p className="text-xs text-brand-600">5 husmodeller per tomt</p>
-            <p className="text-[10px] text-brand-400 mt-1">5 000 kr per ekstra tomt</p>
-            <Link
-              href="/utvikler/onboarding"
-              className="block w-full text-center mt-6 px-4 py-3 bg-tomtly-accent text-white font-medium rounded-lg hover:bg-forest-700 transition-colors"
+            <p className="text-sm text-brand-500 mb-5">skreddersydd for utviklere med flere prosjekter</p>
+            <ul className="space-y-2 mb-6">
+              {[
+                'Alt i gratisversjonen',
+                'Fortlopende analyse og publisering',
+                'Dedikert kontaktperson',
+                'Volumrabatt',
+                'Utviklerdashboard',
+              ].map((f) => (
+                <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
+                  <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <a
+              href="#kontakt"
+              className="block w-full text-center px-4 py-3 bg-tomtly-accent text-white font-medium rounded-lg hover:bg-forest-700 transition-colors"
             >
-              Kom i gang
-            </Link>
+              Kontakt oss for abonnement
+            </a>
           </div>
         </div>
-
-        <div className="bg-white rounded-xl p-5 border border-brand-200 max-w-3xl mx-auto">
-          <h4 className="text-sm font-semibold text-brand-700 mb-3">Inkludert i alle planer – per tomt</h4>
-          <div className="grid grid-cols-2 gap-2">
-            {inkludert.map((f) => (
-              <div key={f} className="flex items-center gap-1.5 text-xs text-brand-600">
-                <CheckCircle2 className="w-3.5 h-3.5 text-tomtly-accent flex-shrink-0" />
-                {f}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <p className="text-center text-xs text-brand-400 mt-6">
-          Alle priser eks. mva. Ingen bindingstid. Kontakt oss for skreddersydd avtale med volumrabatt.
-        </p>
       </div>
     </section>
   )
@@ -230,7 +236,7 @@ function ContactForm() {
             Kom i gang
           </h2>
           <p className="text-brand-600">
-            Fyll ut skjemaet, så tar vi kontakt for en uforpliktende prat.
+            Fyll ut skjemaet, sa tar vi kontakt for en uforpliktende prat.
           </p>
         </div>
 
@@ -251,14 +257,6 @@ function ContactForm() {
               <input
                 type="text"
                 required
-                className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-brand-700 mb-1.5">Org.nr</label>
-              <input
-                type="text"
-                placeholder="123 456 789"
                 className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20"
               />
             </div>
@@ -289,7 +287,7 @@ function ContactForm() {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-brand-700 mb-1.5">Antall prosjekter per år</label>
+              <label className="block text-sm font-medium text-brand-700 mb-1.5">Antall tomter per ar</label>
               <select className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20">
                 <option>1-5</option>
                 <option>6-15</option>

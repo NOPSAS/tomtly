@@ -42,28 +42,40 @@ export function Header() {
               <div className="absolute top-full left-0 pt-2 hidden group-hover:block">
                 <div className="bg-white rounded-lg shadow-lg border border-brand-200 py-2 min-w-[180px]">
                   <Link
-                    href="/selger/onboarding"
+                    href="/for-tomteeiere"
                     className="block px-4 py-2 text-sm text-brand-700 hover:bg-brand-50"
                   >
                     Tomteeiere
                   </Link>
                   <Link
-                    href="/megler/onboarding"
+                    href="/for-meglere"
                     className="block px-4 py-2 text-sm text-brand-700 hover:bg-brand-50"
                   >
                     Meglere
                   </Link>
                   <Link
-                    href="/leverandor"
+                    href="/for-husleverandorer"
                     className="block px-4 py-2 text-sm text-brand-700 hover:bg-brand-50"
                   >
                     Husleverandører
+                  </Link>
+                  <Link
+                    href="/for-entreprenorer"
+                    className="block px-4 py-2 text-sm text-brand-700 hover:bg-brand-50"
+                  >
+                    Entreprenører
                   </Link>
                   <Link
                     href="/utvikler"
                     className="block px-4 py-2 text-sm text-brand-700 hover:bg-brand-50"
                   >
                     Utviklere
+                  </Link>
+                  <Link
+                    href="/for-banker"
+                    className="block px-4 py-2 text-sm text-brand-700 hover:bg-brand-50"
+                  >
+                    Banker
                   </Link>
                 </div>
               </div>
@@ -123,14 +135,23 @@ export function Header() {
             <Link href="/tomter" className="block text-sm text-brand-700 py-2">
               Tomter
             </Link>
-            <Link href="/selger/onboarding" className="block text-sm text-brand-700 py-2">
+            <Link href="/for-tomteeiere" className="block text-sm text-brand-700 py-2">
               For tomteeiere
             </Link>
-            <Link href="/megler/onboarding" className="block text-sm text-brand-700 py-2">
+            <Link href="/for-meglere" className="block text-sm text-brand-700 py-2">
               For meglere
+            </Link>
+            <Link href="/for-husleverandorer" className="block text-sm text-brand-700 py-2">
+              For husleverandorer
+            </Link>
+            <Link href="/for-entreprenorer" className="block text-sm text-brand-700 py-2">
+              For entreprenorer
             </Link>
             <Link href="/utvikler" className="block text-sm text-brand-700 py-2">
               For utviklere
+            </Link>
+            <Link href="/for-banker" className="block text-sm text-brand-700 py-2">
+              For banker
             </Link>
             {!loading && user ? (
               <>
