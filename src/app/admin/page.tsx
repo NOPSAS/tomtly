@@ -102,6 +102,9 @@ export default function AdminDashboard() {
           <Link href="/admin/salg" className="px-4 py-2 bg-brand-50 border border-brand-200 rounded-lg text-sm font-medium text-brand-700 hover:bg-brand-100 transition-colors">
             Salg &amp; GTM
           </Link>
+          <Link href="/admin/finn" className="px-4 py-2 bg-brand-50 border border-brand-200 rounded-lg text-sm font-medium text-brand-700 hover:bg-brand-100 transition-colors">
+            FINN Pipeline
+          </Link>
         </div>
       </div>
 
