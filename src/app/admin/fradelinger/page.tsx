@@ -199,8 +199,28 @@ export default function FradelingerPage() {
   const [kandidater, setKandidater] = useState<FradelingsKandidat[]>(DEMO_KANDIDATER)
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [showPitch, setShowPitch] = useState(false)
+  const [scraperLoading, setScraperLoading] = useState(false)
+  const [scraperResult, setScraperResult] = useState<string | null>(null)
 
   const supabase = createClient()
+
+  const runScraper = async () => {
+    setScraperLoading(true)
+    setScraperResult(null)
+    try {
+      const res = await fetch('/api/admin/scrape-fradelinger', { method: 'POST' })
+      const data = await res.json()
+      if (data.success) {
+        setScraperResult(`Sjekket ${data.kommuner_sjekket} kommuner, fant ${data.adresser_funnet} adresser`)
+      } else {
+        setScraperResult(`Feil: ${data.error || 'Ukjent feil'}`)
+      }
+    } catch (err) {
+      setScraperResult('Feil: Kunne ikke kontakte scraper-API')
+    } finally {
+      setScraperLoading(false)
+    }
+  }
 
   useEffect(() => {
     async function fetchKandidater() {
@@ -244,6 +264,20 @@ export default function FradelingerPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {/* Scraper button */}
+        <div className="flex items-center gap-3 mb-6">
+          <button
+            onClick={runScraper}
+            disabled={scraperLoading}
+            className="px-4 py-2 bg-tomtly-accent text-white text-sm font-medium rounded-lg hover:bg-forest-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {scraperLoading ? 'Kjorer scraper...' : 'Kjor scraper'}
+          </button>
+          {scraperResult && (
+            <span className="text-sm text-brand-600 bg-brand-100 px-3 py-1.5 rounded-lg">{scraperResult}</span>
+          )}
+        </div>
+
         {/* Tabs */}
         <div className="flex gap-1 mb-6 bg-brand-100 rounded-lg p-1 w-fit">
           <button

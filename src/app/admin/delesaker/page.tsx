@@ -192,8 +192,28 @@ export default function DelesakerPage() {
   const [filterKommune, setFilterKommune] = useState('Alle kommuner')
   const [showGodkjentPitch, setShowGodkjentPitch] = useState(false)
   const [showPågåendePitch, setShowPågåendePitch] = useState(false)
+  const [scraperLoading, setScraperLoading] = useState(false)
+  const [scraperResult, setScraperResult] = useState<string | null>(null)
 
   const supabase = createClient()
+
+  const runScraper = async () => {
+    setScraperLoading(true)
+    setScraperResult(null)
+    try {
+      const res = await fetch('/api/admin/scrape-delesaker', { method: 'POST' })
+      const data = await res.json()
+      if (data.success) {
+        setScraperResult(`Sokte ${data.sokeord} termer, fant ${data.funnet} treff, lagret ${data.lagret} nye`)
+      } else {
+        setScraperResult(`Feil: ${data.error || 'Ukjent feil'}`)
+      }
+    } catch (err) {
+      setScraperResult('Feil: Kunne ikke kontakte scraper-API')
+    } finally {
+      setScraperLoading(false)
+    }
+  }
 
   useEffect(() => {
     async function fetchData() {
@@ -240,6 +260,20 @@ export default function DelesakerPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {/* Scraper button */}
+        <div className="flex items-center gap-3 mb-6">
+          <button
+            onClick={runScraper}
+            disabled={scraperLoading}
+            className="px-4 py-2 bg-tomtly-accent text-white text-sm font-medium rounded-lg hover:bg-forest-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {scraperLoading ? 'Soker i postlister...' : 'Sok i postlister'}
+          </button>
+          {scraperResult && (
+            <span className="text-sm text-brand-600 bg-brand-100 px-3 py-1.5 rounded-lg">{scraperResult}</span>
+          )}
+        </div>
+
         {/* Info banner */}
         <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
           <p className="text-sm text-amber-800">
