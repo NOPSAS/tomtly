@@ -300,6 +300,27 @@ function Steg2Prismodell() {
 }
 
 function Steg3Bekreftelse() {
+  const [betaler, setBetaler] = useState(false)
+
+  const handleBetal = async () => {
+    setBetaler(true)
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product: 'tomtanalyse' }),
+      })
+      const data = await res.json()
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        setBetaler(false)
+      }
+    } catch {
+      setBetaler(false)
+    }
+  }
+
   return (
     <div className="bg-white rounded-xl border border-brand-200 p-8 text-center">
       <div className="w-16 h-16 bg-forest-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -313,7 +334,7 @@ function Steg3Bekreftelse() {
         Du vil motta en komplett mulighetsstudie innen 3-5 virkedager.
       </p>
 
-      <div className="bg-brand-50 rounded-xl p-6 text-left max-w-md mx-auto">
+      <div className="bg-brand-50 rounded-xl p-6 text-left max-w-md mx-auto mb-8">
         <h3 className="text-sm font-semibold text-brand-700 mb-3">Hva skjer videre?</h3>
         <ol className="space-y-3">
           {[
@@ -332,6 +353,16 @@ function Steg3Bekreftelse() {
           ))}
         </ol>
       </div>
+
+      <button
+        onClick={handleBetal}
+        disabled={betaler}
+        className="inline-flex items-center gap-2 px-8 py-3 bg-tomtly-accent text-white font-semibold rounded-lg hover:bg-forest-700 transition-colors disabled:opacity-50 text-lg"
+      >
+        <CreditCard className="w-5 h-5" />
+        {betaler ? 'Sender til betaling...' : 'Betal 4 900 kr'}
+      </button>
+      <p className="text-xs text-brand-400 mt-3">Sikker betaling via Stripe</p>
     </div>
   )
 }
