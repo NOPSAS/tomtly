@@ -77,6 +77,12 @@ export function Header() {
                   >
                     Banker
                   </Link>
+                  <Link
+                    href="/naering"
+                    className="block px-4 py-2 text-sm text-brand-700 hover:bg-brand-50"
+                  >
+                    Næring
+                  </Link>
                 </div>
               </div>
             </div>
@@ -152,6 +158,9 @@ export function Header() {
             </Link>
             <Link href="/for-banker" className="block text-sm text-brand-700 py-2">
               For banker
+            </Link>
+            <Link href="/naering" className="block text-sm text-brand-700 py-2">
+              Næring
             </Link>
             {!loading && user ? (
               <>

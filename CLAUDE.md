@@ -56,7 +56,7 @@ Daily 07:00 NO: FINN + dødsbo scrapers. Weekly Monday 07:00/08:00: fradelinger 
 - Interactive map uses Leaflet loaded from CDN (not npm), initialized in useEffect
 
 ### Pricing (must be consistent across all pages)
-Tomteeier: 4 900 kr | Tomteeier m/salg: 4 900 + 3,5% | Megler: 2 900 kr/tomt | Utvikler: 4 900 kr (5-pack 3 900, abo 14 900+/mnd) | Entreprenør: 14 900 kr/år | Bank: 4 900 kr/innvilget lån | Kommune: 4 900 kr/tomt + 1% ved salg (pilot gratis) | Fradeling: 2,5% av verditakst | Husleverandør: abo 10 000+/mnd
+Tomteeier: 4 900 kr | Tomteeier m/salg: 4 900 + 3,5% | Megler: 2 900 kr/tomt | Utvikler: 4 900 kr (5-pack 3 900, abo 14 900+/mnd) | Entreprenør: 14 900 kr/år | Bank: 4 900 kr/innvilget lån | Kommune: 4 900 kr/tomt + 1% ved salg (pilot gratis) | Fradeling: 2,5% av verditakst | Husleverandør: abo 10 000+/mnd | Næringstomt: 14 900/29 900 kr + 3,5% ved salg
 
 ### Stripe Products (live)
 Payment links for one-time products, Checkout Sessions for subscriptions. Price IDs are hardcoded in `/api/checkout/route.ts`.

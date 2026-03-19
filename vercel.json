@@ -3,6 +3,7 @@
     { "path": "/api/admin/scrape-finn", "schedule": "0 5 * * *" },
     { "path": "/api/admin/scrape-dodsbo", "schedule": "0 5 * * *" },
     { "path": "/api/admin/scrape-fradelinger", "schedule": "0 5 * * 1" },
-    { "path": "/api/admin/scrape-delesaker", "schedule": "0 6 * * 1" }
+    { "path": "/api/admin/scrape-delesaker", "schedule": "0 6 * * 1" },
+    { "path": "/api/admin/scrape-naering", "schedule": "0 5 * * *" }
   ]
 }
