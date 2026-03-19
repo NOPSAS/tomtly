@@ -140,20 +140,25 @@ function Losningen() {
 function Prismodell() {
   return (
     <section className="bg-white py-20 lg:py-28">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-8">
           Prismodell
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-brand-50 rounded-2xl p-8 border border-brand-200">
-            <p className="text-sm font-medium text-brand-500 mb-2">Oppstart</p>
-            <p className="text-4xl font-bold text-tomtly-accent mb-2">0 kr</p>
-            <p className="text-sm text-brand-500">Ingen oppstartskostnad for kommunen</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-forest-50 rounded-2xl p-8 border-2 border-tomtly-accent">
+            <p className="text-sm font-medium text-forest-700 mb-2">Pilotpakke</p>
+            <p className="text-4xl font-bold text-tomtly-accent mb-2">Gratis</p>
+            <p className="text-sm text-brand-600">Analyse av 3–5 tomter som uforpliktende test. Se resultatene før dere bestemmer dere.</p>
           </div>
-          <div className="bg-brand-50 rounded-2xl p-8 border-2 border-tomtly-accent">
-            <p className="text-sm font-medium text-brand-500 mb-2">Per solgt tomt</p>
+          <div className="bg-brand-50 rounded-2xl p-8 border border-brand-200">
+            <p className="text-sm font-medium text-brand-500 mb-2">Per tomt</p>
             <p className="text-4xl font-bold text-tomtly-dark mb-2">4 900 kr</p>
-            <p className="text-sm text-brand-500">Betales kun ved gjennomført salg</p>
+            <p className="text-sm text-brand-600">Mulighetsstudie, husmodeller, visualisering og publisering. Betales ved bestilling.</p>
+          </div>
+          <div className="bg-brand-50 rounded-2xl p-8 border border-brand-200">
+            <p className="text-sm font-medium text-brand-500 mb-2">Ved salg</p>
+            <p className="text-4xl font-bold text-tomtly-dark mb-2">1%</p>
+            <p className="text-sm text-brand-600">Av salgssummen når tomten faktisk selges. Ingen kostnad hvis den ikke selger.</p>
           </div>
         </div>
       </div>
@@ -171,30 +176,44 @@ function Regnestykke() {
         <div className="bg-white rounded-2xl p-8 border border-brand-200">
           <div className="space-y-4">
             <div className="flex justify-between items-center py-2 border-b border-brand-200">
-              <span className="text-brand-600">Antall tomter</span>
-              <span className="font-semibold text-tomtly-dark">30</span>
+              <span className="text-brand-600">Pilot med 5 tomter</span>
+              <span className="font-bold text-tomtly-accent">Gratis</span>
             </div>
             <div className="flex justify-between items-center py-2 border-b border-brand-200">
-              <span className="text-brand-600">Gjennomsnittlig salgspris</span>
-              <span className="font-semibold text-tomtly-dark">1,5 MNOK</span>
+              <span className="text-brand-600">Analyse av resterende 25 tomter (25 × 4 900 kr)</span>
+              <span className="font-semibold text-tomtly-dark">122 500 kr</span>
             </div>
             <div className="flex justify-between items-center py-2 border-b border-brand-200">
-              <span className="text-brand-600">Total salgsverdi</span>
-              <span className="font-bold text-tomtly-dark text-lg">45 MNOK</span>
+              <span className="text-brand-600">10 tomter selger første år til snitt 1,2 MNOK</span>
+              <span className="font-bold text-tomtly-dark text-lg">12 MNOK</span>
             </div>
             <div className="flex justify-between items-center py-2 border-b border-brand-200">
-              <span className="text-brand-600">Tomtly-kostnad (30 x 4 900 kr)</span>
-              <span className="text-brand-500">147 000 kr</span>
+              <span className="text-brand-600">Salgsprovisjon (1% av 12 MNOK)</span>
+              <span className="text-brand-500">120 000 kr</span>
+            </div>
+            <div className="flex justify-between items-center py-2 border-b border-brand-200">
+              <span className="text-brand-600">Kommunens totale kostnad til Tomtly</span>
+              <span className="text-brand-500">242 500 kr</span>
             </div>
             <div className="flex justify-between items-center py-3 bg-green-50 rounded-lg px-4 -mx-4">
-              <span className="font-semibold text-green-800">Kommunen sitter igjen med</span>
-              <span className="font-bold text-green-800 text-xl">44,85 MNOK</span>
+              <span className="font-semibold text-green-800">Kommunens inntekt fra tomtesalg</span>
+              <span className="font-bold text-green-800 text-xl">12 MNOK</span>
             </div>
             <div className="flex justify-between items-center py-2">
-              <span className="text-brand-600">Kommunens kostnad upfront</span>
-              <span className="font-bold text-tomtly-accent text-lg">0 kr</span>
+              <span className="text-brand-600">Tomtly-kostnad som andel av inntekt</span>
+              <span className="font-bold text-tomtly-accent text-lg">ca. 2%</span>
             </div>
           </div>
+        </div>
+
+        {/* Verdien av nye innbyggere */}
+        <div className="bg-forest-50 rounded-2xl p-8 border border-forest-200 mt-8">
+          <h3 className="font-semibold text-tomtly-dark mb-3">I tillegg: Verdien av nye innbyggere</h3>
+          <p className="text-sm text-brand-700 leading-relaxed">
+            Verdien av én ny innbyggerfamilie er estimert til 200 000–500 000 kr/år i skatte- og avgiftsinntekter.
+            10 solgte tomter = 10 nye familier = <strong>2–5 MNOK/år</strong> i nye inntekter for kommunen.
+            Ikke bare i år – <strong>hvert eneste år</strong>. Tomtly-kostnaden er en engangsinvestering som betaler seg tilbake mange ganger.
+          </p>
         </div>
       </div>
     </section>

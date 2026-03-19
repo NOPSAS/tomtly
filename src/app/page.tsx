@@ -496,7 +496,7 @@ function Prismodell() {
             <span className="text-brand-300">|</span>
             <Link href="/for-entreprenorer" className="hover:text-tomtly-accent">Entreprenører: <span className="font-semibold text-tomtly-dark">14 900 kr/år</span></Link>
             <span className="text-brand-300">|</span>
-            <Link href="/kommune" className="hover:text-tomtly-accent">Kommuner: <span className="font-semibold text-tomtly-dark">0 kr upfront</span></Link>
+            <Link href="/kommune" className="hover:text-tomtly-accent">Kommuner: <span className="font-semibold text-tomtly-dark">4 900 kr/tomt + 1% ved salg</span></Link>
             <span className="text-brand-300">|</span>
             <Link href="/for-banker" className="hover:text-tomtly-accent">Banker: <span className="font-semibold text-tomtly-dark">4 900 kr/innvilget lån</span></Link>
           </div>
