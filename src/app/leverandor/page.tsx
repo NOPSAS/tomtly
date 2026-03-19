@@ -29,7 +29,6 @@ export default function LeverandorSide() {
       <HvordanDetFungerer />
       <Fordeler />
       <Partnernivaaer />
-      <EksisterendePartnere />
       <Krav />
       <LeverandorCTA />
     </>
@@ -352,26 +351,7 @@ function Partnernivaaer() {
   )
 }
 
-// ---- Eksisterende partnere ----
-
-function EksisterendePartnere() {
-  return (
-    <section className="bg-white py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <p className="text-center text-xs text-brand-400 uppercase tracking-widest mb-8">
-          Partnere på plattformen
-        </p>
-        <div className="flex items-center justify-center gap-12 flex-wrap opacity-50 grayscale">
-          <span className="text-lg font-semibold text-brand-600">Nordbohus</span>
-          <span className="text-lg font-semibold text-brand-600">Mesterhus</span>
-          <span className="text-lg font-semibold text-brand-600">BoligPartner</span>
-          <span className="text-lg font-semibold text-brand-600">Hellvik Hus</span>
-          <span className="text-lg font-semibold text-brand-600">Norgeshus</span>
-        </div>
-      </div>
-    </section>
-  )
-}
+// Partnere-seksjon fjernet – ingen partnere ennå
 
 // ---- Krav ----
 
@@ -469,7 +449,7 @@ function LeverandorCTA() {
               </label>
               <input
                 type="text"
-                placeholder="F.eks. Nordbohus AS"
+                placeholder="Firmanavn"
                 className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20 focus:border-tomtly-accent"
               />
             </div>

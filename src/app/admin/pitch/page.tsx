@@ -17,8 +17,8 @@ import {
 } from 'lucide-react'
 
 const TABS = [
-  { id: 'leverandorer', label: 'Ferdighusleverandorer', icon: Building2 },
-  { id: 'entreprenorer', label: 'Entreprenorer', icon: Wrench },
+  { id: 'leverandorer', label: 'Ferdighusleverandører', icon: Building2 },
+  { id: 'entreprenorer', label: 'Entreprenører', icon: Wrench },
   { id: 'banker', label: 'Banker', icon: Landmark },
   { id: 'inntektsmodell', label: 'Inntektsmodell', icon: DollarSign },
 ] as const
@@ -26,7 +26,7 @@ const TABS = [
 type TabId = (typeof TABS)[number]['id']
 
 export default function PitchPage() {
-  const [activeTab, setActiveTab] = useState<TabId>('leverandorer')
+  const [activeTab, setActiveTab] = useState<TabId>('leverandører')
 
   return (
     <div className="min-h-screen bg-brand-50">
@@ -74,7 +74,7 @@ export default function PitchPage() {
   )
 }
 
-// ---- Tab 1: Ferdighusleverandorer ----
+// ---- Tab 1: Ferdighusleverandører ----
 
 function TabLeverandorer() {
   return (
@@ -82,13 +82,13 @@ function TabLeverandorer() {
       <div className="bg-white rounded-2xl border border-brand-200 p-8">
         <div className="inline-flex items-center gap-2 px-3 py-1 bg-forest-50 text-forest-700 text-xs font-semibold rounded-full mb-4">
           <Building2 className="w-3.5 h-3.5" />
-          Ferdighusleverandorer
+          Ferdighusleverandører
         </div>
         <h2 className="font-display text-2xl lg:text-3xl font-bold text-tomtly-dark mb-2">
           Vis husene deres til folk som faktisk har tomt
         </h2>
         <p className="text-brand-600 max-w-2xl">
-          Tomtly kobler ferdighusleverandorer direkte med kvalifiserte tomteeiere som aktivt planlegger a bygge.
+          Tomtly kobler ferdighusleverandører direkte med kvalifiserte tomteeiere som aktivt planlegger å bygge.
         </p>
       </div>
 
@@ -97,7 +97,7 @@ function TabLeverandorer() {
           <ul className="space-y-3">
             <li className="flex items-start gap-2 text-sm text-brand-700">
               <span className="w-1.5 h-1.5 bg-red-400 rounded-full mt-1.5 flex-shrink-0" />
-              Ferdighusleverandorer bruker millioner pa markedsforing mot folk som ikke har tomt
+              Ferdighusleverandører bruker millioner på markedsføring mot folk som ikke har tomt
             </li>
             <li className="flex items-start gap-2 text-sm text-brand-700">
               <span className="w-1.5 h-1.5 bg-red-400 rounded-full mt-1.5 flex-shrink-0" />
@@ -105,7 +105,7 @@ function TabLeverandorer() {
             </li>
             <li className="flex items-start gap-2 text-sm text-brand-700">
               <span className="w-1.5 h-1.5 bg-red-400 rounded-full mt-1.5 flex-shrink-0" />
-              Vanskelig a vite hvilke hus som passer pa en gitt tomt (regulering, topografi)
+              Vanskelig å vite hvilke hus som passer på en gitt tomt (regulering, topografi)
             </li>
           </ul>
         </Card>
@@ -114,15 +114,15 @@ function TabLeverandorer() {
           <ul className="space-y-3">
             <li className="flex items-start gap-2 text-sm text-brand-700">
               <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
-              Tomtly viser husene deres direkte pa tomtesidene til kvalifiserte kjopere
+              Tomtly viser husene deres direkte på tomtesidene til kvalifiserte kjøpere
             </li>
             <li className="flex items-start gap-2 text-sm text-brand-700">
               <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
-              Vi matcher hus med tomt basert pa regulering, BYA og topografi
+              Vi matcher hus med tomt basert på regulering, BYA og topografi
             </li>
             <li className="flex items-start gap-2 text-sm text-brand-700">
               <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
-              Kjoperen ser komplett budsjett med huset plassert pa tomten
+              Kjøperen ser komplett budsjett med huset plassert på tomten
             </li>
           </ul>
         </Card>
@@ -132,9 +132,9 @@ function TabLeverandorer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {[
             { nr: '1', tittel: 'Vi mottar husmodellkatalog', desc: 'Leverandoren sender oss husmodeller med spesifikasjoner og priser.' },
-            { nr: '2', tittel: 'Matching med tomter', desc: 'Vi matcher hus med tomter basert pa regulering, BYA, topografi og stil.' },
-            { nr: '3', tittel: 'Visning pa tomtesiden', desc: 'Husene vises med fasadebilder, plantegninger og komplett budsjett.' },
-            { nr: '4', tittel: 'Leads til leverandor', desc: 'Nar kjoper velger et hus, far leverandoren en kvalifisert lead.' },
+            { nr: '2', tittel: 'Matching med tomter', desc: 'Vi matcher hus med tomter basert på regulering, BYA, topografi og stil.' },
+            { nr: '3', tittel: 'Visning på tomtesiden', desc: 'Husene vises med fasadebilder, plantegninger og komplett budsjett.' },
+            { nr: '4', tittel: 'Leads til leverandør', desc: 'Når kjøper velger et hus, får leverandøren en kvalifisert lead.' },
           ].map((s) => (
             <div key={s.nr}>
               <div className="text-3xl font-display font-bold text-brand-200 mb-2">{s.nr}</div>
@@ -148,10 +148,10 @@ function TabLeverandorer() {
       <Card title="Hva de far">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {[
-            'Husene vist pa ekte tomter med komplett analyse',
+            'Husene vist på ekte tomter med komplett analyse',
             'Kvalifiserte leads fra folk som har tomt og budsjett',
-            'Datainnsikt: hvilke hus som er mest populaere per omrade',
-            'Eksponering mot en ny kanal uten egen markedsforing',
+            'Datainnsikt: hvilke hus som er mest populære per omrade',
+            'Eksponering mot en ny kanal uten egen markedsføring',
           ].map((f) => (
             <div key={f} className="flex items-start gap-2 text-sm text-brand-700">
               <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
@@ -169,20 +169,20 @@ function TabLeverandorer() {
 
         <Card title="Markedsstorrelse">
           <p className="text-sm text-brand-700">
-            <strong>30-50 ferdighusleverandorer</strong> i Norge. Mal: 20 leverandorer.
+            <strong>30-50 ferdighusleverandører</strong> i Norge. Mal: 20 leverandører.
           </p>
         </Card>
       </div>
 
       <QuoteBlock
-        quote="Vi bruker 2 millioner i aret pa markedsforing, men de fleste som kontakter oss har ikke tomt. Med Tomtly nar vi folk som faktisk er klare til a bygge."
-        author="Typisk ferdighusleverandor"
+        quote="Vi bruker 2 millioner i året på markedsføring, men de fleste som kontakter oss har ikke tomt. Med Tomtly når vi folk som faktisk er klare til å bygge."
+        author="Typisk ferdighusleverandør"
       />
     </div>
   )
 }
 
-// ---- Tab 2: Entreprenorer ----
+// ---- Tab 2: Entreprenører ----
 
 function TabEntreprenorer() {
   return (
@@ -190,13 +190,13 @@ function TabEntreprenorer() {
       <div className="bg-white rounded-2xl border border-brand-200 p-8">
         <div className="inline-flex items-center gap-2 px-3 py-1 bg-forest-50 text-forest-700 text-xs font-semibold rounded-full mb-4">
           <Wrench className="w-3.5 h-3.5" />
-          Samarbeidsentreprenorer
+          Samarbeidsentreprenører
         </div>
         <h2 className="font-display text-2xl lg:text-3xl font-bold text-tomtly-dark mb-2">
           Kvalifiserte byggeprosjekter levert til doren
         </h2>
         <p className="text-brand-600 max-w-2xl">
-          Tomtly leverer ferdig spesifiserte oppdrag til entreprenorer - grunnarbeider, ror, elektro og mer.
+          Tomtly leverer ferdig spesifiserte oppdrag til entreprenører - grunnarbeider, ror, elektro og mer.
         </p>
       </div>
 
@@ -205,11 +205,11 @@ function TabEntreprenorer() {
           <ul className="space-y-3">
             <li className="flex items-start gap-2 text-sm text-brand-700">
               <span className="w-1.5 h-1.5 bg-red-400 rounded-full mt-1.5 flex-shrink-0" />
-              Entreprenorer bruker mye tid pa a gi tilbud som aldri blir noe av
+              Entreprenører bruker mye tid på å gi tilbud som aldri blir noe av
             </li>
             <li className="flex items-start gap-2 text-sm text-brand-700">
               <span className="w-1.5 h-1.5 bg-red-400 rounded-full mt-1.5 flex-shrink-0" />
-              Vanskelig a finne kvalifiserte prosjekter med realistisk budsjett
+              Vanskelig å finne kvalifiserte prosjekter med realistisk budsjett
             </li>
             <li className="flex items-start gap-2 text-sm text-brand-700">
               <span className="w-1.5 h-1.5 bg-red-400 rounded-full mt-1.5 flex-shrink-0" />
@@ -230,7 +230,7 @@ function TabEntreprenorer() {
             </li>
             <li className="flex items-start gap-2 text-sm text-brand-700">
               <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
-              Realistiske budsjetter basert pa markedsdata
+              Realistiske budsjetter basert på markedsdata
             </li>
           </ul>
         </Card>
@@ -241,7 +241,7 @@ function TabEntreprenorer() {
           {[
             { nr: '1', tittel: 'Registrer som partner', desc: 'Oppgi kompetanse, kapasitet og omrade.' },
             { nr: '2', tittel: 'Vi matcher oppdrag', desc: 'Nar en kjoper er klar, matcher vi med riktig entreprenor.' },
-            { nr: '3', tittel: 'Gi tilbud', desc: 'Du gir tilbud pa et ferdig spesifisert prosjekt.' },
+            { nr: '3', tittel: 'Gi tilbud', desc: 'Du gir tilbud på et ferdig spesifisert prosjekt.' },
             { nr: '4', tittel: 'Gjennomfor', desc: 'Ved signert avtale fakturerer Tomtly 3-8% paslag.' },
           ].map((s) => (
             <div key={s.nr}>
@@ -258,7 +258,7 @@ function TabEntreprenorer() {
           {[
             'Kvalifiserte prosjekter med ferdig budsjett og tidsplan',
             'Kunder som allerede har tomt, hus og finansiering',
-            'Redusert tid brukt pa tilbudsarbeid',
+            'Redusert tid brukt på tilbudsarbeid',
             'Forutsigbar pipeline av nye prosjekter',
           ].map((f) => (
             <div key={f} className="flex items-start gap-2 text-sm text-brand-700">
@@ -302,10 +302,10 @@ function TabBanker() {
           Banker
         </div>
         <h2 className="font-display text-2xl lg:text-3xl font-bold text-tomtly-dark mb-2">
-          Kvalifiserte byggelanskunder med ferdig prosjektkalkyle
+          Kvalifiserte byggelånskunder med ferdig prosjektkalkyle
         </h2>
         <p className="text-brand-600 max-w-2xl">
-          Tomtly leverer forhands-kvalifiserte byggelanskunder med komplett prosjektbudsjett og dokumentasjon.
+          Tomtly leverer forhands-kvalifiserte byggelånskunder med komplett prosjektbudsjett og dokumentasjon.
         </p>
       </div>
 
@@ -322,7 +322,7 @@ function TabBanker() {
             </li>
             <li className="flex items-start gap-2 text-sm text-brand-700">
               <span className="w-1.5 h-1.5 bg-red-400 rounded-full mt-1.5 flex-shrink-0" />
-              Mange byggelan-kunder faller fra fordi prosjektet aldri blir realisert
+              Mange byggelån-kunder faller fra fordi prosjektet aldri blir realisert
             </li>
           </ul>
         </Card>
@@ -335,11 +335,11 @@ function TabBanker() {
             </li>
             <li className="flex items-start gap-2 text-sm text-brand-700">
               <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
-              Fastpriser fra leverandorer gir lav usikkerhet
+              Fastpriser fra leverandører gir lav usikkerhet
             </li>
             <li className="flex items-start gap-2 text-sm text-brand-700">
               <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
-              Hoyre konverteringsrate pa byggelan
+              Høyre konverteringsrate på byggelån
             </li>
           </ul>
         </Card>
@@ -350,7 +350,7 @@ function TabBanker() {
           {[
             { nr: '1', tittel: 'Kunden bruker Tomtly', desc: 'Finner tomt, velger hus, ser komplett budsjett.' },
             { nr: '2', tittel: 'Finansieringsberegner', desc: 'Tomtly viser beregnet manedskostnad og kapitalbehov.' },
-            { nr: '3', tittel: 'Lead til bank', desc: 'Kunden klikker "Sok byggelan" og sendes til partnerbank.' },
+            { nr: '3', tittel: 'Lead til bank', desc: 'Kunden klikker "Sok byggelån" og sendes til partnerbank.' },
             { nr: '4', tittel: 'Rask behandling', desc: 'Banken mottar komplett underlag og kan gi raskt svar.' },
           ].map((s) => (
             <div key={s.nr}>
@@ -365,10 +365,10 @@ function TabBanker() {
       <Card title="Samarbeidsmodell">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {[
-            'Lead-fee per kvalifisert byggelan-soknad',
-            'Banken far komplett prosjektbudsjett med dokumentasjon',
+            'Lead-fee per kvalifisert byggelån-soknad',
+            'Banken får komplett prosjektbudsjett med dokumentasjon',
             'Kunden er pre-kvalifisert med realistisk budsjett',
-            'Mulighet for co-branding pa finansieringssiden',
+            'Mulighet for co-branding på finansieringssiden',
           ].map((f) => (
             <div key={f} className="flex items-start gap-2 text-sm text-brand-700">
               <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
@@ -379,16 +379,16 @@ function TabBanker() {
       </Card>
 
       <QuoteBlock
-        quote="Vi bruker mye tid pa byggelan-soknader med mangelfullt underlag. Hadde kunden kommet med en ferdig Tomtly-analyse, ville behandlingstiden vaert halvert."
-        author="Typisk bankradgiver"
+        quote="Vi bruker mye tid på byggelån-søknader med mangelfullt underlag. Hadde kunden kommet med en ferdig Tomtly-analyse, ville behandlingstiden vært halvert."
+        author="Typisk bankrådgiver"
       />
 
       <Card title="Fordeler for banken">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {[
             'Raskere saksbehandling med komplett underlag',
-            'Hoyre konvertering pa byggelan',
-            'Lavere risiko med fastpriser fra leverandorer',
+            'Høyre konvertering på byggelån',
+            'Lavere risiko med fastpriser fra leverandører',
             'Ny kanal for a na byggekunder',
           ].map((f) => (
             <div key={f} className="flex items-start gap-2 text-sm text-brand-700">
@@ -416,7 +416,7 @@ function TabInntektsmodell() {
           Verdikjede per tomt
         </h2>
         <p className="text-brand-600 max-w-2xl">
-          Tomtly tjener penger pa hele verdikjeden - fra analyse til ferdig bygd bolig.
+          Tomtly tjener penger på hele verdikjeden - fra analyse til ferdig bygd bolig.
         </p>
       </div>
 
@@ -526,7 +526,7 @@ function TabInntektsmodell() {
                 ['Leverandorer', '3', '8', '5', '15'],
                 ['MRR analyser', '73 500 kr', '147 000 kr', '147 000 kr', '392 000 kr'],
                 ['MRR meglere', '37 500 kr', '112 500 kr', '75 000 kr', '187 500 kr'],
-                ['MRR leverandorer', '15 000 kr', '40 000 kr', '25 000 kr', '75 000 kr'],
+                ['MRR leverandører', '15 000 kr', '40 000 kr', '25 000 kr', '75 000 kr'],
                 ['Total MRR', '126 000 kr', '299 500 kr', '247 000 kr', '654 500 kr'],
                 ['ARR', '1,5 MNOK', '3,6 MNOK', '3,0 MNOK', '7,9 MNOK'],
               ].map(([label, ...values]) => (

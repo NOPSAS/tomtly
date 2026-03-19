@@ -116,14 +116,14 @@ function Malgrupper() {
                 <td className="py-3 px-4"><PriorityBadge level="hoy" label="Hoy (recurring)" /></td>
               </tr>
               <tr>
-                <td className="py-3 pr-4 font-medium text-tomtly-dark">Ferdighusleverandorer</td>
+                <td className="py-3 pr-4 font-medium text-tomtly-dark">Ferdighusleverandører</td>
                 <td className="py-3 px-4 text-brand-600">Markedssjef / salgssjef</td>
                 <td className="py-3 px-4 text-brand-600">10-200 ansatte</td>
                 <td className="py-3 px-4 text-brand-600">5 000+ kr/mnd</td>
                 <td className="py-3 px-4"><PriorityBadge level="middels" label="Middels (strategisk)" /></td>
               </tr>
               <tr>
-                <td className="py-3 pr-4 font-medium text-tomtly-dark">Entreprenorer</td>
+                <td className="py-3 pr-4 font-medium text-tomtly-dark">Entreprenører</td>
                 <td className="py-3 px-4 text-brand-600">Daglig leder</td>
                 <td className="py-3 px-4 text-brand-600">5-30 ansatte</td>
                 <td className="py-3 px-4 text-brand-600">3-8% provisjon</td>
@@ -171,7 +171,7 @@ function Pipeline() {
                 ['Tomteeiere', '0 dager (selvbetjent)', '0', '0-3 dager', '0-3 dager'],
                 ['Meglere', '1-2 uker', '1 uke', '1-2 uker', '3-5 uker'],
                 ['Leverandorer', '1-2 uker', '2 uker', '2-4 uker', '5-8 uker'],
-                ['Entreprenorer', '1 uke', '1 uke', '1 uke', '2-3 uker'],
+                ['Entreprenører', '1 uke', '1 uke', '1 uke', '2-3 uker'],
                 ['Banker', '2-4 uker', '4-8 uker', '4-8 uker', '3-6 mnd'],
               ].map(([segment, ...values]) => (
                 <tr key={segment}>
@@ -196,7 +196,7 @@ function GoToMarket() {
     <div className="space-y-8">
       <SectionHeader
         title="Go-to-Market Faser"
-        description="Trinnvis plan for a bygge opp Tomtly over 12 maneder."
+        description="Trinnvis plan for å bygge opp Tomtly over 12 maneder."
       />
 
       <div className="space-y-6">
@@ -206,13 +206,13 @@ function GoToMarket() {
           title="Tomteeiere + Meglere"
           color="bg-blue-50 border-blue-200"
           goals={['50 tomtanalyser solgt', '3 meglere signert']}
-          channels={['FINN.no-annonsering mot tomteeiere', 'Direkte kontakt med meglere som selger tomter pa FINN', 'Organisk trafikk via SEO pa tomtesider']}
+          channels={['FINN.no-annonsering mot tomteeiere', 'Direkte kontakt med meglere som selger tomter på FINN', 'Organisk trafikk via SEO på tomtesider']}
         />
 
         <PhaseCard
           phase="Fase 2"
           period="Maned 3-6"
-          title="Ferdighusleverandorer"
+          title="Ferdighusleverandører"
           color="bg-green-50 border-green-200"
           goals={['5 leverandorer signert']}
           channels={['Direktekontakt med salgs-/markedssjef', 'Vise resultater fra fase 1 (trafikk, konvertering)', 'Bransjetreff og messer']}
@@ -221,9 +221,9 @@ function GoToMarket() {
         <PhaseCard
           phase="Fase 3"
           period="Maned 6-12"
-          title="Entreprenorer + Banker"
+          title="Entreprenører + Banker"
           color="bg-amber-50 border-amber-200"
-          goals={['10 entreprenorer i nettverket', '1 banksamarbeid']}
+          goals={['10 entreprenører i nettverket', '1 banksamarbeid']}
           channels={['Referanser fra leverandorer og meglere', 'Bransjetreff', 'Case studies fra gjennomforte prosjekter']}
         />
       </div>
@@ -288,7 +288,7 @@ function Salgsverktoy() {
             </div>
             <div>
               <h4 className="font-semibold text-tomtly-dark mb-1">ROI-kalkulator for meglere</h4>
-              <p className="text-sm text-brand-600">Vis hvor mye en megler tjener pa Tomtly vs. tradisjonelt tomtesalg.</p>
+              <p className="text-sm text-brand-600">Vis hvor mye en megler tjener på Tomtly vs. tradisjonelt tomtesalg.</p>
             </div>
           </div>
         </Card>

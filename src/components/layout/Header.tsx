@@ -54,13 +54,13 @@ export function Header() {
                     Meglere
                   </Link>
                   <Link
-                    href="/for-husleverandorer"
+                    href="/for-husleverandører"
                     className="block px-4 py-2 text-sm text-brand-700 hover:bg-brand-50"
                   >
                     Husleverandører
                   </Link>
                   <Link
-                    href="/for-entreprenorer"
+                    href="/for-entreprenører"
                     className="block px-4 py-2 text-sm text-brand-700 hover:bg-brand-50"
                   >
                     Entreprenører
@@ -141,11 +141,11 @@ export function Header() {
             <Link href="/for-meglere" className="block text-sm text-brand-700 py-2">
               For meglere
             </Link>
-            <Link href="/for-husleverandorer" className="block text-sm text-brand-700 py-2">
-              For husleverandorer
+            <Link href="/for-husleverandører" className="block text-sm text-brand-700 py-2">
+              For husleverandører
             </Link>
-            <Link href="/for-entreprenorer" className="block text-sm text-brand-700 py-2">
-              For entreprenorer
+            <Link href="/for-entreprenører" className="block text-sm text-brand-700 py-2">
+              For entreprenører
             </Link>
             <Link href="/utvikler" className="block text-sm text-brand-700 py-2">
               For utviklere

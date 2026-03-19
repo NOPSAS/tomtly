@@ -415,7 +415,7 @@ function Prismodell() {
               <span className="text-4xl font-bold text-tomtly-dark">4 900</span>
               <span className="text-brand-500">kr + 1% av salgssum</span>
             </div>
-            <p className="text-sm text-brand-500 mb-5">Vi håndterer alt – du slipper a tenke på det</p>
+            <p className="text-sm text-brand-500 mb-5">Vi håndterer alt – du slipper å tenke på det</p>
             <ul className="space-y-2 mb-6">
               {[
                 'Alt i tomtanalysen',
@@ -448,9 +448,9 @@ function Prismodell() {
         <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm">
           <Link href="/for-meglere" className="text-tomtly-accent hover:underline font-medium">Tomtly for meglere</Link>
           <span className="text-brand-300">|</span>
-          <Link href="/for-husleverandorer" className="text-tomtly-accent hover:underline font-medium">For husleverandorer</Link>
+          <Link href="/for-husleverandører" className="text-tomtly-accent hover:underline font-medium">For husleverandører</Link>
           <span className="text-brand-300">|</span>
-          <Link href="/for-entreprenorer" className="text-tomtly-accent hover:underline font-medium">For entreprenorer</Link>
+          <Link href="/for-entreprenører" className="text-tomtly-accent hover:underline font-medium">For entreprenører</Link>
           <span className="text-brand-300">|</span>
           <Link href="/for-utviklere" className="text-tomtly-accent hover:underline font-medium">For utviklere</Link>
           <span className="text-brand-300">|</span>

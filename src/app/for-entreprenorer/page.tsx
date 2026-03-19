@@ -35,7 +35,7 @@ function HeroSection() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full mb-6">
             <Hammer className="w-3.5 h-3.5 text-green-400" />
             <span className="text-xs text-white/80 font-medium">
-              For entreprenorer
+              For entreprenører
             </span>
           </div>
 
@@ -46,7 +46,7 @@ function HeroSection() {
           </h1>
 
           <p className="text-lg text-brand-400 leading-relaxed mb-10 max-w-xl">
-            Slutt a jakte oppdrag. Tomtly kobler dere med tomtekjopere som allerede har kjopt tomt, valgt husmodell og fatt regulering avklart.
+            Slutt a jakte oppdrag. Tomtly kobler dere med tomtekjøpere som allerede har kjopt tomt, valgt husmodell og fatt regulering avklart.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
@@ -78,7 +78,7 @@ function Problemet() {
           Problemet
         </h2>
         <p className="text-lg text-brand-600 leading-relaxed">
-          Dere jakter oppdrag, gir tilbud som ikke forer noe sted, og konkurrerer på pris. Mye tid gar med på prosjekter som aldri blir noe av – fordi kjoperen ikke har finansiering, regulering ikke er avklart, eller prosjektet ikke er gjennomtenkt.
+          Dere jakter oppdrag, gir tilbud som ikke forer noe sted, og konkurrerer på pris. Mye tid gar med på prosjekter som aldri blir noe av – fordi kjøperen ikke har finansiering, regulering ikke er avklart, eller prosjektet ikke er gjennomtenkt.
         </p>
       </div>
     </section>
@@ -93,7 +93,7 @@ function Losningen() {
           Losningen
         </h2>
         <p className="text-lg text-brand-600 leading-relaxed">
-          Tomtly kobler dere med tomtekjopere som allerede har kjopt tomt, valgt husmodell, fatt regulering avklart og har finansiering på plass. Dere far kvalifiserte prosjekter – ikke umodne henvendelser.
+          Tomtly kobler dere med tomtekjøpere som allerede har kjopt tomt, valgt husmodell, fatt regulering avklart og har finansiering på plass. Dere far kvalifiserte prosjekter – ikke umodne henvendelser.
         </p>
       </div>
     </section>
@@ -105,7 +105,7 @@ function HvordanDetFungerer() {
     {
       nummer: '01',
       tittel: 'Kjoper trykker "Innhent tilbud"',
-      beskrivelse: 'Nar en kjoper har valgt husmodell og tomt, kan de innhente tilbud fra kvalifiserte entreprenorer.',
+      beskrivelse: 'Nar en kjoper har valgt husmodell og tomt, kan de innhente tilbud fra kvalifiserte entreprenører.',
     },
     {
       nummer: '02',
@@ -115,12 +115,12 @@ function HvordanDetFungerer() {
     {
       nummer: '03',
       tittel: 'Dere gir tilbud',
-      beskrivelse: 'Maks 2-3 entreprenorer far hvert prosjekt. Ingen masseutsendelser – kun kvalifiserte foresporsler.',
+      beskrivelse: 'Maks 2-3 entreprenører far hvert prosjekt. Ingen masseutsendelser – kun kvalifiserte foresporsler.',
     },
     {
       nummer: '04',
       tittel: 'Kjoper velger',
-      beskrivelse: 'Kjoperen sammenligner tilbud og velger entreprenor. Dere far oppdraget basert på kvalitet, ikke bare pris.',
+      beskrivelse: 'Kjøperen sammenligner tilbud og velger entreprenor. Dere far oppdraget basert på kvalitet, ikke bare pris.',
     },
   ]
 
@@ -154,22 +154,22 @@ function HvaFaarDu() {
     {
       ikon: FileText,
       tittel: 'Kvalifiserte prosjekter',
-      beskrivelse: 'Kjoperen har tomt, husmodell, regulering og finansiering på plass. Dette er reelle byggeprosjekter.',
+      beskrivelse: 'Kjøperen har tomt, husmodell, regulering og finansiering på plass. Dette er reelle byggeprosjekter.',
     },
     {
       ikon: Users,
       tittel: 'Maks 2-3 tilbydere',
-      beskrivelse: 'Vi sender prosjektet til maks 2-3 entreprenorer. Ingen masseutsendelser der dere drukner i konkurranse.',
+      beskrivelse: 'Vi sender prosjektet til maks 2-3 entreprenører. Ingen masseutsendelser der dere drukner i konkurranse.',
     },
     {
       ikon: Shield,
       tittel: 'Finansiert kjoper',
-      beskrivelse: 'Kjoperen har fatt finansiering avklart for de innhenter tilbud. Ingen overraskelser.',
+      beskrivelse: 'Kjøperen har fatt finansiering avklart for de innhenter tilbud. Ingen overraskelser.',
     },
     {
       ikon: Zap,
       tittel: 'Komplett underlag',
-      beskrivelse: 'Dere far tomteinfo, regulering, husmodell med tegninger, og detaljert byggekalkyle. Alt dere trenger for a gi presist tilbud.',
+      beskrivelse: 'Dere far tomteinfo, regulering, husmodell med tegninger, og detaljert byggekalkyle. Alt dere trenger for å gi presist tilbud.',
     },
   ]
 

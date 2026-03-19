@@ -36,7 +36,7 @@ function HeroSection() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full mb-6">
             <Home className="w-3.5 h-3.5 text-green-400" />
             <span className="text-xs text-white/80 font-medium">
-              For ferdighusleverandorer
+              For ferdighusleverandører
             </span>
           </div>
 
@@ -47,7 +47,7 @@ function HeroSection() {
           </h1>
 
           <p className="text-lg text-brand-400 leading-relaxed mb-10 max-w-xl">
-            Tomtly plasserer husmodellene deres direkte i mulighetsstudier for reelle tomter. Kjopere ser SITT hus på DENNE tomten.
+            Tomtly plasserer husmodellene deres direkte i mulighetsstudier for reelle tomter. Kjøpere ser SITT hus på DENNE tomten.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
@@ -79,7 +79,7 @@ function Problemet() {
           Problemet
         </h2>
         <p className="text-lg text-brand-600 leading-relaxed">
-          Dere bruker hundretusener på markedsføring for a na folk med tomt. De er nesten umulige a finne. Husannonser treffer tusenvis som bare drommesvever – men ikke de som faktisk har en tomt a bygge pa.
+          Dere bruker hundretusener på markedsføring for a na folk med tomt. De er nesten umulige a finne. Husannonser treffer tusenvis som bare drommesvever – men ikke de som faktisk har en tomt å bygge pa.
         </p>
       </div>
     </section>
@@ -94,7 +94,7 @@ function Losningen() {
           Losningen
         </h2>
         <p className="text-lg text-brand-600 leading-relaxed">
-          Tomtly plasserer husmodellene deres direkte i mulighetsstudier for reelle tomter. Kjopere ser husene deres på en konkret tomt, med ferdig byggekalkyle og reguleringsavklaring. Dette er ikke annonsering – dette er kvalifiserte leads.
+          Tomtly plasserer husmodellene deres direkte i mulighetsstudier for reelle tomter. Kjøpere ser husene deres på en konkret tomt, med ferdig byggekalkyle og reguleringsavklaring. Dette er ikke annonsering – dette er kvalifiserte leads.
         </p>
       </div>
     </section>
@@ -115,8 +115,8 @@ function HvaViGjor() {
     },
     {
       ikon: Eye,
-      tittel: 'Kjopere ser SITT hus på DENNE tomten',
-      beskrivelse: 'Ikke en generisk annonse. Kjoperen ser noyaktig hvordan huset deres ser ut på den tomten de vurderer.',
+      tittel: 'Kjøpere ser SITT hus på DENNE tomten',
+      beskrivelse: 'Ikke en generisk annonse. Kjøperen ser noyaktig hvordan huset deres ser ut på den tomten de vurderer.',
     },
     {
       ikon: Zap,
@@ -209,7 +209,7 @@ function NokkelArgument() {
             En huskontrakt er verdt 3-5 MNOK
           </h2>
           <p className="text-brand-600 leading-relaxed">
-            Vi leverer leads som allerede har sett huset deres på en konkret tomt med ferdig kalkyle. Disse er ikke drommere – de har tomt, de har sett prisen, og de er klare til a ta en beslutning.
+            Vi leverer leads som allerede har sett huset deres på en konkret tomt med ferdig kalkyle. Disse er ikke drommere – de har tomt, de har sett prisen, og de er klare til å ta en beslutning.
           </p>
         </div>
       </div>

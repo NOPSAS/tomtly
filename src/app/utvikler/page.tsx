@@ -44,7 +44,7 @@ function HeroSection() {
           </h1>
 
           <p className="text-lg text-brand-400 leading-relaxed mb-10 max-w-xl">
-            Bruk Tomtly som salgsverktoy. Vi lager profesjonelle mulighetsstudier som viser kjopere noyaktig hva de kan bygge.
+            Bruk Tomtly som salgsverktoy. Vi lager profesjonelle mulighetsstudier som viser kjøpere noyaktig hva de kan bygge.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
@@ -73,17 +73,17 @@ function Fordeler() {
     {
       ikon: Eye,
       tittel: 'Profesjonell presentasjon',
-      beskrivelse: 'Hver tomt far en komplett mulighetsstudie med husmodeller, 3D-visualiseringer og byggekalkyle. Kjopere ser potensial umiddelbart.',
+      beskrivelse: 'Hver tomt far en komplett mulighetsstudie med husmodeller, 3D-visualiseringer og byggekalkyle. Kjøpere ser potensial umiddelbart.',
     },
     {
       ikon: TrendingUp,
       tittel: 'Raskere salg til hoyere pris',
-      beskrivelse: 'Kjopere ser konkrete byggemuligheter, ikke bare en tom tomt. Det gir raskere beslutninger og hoyere betalingsvilje.',
+      beskrivelse: 'Kjøpere ser konkrete byggemuligheter, ikke bare en tom tomt. Det gir raskere beslutninger og hoyere betalingsvilje.',
     },
     {
       ikon: BarChart3,
-      tittel: 'Kjopere ser konkrete byggemuligheter',
-      beskrivelse: 'Hver tomt presenteres med husmodeller tilpasset regulering og tomtens forutsetninger. Kjoperen kan se sitt fremtidige hjem.',
+      tittel: 'Kjøpere ser konkrete byggemuligheter',
+      beskrivelse: 'Hver tomt presenteres med husmodeller tilpasset regulering og tomtens forutsetninger. Kjøperen kan se sitt fremtidige hjem.',
     },
     {
       ikon: Search,

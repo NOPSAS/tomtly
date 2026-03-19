@@ -72,13 +72,13 @@ function Fordeler() {
       ikon: Eye,
       tittel: 'Profesjonell presentasjon',
       beskrivelse:
-        'Hver tomt far en komplett mulighetsstudie med husmodeller, 3D-visualiseringer og byggekalkyle. Kjopere ser potensial umiddelbart.',
+        'Hver tomt far en komplett mulighetsstudie med husmodeller, 3D-visualiseringer og byggekalkyle. Kjøpere ser potensial umiddelbart.',
     },
     {
       ikon: TrendingUp,
       tittel: 'Raskere salg',
       beskrivelse:
-        'Tomter med mulighetsstudie selger i snitt 14 dager raskere. Kjopere tar beslutning raskere når de ser hva de kan bygge.',
+        'Tomter med mulighetsstudie selger i snitt 14 dager raskere. Kjøpere tar beslutning raskere når de ser hva de kan bygge.',
     },
     {
       ikon: Shield,
@@ -142,7 +142,7 @@ function HvordanDetFungerer() {
     {
       nummer: '03',
       tittel: 'Bruk det i salget',
-      beskrivelse: 'Tomten presenteres som et ferdig byggeprosjekt. Del med kjopere, legg ved i prospekt, eller vis på visning.',
+      beskrivelse: 'Tomten presenteres som et ferdig byggeprosjekt. Del med kjøpere, legg ved i prospekt, eller vis på visning.',
     },
   ]
 
@@ -229,7 +229,7 @@ function CTASection() {
           Helt gratis for meglere
         </h2>
         <p className="text-brand-400 mb-8 max-w-lg mx-auto">
-          Legg til tomtene dine og gi kjopere et profesjonelt salgsunderlag. Det tar under 2 minutter.
+          Legg til tomtene dine og gi kjøpere et profesjonelt salgsunderlag. Det tar under 2 minutter.
         </p>
         <Link
           href="/megler/onboarding"

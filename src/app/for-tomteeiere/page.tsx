@@ -88,7 +88,7 @@ function HvordanDetFungerer() {
       ikon: TrendingUp,
       tittel: 'Tomten selges',
       beskrivelse:
-        'Tomten presenteres som et ferdig byggeprosjekt. Kjopere ser verdien umiddelbart. Du selger selv eller lar oss handtere det.',
+        'Tomten presenteres som et ferdig byggeprosjekt. Kjøpere ser verdien umiddelbart. Du selger selv eller lar oss handtere det.',
     },
   ]
 
@@ -145,7 +145,7 @@ function HvaFaarDu() {
             Hva du far
           </h2>
           <p className="text-brand-600 max-w-lg mx-auto">
-            En komplett pakke som gjor tomten din attraktiv for kjopere.
+            En komplett pakke som gjor tomten din attraktiv for kjøpere.
           </p>
         </div>
 
@@ -218,7 +218,7 @@ function Prismodell() {
               <span className="text-4xl font-bold text-tomtly-dark">4 900</span>
               <span className="text-brand-500">kr + 1% av salgssum</span>
             </div>
-            <p className="text-sm text-brand-500 mb-5">Vi håndterer alt – du slipper a tenke på det</p>
+            <p className="text-sm text-brand-500 mb-5">Vi håndterer alt – du slipper å tenke på det</p>
             <ul className="space-y-2 mb-6">
               {[
                 'Alt i tomtanalysen',
