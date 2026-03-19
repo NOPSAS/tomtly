@@ -26,7 +26,7 @@ const TABS = [
 type TabId = (typeof TABS)[number]['id']
 
 export default function PitchPage() {
-  const [activeTab, setActiveTab] = useState<TabId>('leverandører')
+  const [activeTab, setActiveTab] = useState<TabId>('leverandorer')
 
   return (
     <div className="min-h-screen bg-brand-50">
