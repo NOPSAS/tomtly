@@ -145,7 +145,7 @@ function HvaFaarDu() {
             Hva du far
           </h2>
           <p className="text-brand-600 max-w-lg mx-auto">
-            En komplett pakke som gjor tomten din attraktiv for kjøpere.
+            En komplett pakke som gjør tomten din attraktiv for kjøpere.
           </p>
         </div>
 
@@ -305,7 +305,7 @@ function CTASection() {
           Klar til å selge smartere?
         </h2>
         <p className="text-brand-400 mb-8 max-w-lg mx-auto">
-          Det tar under 5 minutter a registrere tomten din. Vi gjor resten.
+          Det tar under 5 minutter å registrere tomten din. Vi gjør resten.
         </p>
         <Link
           href="/selger/onboarding"

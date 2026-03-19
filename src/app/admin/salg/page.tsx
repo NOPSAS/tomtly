@@ -304,7 +304,7 @@ function KPIer() {
     <div className="space-y-8">
       <SectionHeader
         title="KPIer for salgsansvarlig"
-        description="Manedlige mal for salgsansvarlig."
+        description="Månedlige mål for salgsansvarlig."
       />
 
       <Card>
