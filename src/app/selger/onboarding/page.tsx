@@ -288,10 +288,10 @@ function Steg2Prismodell() {
               <p className="font-semibold text-tomtly-dark">Vi selger for deg</p>
               <p className="text-sm text-brand-500 mt-0.5">Vi setter markedspris og håndterer salgsprosessen via Propr.</p>
             </div>
-            <p className="text-2xl font-bold text-tomtly-dark whitespace-nowrap ml-4">4 900 kr <span className="text-sm font-normal text-brand-400">+ 1%</span></p>
+            <p className="text-2xl font-bold text-tomtly-dark whitespace-nowrap ml-4">4 900 kr <span className="text-sm font-normal text-brand-400">+ 3,5%</span></p>
           </div>
           <p className="text-xs text-brand-400 mt-2">
-            Salg gjennomføres via Propr – en godkjent plattform for eiendomsoppgjør. Tomtly er ikke et eiendomsmeglerforetak.
+            Salgsprovisjon: 4 900 kr + 3,5% av salgspris. Salg gjennomføres via Propr – en godkjent plattform for eiendomsoppgjør. Tomtly er ikke et eiendomsmeglerforetak.
           </p>
         </button>
       </div>

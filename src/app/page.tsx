@@ -11,6 +11,7 @@ import {
   Users,
   Home,
   CheckCircle2,
+  Calculator,
 } from 'lucide-react'
 
 // ============================================================
@@ -86,32 +87,34 @@ function HeroSection() {
           {/* Stats */}
           <div className="flex gap-10 mt-14 pt-10 border-t border-brand-800">
             <div>
-              <p className="text-2xl font-bold text-white">2 400+</p>
+              <p className="text-2xl font-bold text-white">1 000+</p>
               <p className="text-sm text-brand-500">Tomter analysert</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-white">4</p>
+              <p className="text-2xl font-bold text-white">1–5</p>
               <p className="text-sm text-brand-500">Husmodeller per tomt</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-white">14 dager</p>
-              <p className="text-sm text-brand-500">Raskere salg</p>
+              <p className="text-2xl font-bold text-white">Raskere</p>
+              <p className="text-sm text-brand-500">Salg med Tomtly</p>
             </div>
           </div>
 
-          {/* Ekstra CTA-er */}
-          <div className="flex flex-col sm:flex-row gap-3 mt-8">
+          {/* Ekstra CTA-er – visuelt tydelige */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-10">
             <Link
               href="/verdivurdering"
-              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-green-400/40 text-green-400 text-sm font-medium rounded-lg hover:bg-green-400/10 transition-colors"
+              className="flex items-center justify-center gap-3 px-6 py-4 bg-tomtly-gold text-tomtly-dark font-semibold rounded-xl hover:bg-yellow-500 transition-colors shadow-lg"
             >
+              <Calculator className="w-5 h-5" />
               Sjekk hva tomten din er verdt – gratis
             </Link>
             <Link
               href="/sok-tomt"
-              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-brand-600 text-brand-300 text-sm font-medium rounded-lg hover:bg-brand-900 transition-colors"
+              className="flex items-center justify-center gap-3 px-6 py-4 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white font-semibold rounded-xl hover:bg-white/20 transition-colors"
             >
-              Vet du hva eller hvor du vil bygge? Vi finner tomten
+              <MapPin className="w-5 h-5" />
+              Vet du hva eller hvor du vil bygge?
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -431,7 +434,7 @@ function Prismodell() {
             <div className="text-sm font-medium text-brand-500 mb-2">Vi selger for deg</div>
             <div className="flex items-baseline gap-1 mb-1">
               <span className="text-4xl font-bold text-tomtly-dark">4 900</span>
-              <span className="text-brand-500">kr + 1% av salgssum</span>
+              <span className="text-brand-500">kr + 3,5% av salgssum</span>
             </div>
             <p className="text-sm text-brand-500 mb-5">Vi håndterer alt – du slipper å tenke på det</p>
             <ul className="space-y-2 mb-6">
@@ -442,7 +445,7 @@ function Prismodell() {
                 'Booking av visninger – du viser frem tomten',
                 'Kjøperdialog og forhandling',
                 'Trygt oppgjør via Propr',
-                'Du betaler 1% kun når tomten er solgt',
+                'Du betaler 3,5% kun når tomten er solgt',
               ].map((f) => (
                 <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
                   <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />

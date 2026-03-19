@@ -88,7 +88,7 @@ function Fordeler() {
     {
       ikon: Search,
       tittel: 'Finn nye prosjekter via plattformen',
-      beskrivelse: 'I tillegg til a selge egne tomter kan dere finne nye utviklingsprosjekter og tomter med potensial på plattformen.',
+      beskrivelse: 'I tillegg til å selge egne tomter kan dere finne nye utviklingsprosjekter og tomter med potensial på plattformen.',
     },
   ]
 
@@ -100,7 +100,7 @@ function Fordeler() {
             Fordeler for utviklere
           </h2>
           <p className="text-brand-600 max-w-lg mx-auto">
-            Tomtly gjør tomtene deres enklere a selge.
+            Tomtly gjør tomtene deres enklere å selge.
           </p>
         </div>
 
