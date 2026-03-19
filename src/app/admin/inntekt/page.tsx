@@ -32,6 +32,7 @@ interface ScenarioInputs {
   addons: number
   bankleads: number
   entreprenorAbonnenter: number
+  husleverandorAbonnenter: number
 }
 
 type Scenario = 'konservativt' | 'realistisk' | 'optimistisk'
@@ -45,6 +46,7 @@ const SCENARIOS: Record<Scenario, ScenarioInputs> = {
     addons: 1,
     bankleads: 2,
     entreprenorAbonnenter: 1,
+    husleverandorAbonnenter: 0,
   },
   realistisk: {
     tomtanalyserDirekte: 20,
@@ -54,6 +56,7 @@ const SCENARIOS: Record<Scenario, ScenarioInputs> = {
     addons: 5,
     bankleads: 5,
     entreprenorAbonnenter: 3,
+    husleverandorAbonnenter: 2,
   },
   optimistisk: {
     tomtanalyserDirekte: 50,
@@ -63,6 +66,7 @@ const SCENARIOS: Record<Scenario, ScenarioInputs> = {
     addons: 15,
     bankleads: 15,
     entreprenorAbonnenter: 10,
+    husleverandorAbonnenter: 5,
   },
 }
 
@@ -76,6 +80,7 @@ const PER_KUNDE_DATA: RevenueRow[] = [
   { kilde: 'Addons (tegninger, søknad)', inntekt: 50000, kostnad: 10000, margin: 40000, note: '' },
   { kilde: 'Entreprenørpåslag', inntekt: 14900, kostnad: 0, margin: 14900, note: 'Årsavgift' },
   { kilde: 'Bank lead-fee', inntekt: 4900, kostnad: 0, margin: 4900, note: '' },
+  { kilde: 'Husleverandør-abo (snitt)', inntekt: 15000, kostnad: 0, margin: 15000, note: 'Basis 10k, Partner 20k/mnd' },
 ]
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -189,8 +194,14 @@ export default function InntektPage() {
     {
       label: 'Entreprenør-abonnenter',
       antall: inputs.entreprenorAbonnenter,
-      inntektPer: 14900 / 12, // monthly
+      inntektPer: 14900 / 12,
       timerPer: 0,
+    },
+    {
+      label: 'Husleverandør-abonnenter',
+      antall: inputs.husleverandorAbonnenter,
+      inntektPer: 15000,
+      timerPer: 1,
     },
   ]
 
@@ -307,6 +318,7 @@ export default function InntektPage() {
             <NumberInput label="Addons (tegning/søknad)" value={inputs.addons} onChange={v => updateInput('addons', v)} icon={Hammer} />
             <NumberInput label="Bank lead-fees" value={inputs.bankleads} onChange={v => updateInput('bankleads', v)} icon={Banknote} />
             <NumberInput label="Entreprenør-abonnenter" value={inputs.entreprenorAbonnenter} onChange={v => updateInput('entreprenorAbonnenter', v)} icon={DollarSign} />
+            <NumberInput label="Husleverandør-abonnenter" value={inputs.husleverandorAbonnenter} onChange={v => updateInput('husleverandorAbonnenter', v)} icon={DollarSign} />
           </div>
 
           {/* Results */}
