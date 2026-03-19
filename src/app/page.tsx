@@ -25,6 +25,7 @@ export default function Forside() {
       <FremhevedeTomter />
       <ForHvem />
       <Prismodell />
+      <FradelingBanner />
       <CTASection />
     </>
   )
@@ -96,6 +97,23 @@ function HeroSection() {
               <p className="text-2xl font-bold text-white">14 dager</p>
               <p className="text-sm text-brand-500">Raskere salg</p>
             </div>
+          </div>
+
+          {/* Ekstra CTA-er */}
+          <div className="flex flex-col sm:flex-row gap-3 mt-8">
+            <Link
+              href="/verdivurdering"
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-green-400/40 text-green-400 text-sm font-medium rounded-lg hover:bg-green-400/10 transition-colors"
+            >
+              Sjekk hva tomten din er verdt – gratis
+            </Link>
+            <Link
+              href="/sok-tomt"
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-brand-600 text-brand-300 text-sm font-medium rounded-lg hover:bg-brand-900 transition-colors"
+            >
+              Vet du hva du vil bygge? Vi finner tomten
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </div>
@@ -455,6 +473,34 @@ function Prismodell() {
           <Link href="/for-utviklere" className="text-tomtly-accent hover:underline font-medium">For utviklere</Link>
           <span className="text-brand-300">|</span>
           <Link href="/for-banker" className="text-tomtly-accent hover:underline font-medium">For banker</Link>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ---- Fradeling banner ----
+
+function FradelingBanner() {
+  return (
+    <section className="bg-forest-50 py-12 lg:py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 bg-white rounded-2xl p-8 border border-tomtly-accent/20 shadow-sm">
+          <div>
+            <h3 className="font-display text-xl lg:text-2xl font-bold text-tomtly-dark mb-2">
+              Har du en stor tomt? Du kan sitte på skjulte millioner.
+            </h3>
+            <p className="text-brand-600">
+              Mange norske eneboliger har mer tomt enn de trenger. Vi hjelper deg å skille ut og selge.
+            </p>
+          </div>
+          <Link
+            href="/fradeling"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-tomtly-accent text-white font-medium rounded-lg hover:bg-forest-700 transition-colors whitespace-nowrap flex-shrink-0"
+          >
+            Les mer om fradeling
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </div>
     </section>

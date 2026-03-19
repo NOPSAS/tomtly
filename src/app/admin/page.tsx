@@ -95,16 +95,21 @@ export default function AdminDashboard() {
 
       {/* Admin navigation */}
       <div className="bg-white border-b border-brand-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex gap-4 py-3">
-          <Link href="/admin/pitch" className="px-4 py-2 bg-brand-50 border border-brand-200 rounded-lg text-sm font-medium text-brand-700 hover:bg-brand-100 transition-colors">
-            Pitch &amp; Forretningsmodell
-          </Link>
-          <Link href="/admin/salg" className="px-4 py-2 bg-brand-50 border border-brand-200 rounded-lg text-sm font-medium text-brand-700 hover:bg-brand-100 transition-colors">
-            Salg &amp; GTM
-          </Link>
-          <Link href="/admin/finn" className="px-4 py-2 bg-brand-50 border border-brand-200 rounded-lg text-sm font-medium text-brand-700 hover:bg-brand-100 transition-colors">
-            FINN Pipeline
-          </Link>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap gap-2 py-3">
+          {[
+            { href: '/admin/pitch', label: 'Pitch & Forretningsmodell' },
+            { href: '/admin/salg', label: 'Salg & GTM' },
+            { href: '/admin/finn', label: 'FINN Pipeline' },
+            { href: '/admin/fradelinger', label: 'Fradelinger' },
+            { href: '/admin/delesaker', label: 'Delesaker' },
+            { href: '/admin/some', label: 'SoMe' },
+            { href: '/admin/finans', label: 'Finans' },
+            { href: '/admin/data', label: 'Data' },
+          ].map(({ href, label }) => (
+            <Link key={href} href={href} className="px-3 py-1.5 bg-brand-50 border border-brand-200 rounded-lg text-xs font-medium text-brand-700 hover:bg-brand-100 transition-colors whitespace-nowrap">
+              {label}
+            </Link>
+          ))}
         </div>
       </div>
 

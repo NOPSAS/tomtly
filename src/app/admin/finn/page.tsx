@@ -54,7 +54,7 @@ interface DagligOppsummering {
 }
 
 type Status = 'ny' | 'kontaktet' | 'interessert' | 'kunde' | 'avslått'
-type TabType = 'alle' | 'prioritert' | 'oppsummering'
+type TabType = 'alle' | 'prioritert' | 'oppsummering' | 'dodsbo' | 'tvangssalg'
 type DagerFilter = 'alle' | '30' | '60' | '90' | '120'
 
 const STATUS_OPTIONS: Status[] = ['ny', 'kontaktet', 'interessert', 'kunde', 'avslått']
@@ -542,12 +542,14 @@ export default function FinnPipelinePage() {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 mb-6 bg-brand-100 rounded-lg p-1 w-fit">
+        <div className="flex flex-wrap gap-1 mb-6 bg-brand-100 rounded-lg p-1 w-fit">
           {([
-            { key: 'alle', label: `Alle tomter (${filteredTomter.length})` },
-            { key: 'prioritert', label: `60+ dager (${prioritertTomter.length})` },
-            { key: 'oppsummering', label: 'Daglig oppsummering' },
-          ] as const).map(({ key, label }) => (
+            { key: 'alle' as TabType, label: `Alle tomter (${filteredTomter.length})` },
+            { key: 'prioritert' as TabType, label: `60+ dager (${prioritertTomter.length})` },
+            { key: 'oppsummering' as TabType, label: 'Daglig oppsummering' },
+            { key: 'dodsbo' as TabType, label: 'Dødsbo' },
+            { key: 'tvangssalg' as TabType, label: 'Tvangssalg' },
+          ]).map(({ key, label }) => (
             <button
               key={key}
               onClick={() => setActiveTab(key)}
@@ -653,6 +655,126 @@ export default function FinnPipelinePage() {
                     </table>
                   </div>
                 )}
+              </div>
+            )}
+            {/* Dødsbo tab */}
+            {activeTab === 'dodsbo' && (
+              <div className="space-y-4">
+                <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+                  <p className="text-sm text-amber-800">
+                    <strong>Datakilde:</strong> Grunnboken (tinglysingsdata). Grunnbok-integrasjon settes opp separat.
+                    Tabellen under viser placeholder-data.
+                  </p>
+                </div>
+
+                <div className="bg-white rounded-xl border border-brand-200 overflow-hidden">
+                  <div className="p-4 border-b border-brand-200">
+                    <h2 className="font-semibold text-tomtly-dark">Dødsbo – eiendommer</h2>
+                    <p className="text-xs text-brand-400 mt-1">Eiendommer i dødsbo kan være aktuelle for tomtesalg</p>
+                  </div>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="bg-brand-50 text-brand-500 text-xs uppercase tracking-wide">
+                          <th className="text-left px-4 py-3 font-medium">Adresse</th>
+                          <th className="text-left px-4 py-3 font-medium">Kommune</th>
+                          <th className="text-right px-4 py-3 font-medium">Størrelse</th>
+                          <th className="text-left px-4 py-3 font-medium">Avdøde</th>
+                          <th className="text-left px-4 py-3 font-medium">Dato</th>
+                          <th className="text-left px-4 py-3 font-medium">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-t border-brand-100">
+                          <td colSpan={6} className="px-4 py-12 text-center text-brand-400">
+                            <AlertTriangle className="w-8 h-8 mx-auto mb-3 text-brand-300" />
+                            <p>Ingen dødsbo-data ennå. Grunnbok-integrasjon settes opp separat.</p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* Sensitive pitch template */}
+                <div className="bg-white rounded-xl border border-brand-200 p-6">
+                  <h3 className="font-semibold text-tomtly-dark mb-3">Pitch-mal for dødsbo (sensitiv tone)</h3>
+                  <div className="bg-brand-50 rounded-lg p-4 border border-brand-100">
+                    <div className="flex justify-end mb-2">
+                      <CopyButton text={`Hei,\n\nVi forstår at dette er en vanskelig tid, og vi ønsker å tilby vår hjelp dersom familien vurderer å selge eiendommen eller tomten.\n\nTomtly.no hjelper med profesjonelle mulighetsstudier som viser hva som kan bygges på en tomt, noe som kan bidra til en raskere og bedre salgsprosess.\n\nVi er tilgjengelige dersom dere ønsker en uforpliktende samtale.\n\nMed vennlig hilsen\nTomtly-teamet\ntomtly.no | hey@nops.no | +47 40603908`} />
+                    </div>
+                    <pre className="text-xs text-brand-700 whitespace-pre-wrap font-sans leading-relaxed">{`Hei,
+
+Vi forstår at dette er en vanskelig tid, og vi ønsker å tilby vår hjelp dersom familien vurderer å selge eiendommen eller tomten.
+
+Tomtly.no hjelper med profesjonelle mulighetsstudier som viser hva som kan bygges på en tomt, noe som kan bidra til en raskere og bedre salgsprosess.
+
+Vi er tilgjengelige dersom dere ønsker en uforpliktende samtale.
+
+Med vennlig hilsen
+Tomtly-teamet
+tomtly.no | hey@nops.no | +47 40603908`}</pre>
+                  </div>
+                  <p className="text-xs text-amber-600 mt-2">Viktig: Bruk alltid en respektfull og sensitiv tone ved kontakt med dødsbo.</p>
+                </div>
+              </div>
+            )}
+
+            {/* Tvangssalg tab */}
+            {activeTab === 'tvangssalg' && (
+              <div className="space-y-4">
+                <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+                  <p className="text-sm text-amber-800">
+                    <strong>Datakilde:</strong> Domstol.no (tvangssalg av fast eiendom). Domstol.no-scraping settes opp separat.
+                    Tabellen under viser placeholder-data.
+                  </p>
+                </div>
+
+                <div className="bg-white rounded-xl border border-brand-200 overflow-hidden">
+                  <div className="p-4 border-b border-brand-200">
+                    <h2 className="font-semibold text-tomtly-dark">Tvangssalg – eiendommer</h2>
+                    <p className="text-xs text-brand-400 mt-1">Tvangssalg kan gi kjøpsmuligheter for Tomtly-brukere</p>
+                  </div>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="bg-brand-50 text-brand-500 text-xs uppercase tracking-wide">
+                          <th className="text-left px-4 py-3 font-medium">Adresse</th>
+                          <th className="text-left px-4 py-3 font-medium">Kommune</th>
+                          <th className="text-left px-4 py-3 font-medium">Type</th>
+                          <th className="text-left px-4 py-3 font-medium">Medhjelper</th>
+                          <th className="text-left px-4 py-3 font-medium">Frist</th>
+                          <th className="text-left px-4 py-3 font-medium">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-t border-brand-100">
+                          <td colSpan={6} className="px-4 py-12 text-center text-brand-400">
+                            <AlertTriangle className="w-8 h-8 mx-auto mb-3 text-brand-300" />
+                            <p>Ingen tvangssalg-data ennå. Domstol.no-scraping settes opp separat.</p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* Buyer angle info */}
+                <div className="bg-white rounded-xl border border-brand-200 p-6">
+                  <h3 className="font-semibold text-tomtly-dark mb-3">Kjøpervinkel – varsle Tomtly-brukere</h3>
+                  <div className="bg-blue-50 rounded-lg p-4 border border-blue-100">
+                    <p className="text-sm text-blue-800 mb-3">
+                      Tvangssalg gir muligheter for kjøpere til å kjøpe eiendom under markedspris.
+                      Tomtly kan varsle registrerte kjøpere om relevante tvangssalg i deres ønskede områder.
+                    </p>
+                    <ul className="text-xs text-blue-700 space-y-1 list-disc list-inside">
+                      <li>Automatisk varsling basert på kjøperens søkeprofil</li>
+                      <li>Mulighetsstudie kan lages for tvangssalgstomter</li>
+                      <li>Finansieringsforhåndsgodkjenning via Tomtly Finans</li>
+                      <li>Rask handling – tvangssalg har ofte korte frister</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             )}
           </>
