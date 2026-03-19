@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '@/lib/auth-context'
 import { createClient } from '@/lib/supabase'
 import Link from 'next/link'
-import { MapPin, Users, MessageCircle, TrendingUp, ChevronRight, Eye, ArrowLeft, Shield } from 'lucide-react'
+import { MapPin, Users, MessageCircle, TrendingUp, ChevronRight, Eye, ArrowLeft, Shield, ChevronDown, ChevronUp, Building2, Calculator } from 'lucide-react'
 
 interface Profile {
   id: string
@@ -26,6 +26,14 @@ interface Henvendelse {
   created_at: string
 }
 
+type MeglerStatus = 'registrert' | 'aktiv' | 'inaktiv'
+
+const MEGLER_STATUS_COLORS: Record<MeglerStatus, string> = {
+  registrert: 'bg-blue-100 text-blue-700',
+  aktiv: 'bg-green-100 text-green-700',
+  inaktiv: 'bg-gray-100 text-gray-600',
+}
+
 const TOMTER = [
   { id: 'bjornemyrveien-20', adresse: 'Bjørnemyrveien 20', sted: 'Bjørnemyr, Nesodden', status: 'Publisert' },
   { id: 'bjornemyrveien-22', adresse: 'Bjørnemyrveien 22', sted: 'Bjørnemyr, Nesodden', status: 'Publisert' },
@@ -34,28 +42,43 @@ const TOMTER = [
 
 export default function AdminDashboard() {
   const { user, isAdmin, loading: authLoading } = useAuth()
-  const [tab, setTab] = useState<'tomter' | 'kunder' | 'henvendelser'>('tomter')
+  const [tab, setTab] = useState<'tomter' | 'kunder' | 'henvendelser' | 'meglere'>('tomter')
   const [profiles, setProfiles] = useState<Profile[]>([])
   const [henvendelser, setHenvendelser] = useState<Henvendelse[]>([])
+  const [meglere, setMeglere] = useState<Henvendelse[]>([])
   const [loading, setLoading] = useState(true)
   const [viewAsUser, setViewAsUser] = useState<Profile | null>(null)
+  const [expandedMegler, setExpandedMegler] = useState<string | null>(null)
+
+  const supabase = createClient()
 
   useEffect(() => {
     if (!user) return
-    const supabase = createClient()
 
     async function fetchData() {
-      const [profilesRes, henvendelserRes] = await Promise.all([
+      const [profilesRes, henvendelserRes, meglereRes] = await Promise.all([
         supabase.from('profiles').select('*').order('created_at', { ascending: false }),
         supabase.from('henvendelser').select('*').order('created_at', { ascending: false }),
+        supabase.from('henvendelser').select('*').eq('type', 'megler_registrering').order('created_at', { ascending: false }),
       ])
       setProfiles(profilesRes.data || [])
       setHenvendelser(henvendelserRes.data || [])
+      setMeglere(meglereRes.data || [])
       setLoading(false)
     }
 
     fetchData()
   }, [user])
+
+  const handleMeglerStatusChange = async (id: string, newStatus: MeglerStatus) => {
+    const megler = meglere.find(m => m.id === id)
+    if (!megler) return
+    await supabase
+      .from('henvendelser')
+      .update({ ekstra: { ...(megler.ekstra || {}), megler_status: newStatus } })
+      .eq('id', id)
+    setMeglere(prev => prev.map(m => m.id === id ? { ...m, ekstra: { ...(m.ekstra || {}), megler_status: newStatus } } : m))
+  }
 
   if (authLoading) {
     return <div className="min-h-screen bg-brand-50 flex items-center justify-center"><p className="text-brand-500">Laster...</p></div>
@@ -100,10 +123,12 @@ export default function AdminDashboard() {
             { href: '/admin/pitch', label: 'Pitch & Forretningsmodell' },
             { href: '/admin/salg', label: 'Salg & GTM' },
             { href: '/admin/finn', label: 'FINN Pipeline' },
+            { href: '/admin/kommune', label: 'Kommune' },
             { href: '/admin/fradelinger', label: 'Fradelinger' },
             { href: '/admin/delesaker', label: 'Delesaker' },
             { href: '/admin/some', label: 'SoMe' },
             { href: '/admin/finans', label: 'Finans' },
+            { href: '/admin/inntekt', label: 'Inntektsberegner' },
             { href: '/admin/data', label: 'Data' },
           ].map(({ href, label }) => (
             <Link key={href} href={href} className="px-3 py-1.5 bg-brand-50 border border-brand-200 rounded-lg text-xs font-medium text-brand-700 hover:bg-brand-100 transition-colors whitespace-nowrap">
@@ -115,24 +140,30 @@ export default function AdminDashboard() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
           <Stat icon={MapPin} label="Tomter" value={String(TOMTER.length)} />
           <Stat icon={Users} label="Kunder" value={String(profiles.filter(p => p.role !== 'admin').length)} />
           <Stat icon={MessageCircle} label="Henvendelser" value={String(henvendelser.length)} />
+          <Stat icon={Building2} label="Meglere" value={String(meglere.length)} />
           <Stat icon={TrendingUp} label="MRR" value="0 kr" />
         </div>
 
         {/* Tabs */}
         <div className="flex gap-1 mb-6 bg-brand-100 rounded-lg p-1 w-fit">
-          {(['tomter', 'kunder', 'henvendelser'] as const).map((t) => (
+          {([
+            { key: 'tomter' as const, label: `Tomter (${TOMTER.length})` },
+            { key: 'kunder' as const, label: `Kunder (${profiles.filter(p => p.role !== 'admin').length})` },
+            { key: 'henvendelser' as const, label: `Henvendelser (${henvendelser.length})` },
+            { key: 'meglere' as const, label: `Meglere (${meglere.length})` },
+          ]).map(({ key, label }) => (
             <button
-              key={t}
-              onClick={() => setTab(t)}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors capitalize ${
-                tab === t ? 'bg-white text-tomtly-dark shadow-sm' : 'text-brand-500'
+              key={key}
+              onClick={() => setTab(key)}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                tab === key ? 'bg-white text-tomtly-dark shadow-sm' : 'text-brand-500'
               }`}
             >
-              {t} {t === 'kunder' ? `(${profiles.filter(p => p.role !== 'admin').length})` : t === 'henvendelser' ? `(${henvendelser.length})` : `(${TOMTER.length})`}
+              {label}
             </button>
           ))}
         </div>
@@ -227,6 +258,138 @@ export default function AdminDashboard() {
                     )}
                   </div>
                 ))
+              )}
+            </>
+          )}
+
+          {/* Meglere CRM */}
+          {tab === 'meglere' && (
+            <>
+              <div className="p-4 border-b border-brand-200">
+                <h2 className="font-semibold text-tomtly-dark">Megler CRM</h2>
+                <p className="text-xs text-brand-400 mt-0.5">Registrerte meglere fra henvendelser med type &quot;megler_registrering&quot;</p>
+              </div>
+              {loading ? (
+                <div className="p-8 text-center text-brand-400">Laster...</div>
+              ) : meglere.length === 0 ? (
+                <div className="p-12 text-center">
+                  <Building2 className="w-10 h-10 text-brand-300 mx-auto mb-3" />
+                  <p className="text-brand-500">Ingen meglere registrert ennå</p>
+                </div>
+              ) : (
+                <div className="divide-y divide-brand-100">
+                  {meglere.map((m) => {
+                    const isExpanded = expandedMegler === m.id
+                    const meglerStatus = (m.ekstra?.megler_status as MeglerStatus) || 'registrert'
+                    const foretak = m.ekstra?.foretak || m.ekstra?.firma || m.ekstra?.company || '–'
+
+                    return (
+                      <div key={m.id}>
+                        <div
+                          className="flex items-center justify-between p-4 hover:bg-brand-50 transition-colors cursor-pointer"
+                          onClick={() => setExpandedMegler(isExpanded ? null : m.id)}
+                        >
+                          <div className="flex items-center gap-4">
+                            <div className="w-10 h-10 bg-brand-100 rounded-lg flex items-center justify-center">
+                              <Building2 className="w-5 h-5 text-brand-400" />
+                            </div>
+                            <div>
+                              <p className="font-medium text-sm text-tomtly-dark">{m.navn}</p>
+                              <p className="text-xs text-brand-500">{foretak}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <span className="text-xs text-brand-500">{m.email}</span>
+                            {m.telefon && <span className="text-xs text-brand-400">{m.telefon}</span>}
+                            <select
+                              value={meglerStatus}
+                              onChange={(e) => { e.stopPropagation(); handleMeglerStatusChange(m.id, e.target.value as MeglerStatus) }}
+                              onClick={(e) => e.stopPropagation()}
+                              className={`px-3 py-1 text-xs font-medium rounded-full border-0 cursor-pointer focus:outline-none focus:ring-2 focus:ring-brand-300 ${
+                                MEGLER_STATUS_COLORS[meglerStatus]
+                              }`}
+                            >
+                              <option value="registrert">Registrert</option>
+                              <option value="aktiv">Aktiv</option>
+                              <option value="inaktiv">Inaktiv</option>
+                            </select>
+                            <span className="text-[10px] text-brand-400">{new Date(m.created_at).toLocaleDateString('nb-NO')}</span>
+                            {isExpanded ? <ChevronUp className="w-4 h-4 text-brand-400" /> : <ChevronDown className="w-4 h-4 text-brand-400" />}
+                          </div>
+                        </div>
+
+                        {isExpanded && (
+                          <div className="px-4 pb-4 bg-brand-50 border-t border-brand-100">
+                            <div className="pt-4 space-y-4">
+                              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                <div>
+                                  <p className="text-[10px] text-brand-400 uppercase">Navn</p>
+                                  <p className="text-sm text-tomtly-dark">{m.navn}</p>
+                                </div>
+                                <div>
+                                  <p className="text-[10px] text-brand-400 uppercase">Foretak</p>
+                                  <p className="text-sm text-tomtly-dark">{foretak}</p>
+                                </div>
+                                <div>
+                                  <p className="text-[10px] text-brand-400 uppercase">E-post</p>
+                                  <a href={`mailto:${m.email}`} className="text-sm text-tomtly-accent hover:underline">{m.email}</a>
+                                </div>
+                                <div>
+                                  <p className="text-[10px] text-brand-400 uppercase">Telefon</p>
+                                  <p className="text-sm text-tomtly-dark">{m.telefon || '–'}</p>
+                                </div>
+                                <div>
+                                  <p className="text-[10px] text-brand-400 uppercase">Registrert</p>
+                                  <p className="text-sm text-tomtly-dark">{new Date(m.created_at).toLocaleDateString('nb-NO')}</p>
+                                </div>
+                                <div>
+                                  <p className="text-[10px] text-brand-400 uppercase">Status</p>
+                                  <p className="text-sm text-tomtly-dark capitalize">{meglerStatus}</p>
+                                </div>
+                              </div>
+
+                              {m.melding && (
+                                <div>
+                                  <p className="text-[10px] text-brand-400 uppercase mb-1">Melding</p>
+                                  <p className="text-sm text-brand-700 bg-white rounded-lg p-3 border border-brand-200">{m.melding}</p>
+                                </div>
+                              )}
+
+                              {m.ekstra && Object.keys(m.ekstra).filter(k => k !== 'megler_status' && k !== 'foretak' && k !== 'firma' && k !== 'company').length > 0 && (
+                                <div>
+                                  <p className="text-[10px] text-brand-400 uppercase mb-1">Ekstra detaljer</p>
+                                  <div className="flex flex-wrap gap-2">
+                                    {Object.entries(m.ekstra).filter(([k]) => k !== 'megler_status' && k !== 'foretak' && k !== 'firma' && k !== 'company').map(([k, v]) => (
+                                      <span key={k} className="text-xs bg-white px-2 py-1 rounded border border-brand-200 text-brand-600">{k}: {String(v)}</span>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* Notater */}
+                              <div>
+                                <p className="text-[10px] text-brand-400 uppercase mb-1">Notater</p>
+                                <textarea
+                                  defaultValue={m.ekstra?.notater || ''}
+                                  onBlur={async (e) => {
+                                    const val = e.target.value
+                                    await supabase
+                                      .from('henvendelser')
+                                      .update({ ekstra: { ...(m.ekstra || {}), notater: val } })
+                                      .eq('id', m.id)
+                                    setMeglere(prev => prev.map(meg => meg.id === m.id ? { ...meg, ekstra: { ...(meg.ekstra || {}), notater: val } } : meg))
+                                  }}
+                                  placeholder="Skriv notater om megleren her..."
+                                  className="w-full h-20 px-3 py-2 text-sm border border-brand-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-brand-300 resize-none"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
               )}
             </>
           )}

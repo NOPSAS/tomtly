@@ -41,7 +41,7 @@ function HeroSection() {
           </h1>
 
           <p className="text-lg text-brand-400 leading-relaxed mb-10 max-w-xl">
-            Kjøpere som finner tomt på Tomtly kan trykke «Sjekk finansiering». Vi sender komplett prosjektpakke til banken – du kontakter kjøperen direkte.
+            Kjøpere som finner tomt på Tomtly kan trykke «Sjekk finansiering». Vi sender komplett prosjektpakke til banken – du kontakter kjøper direkte.
           </p>
 
           <a
@@ -61,28 +61,28 @@ function Flyten() {
   const steg = [
     {
       nummer: '01',
-      tittel: 'Kjøper finner tomt',
-      beskrivelse: 'En kjøper finner en tomt på Tomtly med komplett mulighetsstudie, husmodeller og byggekalkyle.',
+      tittel: 'Kjøper finner tomt på Tomtly',
+      beskrivelse: 'Kjøper ser mulighetsstudie med husmodeller, byggekalkyle og reguleringsavklaring.',
     },
     {
       nummer: '02',
       tittel: 'Kjøper trykker «Sjekk finansiering»',
-      beskrivelse: 'Kjøperen ønsker å vite om de får lån. De trykker «Sjekk finansiering» på tomtesiden.',
+      beskrivelse: 'Kjøper registrerer interesse for finansiering direkte fra tomtesiden.',
     },
     {
       nummer: '03',
-      tittel: 'Tomtly sender pakke til banken',
-      beskrivelse: 'Banken mottar komplett prosjektpakke: tomt, mulighetsstudie, husmodell, byggekalkyle og kjøpers kontaktinfo.',
+      tittel: 'Tomtly sender prosjektpakke til banken',
+      beskrivelse: 'Banken mottar komplett dokumentasjon: tomt, husmodell, byggekalkyle, regulering og verdivurdering.',
     },
     {
       nummer: '04',
-      tittel: 'Banken kontakter kjøperen',
-      beskrivelse: 'Banken tar direkte kontakt med kjøperen for å behandle byggelånssøknaden.',
+      tittel: 'Banken kontakter kjøper',
+      beskrivelse: 'Banken tar direkte kontakt med en kvalifisert byggelånskandidat med all dokumentasjon på plass.',
     },
   ]
 
   return (
-    <section className="bg-white py-20 lg:py-28">
+    <section className="bg-tomtly-warm py-20 lg:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-4">
@@ -108,26 +108,26 @@ function Flyten() {
 
 function Prismodell() {
   return (
-    <section className="bg-brand-50 py-20 lg:py-28">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="bg-white py-20 lg:py-28">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-10 text-center">
           Prismodell
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white rounded-2xl p-7 border border-brand-200 text-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div className="bg-brand-50 rounded-2xl p-7 border border-brand-200 text-center">
             <p className="text-sm font-medium text-brand-500 mb-2">Oppstart</p>
             <p className="text-4xl font-bold text-tomtly-accent mb-2">0 kr</p>
             <p className="text-sm text-brand-500">Ingen oppstartskostnad</p>
           </div>
-          <div className="bg-white rounded-2xl p-7 border border-brand-200 text-center">
-            <p className="text-sm font-medium text-brand-500 mb-2">Månedsavgift</p>
+          <div className="bg-brand-50 rounded-2xl p-7 border border-brand-200 text-center">
+            <p className="text-sm font-medium text-brand-500 mb-2">Månedlig</p>
             <p className="text-4xl font-bold text-tomtly-accent mb-2">0 kr</p>
             <p className="text-sm text-brand-500">Ingen fast kostnad</p>
           </div>
-          <div className="bg-white rounded-2xl p-7 border-2 border-tomtly-accent text-center">
+          <div className="bg-brand-50 rounded-2xl p-7 border-2 border-tomtly-accent text-center">
             <p className="text-sm font-medium text-brand-500 mb-2">Per innvilget byggelån</p>
             <p className="text-4xl font-bold text-tomtly-dark mb-2">4 900 kr</p>
-            <p className="text-sm text-brand-500">Betales kun ved innvilget lån</p>
+            <p className="text-sm text-brand-500">Kun ved godkjent lån</p>
           </div>
         </div>
       </div>
@@ -137,27 +137,31 @@ function Prismodell() {
 
 function Regnestykke() {
   return (
-    <section className="bg-white py-20 lg:py-28">
+    <section className="bg-brand-50 py-20 lg:py-28">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-8 text-center">
-          Eksempelregning
+          Regnestykket
         </h2>
-        <div className="bg-brand-50 rounded-2xl p-8 border border-brand-200">
+        <div className="bg-white rounded-2xl p-8 border border-brand-200">
           <div className="space-y-4">
             <div className="flex justify-between items-center py-2 border-b border-brand-200">
-              <span className="text-brand-600">Kjøpere per måned</span>
+              <span className="text-brand-600">Kjøpere sendt til banken per måned</span>
               <span className="font-semibold text-tomtly-dark">10</span>
             </div>
             <div className="flex justify-between items-center py-2 border-b border-brand-200">
-              <span className="text-brand-600">Innvilget (70%)</span>
+              <span className="text-brand-600">Innvilgelsesrate</span>
+              <span className="font-semibold text-tomtly-dark">70%</span>
+            </div>
+            <div className="flex justify-between items-center py-2 border-b border-brand-200">
+              <span className="text-brand-600">Innvilget per måned</span>
               <span className="font-semibold text-tomtly-dark">7</span>
             </div>
             <div className="flex justify-between items-center py-2 border-b border-brand-200">
               <span className="text-brand-600">Tomtly-kostnad (7 x 4 900 kr)</span>
-              <span className="font-semibold text-tomtly-dark">34 300 kr/mnd</span>
+              <span className="text-brand-500">34 300 kr/mnd</span>
             </div>
             <div className="flex justify-between items-center py-2 border-b border-brand-200">
-              <span className="text-brand-600">Bankens renteinntekter (7 lån)</span>
+              <span className="text-brand-600">Bankens renteinntekter (7 byggelån)</span>
               <span className="font-bold text-tomtly-dark text-lg">525 000+ kr</span>
             </div>
             <div className="flex justify-between items-center py-3 bg-green-50 rounded-lg px-4 -mx-4">
@@ -174,32 +178,32 @@ function Regnestykke() {
 function FAQ() {
   const faqs = [
     {
-      sporsmal: 'Hva mottar banken når kjøper trykker «Sjekk finansiering»?',
-      svar: 'En komplett prosjektpakke med tomteinformasjon, mulighetsstudie, valgt husmodell, detaljert byggekostnadskalkyle og kjøpers kontaktinformasjon.',
+      sporsmal: 'Hva slags dokumentasjon får vi?',
+      svar: 'Komplett prosjektpakke med dokumentert tomt, matrikkeldata, reguleringsplan, mulighetsstudie fra arkitektteam, detaljert byggekostnadskalkyle, valgt husmodell med spesifikasjoner og verdivurdering.',
     },
     {
-      sporsmal: 'Når betaler banken?',
-      svar: 'Kun ved innvilget byggelån. Ingen oppstartskostnad, ingen månedsavgift. 4 900 kr per innvilget lån.',
+      sporsmal: 'Må vi betale for leads som ikke blir lån?',
+      svar: 'Nei. Dere betaler kun 4 900 kr per innvilget byggelån. Leads som ikke konverterer er helt gratis.',
     },
     {
-      sporsmal: 'Kan vi prøve med et begrenset område først?',
-      svar: 'Ja, dere kan starte med en region eller et filialkontor og utvide etterhvert.',
+      sporsmal: 'Hvordan mottar vi kjøperinformasjonen?',
+      svar: 'Vi sender en komplett prosjektpakke med kjøpers kontaktinformasjon og all dokumentasjon via e-post eller API-integrasjon.',
     },
     {
-      sporsmal: 'Hvordan skiller dette seg fra vanlige leads?',
-      svar: 'Disse kjøperne har allerede funnet tomt, sett hva de kan bygge, og fått en detaljert kostnadskalkyle. De er mye lenger i prosessen enn vanlige forespørsler.',
+      sporsmal: 'Kan vi teste med et begrenset antall først?',
+      svar: 'Absolutt. Vi starter gjerne med en pilotperiode slik at dere kan se kvaliteten på leads og dokumentasjon.',
     },
   ]
 
   return (
-    <section className="bg-brand-50 py-20 lg:py-28">
+    <section className="bg-white py-20 lg:py-28">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-10 text-center">
           Ofte stilte spørsmål
         </h2>
         <div className="space-y-4">
           {faqs.map((faq) => (
-            <details key={faq.sporsmal} className="bg-white rounded-xl border border-brand-200 group">
+            <details key={faq.sporsmal} className="bg-brand-50 rounded-xl border border-brand-200 group">
               <summary className="flex items-center justify-between p-5 cursor-pointer list-none">
                 <span className="font-semibold text-tomtly-dark">{faq.sporsmal}</span>
                 <ChevronDown className="w-5 h-5 text-brand-400 group-open:rotate-180 transition-transform" />
@@ -226,7 +230,7 @@ function CTASection() {
             Bli bankpartner
           </h2>
           <p className="text-brand-400">
-            Ta kontakt for å diskutere partnerskap. 0 kr oppstart, 0 kr/mnd – betal kun per innvilget lån.
+            Ta kontakt for å diskutere partnerskap. 0 kr oppstart, 0 kr månedlig – du betaler kun per innvilget lån.
           </p>
         </div>
 

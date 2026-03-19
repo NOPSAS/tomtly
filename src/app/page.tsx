@@ -304,6 +304,7 @@ function ForHvem() {
     {
       ikon: Home,
       tittel: 'Tomteeiere',
+      href: '/for-tomteeiere',
       beskrivelse:
         'Vis kjøperne nøyaktig hva de kan bygge. Få høyere pris og raskere salg.',
       fordeler: [
@@ -315,6 +316,7 @@ function ForHvem() {
     {
       ikon: Users,
       tittel: 'Eiendomsmeglere',
+      href: '/for-meglere',
       beskrivelse:
         'Gi kundene dine et unikt salgsverktøy. Skil deg ut med datadriven innsikt.',
       fordeler: [
@@ -326,6 +328,7 @@ function ForHvem() {
     {
       ikon: Building2,
       tittel: 'Utviklere',
+      href: '/utvikler',
       beskrivelse:
         'Finn tomter med høyt utviklingspotensial. Spar tid på due diligence.',
       fordeler: [
@@ -350,9 +353,10 @@ function ForHvem() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {segmenter.map((s) => (
-            <div
+            <Link
               key={s.tittel}
-              className="bg-white rounded-xl p-8 border border-brand-200 hover:border-tomtly-accent/30 transition-colors"
+              href={s.href}
+              className="bg-white rounded-xl p-8 border border-brand-200 hover:border-tomtly-accent/30 transition-colors block"
             >
               <div className="w-12 h-12 bg-forest-50 rounded-xl flex items-center justify-center mb-5">
                 <s.ikon className="w-6 h-6 text-tomtly-accent" />
@@ -371,7 +375,7 @@ function ForHvem() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
@@ -459,6 +463,9 @@ function Prismodell() {
             >
               Kom i gang – vi selger for deg
             </Link>
+            <p className="text-xs text-brand-500 mt-4 leading-relaxed">
+              Vi er eksperter på tomter og nybygg. Vi forklarer kjøpere hva som er mulig å bygge, svarer på komplekse spørsmål om utvikling, og håndterer all kommunikasjon med markedet. Ønsker kjøper å se andre husmodeller eller løsninger, gjør vi det for å øke sannsynligheten for salg.
+            </p>
             <p className="text-xs text-brand-400 mt-3 text-center">
               Salg gjennomføres via Propr – en godkjent plattform for eiendomsoppgjør. Tomtly er ikke et eiendomsmeglerforetak.
             </p>
@@ -473,9 +480,26 @@ function Prismodell() {
           <span className="text-brand-300">|</span>
           <Link href="/for-entreprenorer" className="text-tomtly-accent hover:underline font-medium">For entreprenører</Link>
           <span className="text-brand-300">|</span>
-          <Link href="/for-utviklere" className="text-tomtly-accent hover:underline font-medium">For utviklere</Link>
+          <Link href="/utvikler" className="text-tomtly-accent hover:underline font-medium">For utviklere</Link>
           <span className="text-brand-300">|</span>
           <Link href="/for-banker" className="text-tomtly-accent hover:underline font-medium">For banker</Link>
+          <span className="text-brand-300">|</span>
+          <Link href="/kommune" className="text-tomtly-accent hover:underline font-medium">For kommuner</Link>
+        </div>
+
+        {/* Prisoversikt alle segmenter */}
+        <div className="mt-8 bg-brand-50 rounded-xl border border-brand-200 p-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm text-brand-600">
+            <Link href="/for-meglere" className="hover:text-tomtly-accent">For meglere: <span className="font-semibold text-tomtly-dark">2 900 kr/tomt</span></Link>
+            <span className="text-brand-300">|</span>
+            <Link href="/utvikler" className="hover:text-tomtly-accent">Utviklere: <span className="font-semibold text-tomtly-dark">fra 4 900 kr</span></Link>
+            <span className="text-brand-300">|</span>
+            <Link href="/for-entreprenorer" className="hover:text-tomtly-accent">Entreprenører: <span className="font-semibold text-tomtly-dark">14 900 kr/år</span></Link>
+            <span className="text-brand-300">|</span>
+            <Link href="/kommune" className="hover:text-tomtly-accent">Kommuner: <span className="font-semibold text-tomtly-dark">0 kr upfront</span></Link>
+            <span className="text-brand-300">|</span>
+            <Link href="/for-banker" className="hover:text-tomtly-accent">Banker: <span className="font-semibold text-tomtly-dark">4 900 kr/innvilget lån</span></Link>
+          </div>
         </div>
       </div>
     </section>

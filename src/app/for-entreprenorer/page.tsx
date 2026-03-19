@@ -17,8 +17,10 @@ export default function ForEntreprenorerPage() {
   return (
     <>
       <HeroSection />
-      <Fordeler />
+      <Problemet />
+      <Losningen />
       <HvordanDetFungerer />
+      <HvaFaarDu />
       <Prising />
       <FAQ />
       <CTASection />
@@ -57,10 +59,10 @@ function HeroSection() {
               <ArrowRight className="w-4 h-4" />
             </a>
             <a
-              href="#priser"
+              href="#hvordan"
               className="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-brand-600 text-brand-300 font-medium rounded-lg hover:bg-brand-900 transition-colors"
             >
-              Se priser
+              Slik fungerer det
             </a>
           </div>
         </div>
@@ -69,13 +71,87 @@ function HeroSection() {
   )
 }
 
-function Fordeler() {
-  const fordeler = [
+function Problemet() {
+  return (
+    <section className="bg-white py-20 lg:py-28">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-6">
+          Problemet
+        </h2>
+        <p className="text-lg text-brand-600 leading-relaxed">
+          Dere jakter oppdrag, gir tilbud som ikke fører noe sted, og konkurrerer på pris. Mye tid går med på prosjekter som aldri blir noe av – fordi kjøperen ikke har finansiering, regulering ikke er avklart, eller prosjektet ikke er gjennomtenkt.
+        </p>
+      </div>
+    </section>
+  )
+}
+
+function Losningen() {
+  return (
+    <section className="bg-brand-50 py-20 lg:py-28">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-6">
+          Løsningen
+        </h2>
+        <p className="text-lg text-brand-600 leading-relaxed">
+          Tomtly kobler dere med tomtekjøpere som allerede har kjøpt tomt, valgt husmodell, fått regulering avklart og har finansiering på plass. Dere får kvalifiserte prosjekter – ikke umodne henvendelser.
+        </p>
+      </div>
+    </section>
+  )
+}
+
+function HvordanDetFungerer() {
+  const steg = [
     {
-      ikon: Shield,
-      tittel: 'Forutsigbar kostnad',
-      beskrivelse: 'Én fast årspris – ingen overraskelser. Du vet nøyaktig hva du betaler.',
+      nummer: '01',
+      tittel: 'Kjøper trykker "Innhent tilbud"',
+      beskrivelse: 'Når en kjøper har valgt husmodell og tomt, kan de innhente tilbud fra kvalifiserte entreprenører.',
     },
+    {
+      nummer: '02',
+      tittel: 'Vi sender prosjektbeskrivelse',
+      beskrivelse: 'Dere mottar en komplett prosjektbeskrivelse med tomteinfo, husmodell, regulering og byggekalkyle.',
+    },
+    {
+      nummer: '03',
+      tittel: 'Dere gir tilbud',
+      beskrivelse: 'Maks 2-3 entreprenører får hvert prosjekt. Ingen masseutsendelser – kun kvalifiserte forespørsler.',
+    },
+    {
+      nummer: '04',
+      tittel: 'Kjøper velger',
+      beskrivelse: 'Kjøperen sammenligner tilbud og velger entreprenør. Dere får oppdraget basert på kvalitet, ikke bare pris.',
+    },
+  ]
+
+  return (
+    <section id="hvordan" className="bg-tomtly-warm py-20 lg:py-28">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-4">
+            Slik fungerer det
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {steg.map((s) => (
+            <div key={s.nummer}>
+              <div className="text-5xl font-display font-bold text-brand-200 mb-4">
+                {s.nummer}
+              </div>
+              <h3 className="font-semibold text-tomtly-dark mb-2">{s.tittel}</h3>
+              <p className="text-sm text-brand-600 leading-relaxed">{s.beskrivelse}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function HvaFaarDu() {
+  const fordeler = [
     {
       ikon: FileText,
       tittel: 'Kvalifiserte prosjekter',
@@ -83,13 +159,18 @@ function Fordeler() {
     },
     {
       ikon: Users,
-      tittel: 'Maks 2-3 konkurrenter',
+      tittel: 'Maks 2-3 tilbydere',
       beskrivelse: 'Vi sender prosjektet til maks 2-3 entreprenører. Ingen masseutsendelser der dere drukner i konkurranse.',
     },
     {
-      ikon: Zap,
+      ikon: Shield,
       tittel: 'Komplett underlag',
       beskrivelse: 'Dere får tomteinfo, regulering, husmodell med tegninger, og detaljert byggekalkyle. Alt dere trenger for å gi presist tilbud.',
+    },
+    {
+      ikon: Zap,
+      tittel: 'Forutsigbar kostnad',
+      beskrivelse: 'Årsavgift gir forutsigbarhet. Ingen overraskelser – dere vet nøyaktig hva det koster.',
     },
   ]
 
@@ -114,57 +195,13 @@ function Fordeler() {
           ))}
         </div>
 
-        <p className="text-center text-sm text-brand-500 mt-8">
-          Tomtly er aldri kontraktspart. Avtalen inngås direkte mellom kjøper og entreprenør.
-        </p>
-      </div>
-    </section>
-  )
-}
-
-function HvordanDetFungerer() {
-  const steg = [
-    {
-      nummer: '01',
-      tittel: 'Kjøper trykker «Innhent tilbud»',
-      beskrivelse: 'Når en kjøper har valgt husmodell og tomt, kan de innhente tilbud fra kvalifiserte entreprenører.',
-    },
-    {
-      nummer: '02',
-      tittel: 'Vi sender prosjektbeskrivelse',
-      beskrivelse: 'Dere mottar en komplett prosjektbeskrivelse med tomteinfo, husmodell, regulering og byggekalkyle.',
-    },
-    {
-      nummer: '03',
-      tittel: 'Dere gir tilbud',
-      beskrivelse: 'Maks 2-3 entreprenører får hvert prosjekt. Ingen masseutsendelser – kun kvalifiserte forespørsler.',
-    },
-    {
-      nummer: '04',
-      tittel: 'Kjøper velger',
-      beskrivelse: 'Kjøperen sammenligner tilbud og velger entreprenør. Dere får oppdraget basert på kvalitet, ikke bare pris.',
-    },
-  ]
-
-  return (
-    <section className="bg-tomtly-warm py-20 lg:py-28">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-4">
-            Slik fungerer det
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steg.map((s) => (
-            <div key={s.nummer}>
-              <div className="text-5xl font-display font-bold text-brand-200 mb-4">
-                {s.nummer}
-              </div>
-              <h3 className="font-semibold text-tomtly-dark mb-2">{s.tittel}</h3>
-              <p className="text-sm text-brand-600 leading-relaxed">{s.beskrivelse}</p>
-            </div>
-          ))}
+        <div className="mt-12 max-w-2xl mx-auto">
+          <div className="bg-forest-50 rounded-xl border border-tomtly-accent/20 p-6 text-center">
+            <p className="text-brand-700 font-medium">Tomtly er aldri kontraktspart</p>
+            <p className="text-sm text-brand-500 mt-1">
+              Vi kobler dere med kjøpere – kontrakten er mellom dere og kjøper.
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -173,54 +210,34 @@ function HvordanDetFungerer() {
 
 function Prising() {
   return (
-    <section id="priser" className="bg-white py-20 lg:py-28">
+    <section className="bg-brand-50 py-20 lg:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
           <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-4">
-            Årsabonnement
+            Årsavgift – forutsigbar kostnad
           </h2>
-          <p className="text-brand-600 max-w-lg mx-auto">
-            Forutsigbar kostnad – ingen overraskelser. Første lead er gratis.
-          </p>
+          <p className="text-brand-600">Første lead er gratis – test oss uten risiko.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
           <div className="bg-white rounded-2xl p-7 border border-brand-200 text-center">
-            <p className="text-sm font-medium text-brand-500 mb-2">Lokal</p>
-            <p className="text-xs text-brand-400 mb-3">1-3 kommuner</p>
-            <div className="flex items-baseline justify-center gap-1 mb-1">
-              <span className="text-3xl font-bold text-tomtly-dark">14 900</span>
-              <span className="text-brand-500">kr/år</span>
-            </div>
-            <p className="text-sm text-brand-500">Kvalifiserte prosjekter i ditt nærområde</p>
+            <p className="text-sm font-medium text-brand-500 mb-2">Lokal (1-3 kommuner)</p>
+            <p className="text-3xl font-bold text-tomtly-dark mb-1">14 900 kr</p>
+            <p className="text-sm text-brand-500">per år</p>
           </div>
-
           <div className="bg-white rounded-2xl p-7 border-2 border-tomtly-accent text-center relative">
             <div className="absolute -top-2.5 right-4 px-2 py-0.5 bg-tomtly-accent text-white text-xs rounded-full">
               Populær
             </div>
-            <p className="text-sm font-medium text-brand-500 mb-2">Regional</p>
-            <p className="text-xs text-brand-400 mb-3">Fylke</p>
-            <div className="flex items-baseline justify-center gap-1 mb-1">
-              <span className="text-3xl font-bold text-tomtly-dark">29 900</span>
-              <span className="text-brand-500">kr/år</span>
-            </div>
-            <p className="text-sm text-brand-500">Prosjekter i hele fylket</p>
+            <p className="text-sm font-medium text-brand-500 mb-2">Regional (fylke)</p>
+            <p className="text-3xl font-bold text-tomtly-dark mb-1">29 900 kr</p>
+            <p className="text-sm text-brand-500">per år</p>
           </div>
-
           <div className="bg-white rounded-2xl p-7 border border-brand-200 text-center">
             <p className="text-sm font-medium text-brand-500 mb-2">Nasjonal</p>
-            <p className="text-xs text-brand-400 mb-3">Hele Norge</p>
-            <div className="flex items-baseline justify-center gap-1 mb-1">
-              <span className="text-3xl font-bold text-tomtly-dark">49 900</span>
-              <span className="text-brand-500">kr/år</span>
-            </div>
-            <p className="text-sm text-brand-500">Alle prosjekter nasjonalt</p>
+            <p className="text-3xl font-bold text-tomtly-dark mb-1">49 900 kr</p>
+            <p className="text-sm text-brand-500">per år</p>
           </div>
-        </div>
-
-        <div className="text-center mt-8">
-          <p className="text-sm text-tomtly-accent font-medium">Første lead er gratis – prøv uten risiko</p>
         </div>
       </div>
     </section>
@@ -230,32 +247,32 @@ function Prising() {
 function FAQ() {
   const faqs = [
     {
-      sporsmal: 'Hva koster det å motta forespørsler?',
-      svar: 'Ingenting utover årsabonnementet. Du betaler fast pris per år og mottar kvalifiserte prosjekter innenfor ditt dekningsområde.',
+      sporsmal: 'Hva er inkludert i årsavgiften?',
+      svar: 'Tilgang til alle kvalifiserte prosjekter i ditt dekningsområde, komplett prosjektunderlag og direkte kontakt med kjøper.',
     },
     {
-      sporsmal: 'Hvor mange konkurrenter har vi per prosjekt?',
-      svar: 'Maks 2-3. Vi sender aldri prosjekter til flere enn dette, slik at dere har en reell sjanse til å vinne oppdraget.',
+      sporsmal: 'Hvor mange konkurrenter får hvert prosjekt?',
+      svar: 'Maks 2-3 entreprenører per prosjekt. Vi ønsker kvalitet, ikke prispress.',
     },
     {
-      sporsmal: 'Tar Tomtly noe av kontraktssummen?',
-      svar: 'Nei. Tomtly er aldri kontraktspart. Avtalen inngås direkte mellom kjøper og entreprenør. Vi tar kun årsabonnementet.',
+      sporsmal: 'Er Tomtly kontraktspart?',
+      svar: 'Nei. Tomtly kobler dere med kjøper. Kontrakten er direkte mellom dere og kjøper.',
     },
     {
-      sporsmal: 'Kan vi prøve før vi binder oss?',
-      svar: 'Ja, første lead er gratis. Dere ser kvaliteten på underlaget og prosjektene før dere bestemmer dere.',
+      sporsmal: 'Kan jeg teste før jeg binder meg?',
+      svar: 'Ja – første lead er gratis. Test oss og se kvaliteten på prosjektene før du bestemmer deg.',
     },
   ]
 
   return (
-    <section className="bg-brand-50 py-20 lg:py-28">
+    <section className="bg-white py-20 lg:py-28">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-10 text-center">
           Ofte stilte spørsmål
         </h2>
         <div className="space-y-4">
           {faqs.map((faq) => (
-            <details key={faq.sporsmal} className="bg-white rounded-xl border border-brand-200 group">
+            <details key={faq.sporsmal} className="bg-brand-50 rounded-xl border border-brand-200 group">
               <summary className="flex items-center justify-between p-5 cursor-pointer list-none">
                 <span className="font-semibold text-tomtly-dark">{faq.sporsmal}</span>
                 <ChevronDown className="w-5 h-5 text-brand-400 group-open:rotate-180 transition-transform" />
@@ -357,7 +374,7 @@ function CTASection() {
               Bli samarbeidsentreprenør
             </button>
             <p className="text-xs text-brand-400 text-center">
-              Vi tar kontakt innen 1 virkedag. hey@nops.no
+              Første lead er gratis. Vi tar kontakt innen 1 virkedag. hey@nops.no
             </p>
           </form>
         )}

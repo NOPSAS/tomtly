@@ -130,52 +130,36 @@ function Prising() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 max-w-6xl mx-auto">
-          <div className="bg-white rounded-2xl p-6 border border-brand-200 text-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto mb-6">
+          <div className="bg-white rounded-2xl p-7 border border-brand-200 text-center">
             <p className="text-sm font-medium text-brand-500 mb-2">Per tomt</p>
-            <div className="flex items-baseline justify-center gap-1 mb-1">
-              <span className="text-2xl font-bold text-tomtly-dark">4 900</span>
-              <span className="text-brand-500 text-sm">kr</span>
-            </div>
-            <p className="text-xs text-brand-500">Enkeltbestilling</p>
+            <p className="text-3xl font-bold text-tomtly-dark mb-1">4 900 kr</p>
+            <p className="text-sm text-brand-500">Enkeltbestilling</p>
           </div>
-
-          <div className="bg-white rounded-2xl p-6 border border-brand-200 text-center">
-            <p className="text-sm font-medium text-brand-500 mb-2">5-pack</p>
-            <div className="flex items-baseline justify-center gap-1 mb-1">
-              <span className="text-2xl font-bold text-tomtly-dark">3 900</span>
-              <span className="text-brand-500 text-sm">kr/tomt</span>
-            </div>
-            <p className="text-xs text-brand-500">Spar 1 000 kr per tomt</p>
-          </div>
-
-          <div className="bg-white rounded-2xl p-6 border-2 border-tomtly-accent text-center relative">
-            <div className="absolute -top-2.5 right-3 px-2 py-0.5 bg-tomtly-accent text-white text-xs rounded-full">
+          <div className="bg-white rounded-2xl p-7 border-2 border-tomtly-accent text-center relative">
+            <div className="absolute -top-2.5 right-4 px-2 py-0.5 bg-tomtly-accent text-white text-xs rounded-full">
               Populær
             </div>
-            <p className="text-sm font-medium text-brand-500 mb-2">Abo S</p>
-            <p className="text-xs text-brand-400 mb-1">1-5/mnd</p>
-            <div className="flex items-baseline justify-center gap-1 mb-1">
-              <span className="text-2xl font-bold text-tomtly-dark">14 900</span>
-              <span className="text-brand-500 text-sm">kr/mnd</span>
-            </div>
+            <p className="text-sm font-medium text-brand-500 mb-2">5-pack</p>
+            <p className="text-3xl font-bold text-tomtly-dark mb-1">3 900 kr</p>
+            <p className="text-sm text-brand-500">per tomt</p>
           </div>
-
-          <div className="bg-white rounded-2xl p-6 border border-brand-200 text-center">
-            <p className="text-sm font-medium text-brand-500 mb-2">Abo M</p>
-            <p className="text-xs text-brand-400 mb-1">6-15/mnd</p>
-            <div className="flex items-baseline justify-center gap-1 mb-1">
-              <span className="text-2xl font-bold text-tomtly-dark">29 900</span>
-              <span className="text-brand-500 text-sm">kr/mnd</span>
-            </div>
+          <div className="bg-white rounded-2xl p-7 border border-brand-200 text-center">
+            <p className="text-sm font-medium text-brand-500 mb-2">Abo S (1-5/mnd)</p>
+            <p className="text-3xl font-bold text-tomtly-dark mb-1">14 900 kr</p>
+            <p className="text-sm text-brand-500">per måned</p>
           </div>
-
-          <div className="bg-white rounded-2xl p-6 border border-brand-200 text-center">
-            <p className="text-sm font-medium text-brand-500 mb-2">Abo L</p>
-            <p className="text-xs text-brand-400 mb-1">16+/mnd</p>
-            <div className="flex items-baseline justify-center gap-1 mb-1">
-              <span className="text-2xl font-bold text-tomtly-dark">Ta kontakt</span>
-            </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
+          <div className="bg-white rounded-2xl p-7 border border-brand-200 text-center">
+            <p className="text-sm font-medium text-brand-500 mb-2">Abo M (6-15/mnd)</p>
+            <p className="text-3xl font-bold text-tomtly-dark mb-1">29 900 kr</p>
+            <p className="text-sm text-brand-500">per måned</p>
+          </div>
+          <div className="bg-white rounded-2xl p-7 border border-brand-200 text-center">
+            <p className="text-sm font-medium text-brand-500 mb-2">Abo L (16+/mnd)</p>
+            <p className="text-3xl font-bold text-tomtly-dark mb-1">Ta kontakt</p>
+            <p className="text-sm text-brand-500">Skreddersydd</p>
           </div>
         </div>
       </div>
@@ -193,7 +177,7 @@ function VerdiArgument() {
             4 900 kr = 1-2% av utviklermargin
           </h2>
           <p className="text-brand-600 leading-relaxed">
-            Med en typisk utviklermargin på 300 000 – 750 000 kr per tomt er 4 900 kr en minimal investering. Ved volum betaler du bare 3 900 kr per tomt.
+            Typisk utviklermargin er 300 000 – 750 000 kr per tomt. En mulighetsstudie til 4 900 kr er en minimal investering som øker salgshastighet og pris. Ved volum 3 900 kr per tomt.
           </p>
         </div>
       </div>
@@ -292,13 +276,13 @@ function MeglerReferanse() {
     <section className="bg-brand-50 py-12 lg:py-16">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <p className="text-brand-600 mb-4">
-          Jobber du med megler? Tomtly tilbyr også tomtanalyse for eiendomsmeglere.
+          Jobber du med megler? Meglere kan bestille tomtanalyse fra 2 900 kr per tomt.
         </p>
         <Link
           href="/for-meglere"
           className="inline-flex items-center gap-2 text-tomtly-accent font-medium hover:underline"
         >
-          Se tilbudet for meglere
+          Les mer om Tomtly for meglere
           <ArrowRight className="w-4 h-4" />
         </Link>
       </div>

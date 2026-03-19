@@ -18,6 +18,9 @@ import {
   X,
   Check,
   Search,
+  Skull,
+  Gavel,
+  Hammer,
 } from 'lucide-react'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -38,6 +41,7 @@ interface FinnTomt {
   status: string | null
   dager_paa_finn: number | null
   notater: string | null
+  flagg: string[] | null
   status_historikk: Array<{ status: string; dato: string }> | null
   sist_oppdatert: string | null
   created_at: string
@@ -54,7 +58,7 @@ interface DagligOppsummering {
 }
 
 type Status = 'ny' | 'kontaktet' | 'interessert' | 'kunde' | 'avslått'
-type TabType = 'alle' | 'prioritert' | 'oppsummering' | 'dodsbo' | 'tvangssalg'
+type TabType = 'alle' | 'prioritert' | 'oppsummering' | 'dodsbo' | 'tvangssalg' | 'rivning'
 type DagerFilter = 'alle' | '30' | '60' | '90' | '120'
 
 const STATUS_OPTIONS: Status[] = ['ny', 'kontaktet', 'interessert', 'kunde', 'avslått']
@@ -66,6 +70,8 @@ const STATUS_COLORS: Record<string, string> = {
   kunde: 'bg-green-100 text-green-800',
   avslått: 'bg-gray-100 text-gray-600',
 }
+
+const RIVNING_KEYWORDS = ['rivning', 'totalrenovering', 'kondemnabel', 'tomteverdi', 'utviklingseiendom', 'rives', 'rivingsobjekt', 'oppussingsobjekt']
 
 // ─── Pitch templates ─────────────────────────────────────────────────────────
 
@@ -106,6 +112,28 @@ Vi er en plattform som gjør tomter enklere å selge ved å lage profesjonelle m
 For meglere er Tomtly helt gratis. Du legger til tomten, vi lager mulighetsstudien, og du beholder provisjonen din. Tenk på det som en ekstra markedsføringskanal som gjør tomten din mer attraktiv.
 
 Kan jeg sende deg et eksempel på en mulighetsstudie vi har laget?
+
+Vennlig hilsen
+Tomtly-teamet
+Tomtly.no | hey@nops.no | +47 40603908`
+}
+
+function rivningPitch(tomt: FinnTomt): string {
+  const kommune = tomt.kommune || '[kommune]'
+  const størrelse = tomt.tomtestørrelse_m2 ? `${tomt.tomtestørrelse_m2.toLocaleString('nb-NO')} m²` : '[størrelse] m²'
+  return `Hei!
+
+Jeg ser at eiendommen i ${kommune} (${størrelse}) kan ha potensiale som utviklingstomt. Mange slike eiendommer selges under reell verdi fordi kjøpere ikke ser mulighetene.
+
+Tomtly.no lager profesjonelle mulighetsstudier som viser hva som faktisk kan bygges – med husmodeller, reguleringsstatus, byggekalkyle og visualiseringer. Dette kan øke interessen og prisen betydelig.
+
+Vi kan hjelpe med:
+✓ Mulighetsstudie med husmodeller
+✓ Vurdering av rivning vs. renovering
+✓ Byggekostnadskalkyle for nybygg
+✓ Markedsføring mot utbyggere og utviklere
+
+Interessert i en uforpliktende vurdering?
 
 Vennlig hilsen
 Tomtly-teamet
@@ -159,6 +187,7 @@ function DetailPanel({
 }) {
   const [showOwnerPitch, setShowOwnerPitch] = useState(false)
   const [showMeglerPitch, setShowMeglerPitch] = useState(false)
+  const [showRivningPitch, setShowRivningPitch] = useState(false)
   const [notes, setNotes] = useState(tomt.notater || '')
 
   const handleNotesBlur = () => {
@@ -169,6 +198,8 @@ function DetailPanel({
 
   const emailSubject = encodeURIComponent(`Tomtly – mulighetsstudie for tomt i ${tomt.kommune || 'din kommune'}`)
   const emailBody = encodeURIComponent(tomt.megler_firma ? meglerPitch(tomt) : ownerPitch(tomt))
+
+  const hasFlagg = tomt.flagg && tomt.flagg.length > 0
 
   return (
     <div className="fixed inset-0 bg-black/40 z-50 flex justify-end">
@@ -182,6 +213,21 @@ function DetailPanel({
         </div>
 
         <div className="p-6 space-y-6">
+          {/* Flagg badges */}
+          {hasFlagg && (
+            <div className="flex flex-wrap gap-2">
+              {tomt.flagg!.map((f, i) => (
+                <span key={i} className={`px-3 py-1 text-xs font-bold rounded-full ${
+                  f === 'dødsbo' ? 'bg-purple-100 text-purple-800' :
+                  f === 'tvangssalg' ? 'bg-red-100 text-red-800' :
+                  'bg-amber-100 text-amber-800'
+                }`}>
+                  {f.charAt(0).toUpperCase() + f.slice(1)}
+                </span>
+              ))}
+            </div>
+          )}
+
           {/* Info grid */}
           <div className="grid grid-cols-2 gap-4">
             <InfoItem label="FINN-kode" value={tomt.finn_kode} />
@@ -255,7 +301,7 @@ function DetailPanel({
           {/* Pitch buttons */}
           <div className="space-y-3">
             <button
-              onClick={() => { setShowOwnerPitch(!showOwnerPitch); setShowMeglerPitch(false) }}
+              onClick={() => { setShowOwnerPitch(!showOwnerPitch); setShowMeglerPitch(false); setShowRivningPitch(false) }}
               className="w-full flex items-center justify-between px-4 py-3 bg-brand-50 border border-brand-200 rounded-lg text-sm font-medium text-brand-700 hover:bg-brand-100 transition-colors"
             >
               Pitch til tomteeier
@@ -271,7 +317,7 @@ function DetailPanel({
             )}
 
             <button
-              onClick={() => { setShowMeglerPitch(!showMeglerPitch); setShowOwnerPitch(false) }}
+              onClick={() => { setShowMeglerPitch(!showMeglerPitch); setShowOwnerPitch(false); setShowRivningPitch(false) }}
               className="w-full flex items-center justify-between px-4 py-3 bg-brand-50 border border-brand-200 rounded-lg text-sm font-medium text-brand-700 hover:bg-brand-100 transition-colors"
             >
               Pitch til megler
@@ -283,6 +329,22 @@ function DetailPanel({
                   <CopyButton text={meglerPitch(tomt)} />
                 </div>
                 <pre className="text-xs text-brand-700 whitespace-pre-wrap font-sans leading-relaxed">{meglerPitch(tomt)}</pre>
+              </div>
+            )}
+
+            <button
+              onClick={() => { setShowRivningPitch(!showRivningPitch); setShowOwnerPitch(false); setShowMeglerPitch(false) }}
+              className="w-full flex items-center justify-between px-4 py-3 bg-orange-50 border border-orange-200 rounded-lg text-sm font-medium text-orange-700 hover:bg-orange-100 transition-colors"
+            >
+              Pitch for rivningsobjekt
+              {showRivningPitch ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </button>
+            {showRivningPitch && (
+              <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                <div className="flex justify-end mb-2">
+                  <CopyButton text={rivningPitch(tomt)} />
+                </div>
+                <pre className="text-xs text-orange-700 whitespace-pre-wrap font-sans leading-relaxed">{rivningPitch(tomt)}</pre>
               </div>
             )}
           </div>
@@ -328,6 +390,7 @@ export default function FinnPipelinePage() {
   const [oppsummeringer, setOppsummeringer] = useState<DagligOppsummering[]>([])
   const [loading, setLoading] = useState(true)
   const [scraping, setScraping] = useState(false)
+  const [scrapingDodsbo, setScrapingDodsbo] = useState(false)
   const [scrapeResult, setScrapeResult] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<TabType>('alle')
   const [selectedTomt, setSelectedTomt] = useState<FinnTomt | null>(null)
@@ -367,15 +430,36 @@ export default function FinnPipelinePage() {
       })
       const data = await res.json()
       if (data.success) {
-        setScrapeResult(`Ferdig! ${data.nye} nye, ${data.oppdatert} oppdatert, ${data.totalt_funnet} totalt funnet`)
+        setScrapeResult(`FINN: ${data.nye} nye, ${data.oppdatert} oppdatert, ${data.totalt_funnet} totalt`)
         fetchData()
       } else {
         setScrapeResult(`Feil: ${data.error}`)
       }
     } catch {
-      setScrapeResult('Nettverksfeil under scraping')
+      setScrapeResult('Nettverksfeil under FINN-scraping')
     }
     setScraping(false)
+  }
+
+  const handleScrapeDodsbo = async () => {
+    setScrapingDodsbo(true)
+    setScrapeResult(null)
+    try {
+      const res = await fetch('/api/admin/scrape-dodsbo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      })
+      const data = await res.json()
+      if (data.success) {
+        setScrapeResult(`Dødsbo: ${data.nye || 0} nye funnet`)
+        fetchData()
+      } else {
+        setScrapeResult(`Feil: ${data.error}`)
+      }
+    } catch {
+      setScrapeResult('Nettverksfeil under dødsbo-scraping')
+    }
+    setScrapingDodsbo(false)
   }
 
   const handleStatusChange = async (id: string, newStatus: Status) => {
@@ -411,7 +495,8 @@ export default function FinnPipelinePage() {
   const totalAktive = tomter.length
   const nyeSiste24t = tomter.filter(t => new Date(t.created_at) > yesterday).length
   const over60dager = tomter.filter(t => (t.dager_paa_finn || 0) >= 60).length
-  const prisendringer = 0 // TODO: track price changes
+  const tvangssalgCount = tomter.filter(t => t.flagg?.includes('tvangssalg')).length
+  const dodsboCount = tomter.filter(t => t.flagg?.includes('dødsbo')).length
 
   // Apply filters
   const applyFilters = (list: FinnTomt[]) => {
@@ -429,6 +514,27 @@ export default function FinnPipelinePage() {
   const prioritertTomter = applyFilters(
     tomter.filter(t => (t.dager_paa_finn || 0) >= 60)
   ).sort((a, b) => (b.dager_paa_finn || 0) - (a.dager_paa_finn || 0))
+
+  const dodsboTomter = applyFilters(
+    tomter.filter(t => t.flagg?.includes('dødsbo'))
+  )
+
+  const tvangssalgTomter = applyFilters(
+    tomter.filter(t => t.flagg?.includes('tvangssalg'))
+  )
+
+  // Rivningsobjekter: match on keywords in adresse or low price relative to area
+  const rivningTomter = applyFilters(
+    tomter.filter(t => {
+      const adresseLower = (t.adresse || '').toLowerCase()
+      const hasKeyword = RIVNING_KEYWORDS.some(kw => adresseLower.includes(kw))
+      if (hasKeyword) return true
+      if (t.flagg?.some(f => RIVNING_KEYWORDS.some(kw => f.toLowerCase().includes(kw)))) return true
+      // Low price heuristic: price below 500k for a large plot (>500m2)
+      if (t.prisantydning && t.tomtestørrelse_m2 && t.prisantydning < 500000 && t.tomtestørrelse_m2 > 500) return true
+      return false
+    })
+  )
 
   // ─── Render ──────────────────────────────────────────────────────────────
 
@@ -451,12 +557,20 @@ export default function FinnPipelinePage() {
               <span className="text-xs bg-white/10 px-3 py-1.5 rounded-lg">{scrapeResult}</span>
             )}
             <button
+              onClick={handleScrapeDodsbo}
+              disabled={scrapingDodsbo}
+              className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 disabled:opacity-50 transition-colors"
+            >
+              <Skull className={`w-4 h-4 ${scrapingDodsbo ? 'animate-pulse' : ''}`} />
+              {scrapingDodsbo ? 'Scraper...' : 'Kjør dødsbo-scraper'}
+            </button>
+            <button
               onClick={handleScrape}
               disabled={scraping}
               className="flex items-center gap-2 px-4 py-2 bg-[#06bffc] text-white rounded-lg text-sm font-medium hover:bg-[#05a8de] disabled:opacity-50 transition-colors"
             >
               <RefreshCw className={`w-4 h-4 ${scraping ? 'animate-spin' : ''}`} />
-              {scraping ? 'Scraper...' : 'Kjør scraper nå'}
+              {scraping ? 'Scraper...' : 'Kjør FINN-scraper'}
             </button>
           </div>
         </div>
@@ -464,11 +578,12 @@ export default function FinnPipelinePage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Stats row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          <StatCard icon={MapPin} label="Totalt aktive" value={totalAktive} />
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+          <StatCard icon={MapPin} label="Totalt" value={totalAktive} />
           <StatCard icon={TrendingUp} label="Nye siste 24t" value={nyeSiste24t} />
-          <StatCard icon={AlertTriangle} label="60+ dager" value={over60dager} accent={over60dager > 0} />
-          <StatCard icon={Clock} label="Prisendringer" value={prisendringer} />
+          <StatCard icon={Clock} label="60+ dager" value={over60dager} accent={over60dager > 0} />
+          <StatCard icon={Gavel} label="Tvangssalg" value={tvangssalgCount} accent={tvangssalgCount > 0} />
+          <StatCard icon={Skull} label="Dødsbo" value={dodsboCount} accent={dodsboCount > 0} />
         </div>
 
         {/* Filter bar */}
@@ -481,7 +596,7 @@ export default function FinnPipelinePage() {
 
             <select
               value={filterType}
-              onChange={e => setFilterType(e.target.value as any)}
+              onChange={e => setFilterType(e.target.value as 'alle' | 'tomt' | 'fritidstomt')}
               className="px-3 py-1.5 text-xs border border-brand-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-brand-300"
             >
               <option value="alle">Alle typer</option>
@@ -522,7 +637,7 @@ export default function FinnPipelinePage() {
 
             <select
               value={filterMegler}
-              onChange={e => setFilterMegler(e.target.value as any)}
+              onChange={e => setFilterMegler(e.target.value as 'alle' | 'ja' | 'nei')}
               className="px-3 py-1.5 text-xs border border-brand-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-brand-300"
             >
               <option value="alle">Megler: alle</option>
@@ -546,9 +661,10 @@ export default function FinnPipelinePage() {
           {([
             { key: 'alle' as TabType, label: `Alle tomter (${filteredTomter.length})` },
             { key: 'prioritert' as TabType, label: `60+ dager (${prioritertTomter.length})` },
+            { key: 'dodsbo' as TabType, label: `Dødsbo (${dodsboTomter.length})` },
+            { key: 'tvangssalg' as TabType, label: `Tvangssalg (${tvangssalgTomter.length})` },
+            { key: 'rivning' as TabType, label: `Rivningsobjekter (${rivningTomter.length})` },
             { key: 'oppsummering' as TabType, label: 'Daglig oppsummering' },
-            { key: 'dodsbo' as TabType, label: 'Dødsbo' },
-            { key: 'tvangssalg' as TabType, label: 'Tvangssalg' },
           ]).map(({ key, label }) => (
             <button
               key={key}
@@ -566,7 +682,7 @@ export default function FinnPipelinePage() {
         {loading ? (
           <div className="bg-white rounded-xl border border-brand-200 p-16 text-center">
             <RefreshCw className="w-8 h-8 text-brand-300 animate-spin mx-auto mb-3" />
-            <p className="text-brand-500">Laster data...</p>
+            <p className="text-brand-500">Laster data fra Supabase...</p>
           </div>
         ) : (
           <>
@@ -597,6 +713,148 @@ export default function FinnPipelinePage() {
                     />
                   </div>
                 )}
+              </div>
+            )}
+
+            {/* Dødsbo tab - REAL DATA from finn_tomter where flagg contains 'dødsbo' */}
+            {activeTab === 'dodsbo' && (
+              <div className="space-y-4">
+                <div className="bg-purple-50 border border-purple-200 rounded-xl p-4">
+                  <p className="text-sm text-purple-800">
+                    <strong>Dødsbo-tomter:</strong> Filtrert fra finn_tomter der flagg inneholder &quot;dødsbo&quot;.
+                    Kjør dødsbo-scraperen for å oppdatere data.
+                  </p>
+                </div>
+
+                {dodsboTomter.length === 0 ? (
+                  <div className="bg-white rounded-xl border border-brand-200 p-12 text-center">
+                    <Skull className="w-8 h-8 text-brand-300 mx-auto mb-3" />
+                    <p className="text-brand-500 mb-2">Ingen dødsbo-tomter funnet</p>
+                    <p className="text-xs text-brand-400">Kjør dødsbo-scraperen for å finne eiendommer i dødsbo</p>
+                  </div>
+                ) : (
+                  <TomterTable
+                    tomter={dodsboTomter}
+                    onSelect={setSelectedTomt}
+                    onStatusChange={handleStatusChange}
+                  />
+                )}
+
+                {/* Sensitive pitch template */}
+                <div className="bg-white rounded-xl border border-brand-200 p-6">
+                  <h3 className="font-semibold text-tomtly-dark mb-3">Pitch-mal for dødsbo (sensitiv tone)</h3>
+                  <div className="bg-brand-50 rounded-lg p-4 border border-brand-100">
+                    <div className="flex justify-end mb-2">
+                      <CopyButton text={`Hei,\n\nVi forstår at dette er en vanskelig tid, og vi ønsker å tilby vår hjelp dersom familien vurderer å selge eiendommen eller tomten.\n\nTomtly.no hjelper med profesjonelle mulighetsstudier som viser hva som kan bygges på en tomt, noe som kan bidra til en raskere og bedre salgsprosess.\n\nVi er tilgjengelige dersom dere ønsker en uforpliktende samtale.\n\nMed vennlig hilsen\nTomtly-teamet\ntomtly.no | hey@nops.no | +47 40603908`} />
+                    </div>
+                    <pre className="text-xs text-brand-700 whitespace-pre-wrap font-sans leading-relaxed">{`Hei,
+
+Vi forstår at dette er en vanskelig tid, og vi ønsker å tilby vår hjelp dersom familien vurderer å selge eiendommen eller tomten.
+
+Tomtly.no hjelper med profesjonelle mulighetsstudier som viser hva som kan bygges på en tomt, noe som kan bidra til en raskere og bedre salgsprosess.
+
+Vi er tilgjengelige dersom dere ønsker en uforpliktende samtale.
+
+Med vennlig hilsen
+Tomtly-teamet
+tomtly.no | hey@nops.no | +47 40603908`}</pre>
+                  </div>
+                  <p className="text-xs text-amber-600 mt-2">Viktig: Bruk alltid en respektfull og sensitiv tone ved kontakt med dødsbo.</p>
+                </div>
+              </div>
+            )}
+
+            {/* Tvangssalg tab - REAL DATA from finn_tomter where flagg contains 'tvangssalg' */}
+            {activeTab === 'tvangssalg' && (
+              <div className="space-y-4">
+                <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+                  <p className="text-sm text-red-800">
+                    <strong>Tvangssalg-tomter:</strong> Filtrert fra finn_tomter der flagg inneholder &quot;tvangssalg&quot;.
+                  </p>
+                </div>
+
+                {tvangssalgTomter.length === 0 ? (
+                  <div className="bg-white rounded-xl border border-brand-200 p-12 text-center">
+                    <Gavel className="w-8 h-8 text-brand-300 mx-auto mb-3" />
+                    <p className="text-brand-500 mb-2">Ingen tvangssalg-tomter funnet</p>
+                    <p className="text-xs text-brand-400">Tvangssalg-data oppdateres via FINN-scraperen</p>
+                  </div>
+                ) : (
+                  <TomterTable
+                    tomter={tvangssalgTomter}
+                    onSelect={setSelectedTomt}
+                    onStatusChange={handleStatusChange}
+                  />
+                )}
+
+                {/* Buyer angle info */}
+                <div className="bg-white rounded-xl border border-brand-200 p-6">
+                  <h3 className="font-semibold text-tomtly-dark mb-3">Kjøpervinkel – varsle Tomtly-brukere</h3>
+                  <div className="bg-blue-50 rounded-lg p-4 border border-blue-100">
+                    <p className="text-sm text-blue-800 mb-3">
+                      Tvangssalg gir muligheter for kjøpere til å kjøpe eiendom under markedspris.
+                      Tomtly kan varsle registrerte kjøpere om relevante tvangssalg i deres ønskede områder.
+                    </p>
+                    <ul className="text-xs text-blue-700 space-y-1 list-disc list-inside">
+                      <li>Automatisk varsling basert på kjøperens søkeprofil</li>
+                      <li>Mulighetsstudie kan lages for tvangssalgstomter</li>
+                      <li>Finansieringsforhåndsgodkjenning via Tomtly Finans</li>
+                      <li>Rask handling – tvangssalg har ofte korte frister</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Rivningsobjekter tab */}
+            {activeTab === 'rivning' && (
+              <div className="space-y-4">
+                <div className="bg-orange-50 border border-orange-200 rounded-xl p-4">
+                  <p className="text-sm text-orange-800">
+                    <strong>Rivningsobjekter:</strong> Tomter filtrert etter nøkkelord (rivning, totalrenovering, kondemnabel, tomteverdi, utviklingseiendom) eller lav pris relativt til størrelse.
+                  </p>
+                </div>
+
+                {rivningTomter.length === 0 ? (
+                  <div className="bg-white rounded-xl border border-brand-200 p-12 text-center">
+                    <Hammer className="w-8 h-8 text-brand-300 mx-auto mb-3" />
+                    <p className="text-brand-500 mb-2">Ingen rivningsobjekter funnet</p>
+                    <p className="text-xs text-brand-400">Kjør FINN-scraperen for å oppdatere data</p>
+                  </div>
+                ) : (
+                  <TomterTable
+                    tomter={rivningTomter}
+                    onSelect={setSelectedTomt}
+                    onStatusChange={handleStatusChange}
+                  />
+                )}
+
+                {/* Rivning pitch template */}
+                <div className="bg-white rounded-xl border border-brand-200 p-6">
+                  <h3 className="font-semibold text-tomtly-dark mb-3">Pitch-mal for rivningsobjekter</h3>
+                  <div className="bg-orange-50 rounded-lg p-4 border border-orange-100">
+                    <div className="flex justify-end mb-2">
+                      <CopyButton text={`Hei!\n\nJeg ser at eiendommen din kan ha stort potensiale som utviklingstomt. Mange slike eiendommer selges under reell verdi fordi kjøpere ikke ser mulighetene.\n\nTomtly.no lager profesjonelle mulighetsstudier som viser hva som faktisk kan bygges – med husmodeller, reguleringsstatus, byggekalkyle og visualiseringer.\n\nVi kan hjelpe med:\n- Mulighetsstudie med husmodeller\n- Vurdering av rivning vs. renovering\n- Byggekostnadskalkyle for nybygg\n- Markedsføring mot utbyggere og utviklere\n\nInteressert i en uforpliktende vurdering?\n\nVennlig hilsen\nTomtly-teamet\ntomtly.no | hey@nops.no | +47 40603908`} />
+                    </div>
+                    <pre className="text-xs text-orange-700 whitespace-pre-wrap font-sans leading-relaxed">{`Hei!
+
+Jeg ser at eiendommen din kan ha stort potensiale som utviklingstomt. Mange slike eiendommer selges under reell verdi fordi kjøpere ikke ser mulighetene.
+
+Tomtly.no lager profesjonelle mulighetsstudier som viser hva som faktisk kan bygges – med husmodeller, reguleringsstatus, byggekalkyle og visualiseringer.
+
+Vi kan hjelpe med:
+- Mulighetsstudie med husmodeller
+- Vurdering av rivning vs. renovering
+- Byggekostnadskalkyle for nybygg
+- Markedsføring mot utbyggere og utviklere
+
+Interessert i en uforpliktende vurdering?
+
+Vennlig hilsen
+Tomtly-teamet
+tomtly.no | hey@nops.no | +47 40603908`}</pre>
+                  </div>
+                </div>
               </div>
             )}
 
@@ -657,126 +915,6 @@ export default function FinnPipelinePage() {
                 )}
               </div>
             )}
-            {/* Dødsbo tab */}
-            {activeTab === 'dodsbo' && (
-              <div className="space-y-4">
-                <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
-                  <p className="text-sm text-amber-800">
-                    <strong>Datakilde:</strong> Grunnboken (tinglysingsdata). Grunnbok-integrasjon settes opp separat.
-                    Tabellen under viser placeholder-data.
-                  </p>
-                </div>
-
-                <div className="bg-white rounded-xl border border-brand-200 overflow-hidden">
-                  <div className="p-4 border-b border-brand-200">
-                    <h2 className="font-semibold text-tomtly-dark">Dødsbo – eiendommer</h2>
-                    <p className="text-xs text-brand-400 mt-1">Eiendommer i dødsbo kan være aktuelle for tomtesalg</p>
-                  </div>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="bg-brand-50 text-brand-500 text-xs uppercase tracking-wide">
-                          <th className="text-left px-4 py-3 font-medium">Adresse</th>
-                          <th className="text-left px-4 py-3 font-medium">Kommune</th>
-                          <th className="text-right px-4 py-3 font-medium">Størrelse</th>
-                          <th className="text-left px-4 py-3 font-medium">Avdøde</th>
-                          <th className="text-left px-4 py-3 font-medium">Dato</th>
-                          <th className="text-left px-4 py-3 font-medium">Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr className="border-t border-brand-100">
-                          <td colSpan={6} className="px-4 py-12 text-center text-brand-400">
-                            <AlertTriangle className="w-8 h-8 mx-auto mb-3 text-brand-300" />
-                            <p>Ingen dødsbo-data ennå. Grunnbok-integrasjon settes opp separat.</p>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                {/* Sensitive pitch template */}
-                <div className="bg-white rounded-xl border border-brand-200 p-6">
-                  <h3 className="font-semibold text-tomtly-dark mb-3">Pitch-mal for dødsbo (sensitiv tone)</h3>
-                  <div className="bg-brand-50 rounded-lg p-4 border border-brand-100">
-                    <div className="flex justify-end mb-2">
-                      <CopyButton text={`Hei,\n\nVi forstår at dette er en vanskelig tid, og vi ønsker å tilby vår hjelp dersom familien vurderer å selge eiendommen eller tomten.\n\nTomtly.no hjelper med profesjonelle mulighetsstudier som viser hva som kan bygges på en tomt, noe som kan bidra til en raskere og bedre salgsprosess.\n\nVi er tilgjengelige dersom dere ønsker en uforpliktende samtale.\n\nMed vennlig hilsen\nTomtly-teamet\ntomtly.no | hey@nops.no | +47 40603908`} />
-                    </div>
-                    <pre className="text-xs text-brand-700 whitespace-pre-wrap font-sans leading-relaxed">{`Hei,
-
-Vi forstår at dette er en vanskelig tid, og vi ønsker å tilby vår hjelp dersom familien vurderer å selge eiendommen eller tomten.
-
-Tomtly.no hjelper med profesjonelle mulighetsstudier som viser hva som kan bygges på en tomt, noe som kan bidra til en raskere og bedre salgsprosess.
-
-Vi er tilgjengelige dersom dere ønsker en uforpliktende samtale.
-
-Med vennlig hilsen
-Tomtly-teamet
-tomtly.no | hey@nops.no | +47 40603908`}</pre>
-                  </div>
-                  <p className="text-xs text-amber-600 mt-2">Viktig: Bruk alltid en respektfull og sensitiv tone ved kontakt med dødsbo.</p>
-                </div>
-              </div>
-            )}
-
-            {/* Tvangssalg tab */}
-            {activeTab === 'tvangssalg' && (
-              <div className="space-y-4">
-                <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
-                  <p className="text-sm text-amber-800">
-                    <strong>Datakilde:</strong> Domstol.no (tvangssalg av fast eiendom). Domstol.no-scraping settes opp separat.
-                    Tabellen under viser placeholder-data.
-                  </p>
-                </div>
-
-                <div className="bg-white rounded-xl border border-brand-200 overflow-hidden">
-                  <div className="p-4 border-b border-brand-200">
-                    <h2 className="font-semibold text-tomtly-dark">Tvangssalg – eiendommer</h2>
-                    <p className="text-xs text-brand-400 mt-1">Tvangssalg kan gi kjøpsmuligheter for Tomtly-brukere</p>
-                  </div>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="bg-brand-50 text-brand-500 text-xs uppercase tracking-wide">
-                          <th className="text-left px-4 py-3 font-medium">Adresse</th>
-                          <th className="text-left px-4 py-3 font-medium">Kommune</th>
-                          <th className="text-left px-4 py-3 font-medium">Type</th>
-                          <th className="text-left px-4 py-3 font-medium">Medhjelper</th>
-                          <th className="text-left px-4 py-3 font-medium">Frist</th>
-                          <th className="text-left px-4 py-3 font-medium">Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr className="border-t border-brand-100">
-                          <td colSpan={6} className="px-4 py-12 text-center text-brand-400">
-                            <AlertTriangle className="w-8 h-8 mx-auto mb-3 text-brand-300" />
-                            <p>Ingen tvangssalg-data ennå. Domstol.no-scraping settes opp separat.</p>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                {/* Buyer angle info */}
-                <div className="bg-white rounded-xl border border-brand-200 p-6">
-                  <h3 className="font-semibold text-tomtly-dark mb-3">Kjøpervinkel – varsle Tomtly-brukere</h3>
-                  <div className="bg-blue-50 rounded-lg p-4 border border-blue-100">
-                    <p className="text-sm text-blue-800 mb-3">
-                      Tvangssalg gir muligheter for kjøpere til å kjøpe eiendom under markedspris.
-                      Tomtly kan varsle registrerte kjøpere om relevante tvangssalg i deres ønskede områder.
-                    </p>
-                    <ul className="text-xs text-blue-700 space-y-1 list-disc list-inside">
-                      <li>Automatisk varsling basert på kjøperens søkeprofil</li>
-                      <li>Mulighetsstudie kan lages for tvangssalgstomter</li>
-                      <li>Finansieringsforhåndsgodkjenning via Tomtly Finans</li>
-                      <li>Rask handling – tvangssalg har ofte korte frister</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            )}
           </>
         )}
       </div>
@@ -830,7 +968,8 @@ function TomterTable({
               <th className="text-right px-4 py-3 font-medium">Dager</th>
               <th className="text-left px-4 py-3 font-medium">Megler</th>
               <th className="text-left px-4 py-3 font-medium">Status</th>
-              <th className="text-right px-4 py-3 font-medium">Handlinger</th>
+              <th className="text-left px-4 py-3 font-medium">Flagg</th>
+              <th className="text-right px-4 py-3 font-medium">FINN</th>
             </tr>
           </thead>
           <tbody>
@@ -903,25 +1042,32 @@ function TomterTable({
                     </select>
                   </td>
 
-                  {/* Handlinger */}
-                  <td className="px-4 py-3 text-right" onClick={e => e.stopPropagation()}>
-                    <div className="flex items-center justify-end gap-2">
-                      <a
-                        href={tomt.finn_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-1.5 hover:bg-brand-100 rounded-lg transition-colors"
-                        title="Åpne på FINN"
-                      >
-                        <ExternalLink className="w-4 h-4 text-brand-400" />
-                      </a>
-                      <button
-                        onClick={() => onSelect(tomt)}
-                        className="px-2.5 py-1 text-xs font-medium text-brand-600 bg-brand-50 border border-brand-200 rounded-lg hover:bg-brand-100 transition-colors"
-                      >
-                        Detaljer
-                      </button>
+                  {/* Flagg */}
+                  <td className="px-4 py-3">
+                    <div className="flex flex-wrap gap-1">
+                      {tomt.flagg?.map((f, i) => (
+                        <span key={i} className={`px-1.5 py-0.5 text-[10px] font-medium rounded ${
+                          f === 'dødsbo' ? 'bg-purple-100 text-purple-700' :
+                          f === 'tvangssalg' ? 'bg-red-100 text-red-700' :
+                          'bg-amber-100 text-amber-700'
+                        }`}>
+                          {f}
+                        </span>
+                      ))}
                     </div>
+                  </td>
+
+                  {/* FINN link */}
+                  <td className="px-4 py-3 text-right" onClick={e => e.stopPropagation()}>
+                    <a
+                      href={tomt.finn_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-1.5 hover:bg-brand-100 rounded-lg transition-colors inline-flex"
+                      title="Åpne på FINN"
+                    >
+                      <ExternalLink className="w-4 h-4 text-brand-400" />
+                    </a>
                   </td>
                 </tr>
               )
