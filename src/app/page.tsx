@@ -111,7 +111,7 @@ function HeroSection() {
               href="/sok-tomt"
               className="inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-brand-600 text-brand-300 text-sm font-medium rounded-lg hover:bg-brand-900 transition-colors"
             >
-              Vet du hva du vil bygge? Vi finner tomten
+              Vet du hva eller hvor du vil bygge? Vi finner tomten
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -466,9 +466,9 @@ function Prismodell() {
         <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm">
           <Link href="/for-meglere" className="text-tomtly-accent hover:underline font-medium">Tomtly for meglere</Link>
           <span className="text-brand-300">|</span>
-          <Link href="/for-husleverandører" className="text-tomtly-accent hover:underline font-medium">For husleverandører</Link>
+          <Link href="/for-husleverandorer" className="text-tomtly-accent hover:underline font-medium">For husleverandører</Link>
           <span className="text-brand-300">|</span>
-          <Link href="/for-entreprenører" className="text-tomtly-accent hover:underline font-medium">For entreprenører</Link>
+          <Link href="/for-entreprenorer" className="text-tomtly-accent hover:underline font-medium">For entreprenører</Link>
           <span className="text-brand-300">|</span>
           <Link href="/for-utviklere" className="text-tomtly-accent hover:underline font-medium">For utviklere</Link>
           <span className="text-brand-300">|</span>

@@ -318,7 +318,7 @@ function TabBanker() {
             </li>
             <li className="flex items-start gap-2 text-sm text-brand-700">
               <span className="w-1.5 h-1.5 bg-red-400 rounded-full mt-1.5 flex-shrink-0" />
-              Byggeland-soknader er tidkrevende a vurdere uten komplett underlag
+              Byggeland-soknader er tidkrevende å vurdere uten komplett underlag
             </li>
             <li className="flex items-start gap-2 text-sm text-brand-700">
               <span className="w-1.5 h-1.5 bg-red-400 rounded-full mt-1.5 flex-shrink-0" />
@@ -389,7 +389,7 @@ function TabBanker() {
             'Raskere saksbehandling med komplett underlag',
             'Høyre konvertering på byggelån',
             'Lavere risiko med fastpriser fra leverandører',
-            'Ny kanal for a na byggekunder',
+            'Ny kanal for å nå byggekunder',
           ].map((f) => (
             <div key={f} className="flex items-start gap-2 text-sm text-brand-700">
               <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />

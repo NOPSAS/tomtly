@@ -41,8 +41,8 @@ export function Footer() {
             <ul className="space-y-2.5">
               <li><Link href="/for-tomteeiere" className="text-sm hover:text-white transition-colors">Tomteeiere</Link></li>
               <li><Link href="/for-meglere" className="text-sm hover:text-white transition-colors">Meglere</Link></li>
-              <li><Link href="/for-husleverandører" className="text-sm hover:text-white transition-colors">Husleverandører</Link></li>
-              <li><Link href="/for-entreprenører" className="text-sm hover:text-white transition-colors">Entreprenører</Link></li>
+              <li><Link href="/for-husleverandorer" className="text-sm hover:text-white transition-colors">Husleverandører</Link></li>
+              <li><Link href="/for-entreprenorer" className="text-sm hover:text-white transition-colors">Entreprenører</Link></li>
               <li><Link href="/utvikler" className="text-sm hover:text-white transition-colors">Utviklere</Link></li>
               <li><Link href="/for-banker" className="text-sm hover:text-white transition-colors">Banker</Link></li>
             </ul>

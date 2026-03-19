@@ -254,7 +254,7 @@ function Prismodell() {
 function FAQ() {
   const sporsmal = [
     {
-      q: 'Hvor lang tid tar det a fa tomtanalysen?',
+      q: 'Hvor lang tid tar det å få tomtanalysen?',
       a: 'Vi leverer en komplett mulighetsstudie innen 3-5 virkedager etter at du har sendt inn tomten din.',
     },
     {
@@ -262,7 +262,7 @@ function FAQ() {
       a: 'Vi analyserer reguleringsplanen for vi starter. Hvis tomten ikke kan bebygges, far du beskjed umiddelbart og betaler ingenting.',
     },
     {
-      q: 'Hva er forskjellen mellom a selge selv og la dere selge?',
+      q: 'Hva er forskjellen mellom å selge selv og la dere selge?',
       a: 'Med "Selg selv" far du analysen og publisering, men håndterer salget på egen hand eller via megler. Med "Vi selger for deg" tar vi oss av alt fra markedsføring til oppgjør via Propr.',
     },
     {
@@ -270,8 +270,8 @@ function FAQ() {
       a: 'Propr er en godkjent plattform for eiendomsoppgjør. Nar vi selger for deg, gjennomføres den juridiske transaksjonen trygt via Propr. Tomtly er ikke et eiendomsmeglerforetak.',
     },
     {
-      q: 'Kan jeg bruke analysen til a selge på FINN eller via megler?',
-      a: 'Ja, absolutt. Med "Selg selv"-pakken star du fritt til a bruke analysen som salgsunderlag hvor du vil – på FINN, via megler, eller privat.',
+      q: 'Kan jeg bruke analysen til å selge på FINN eller via megler?',
+      a: 'Ja, absolutt. Med "Selg selv"-pakken står du fritt til å bruke analysen som salgsunderlag hvor du vil – på FINN, via megler, eller privat.',
     },
   ]
 
@@ -302,7 +302,7 @@ function CTASection() {
     <section className="bg-tomtly-dark py-20 lg:py-28">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="font-display text-3xl lg:text-4xl font-bold text-white mb-4">
-          Klar til a selge smartere?
+          Klar til å selge smartere?
         </h2>
         <p className="text-brand-400 mb-8 max-w-lg mx-auto">
           Det tar under 5 minutter a registrere tomten din. Vi gjor resten.

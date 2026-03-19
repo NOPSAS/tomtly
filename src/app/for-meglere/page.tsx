@@ -42,7 +42,7 @@ function HeroSection() {
           </h1>
 
           <p className="text-lg text-brand-400 leading-relaxed mb-10 max-w-xl">
-            Legg til tomtene dine gratis. Vi lager mulighetsstudie og gjor tomten enklere a selge. Du beholder provisjonen din.
+            Legg til tomtene dine gratis. Vi lager mulighetsstudie og gjor tomten enklere å selge. Du beholder provisjonen din.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
@@ -102,7 +102,7 @@ function Fordeler() {
             Hvorfor meglere bruker Tomtly
           </h2>
           <p className="text-brand-600 max-w-lg mx-auto">
-            Et gratis salgsverktoy som gjor tomtene dine enklere a selge.
+            Et gratis salgsverktoy som gjor tomtene dine enklere å selge.
           </p>
         </div>
 

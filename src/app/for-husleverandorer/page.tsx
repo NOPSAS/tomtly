@@ -79,7 +79,7 @@ function Problemet() {
           Problemet
         </h2>
         <p className="text-lg text-brand-600 leading-relaxed">
-          Dere bruker hundretusener på markedsføring for a na folk med tomt. De er nesten umulige a finne. Husannonser treffer tusenvis som bare drommesvever – men ikke de som faktisk har en tomt å bygge pa.
+          Dere bruker hundretusener på markedsføring for å nå folk med tomt. De er nesten umulige å finne. Husannonser treffer tusenvis som bare drømmesvever – men ikke de som faktisk har en tomt åbygge på.
         </p>
       </div>
     </section>
