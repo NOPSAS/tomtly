@@ -52,7 +52,7 @@ function HeroSection() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full mb-6">
             <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
             <span className="text-xs text-white/80 font-medium">
-              Analyse- og markedsføringsplattform for tomter
+              Tomteanalyse, markedsføring og salg
             </span>
           </div>
 
@@ -62,13 +62,8 @@ function HeroSection() {
             <span className="text-green-400">i tomten</span>
           </h1>
 
-          <p className="text-lg text-green-200 leading-relaxed mb-2 max-w-xl">
-            Tomtly synliggjør tomter og gir innsikt i utviklingsmuligheter
-          </p>
-          <p className="text-lg text-brand-400 leading-relaxed mb-10 max-w-xl">
-            Vi analyserer tomter og viser kjøpere nøyaktig hva som kan
-            bygges – med arkitektens mulighetsstudie, byggekostnader og
-            verdivurdering.
+          <p className="text-lg text-brand-300 leading-relaxed mb-10 max-w-xl">
+            Vi analyserer tomten din, lager profesjonell mulighetsstudie med husmodeller og byggekalkyle, markedsfører mot aktive kjøpere – og selger via vår fagansvarlige megler. Alt fra 4 990 kr.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
