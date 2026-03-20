@@ -20,7 +20,7 @@ export default function MeglerPartnerPage() {
   const inntektPremium = analyserPremium * 14900
   const inntektNaering = snittNaering * 24900
   const inntektMeglere = Math.round(antallAnalyser * 0.3) * 2900
-  const inntektAddons = Math.round(antallAnalyser * 0.15) * 50000
+  const inntektAddons = Math.round(antallAnalyser * 0.10) * 50000
   const inntektEntreprenor = Math.round(3 * 14900 / 12)
   const inntektHuslev = 2 * 15000
   const inntektBank = Math.round(antallAnalyser * 0.08) * 4900
@@ -68,7 +68,7 @@ export default function MeglerPartnerPage() {
               </div>
               <div>
                 <p className="text-sm text-brand-400 mb-2">Eierskap i Tomtly AS</p>
-                <p className="text-5xl font-bold text-tomtly-gold mb-1">15%</p>
+                <p className="text-5xl font-bold text-tomtly-gold mb-1">10%</p>
                 <p className="text-brand-400">aksjer i selskapet</p>
               </div>
             </div>
@@ -79,7 +79,7 @@ export default function MeglerPartnerPage() {
             <ul className="space-y-2 text-sm text-forest-700">
               <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-forest-600 flex-shrink-0 mt-0.5" />Ingen fast grunnlønn i startfasen – ren inntektsandel</li>
               <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-forest-600 flex-shrink-0 mt-0.5" />Du får 20% av all inntekt Tomtly genererer – fra dag 1</li>
-              <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-forest-600 flex-shrink-0 mt-0.5" />Du får 15% eierskap i Tomtly AS – du bygger din egen verdi</li>
+              <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-forest-600 flex-shrink-0 mt-0.5" />Du får 10% eierskap i Tomtly AS – du bygger din egen verdi</li>
               <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-forest-600 flex-shrink-0 mt-0.5" />Oppgjør på eiendommer gjøres via Propr – vi slipper meglerforetak-krav</li>
               <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-forest-600 flex-shrink-0 mt-0.5" />Vi er billigere enn tradisjonelle meglere fordi oppgjør er outsourcet til Propr</li>
               <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-forest-600 flex-shrink-0 mt-0.5" />Din rolle: selge analyser, bygge kunderelasjoner, skaffe partnere</li>
@@ -110,7 +110,7 @@ export default function MeglerPartnerPage() {
               <ul className="space-y-2">
                 {[
                   '20% av all inntekt Tomtly genererer',
-                  '15% eierskap i Tomtly AS',
+                  '10% eierskap i Tomtly AS',
                   'Bygge noe eget fra starten',
                   'Bruke meglererfaring uten meglerjobben',
                   'Ubegrenset oppsidepotensial',
@@ -167,7 +167,7 @@ export default function MeglerPartnerPage() {
                   { kilde: 'Premium Synlighet (14 900 kr)', antall: analyserPremium, inntekt: inntektPremium },
                   { kilde: 'Næringstomter (snitt 24 900 kr)', antall: snittNaering, inntekt: inntektNaering },
                   { kilde: 'Via meglere (2 900 kr)', antall: Math.round(antallAnalyser * 0.3), inntekt: inntektMeglere },
-                  { kilde: 'Addons (tegning, søknad ~50k)', antall: Math.round(antallAnalyser * 0.15), inntekt: inntektAddons },
+                  { kilde: 'Addons (tegning, søknad ~50k)', antall: Math.round(antallAnalyser * 0.10), inntekt: inntektAddons },
                   { kilde: 'Entreprenør-abo', antall: 3, inntekt: inntektEntreprenor },
                   { kilde: 'Husleverandør-abo', antall: 2, inntekt: inntektHuslev },
                   { kilde: 'Bank lead-fee', antall: Math.round(antallAnalyser * 0.08), inntekt: inntektBank },
@@ -201,7 +201,7 @@ export default function MeglerPartnerPage() {
               <p className="text-3xl font-bold text-tomtly-gold">{fmt(partnerAar)} kr</p>
             </div>
             <div className="bg-brand-50 rounded-xl p-6 border border-brand-200 text-center">
-              <p className="text-xs text-brand-500 mb-1">+ 15% eierskap i Tomtly AS</p>
+              <p className="text-xs text-brand-500 mb-1">+ 10% eierskap i Tomtly AS</p>
               <p className="text-3xl font-bold text-tomtly-dark">
                 <Award className="w-8 h-8 text-tomtly-gold mx-auto" />
               </p>
@@ -216,7 +216,7 @@ export default function MeglerPartnerPage() {
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between"><span className="text-forest-700">{partnerAndel}% av {fmt(totalMndInntekt)} kr</span><span className="font-bold">{fmt(partnerMnd)} kr/mnd</span></div>
                 <div className="flex justify-between"><span className="text-forest-700">Årslønn</span><span className="font-bold">{fmt(partnerAar)} kr</span></div>
-                <div className="flex justify-between pt-2 border-t border-forest-300"><span className="text-forest-700">+ 15% eierskap i Tomtly AS</span><span className="font-bold text-tomtly-gold">Uvurderlig</span></div>
+                <div className="flex justify-between pt-2 border-t border-forest-300"><span className="text-forest-700">+ 10% eierskap i Tomtly AS</span><span className="font-bold text-tomtly-gold">Uvurderlig</span></div>
               </div>
             </div>
             <div className="bg-brand-50 rounded-xl p-6 border border-brand-200">
@@ -327,7 +327,7 @@ export default function MeglerPartnerPage() {
                   ['Forsikring', 'Meglerforskring påkrevd', 'Ikke nødvendig'],
                   ['Klagerisiko', 'Reklamasjonsnemnd', 'Minimal – vi analyserer, ikke selger'],
                   ['Inntektsmodell', '1-3,6% provisjon, 10-15 salg/år', 'Fastpris per analyse, 30+ per mnd'],
-                  ['Din lønn', '500-800k (ansatt), usikkert (selvstendig)', '20% av inntekt + 15% eierskap'],
+                  ['Din lønn', '500-800k (ansatt), usikkert (selvstendig)', '20% av inntekt + 10% eierskap'],
                   ['Stress', 'Høyt – deadline, kvelder, press', 'Lavt – kontorbasert, B2B-salg'],
                   ['Oppside', 'Lineært – flere timer = mer penger', 'Eksponentielt – eierskap vokser'],
                 ].map(([kat, trad, tomtly]) => (

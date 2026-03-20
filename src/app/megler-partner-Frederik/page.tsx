@@ -25,15 +25,16 @@ export default function FrederikPage() {
   const fastEntAbo = Math.round(3 * 14900 / 12)
   const fastHusAbo = 2 * 15000
   const fastBank = 4 * 4900
+  const fastPropr = totalSalg * 2000  // 2000 kr per kunde vi gir Propr
 
-  const fastTotal = fastAnalyser + fastPremium + fastMegler + fastNaering + fastAddons + fastFradeling + fastEntAbo + fastHusAbo + fastBank
+  const fastTotal = fastAnalyser + fastPremium + fastMegler + fastNaering + fastAddons + fastFradeling + fastEntAbo + fastHusAbo + fastBank + fastPropr
 
   const tomtlyTotal = provTotal + fastTotal
 
   // === FREDERIKS DEL ===
-  // 20% av provisjon + 20% av fast inntekt
+  // 20% av provisjon + 10% av fast inntekt
   const frederikProv = Math.round(provTotal * 0.20)
-  const frederikFast = Math.round(fastTotal * 0.20)
+  const frederikFast = Math.round(fastTotal * 0.10)
   const frederikTotal = frederikProv + frederikFast
   const frederikAar = frederikTotal * 12
 
@@ -50,7 +51,7 @@ export default function FrederikPage() {
             Frederik – bli med og selg tomter med Tomtly
           </h1>
           <p className="text-lg text-brand-400 max-w-xl mx-auto">
-            Vi er 3 som selger. Du får 20% av all provisjon og fast inntekt – pluss 15% eierskap i selskapet.
+            Vi er 3 som selger. Du får 20% av provisjon + 10% av fast inntekt – pluss 10% eierskap i selskapet.
           </p>
         </div>
       </div>
@@ -61,18 +62,18 @@ export default function FrederikPage() {
           <div className="grid grid-cols-2 gap-6 mb-6">
             <div className="bg-tomtly-dark rounded-xl p-8 text-center">
               <p className="text-5xl font-bold text-white mb-2">20%</p>
-              <p className="text-brand-400">av provisjon + fast inntekt</p>
+              <p className="text-brand-400">av provisjon, 10% av fast inntekt</p>
             </div>
             <div className="bg-tomtly-dark rounded-xl p-8 text-center">
-              <p className="text-5xl font-bold text-tomtly-gold mb-2">15%</p>
+              <p className="text-5xl font-bold text-tomtly-gold mb-2">10%</p>
               <p className="text-brand-400">eierskap i Tomtly AS</p>
             </div>
           </div>
           <ul className="space-y-2 text-sm text-brand-700">
             <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-tomtly-accent mt-0.5 flex-shrink-0" />Vi er 3 selgere. Alle selger tomter under din bevilgning.</li>
-            <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-tomtly-accent mt-0.5 flex-shrink-0" />Du får 20% av ALL provisjon fra tomtesalg – uansett hvem av oss 3 som selger.</li>
-            <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-tomtly-accent mt-0.5 flex-shrink-0" />Du får 20% av all fast inntekt (analyser, abonnementer, addons).</li>
-            <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-tomtly-accent mt-0.5 flex-shrink-0" />Du får 15% eierskap i Tomtly AS – din andel vokser med selskapet.</li>
+            <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-tomtly-accent mt-0.5 flex-shrink-0" />Du får 20% av all provisjon fra tomtesalg – uansett hvem av oss 3 som selger.</li>
+            <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-tomtly-accent mt-0.5 flex-shrink-0" />Du får 10% av all fast inntekt (analyser, abonnementer, addons).</li>
+            <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-tomtly-accent mt-0.5 flex-shrink-0" />Du får 10% eierskap i Tomtly AS – din andel vokser med selskapet.</li>
             <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-tomtly-accent mt-0.5 flex-shrink-0" />Jobb fra hvor som helst. Oppgjør gjøres av Propr.</li>
           </ul>
         </div>
@@ -119,12 +120,13 @@ export default function FrederikPage() {
                 <div className="flex justify-between"><span>Meglerkunder (10 × 2 900)</span><span>{fmt(fastMegler)} kr</span></div>
                 <div className="flex justify-between"><span>Næring (2 × 24 900)</span><span>{fmt(fastNaering)} kr</span></div>
                 <div className="flex justify-between"><span>Addons – tegning, søknad (5 × 30k)</span><span>{fmt(fastAddons)} kr</span></div>
+                <div className="flex justify-between"><span>Propr-fee ({totalSalg} kunder × 2 000 kr)</span><span>{fmt(fastPropr)} kr</span></div>
                 <div className="flex justify-between"><span>Fradeling, abo, bank</span><span>{fmt(fastFradeling + fastEntAbo + fastHusAbo + fastBank)} kr</span></div>
                 <div className="flex justify-between font-semibold text-brand-700 pt-1 border-t border-brand-300">
                   <span>Sum fast inntekt</span><span>{fmt(fastTotal)} kr/mnd</span>
                 </div>
                 <div className="flex justify-between text-tomtly-accent font-bold pt-1 border-t border-brand-300">
-                  <span>Din del (20% av {fmt(fastTotal)} kr)</span>
+                  <span>Din del (10% av {fmt(fastTotal)} kr)</span>
                   <span>{fmt(frederikFast)} kr/mnd</span>
                 </div>
               </div>
@@ -138,7 +140,7 @@ export default function FrederikPage() {
                   <p className="text-xl font-bold text-white">{fmt(frederikProv)} kr</p>
                 </div>
                 <div>
-                  <p className="text-xs text-brand-400">20% av fast inntekt</p>
+                  <p className="text-xs text-brand-400">10% av fast inntekt</p>
                   <p className="text-xl font-bold text-white">{fmt(frederikFast)} kr</p>
                 </div>
                 <div>
@@ -156,14 +158,14 @@ export default function FrederikPage() {
         {/* Tabell: salg → lønn */}
         <div className="bg-white rounded-2xl border border-brand-200 p-8 mb-8">
           <h2 className="font-display text-xl font-bold text-tomtly-dark mb-4">Salg → din lønn</h2>
-          <p className="text-sm text-brand-500 mb-4">3 selgere totalt. Snitt {snittpris} MNOK per salg. Du får 20% av provisjon + 20% av fast inntekt ({fmt(frederikFast)} kr/mnd).</p>
+          <p className="text-sm text-brand-500 mb-4">3 selgere totalt. Snitt {snittpris} MNOK per salg. Du får 20% av provisjon + 10% av fast inntekt ({fmt(frederikFast)} kr/mnd).</p>
           <div className="bg-brand-50 rounded-xl border border-brand-200 overflow-hidden">
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-brand-100 border-b border-brand-200">
                   <th className="text-left py-2 px-4 text-brand-600">Salg/mnd</th>
                   <th className="text-right py-2 px-4 text-brand-600">Din prov. (20%)</th>
-                  <th className="text-right py-2 px-4 text-brand-600">+ fast (20%)</th>
+                  <th className="text-right py-2 px-4 text-brand-600">+ fast (10%)</th>
                   <th className="text-right py-2 px-4 text-brand-600">Din mnd-lønn</th>
                   <th className="text-right py-2 px-4 text-brand-600">Din årslønn</th>
                 </tr>
@@ -194,7 +196,7 @@ export default function FrederikPage() {
         <div className="bg-white rounded-2xl border-2 border-tomtly-gold p-8 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <Award className="w-8 h-8 text-tomtly-gold" />
-            <h2 className="font-display text-xl font-bold text-tomtly-dark">Dine 15% eierskap – hva er det verdt?</h2>
+            <h2 className="font-display text-xl font-bold text-tomtly-dark">Dine 10% eierskap – hva er det verdt?</h2>
           </div>
           <p className="text-sm text-brand-600 mb-6">
             Selskaper verdsettes typisk 3-5x årsomsetning. Eierskapet er i tillegg til lønnen – det er langsiktig verdi.
@@ -206,7 +208,7 @@ export default function FrederikPage() {
                   <th className="text-left py-2 px-4 text-brand-600">Scenario</th>
                   <th className="text-right py-2 px-4 text-brand-600">Årsomsetning</th>
                   <th className="text-right py-2 px-4 text-brand-600">Selskapsverdi (4x)</th>
-                  <th className="text-right py-2 px-4 text-brand-600">Dine 15%</th>
+                  <th className="text-right py-2 px-4 text-brand-600">Dine 10%</th>
                 </tr>
               </thead>
               <tbody>
@@ -218,7 +220,7 @@ export default function FrederikPage() {
                   const prov = sc.salg * snittpris * 1000000 * 0.03
                   const tot = (prov + fastTotal) * 12
                   const verdi = tot * 4
-                  const dinAndel = Math.round(verdi * 0.15)
+                  const dinAndel = Math.round(verdi * 0.10)
                   return (
                     <tr key={sc.label} className="border-b border-brand-100">
                       <td className="py-3 px-4 font-medium">{sc.label}</td>
@@ -248,7 +250,7 @@ export default function FrederikPage() {
             <div>
               <h3 className="font-semibold text-tomtly-dark mb-3">Det du får</h3>
               <ul className="space-y-2">
-                {['20% av all provisjon og fast inntekt', '15% eierskap i Tomtly AS', '3 selgere under din bevilgning', 'Frihet og fleksibilitet', 'Gründeroppside – ikke bare en jobb'].map((i) => (
+                {['20% av provisjon + 10% av fast inntekt', '10% eierskap i Tomtly AS', '3 selgere under din bevilgning', 'Frihet og fleksibilitet', 'Gründeroppside – ikke bare en jobb'].map((i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-brand-600"><TrendingUp className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />{i}</li>
                 ))}
               </ul>
