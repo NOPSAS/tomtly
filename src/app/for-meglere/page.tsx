@@ -42,7 +42,7 @@ function HeroSection() {
           </h1>
 
           <p className="text-lg text-brand-400 leading-relaxed mb-10 max-w-xl">
-            Tilby kundene dine en profesjonell tomtanalyse som del av salgspakken. Du differensierer deg fra andre meglere – og selger raskere.
+            Bestill profesjonell tomtanalyse og synlighet for dine tomteoppdrag. Du håndterer kjøperkontakt og salg – vi leverer analysepakken.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
@@ -89,7 +89,7 @@ function Regnestykke() {
             </div>
           </div>
           <p className="text-sm text-brand-500 mt-6">
-            Du kan viderefakturere kostnaden til selger som del av salgspakken.
+            Du kan viderefakturere kostnaden til selger som del av megleroppdraget.
           </p>
         </div>
       </div>

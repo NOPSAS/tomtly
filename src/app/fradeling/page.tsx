@@ -43,7 +43,7 @@ function HeroSection() {
 
           <p className="text-lg text-brand-400 leading-relaxed mb-10 max-w-xl">
             Mange norske eneboliger har mer tomt enn de trenger. Vi hjelper deg å
-            skille ut, utvikle og selge – uten at du løfter en finger.
+            vurdere fradelingsmuligheter og synliggjøre den nye tomten.
           </p>
 
           <a
@@ -76,14 +76,14 @@ function StegForSteg() {
     {
       nummer: '03',
       ikon: Home,
-      tittel: 'Vi lager mulighetsstudie og selger tomten',
-      beskrivelse: 'Husmodeller, byggekalkyle, markedsføring. Tomten presenteres som et ferdig prosjekt.',
+      tittel: 'Vi lager mulighetsstudie',
+      beskrivelse: 'Husmodeller, byggekalkyle og profesjonell presentasjon. Tomten synliggjøres som et ferdig prosjekt.',
     },
     {
       nummer: '04',
       ikon: Banknote,
-      tittel: 'Du får pengene',
-      beskrivelse: 'Oppgjør via Propr. Tomtly tar 5% av salgssum – du betaler ingenting upfront.',
+      tittel: 'Tomten blir synlig for kjøpere',
+      beskrivelse: 'Tomten publiseres på Tomtly. Interesserte kjøpere tar kontakt med deg direkte.',
     },
   ]
 
@@ -145,16 +145,16 @@ function Eksempelregning() {
                 <span className="font-bold text-tomtly-dark text-lg">2 500 000 kr</span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-brand-200">
-                <span className="text-brand-600">Tomtly tar 2,5% av verditakst</span>
-                <span className="text-brand-500">-62 500 kr</span>
+                <span className="text-brand-600">Fradelingsprosess (tegning, søknad, oppmåling)</span>
+                <span className="text-brand-500">49 000–89 000 kr</span>
+              </div>
+              <div className="flex justify-between items-center py-2 border-b border-brand-200">
+                <span className="text-brand-600">Analyse + Synlighet av fradelt tomt</span>
+                <span className="text-brand-500">9 900 kr</span>
               </div>
               <div className="flex justify-between items-center py-3 bg-green-50 rounded-lg px-4 -mx-4">
-                <span className="font-semibold text-green-800">Du sitter igjen med</span>
-                <span className="font-bold text-green-800 text-xl">2 437 500 kr</span>
-              </div>
-              <div className="flex justify-between items-center py-2">
-                <span className="text-brand-600">Din kostnad upfront</span>
-                <span className="font-bold text-tomtly-accent text-lg">0 kr</span>
+                <span className="font-semibold text-green-800">Estimert verdi fradelt tomt</span>
+                <span className="font-bold text-green-800 text-xl">2 500 000 kr</span>
               </div>
             </div>
           </div>
@@ -171,7 +171,7 @@ function Priser() {
         <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-10 text-center">
           Prismodell
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
           <div className="bg-white rounded-2xl p-7 border border-brand-200 text-center">
             <p className="text-sm font-medium text-brand-500 mb-2">Vurdering</p>
             <p className="text-4xl font-bold text-tomtly-dark mb-2">Gratis</p>
@@ -181,9 +181,14 @@ function Priser() {
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-tomtly-accent text-white text-xs font-semibold rounded-full">
               Anbefalt
             </div>
-            <p className="text-sm font-medium text-brand-500 mb-2">Hele prosessen</p>
-            <p className="text-4xl font-bold text-tomtly-dark mb-2">Honorarfritt</p>
-            <p className="text-sm text-brand-500">2,5% av verditaksten etter godkjent fradeling</p>
+            <p className="text-sm font-medium text-brand-500 mb-2">Fradelingsprosess</p>
+            <p className="text-4xl font-bold text-tomtly-dark mb-2">49 000–89 000</p>
+            <p className="text-sm text-brand-500">kr fastpris avhengig av omfang. Inkl. tegning, søknad og oppmåling.</p>
+          </div>
+          <div className="bg-white rounded-2xl p-7 border border-brand-200 text-center">
+            <p className="text-sm font-medium text-brand-500 mb-2">Analyse + Synlighet</p>
+            <p className="text-4xl font-bold text-tomtly-dark mb-2">9 900</p>
+            <p className="text-sm text-brand-500">kr i tillegg. Mulighetsstudie og publisering av den fradelte tomten.</p>
           </div>
         </div>
       </div>
@@ -200,8 +205,7 @@ function HvaViLeverer() {
     'Nabovarsel og oppfølging',
     'Mulighetsstudie med husmodeller',
     'Byggekalkyle og verdivurdering',
-    'Markedsføring og salg av tomten',
-    'Oppgjør via Propr',
+    'Publisering og synliggjøring av tomten',
   ]
 
   return (

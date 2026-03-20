@@ -430,7 +430,7 @@ function TabInntektsmodell() {
             <ArrowRight className="w-5 h-5 text-brand-400 flex-shrink-0" />
             <FlowStep label="Publisering" sublabel="Pa Tomtly.no" color="bg-brand-50 border-brand-200 text-brand-700" />
             <ArrowRight className="w-5 h-5 text-brand-400 flex-shrink-0" />
-            <FlowStep label="Salg" sublabel="1% av salgssum" color="bg-green-50 border-green-200 text-green-800" />
+            <FlowStep label="Synlighet" sublabel="9 900 kr" color="bg-green-50 border-green-200 text-green-800" />
             <ArrowRight className="w-5 h-5 text-brand-400 flex-shrink-0" />
             <FlowStep label="Kjoper overtar" sublabel="Velger hus" color="bg-brand-50 border-brand-200 text-brand-700" />
             <ArrowRight className="w-5 h-5 text-brand-400 flex-shrink-0" />
@@ -488,9 +488,8 @@ function TabInntektsmodell() {
             <tbody className="divide-y divide-brand-100">
               {[
                 ['Pris tomtanalyse', '4 900 kr'],
-                ['Suksesshonorar (salg)', '1% av salgssum'],
-                ['Gjennomsnittlig tomt-pris', '3 000 000 kr'],
-                ['Gjennomsnitt salgshonorar', '30 000 kr'],
+                ['Analyse + Synlighet', '9 900 kr'],
+                ['Premium Synlighet', '14 900 kr'],
                 ['Addon-inntekt snitt per tomt', '40 000 - 60 000 kr'],
                 ['Kostnad per analyse', '~4 000 kr'],
                 ['LTV per tomt (konservativt)', '~75 000 kr'],

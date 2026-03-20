@@ -111,11 +111,8 @@ export default function SokTomtPage() {
           </p>
           <div className="max-w-2xl mx-auto bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 text-left">
             <p className="text-white font-medium mb-2">Vi finner tomt i området for deg</p>
-            <p className="text-brand-400 text-sm leading-relaxed mb-3">
-              Vi kontakter tomteeiere og eiendomseiere i området du vil bygge. De trenger bare si ja eller nei.
-            </p>
             <p className="text-brand-400 text-sm leading-relaxed">
-              Vi fradeler eiendommen kostnadsfritt og ordner salget. Vi tar 5% av salgssummen.
+              Vi hjelper deg å finne riktig tomt. Når vi finner en match, kontakter vi eier og kobler dere sammen.
             </p>
           </div>
         </div>

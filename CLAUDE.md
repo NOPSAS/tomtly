@@ -56,7 +56,9 @@ Daily 07:00 NO: FINN + dødsbo scrapers. Weekly Monday 07:00/08:00: fradelinger 
 - Interactive map uses Leaflet loaded from CDN (not npm), initialized in useEffect
 
 ### Pricing (must be consistent across all pages)
-Tomteeier: 4 900 kr | Tomteeier m/salg: 4 900 + 3,5% | Megler: 2 900 kr/tomt | Utvikler: 4 900 kr (5-pack 3 900, abo 14 900+/mnd) | Entreprenør: 14 900 kr/år | Bank: 4 900 kr/innvilget lån | Kommune: 4 900 kr/tomt + 1% ved salg (pilot gratis) | Fradeling: 2,5% av verditakst | Husleverandør: abo 10 000+/mnd | Næringstomt: 14 900/29 900 kr + 3,5% ved salg
+Tomteeier Analysepakke: 4 900 kr | Tomteeier Analyse + Synlighet: 9 900 kr | Tomteeier Premium Synlighet: 14 900 kr | Megler: 2 900 kr/tomt | Utvikler: 4 900 kr (5-pack 3 900, abo 14 900+/mnd) | Entreprenør: 14 900 kr/år | Bank: 4 900 kr/innvilget lån | Kommune: Pilot gratis, Analysepakke 4 900 kr/tomt, Synlighetspakke 9 900 kr/tomt | Fradeling: 49 000–89 000 kr fastpris + 9 900 kr Analyse+Synlighet | Husleverandør: abo 10 000+/mnd | Næringstomt: Analyse 14 900, Analyse+Synlighet 24 900, Premium 39 900
+
+**IMPORTANT: Tomtly is NOT a broker. Never add language about handling sales, negotiations, buyer-seller mediation, "vi selger for deg", "salgsoppdrag", "oppgjør", or any percentage-of-sale pricing. Tomtly is an analysis and marketing platform only.**
 
 ### Stripe Products (live)
 Payment links for one-time products, Checkout Sessions for subscriptions. Price IDs are hardcoded in `/api/checkout/route.ts`.

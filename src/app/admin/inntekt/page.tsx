@@ -25,8 +25,9 @@ interface RevenueRow {
 }
 
 interface ScenarioInputs {
-  tomtanalyserDirekte: number
-  salgsoppdrag: number
+  analysepakker: number
+  analyseSynlighet: number
+  premiumSynlighet: number
   megleranalyser: number
   fradelinger: number
   addons: number
@@ -39,8 +40,9 @@ type Scenario = 'konservativt' | 'realistisk' | 'optimistisk'
 
 const SCENARIOS: Record<Scenario, ScenarioInputs> = {
   konservativt: {
-    tomtanalyserDirekte: 8,
-    salgsoppdrag: 1,
+    analysepakker: 5,
+    analyseSynlighet: 3,
+    premiumSynlighet: 1,
     megleranalyser: 3,
     fradelinger: 0,
     addons: 1,
@@ -49,8 +51,9 @@ const SCENARIOS: Record<Scenario, ScenarioInputs> = {
     husleverandorAbonnenter: 0,
   },
   realistisk: {
-    tomtanalyserDirekte: 20,
-    salgsoppdrag: 5,
+    analysepakker: 10,
+    analyseSynlighet: 10,
+    premiumSynlighet: 5,
     megleranalyser: 10,
     fradelinger: 2,
     addons: 5,
@@ -59,8 +62,9 @@ const SCENARIOS: Record<Scenario, ScenarioInputs> = {
     husleverandorAbonnenter: 2,
   },
   optimistisk: {
-    tomtanalyserDirekte: 50,
-    salgsoppdrag: 15,
+    analysepakker: 20,
+    analyseSynlighet: 25,
+    premiumSynlighet: 15,
     megleranalyser: 25,
     fradelinger: 5,
     addons: 15,
@@ -73,15 +77,15 @@ const SCENARIOS: Record<Scenario, ScenarioInputs> = {
 // ─── Revenue data ────────────────────────────────────────────────────────────
 
 const PER_KUNDE_DATA: RevenueRow[] = [
-  { kilde: 'Tomtanalyse (direkte)', inntekt: 4900, kostnad: 4000, margin: 900, note: '' },
-  { kilde: 'Tomtanalyse + salg (3,5%)', inntekt: 109900, kostnad: 8000, margin: 101900, note: '4 900 + 105 000 (3M tomt)' },
+  { kilde: 'Analysepakke (4 900)', inntekt: 4900, kostnad: 4000, margin: 900, note: '' },
+  { kilde: 'Analyse + Synlighet (9 900)', inntekt: 9900, kostnad: 4500, margin: 5400, note: '6 mnd synlighet' },
+  { kilde: 'Premium Synlighet (14 900)', inntekt: 14900, kostnad: 5000, margin: 9900, note: '12 mnd + SoMe' },
   { kilde: 'Megler (per tomt)', inntekt: 2900, kostnad: 4000, margin: -1100, note: 'Volum + referanser' },
-  { kilde: 'Fradeling (2,5%)', inntekt: 62500, kostnad: 15000, margin: 47500, note: '2,5M tomt' },
+  { kilde: 'Fradeling (fastpris)', inntekt: 69000, kostnad: 15000, margin: 54000, note: '49-89k prosess + 9 900 synlighet' },
   { kilde: 'Addons (tegninger, søknad)', inntekt: 50000, kostnad: 10000, margin: 40000, note: '' },
   { kilde: 'Entreprenørpåslag', inntekt: 14900, kostnad: 0, margin: 14900, note: 'Årsavgift' },
   { kilde: 'Bank lead-fee', inntekt: 4900, kostnad: 0, margin: 4900, note: '' },
   { kilde: 'Husleverandør-abo (snitt)', inntekt: 15000, kostnad: 0, margin: 15000, note: 'Basis 10k, Partner 20k/mnd' },
-  { kilde: 'Propr-fee per salg', inntekt: 2500, kostnad: 0, margin: 2500, note: 'Propr tar 10-36k/salg, vi får 2 500 kr per henvisning' },
 ]
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -157,16 +161,22 @@ export default function InntektPage() {
   const timerPerTomt = 3.5
   const rows = [
     {
-      label: 'Tomtanalyser (direkte)',
-      antall: inputs.tomtanalyserDirekte,
+      label: 'Analysepakke (4 900)',
+      antall: inputs.analysepakker,
       inntektPer: 4900,
       timerPer: timerPerTomt,
     },
     {
-      label: 'Salgsoppdrag (3,5%)',
-      antall: inputs.salgsoppdrag,
-      inntektPer: 109900, // 4900 + 105000
-      timerPer: 8,
+      label: 'Analyse + Synlighet (9 900)',
+      antall: inputs.analyseSynlighet,
+      inntektPer: 9900,
+      timerPer: timerPerTomt + 1,
+    },
+    {
+      label: 'Premium Synlighet (14 900)',
+      antall: inputs.premiumSynlighet,
+      inntektPer: 14900,
+      timerPer: timerPerTomt + 2,
     },
     {
       label: 'Megleranalyser',
@@ -175,9 +185,9 @@ export default function InntektPage() {
       timerPer: timerPerTomt,
     },
     {
-      label: 'Fradelinger (2,5%)',
+      label: 'Fradelinger (fastpris)',
       antall: inputs.fradelinger,
-      inntektPer: 62500,
+      inntektPer: 69000,
       timerPer: 15,
     },
     {
@@ -312,8 +322,9 @@ export default function InntektPage() {
           {/* Inputs */}
           <div className="space-y-3">
             <h3 className="font-display font-bold text-tomtly-dark">Månedlige volumer</h3>
-            <NumberInput label="Tomtanalyser direkte" value={inputs.tomtanalyserDirekte} onChange={v => updateInput('tomtanalyserDirekte', v)} icon={Calculator} />
-            <NumberInput label="Salgsoppdrag" value={inputs.salgsoppdrag} onChange={v => updateInput('salgsoppdrag', v)} icon={TrendingUp} />
+            <NumberInput label="Analysepakker (4 900)" value={inputs.analysepakker} onChange={v => updateInput('analysepakker', v)} icon={Calculator} />
+            <NumberInput label="Analyse + Synlighet (9 900)" value={inputs.analyseSynlighet} onChange={v => updateInput('analyseSynlighet', v)} icon={TrendingUp} />
+            <NumberInput label="Premium Synlighet (14 900)" value={inputs.premiumSynlighet} onChange={v => updateInput('premiumSynlighet', v)} icon={TrendingUp} />
             <NumberInput label="Megleranalyser" value={inputs.megleranalyser} onChange={v => updateInput('megleranalyser', v)} icon={Users} />
             <NumberInput label="Fradelinger" value={inputs.fradelinger} onChange={v => updateInput('fradelinger', v)} icon={Home} />
             <NumberInput label="Addons (tegning/søknad)" value={inputs.addons} onChange={v => updateInput('addons', v)} icon={Hammer} />

@@ -243,39 +243,39 @@ function Steg1Tomt() {
 }
 
 function Steg2Prismodell() {
-  const [valgt, setValgt] = useState<'standard' | 'salgsoppdrag'>('salgsoppdrag')
+  const [valgt, setValgt] = useState<'analyse' | 'synlighet' | 'premium'>('synlighet')
 
   return (
     <div className="bg-white rounded-xl border border-brand-200 p-8">
       <h2 className="text-lg font-semibold text-tomtly-dark mb-2">
-        Velg prismodell
+        Velg pakke
       </h2>
       <p className="text-sm text-brand-500 mb-6">
-        Begge modeller gir deg komplett tomtanalyse med mulighetsstudie, husmodeller og byggekalkyle.
+        Alle pakker inkluderer komplett tomtanalyse med mulighetsstudie, husmodeller og byggekalkyle.
       </p>
 
       <div className="space-y-3">
         <button
-          onClick={() => setValgt('standard')}
+          onClick={() => setValgt('analyse')}
           className={`w-full text-left p-5 rounded-xl border-2 transition-all ${
-            valgt === 'standard'
+            valgt === 'analyse'
               ? 'border-tomtly-accent bg-forest-50'
               : 'border-brand-200 hover:border-brand-300'
           }`}
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-semibold text-tomtly-dark">Selg selv</p>
-              <p className="text-sm text-brand-500 mt-0.5">Komplett tomtanalyse med mulighetsstudie, husmodeller, byggekalkyle og publisering. Du selger selv.</p>
+              <p className="font-semibold text-tomtly-dark">Analysepakke</p>
+              <p className="text-sm text-brand-500 mt-0.5">Mulighetsstudie, husmodeller, byggekalkyle. Levert som PDF og digital presentasjon.</p>
             </div>
             <p className="text-2xl font-bold text-tomtly-dark whitespace-nowrap ml-4">4 900 kr</p>
           </div>
         </button>
 
         <button
-          onClick={() => setValgt('salgsoppdrag')}
+          onClick={() => setValgt('synlighet')}
           className={`w-full text-left p-5 rounded-xl border-2 transition-all relative ${
-            valgt === 'salgsoppdrag'
+            valgt === 'synlighet'
               ? 'border-tomtly-accent bg-forest-50'
               : 'border-brand-200 hover:border-brand-300'
           }`}
@@ -285,14 +285,28 @@ function Steg2Prismodell() {
           </div>
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-semibold text-tomtly-dark">Vi selger for deg</p>
-              <p className="text-sm text-brand-500 mt-0.5">Vi setter markedspris og håndterer salgsprosessen via Propr.</p>
+              <p className="font-semibold text-tomtly-dark">Analyse + Synlighet</p>
+              <p className="text-sm text-brand-500 mt-0.5">Alt i Analyse + publisering på Tomtly i 6 mnd, synlig for aktive kjøpere, visningsstatistikk.</p>
             </div>
-            <p className="text-2xl font-bold text-tomtly-dark whitespace-nowrap ml-4">4 900 kr <span className="text-sm font-normal text-brand-400">+ 3,5%</span></p>
+            <p className="text-2xl font-bold text-tomtly-dark whitespace-nowrap ml-4">9 900 kr</p>
           </div>
-          <p className="text-xs text-brand-400 mt-2">
-            Salgsprovisjon: 4 900 kr + 3,5% av salgspris. Salg gjennomføres via Propr – en godkjent plattform for eiendomsoppgjør. Tomtly er ikke et eiendomsmeglerforetak.
-          </p>
+        </button>
+
+        <button
+          onClick={() => setValgt('premium')}
+          className={`w-full text-left p-5 rounded-xl border-2 transition-all ${
+            valgt === 'premium'
+              ? 'border-tomtly-accent bg-forest-50'
+              : 'border-brand-200 hover:border-brand-300'
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="font-semibold text-tomtly-dark">Premium Synlighet</p>
+              <p className="text-sm text-brand-500 mt-0.5">Alt over + fremhevet plassering, SoMe-promotering, 12 mnd synlighet, ukentlig rapport.</p>
+            </div>
+            <p className="text-2xl font-bold text-tomtly-dark whitespace-nowrap ml-4">14 900 kr</p>
+          </div>
         </button>
       </div>
     </div>

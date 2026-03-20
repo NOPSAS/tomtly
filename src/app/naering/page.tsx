@@ -169,28 +169,22 @@ function HvaViLeverer() {
 function Priser() {
   const pakker = [
     {
-      navn: 'Standard',
-      beskrivelse: '≤5 000 m²',
+      navn: 'Analyse',
+      beskrivelse: 'Komplett næringsanalyse',
       pris: '14 900',
       enhet: 'kr',
     },
     {
-      navn: 'Premium',
-      beskrivelse: '>5 000 m² eller kompleks',
-      pris: '29 900',
+      navn: 'Analyse + Synlighet',
+      beskrivelse: 'Analyse + publisering',
+      pris: '24 900',
       enhet: 'kr',
-    },
-    {
-      navn: 'Salgsoppdrag',
-      beskrivelse: 'Vi selger for deg',
-      pris: '14 900',
-      enhet: 'kr + 3,5% av salgssum',
       anbefalt: true,
     },
     {
-      navn: 'Kun publisering',
-      beskrivelse: 'Publiser på Tomtly',
-      pris: '9 900',
+      navn: 'Premium Synlighet',
+      beskrivelse: 'Maksimal eksponering',
+      pris: '39 900',
       enhet: 'kr',
     },
   ]
@@ -202,7 +196,7 @@ function Priser() {
           Priser
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
           {pakker.map((p) => (
             <div
               key={p.navn}
