@@ -239,29 +239,58 @@ function Prismodell() {
             </div>
           </div>
 
-          {/* Sammenligning */}
-          <div className="mt-6 bg-white rounded-xl border border-brand-200 p-6">
-            <h3 className="font-semibold text-tomtly-dark mb-3 text-center">Tomtly vs. tradisjonell megler</h3>
-            <div className="grid grid-cols-3 gap-4 text-sm">
-              <div />
-              <div className="text-center font-semibold text-tomtly-accent">Tomtly</div>
-              <div className="text-center font-semibold text-brand-500">Trad. megler</div>
+          {/* Detaljert sammenligning – ekte tall */}
+          <div className="mt-8 bg-white rounded-xl border border-brand-200 p-6">
+            <h3 className="font-display text-xl font-bold text-tomtly-dark mb-2 text-center">Ekte sammenligning: Tomt til 3 MNOK</h3>
+            <p className="text-xs text-brand-500 text-center mb-6">Basert på faktiske meglerpriser fra et reelt oppdrag</p>
 
-              <div className="text-brand-600">Fastpris</div>
-              <div className="text-center font-medium text-tomtly-dark">4 990 kr</div>
-              <div className="text-center text-brand-500">0 kr</div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Tradisjonell megler */}
+              <div className="bg-red-50 rounded-xl p-5 border border-red-200">
+                <h4 className="font-semibold text-red-700 mb-4">Tradisjonell megler</h4>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between"><span className="text-red-600">Provisjon (1,7% av 3 MNOK)</span><span className="font-semibold">51 000 kr</span></div>
+                  <div className="flex justify-between"><span className="text-red-600">Markedsavtale grunnpakke tomt</span><span>18 200 kr</span></div>
+                  <div className="flex justify-between"><span className="text-red-600">Oppgjørshonorar</span><span>6 900 kr</span></div>
+                  <div className="flex justify-between"><span className="text-red-600">Tilretteleggingsgebyr</span><span>15 900 kr</span></div>
+                  <div className="flex justify-between"><span className="text-red-600">Visningshonorar (2 visninger)</span><span>3 750 kr</span></div>
+                  <div className="flex justify-between"><span className="text-red-600">Grunnbok/tinglyste bestemmelser</span><span>290 kr</span></div>
+                  <div className="flex justify-between"><span className="text-red-600">Tinglysingsgebyr</span><span>545 kr</span></div>
+                  <div className="flex justify-between"><span className="text-red-600">Informasjon fra kommune</span><span>5 000 kr</span></div>
+                  <div className="flex justify-between"><span className="text-red-600">Eiendomsregister + e-signering</span><span>2 000 kr</span></div>
+                  <div className="flex justify-between pt-3 border-t border-red-300 font-bold text-red-800 text-base">
+                    <span>Total kostnad</span><span>103 585 kr</span>
+                  </div>
+                </div>
+                <div className="mt-4 pt-3 border-t border-red-200">
+                  <p className="text-xs text-red-600">Du får: Megling. Tomten presenteres som en gresslette på FINN. Ingen analyse, ingen husmodeller, ingen kalkyle.</p>
+                </div>
+              </div>
 
-              <div className="text-brand-600">Provisjon</div>
-              <div className="text-center font-medium text-tomtly-dark">2,5 %</div>
-              <div className="text-center text-brand-500">1–3,6 %</div>
+              {/* Tomtly */}
+              <div className="bg-forest-50 rounded-xl p-5 border-2 border-tomtly-accent">
+                <h4 className="font-semibold text-tomtly-dark mb-4">Tomtly</h4>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between"><span className="text-forest-700">Tomtanalyse (fastpris)</span><span className="font-semibold">4 990 kr</span></div>
+                  <div className="flex justify-between"><span className="text-forest-700">Provisjon (2,5% av 3 MNOK)</span><span>75 000 kr</span></div>
+                  <div className="flex justify-between"><span className="text-forest-700">Oppgjør via Propr</span><span>9 990 kr</span></div>
+                  <div className="flex justify-between"><span className="text-forest-700">Grunnbok/tinglyste bestemmelser</span><span>290 kr</span></div>
+                  <div className="flex justify-between"><span className="text-forest-700">Tinglysingsgebyr</span><span>545 kr</span></div>
+                  <div className="flex justify-between"><span className="text-forest-700">Dokumentavgift/kommune</span><span>5 000 kr</span></div>
+                  <div className="flex justify-between pt-3 border-t border-forest-300 font-bold text-tomtly-dark text-base">
+                    <span>Total kostnad</span><span>95 815 kr</span>
+                  </div>
+                </div>
+                <div className="mt-4 pt-3 border-t border-forest-200">
+                  <p className="text-xs text-forest-700">Du får: Komplett mulighetsstudie fra arkitekt, husmodeller fra ferdighusleverandører, 3D-visualisering, byggekalkyle, verdivurdering, markedsføring mot aktive kjøpere, salg via fagansvarlig megler, oppgjør via Propr.</p>
+                </div>
+              </div>
+            </div>
 
-              <div className="text-brand-600">Tomt 2 MNOK</div>
-              <div className="text-center font-medium text-green-700">54 990 kr</div>
-              <div className="text-center text-brand-500">20 000–72 000 kr</div>
-
-              <div className="text-brand-600">Inkluderer analyse</div>
-              <div className="text-center text-tomtly-accent font-bold">Ja</div>
-              <div className="text-center text-brand-500">Nei</div>
+            {/* Oppsummering */}
+            <div className="bg-green-50 rounded-xl p-5 border border-green-200 mt-6 text-center">
+              <p className="text-green-800 font-semibold text-lg mb-1">Du sparer 7 770 kr med Tomtly</p>
+              <p className="text-sm text-green-700">Og får ti ganger mer – analyse, husmodeller, kalkyle, markedsføring og salg. Samme prosess, lavere pris, langt bedre presentasjon.</p>
             </div>
           </div>
         </div>
