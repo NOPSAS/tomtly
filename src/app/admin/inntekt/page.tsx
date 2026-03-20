@@ -82,7 +82,7 @@ const PER_KUNDE_DATA: RevenueRow[] = [
   { kilde: 'Premium Synlighet (14 900)', inntekt: 14900, kostnad: 5000, margin: 9900, note: '12 mnd + SoMe' },
   { kilde: 'Megler (per tomt)', inntekt: 2900, kostnad: 4000, margin: -1100, note: 'Volum + referanser' },
   { kilde: 'Fradeling (fastpris)', inntekt: 69000, kostnad: 15000, margin: 54000, note: '49-89k prosess + 9 900 synlighet' },
-  { kilde: 'Addons (tegninger, søknad)', inntekt: 50000, kostnad: 10000, margin: 40000, note: '' },
+  { kilde: 'Addons (tegning, søknad) – via Konsepthus', inntekt: 0, kostnad: 0, margin: 0, note: 'Utføres av Konsepthus/Tegnebua, ikke Tomtly-inntekt' },
   { kilde: 'Entreprenørpåslag', inntekt: 14900, kostnad: 0, margin: 14900, note: 'Årsavgift' },
   { kilde: 'Bank lead-fee', inntekt: 4900, kostnad: 0, margin: 4900, note: '' },
   { kilde: 'Husleverandør-abo (snitt)', inntekt: 15000, kostnad: 0, margin: 15000, note: 'Basis 10k, Partner 20k/mnd' },
@@ -192,9 +192,9 @@ export default function InntektPage() {
       timerPer: 15,
     },
     {
-      label: 'Addons (tegning/søknad)',
-      antall: inputs.addons,
-      inntektPer: 50000,
+      label: 'Addons (via Konsepthus – ikke Tomtly-inntekt)',
+      antall: 0,
+      inntektPer: 0,
       timerPer: 10,
     },
     {

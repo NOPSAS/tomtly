@@ -20,7 +20,7 @@ export default function FrederikPage() {
   const fastPremium = 8 * 7500      // 8 premium
   const fastMegler = 10 * 2900      // 10 meglerkunder
   const fastNaering = 2 * 24900     // 2 næringsanalyser
-  const fastAddons = 5 * 30000      // 5 addons (tegning, søknad)
+  const fastAddons = 0               // Tegning/søknad utføres av Konsepthus, ikke Tomtly-inntekt
   const fastFradeling = 1 * 69000   // 1 fradeling
   const fastEntAbo = Math.round(3 * 14900 / 12)
   const fastHusAbo = 2 * 15000
@@ -72,7 +72,7 @@ export default function FrederikPage() {
           <ul className="space-y-2 text-sm text-brand-700">
             <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-tomtly-accent mt-0.5 flex-shrink-0" />Vi er 3 selgere. Alle selger tomter under din bevilgning.</li>
             <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-tomtly-accent mt-0.5 flex-shrink-0" />Du får 20% av all provisjon fra tomtesalg – uansett hvem av oss 3 som selger.</li>
-            <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-tomtly-accent mt-0.5 flex-shrink-0" />Du får 10% av all fast inntekt (analyser, abonnementer, addons).</li>
+            <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-tomtly-accent mt-0.5 flex-shrink-0" />Du får 10% av all fast inntekt (analyser, abonnementer, partneravtaler).</li>
             <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-tomtly-accent mt-0.5 flex-shrink-0" />Du får 10% eierskap i Tomtly AS – din andel vokser med selskapet.</li>
             <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-tomtly-accent mt-0.5 flex-shrink-0" />Jobb fra hvor som helst. Oppgjør gjøres av Propr.</li>
           </ul>
@@ -134,7 +134,7 @@ export default function FrederikPage() {
               <div className="bg-white rounded-lg p-4 space-y-2 text-sm text-brand-600">
                 <div className="flex justify-between"><span>Tomtanalyser som kunder kjøper</span><span>{fmt(fastAnalyser + fastPremium)} kr</span></div>
                 <div className="flex justify-between"><span>Meglere som kjøper analyser</span><span>{fmt(fastMegler)} kr</span></div>
-                <div className="flex justify-between"><span>Tegninger, byggesøknader og addons</span><span>{fmt(fastAddons + fastFradeling)} kr</span></div>
+                <div className="flex justify-between"><span>Fradelinger</span><span>{fmt(fastFradeling)} kr</span></div>
                 <div className="flex justify-between"><span>Abonnementer og partneravtaler</span><span>{fmt(fastEntAbo + fastHusAbo + fastNaering)} kr</span></div>
                 <div className="flex justify-between"><span>Bank-leads og Propr-fee</span><span>{fmt(fastBank + fastPropr)} kr</span></div>
                 <div className="flex justify-between font-semibold text-brand-700 pt-2 border-t border-brand-200">

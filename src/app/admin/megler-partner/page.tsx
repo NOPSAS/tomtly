@@ -20,7 +20,7 @@ export default function MeglerPartnerPage() {
   const inntektPremium = analyserPremium * 14900
   const inntektNaering = snittNaering * 24900
   const inntektMeglere = Math.round(antallAnalyser * 0.3) * 2900
-  const inntektAddons = Math.round(antallAnalyser * 0.10) * 50000
+  const inntektAddons = 0 // Via Konsepthus, ikke Tomtly
   const inntektEntreprenor = Math.round(3 * 14900 / 12)
   const inntektHuslev = 2 * 15000
   const inntektBank = Math.round(antallAnalyser * 0.08) * 4900
@@ -167,7 +167,7 @@ export default function MeglerPartnerPage() {
                   { kilde: 'Premium Synlighet (14 900 kr)', antall: analyserPremium, inntekt: inntektPremium },
                   { kilde: 'Næringstomter (snitt 24 900 kr)', antall: snittNaering, inntekt: inntektNaering },
                   { kilde: 'Via meglere (2 900 kr)', antall: Math.round(antallAnalyser * 0.3), inntekt: inntektMeglere },
-                  { kilde: 'Addons (tegning, søknad ~50k)', antall: Math.round(antallAnalyser * 0.10), inntekt: inntektAddons },
+                  { kilde: 'Tegning/søknad (via Konsepthus – 0 kr)', antall: Math.round(antallAnalyser * 0.10), inntekt: inntektAddons },
                   { kilde: 'Entreprenør-abo', antall: 3, inntekt: inntektEntreprenor },
                   { kilde: 'Husleverandør-abo', antall: 2, inntekt: inntektHuslev },
                   { kilde: 'Bank lead-fee', antall: Math.round(antallAnalyser * 0.08), inntekt: inntektBank },
@@ -256,7 +256,7 @@ export default function MeglerPartnerPage() {
               { mnd: 'Måned 1-2', analyser: 10, desc: 'Oppstart, lære produkt, kontakte første kunder via FINN-leads og nettverk' },
               { mnd: 'Måned 3-4', analyser: 20, desc: 'Pipeline bygges, meglerkontakter, gjentagende kunder' },
               { mnd: 'Måned 5-6', analyser: 30, desc: 'Fullt tempo, næring, entreprenør-abo, husleverandør-abo kommer inn' },
-              { mnd: 'Måned 7-12', analyser: 40, desc: 'Skalering, kommuner, større addons, stabil inntektsstrøm' },
+              { mnd: 'Måned 7-12', analyser: 40, desc: 'Skalering, kommuner, partneravtaler, stabil inntektsstrøm' },
             ].map((m) => {
               const estInntekt = m.analyser * 9000 * 0.7
               const dinAndel = Math.round(estInntekt * partnerAndel / 100)
