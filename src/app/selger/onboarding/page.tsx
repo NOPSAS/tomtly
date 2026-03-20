@@ -202,13 +202,26 @@ function Steg1Tomt() {
         <div className="pt-4 border-t border-brand-200">
           <h3 className="text-sm font-semibold text-brand-700 mb-1.5">Bilder av tomten</h3>
           <p className="text-xs text-brand-400 mb-3">
-            Last opp bilder for et bedre resultat. Dronebilder, panorama eller vanlige bilder. Valgfritt, men anbefalt.
+            Gode bilder gir et bedre resultat. Last opp egne bilder, eller la oss ordne fotograf.
           </p>
-          <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-brand-300 rounded-lg cursor-pointer hover:border-tomtly-accent hover:bg-forest-50/30 transition-colors">
+          <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-brand-300 rounded-lg cursor-pointer hover:border-tomtly-accent hover:bg-forest-50/30 transition-colors mb-4">
             <Upload className="w-6 h-6 text-brand-400 mb-2" />
-            <span className="text-sm text-brand-500">Klikk eller dra bilder hit (JPG, PNG)</span>
+            <span className="text-sm text-brand-500">Last opp egne bilder (JPG, PNG)</span>
+            <span className="text-xs text-brand-400">Dronebilder, panorama eller vanlige bilder</span>
             <input type="file" multiple accept="image/jpeg,image/png" className="hidden" />
           </label>
+
+          <div className="bg-brand-50 rounded-xl p-4 border border-brand-200">
+            <div className="flex items-start gap-3">
+              <input type="checkbox" id="fotograf" className="mt-1 w-4 h-4 rounded border-brand-300 text-tomtly-accent focus:ring-tomtly-accent" />
+              <label htmlFor="fotograf" className="cursor-pointer">
+                <span className="text-sm font-medium text-tomtly-dark">Vi ordner fotograf – 5 000 kr</span>
+                <p className="text-xs text-brand-500 mt-0.5">
+                  Profesjonell fotograf tar bilder og dronefoto av tomten. Vi koordinerer alt – du trenger bare gi tilgang til eiendommen.
+                </p>
+              </label>
+            </div>
+          </div>
         </div>
 
         <div className="pt-4 border-t border-brand-200">
