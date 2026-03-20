@@ -85,6 +85,7 @@ const PER_KUNDE_DATA: RevenueRow[] = [
   { kilde: 'Addons (tegning, søknad) – via Konsepthus', inntekt: 0, kostnad: 0, margin: 0, note: 'Utføres av Konsepthus/Tegnebua, ikke Tomtly-inntekt' },
   { kilde: 'Entreprenørpåslag', inntekt: 14900, kostnad: 0, margin: 14900, note: 'Årsavgift' },
   { kilde: 'Bank lead-fee', inntekt: 4900, kostnad: 0, margin: 4900, note: '' },
+  { kilde: 'Prosjektfinansiering (Kameo/Oblinor)', inntekt: 9900, kostnad: 0, margin: 9900, note: 'Lead-fee 4 900–14 900 kr per innvilget lån' },
   { kilde: 'Husleverandør-abo (snitt)', inntekt: 15000, kostnad: 0, margin: 15000, note: 'Basis 10k, Partner 20k/mnd' },
   { kilde: 'Propr-fee per salg', inntekt: 2000, kostnad: 0, margin: 2000, note: 'Propr tar 9 990 kr/oppgjør, vi får 2 000 kr per kunde' },
   { kilde: 'Fotograf (drone + foto)', inntekt: 5500, kostnad: 4500, margin: 1000, note: '5 500 kr til kunde, 4 500 kr til fotograf' },
