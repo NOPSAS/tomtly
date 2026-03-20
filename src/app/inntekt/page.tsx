@@ -145,6 +145,7 @@ function NumberInput({
 // ─── Main page ───────────────────────────────────────────────────────────────
 
 export default function InntektPage() {
+  const [activeTab, setActiveTab] = useState<'inntekt' | 'forretning'>('inntekt')
   const [timekostnad, setTimekostnad] = useState(1000)
   const [scenario, setScenario] = useState<Scenario>('realistisk')
   const [inputs, setInputs] = useState<ScenarioInputs>(SCENARIOS.realistisk)
@@ -254,6 +255,21 @@ export default function InntektPage() {
         </div>
       </div>
 
+      {/* Tab navigation */}
+      <div className="bg-white border-b border-brand-200 sticky top-16 z-20">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex gap-1">
+            <button onClick={() => setActiveTab('inntekt')} className={`px-5 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'inntekt' ? 'border-tomtly-accent text-tomtly-accent' : 'border-transparent text-brand-500 hover:text-brand-700'}`}>
+              Inntektsmodell
+            </button>
+            <button onClick={() => setActiveTab('forretning')} className={`px-5 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'forretning' ? 'border-tomtly-accent text-tomtly-accent' : 'border-transparent text-brand-500 hover:text-brand-700'}`}>
+              Forretningsmodell
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {activeTab === 'inntekt' && (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
         {/* ─── Per-kunde beregning ──────────────────────────────────────── */}
         <div className="bg-white rounded-xl border border-brand-200 overflow-hidden">
@@ -436,6 +452,210 @@ export default function InntektPage() {
           </div>
         </div>
       </div>
+      )}
+
+      {activeTab === 'forretning' && <Forretningsmodell />}
+    </div>
+  )
+}
+
+function Forretningsmodell() {
+  const fmt = (n: number) => n.toLocaleString('nb-NO')
+
+  return (
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+      {/* Header */}
+      <div className="text-center">
+        <h2 className="font-display text-3xl font-bold text-tomtly-dark mb-3">Én tomt. Syv inntektsstrømmer.</h2>
+        <p className="text-brand-600 max-w-2xl mx-auto">Vi eier hele verdikjeden fra tomt til ferdig hus – uten å bygge et eneste hus selv.</p>
+      </div>
+
+      {/* Visuell flyt */}
+      <div className="space-y-4">
+        <FlowMarker text="TOMTEEIER HAR EN TOMT" />
+
+        <FlowStep nummer="1" tittel="Tomtanalyse + salg" ikon="📐" inntekt="4 990 kr + 2,5% ved salg" beskrivelse="Vi lager mulighetsstudie med husmodeller og byggekalkyle. Markedsfører og selger via vår megler." />
+        <FlowStep nummer="2" tittel="Ferdighusleverandør" ikon="🏠" inntekt="Månedlig abonnement" beskrivelse="Husmodeller vises i analysen. Leverandøren som betaler mest i abo får mest eksponering. Velger kjøper deres hus = direkte salg." />
+        <FlowStep nummer="3" tittel="Entreprenør" ikon="🔧" inntekt="14 900 kr/år" beskrivelse="Vi innhenter tilbud fra samarbeidsentreprenører. Gir oss kontroll på kostnader og gir entreprenøren kunder." />
+
+        <FlowMarker text="TOMTEN SELGES" highlight />
+
+        <FlowStep nummer="4" tittel="Bank" ikon="🏦" inntekt="4 900 kr per innvilget lån" beskrivelse="Kjøper trenger byggelån. Vi presenterer totalkostnad banken kan vurdere. Banken får kvalifisert kunde." />
+        <FlowStep nummer="5" tittel="Propr (oppgjør)" ikon="🤝" inntekt="2 500 kr formidlingsgebyr" beskrivelse="Oppgjør håndteres av Propr. Vi får formidlingsgebyr for å sende dem kunden." />
+        <FlowStep nummer="6" tittel="Tegnebua (tegning og søknad)" ikon="✏️" inntekt="Fastpris til arkitektavdeling" beskrivelse="Kjøper trenger byggesøknad og tegninger. Tegnebua gir fastpris – inntekt til arkitektavdelingen." />
+        <FlowStep nummer="7" tittel="Hussalg" ikon="🔑" inntekt="Inkludert i leverandør-abo" beskrivelse="Kjøper velger husmodell fra analysen. Ferdighusleverandøren får et salg direkte fra plattformen." />
+
+        <FlowMarker text="KJØPER BYGGER DRØMMEHUSET" />
+      </div>
+
+      {/* Eksempel */}
+      <div>
+        <h3 className="font-display text-2xl font-bold text-tomtly-dark mb-2 text-center">Hva én tomt genererer</h3>
+        <p className="text-brand-500 text-center mb-6">Eksempel: Tomt i Bærum, 650 m², solgt for 2 500 000 kr</p>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+          <InntektBoks label="Tomtanalyse + salg" belop={67490} farge="bg-tomtly-accent" tekstFarge="text-white" stor />
+          <InntektBoks label="Tegnebua" belop={25000} farge="bg-earth-400" tekstFarge="text-white" />
+          <InntektBoks label="Bank lead-fee" belop={4900} farge="bg-blue-500" tekstFarge="text-white" />
+          <InntektBoks label="Propr formidling" belop={2500} farge="bg-brand-600" tekstFarge="text-white" />
+        </div>
+        <div className="grid grid-cols-3 gap-3 mb-6">
+          <InntektBoks label="Huslev. abo" belop={3000} farge="bg-forest-500" tekstFarge="text-white" />
+          <InntektBoks label="Entreprenør" belop={2000} farge="bg-amber-500" tekstFarge="text-white" />
+          <InntektBoks label="Fotograf" belop={1000} farge="bg-purple-500" tekstFarge="text-white" />
+        </div>
+
+        <div className="bg-tomtly-dark rounded-2xl p-8 text-center">
+          <p className="text-sm text-brand-400 mb-1">Total inntekt per tomt</p>
+          <p className="text-5xl font-bold text-tomtly-gold">~105 000 kr</p>
+          <p className="text-sm text-brand-400 mt-2">Arbeidsinnsats: 10–15 timer</p>
+        </div>
+      </div>
+
+      {/* Hvem betaler hva */}
+      <div>
+        <h3 className="font-display text-2xl font-bold text-tomtly-dark mb-6 text-center">Hvem betaler hva</h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          {[
+            { segment: 'Tomteeier', pris: '4 990 kr + 2,5%', ikon: '🏡' },
+            { segment: 'Megler Standard', pris: 'Gratis', ikon: '👔' },
+            { segment: 'Megler Premium', pris: '4 900 kr', ikon: '⭐' },
+            { segment: 'Utvikler', pris: 'Fra 4 900 kr/tomt', ikon: '🏗️' },
+            { segment: 'Husleverandør', pris: 'Mnd-abonnement', ikon: '🏠' },
+            { segment: 'Entreprenør', pris: '14 900 kr/år', ikon: '🔧' },
+            { segment: 'Bank', pris: '4 900 kr/innvilget lån', ikon: '🏦' },
+            { segment: 'Propr', pris: 'Formidlingsgebyr', ikon: '🤝' },
+            { segment: 'Kjøper (Tegnebua)', pris: 'Fastpris tegning', ikon: '✏️' },
+          ].map((s) => (
+            <div key={s.segment} className="bg-white rounded-xl border border-brand-200 p-4 text-center">
+              <p className="text-2xl mb-2">{s.ikon}</p>
+              <p className="font-semibold text-tomtly-dark text-sm">{s.segment}</p>
+              <p className="text-xs text-brand-500 mt-1">{s.pris}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Tomtly vs tradisjonell */}
+      <div>
+        <h3 className="font-display text-2xl font-bold text-tomtly-dark mb-6 text-center">Tomtly vs. tradisjonell megler</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-brand-100 rounded-2xl p-6 opacity-70">
+            <h4 className="font-semibold text-brand-500 mb-4">Tradisjonell megler</h4>
+            <ul className="space-y-2 text-sm text-brand-500">
+              <li>• 2,5–3,5% provisjon</li>
+              <li>• Tomten = bilde av gress på FINN</li>
+              <li>• Ingen analyse, husmodeller eller kalkyle</li>
+              <li>• Tjener KUN på provisjonen</li>
+              <li>• Én inntektskilde per tomt</li>
+            </ul>
+          </div>
+          <div className="bg-forest-50 rounded-2xl p-6 border-2 border-tomtly-accent">
+            <h4 className="font-semibold text-tomtly-dark mb-4">Tomtly</h4>
+            <ul className="space-y-2 text-sm text-brand-700">
+              <li>• 4 990 kr + 2,5% provisjon</li>
+              <li>• Mulighetsstudie, husmodeller, kalkyle, 3D</li>
+              <li>• Kjøper ser ferdig byggeprosjekt</li>
+              <li>• Tjener på alle ledd etter salget også</li>
+              <li>• <strong>Syv inntektsstrømmer per tomt</strong></li>
+              <li>• Samme pris for selger – ti ganger mer verdi</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Flywheel */}
+      <div className="bg-brand-50 rounded-2xl p-8 border border-brand-200 text-center">
+        <h3 className="font-display text-xl font-bold text-tomtly-dark mb-4">Flywheel-effekten</h3>
+        <div className="flex flex-wrap items-center justify-center gap-3 text-sm mb-4">
+          {['Flere tomter', '→', 'Flere kjøpere', '→', 'Mer verdi for husleverandører', '→', 'Bedre analyser', '→', 'Mer attraktivt for tomteeiere', '→'].map((t, i) => (
+            <span key={i} className={t === '→' ? 'text-tomtly-accent font-bold text-lg' : 'bg-white px-3 py-1.5 rounded-full border border-brand-200 font-medium text-brand-700'}>{t}</span>
+          ))}
+        </div>
+        <p className="text-xs text-brand-500">Pluss: Hver solgte tomt genererer inntekt fra bank, entreprenør, tegning og oppgjør – uavhengig av plattformveksten.</p>
+      </div>
+
+      {/* Spesialmodeller */}
+      <div>
+        <h3 className="font-display text-2xl font-bold text-tomtly-dark mb-6 text-center">Spesialmodeller</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-white rounded-xl border border-brand-200 p-6">
+            <p className="text-2xl mb-3">✂️</p>
+            <h4 className="font-semibold text-tomtly-dark mb-2">Fradeling</h4>
+            <p className="text-sm text-brand-600">Mange eiendommer har mer tomt enn de trenger. Vi identifiserer dem, kontakter eier, og håndterer hele prosessen. Vi tar kun caser vi tror blir godkjent.</p>
+          </div>
+          <div className="bg-white rounded-xl border border-brand-200 p-6">
+            <p className="text-2xl mb-3">🔄</p>
+            <h4 className="font-semibold text-tomtly-dark mb-2">Omvendt markedsplass</h4>
+            <p className="text-sm text-brand-600">Kjøper forteller oss hva de vil ha. Vi finner tomten – også tomter som ikke er til salgs. Vi kontakter eier med ferdig kjøper.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Potensial */}
+      <div>
+        <h3 className="font-display text-2xl font-bold text-tomtly-dark mb-6 text-center">Potensial</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-white rounded-2xl border border-brand-200 p-6 text-center">
+            <p className="text-xs text-brand-500 mb-1">Konservativt (5 salg/mnd)</p>
+            <p className="text-3xl font-bold text-tomtly-dark">6,3 MNOK</p>
+            <p className="text-xs text-brand-400">/år</p>
+          </div>
+          <div className="bg-forest-50 rounded-2xl border-2 border-tomtly-accent p-6 text-center">
+            <p className="text-xs text-forest-600 mb-1">Vekst (15 salg/mnd)</p>
+            <p className="text-3xl font-bold text-tomtly-dark">18,9 MNOK</p>
+            <p className="text-xs text-forest-600">/år</p>
+          </div>
+          <div className="bg-tomtly-dark rounded-2xl p-6 text-center">
+            <p className="text-xs text-brand-400 mb-1">Skalert (30 salg/mnd)</p>
+            <p className="text-3xl font-bold text-tomtly-gold">37,8 MNOK</p>
+            <p className="text-xs text-brand-400">/år</p>
+          </div>
+        </div>
+        <p className="text-xs text-brand-500 text-center mt-3">+ Plattforminntekter (abo, avgifter): 2–5 MNOK/år recurring</p>
+      </div>
+
+      {/* Footer */}
+      <div className="text-center py-8 border-t border-brand-200">
+        <p className="text-brand-600 font-medium max-w-2xl mx-auto">
+          Tomtly tjener penger syv steder på én transaksjon. Tomtanalysen er inngangsbilletten – den egentlige inntjeningen ligger i økosystemet rundt.
+        </p>
+      </div>
+    </div>
+  )
+}
+
+function FlowMarker({ text, highlight }: { text: string; highlight?: boolean }) {
+  return (
+    <div className={`text-center py-4 px-6 rounded-xl font-bold text-lg ${highlight ? 'bg-tomtly-accent text-white' : 'bg-tomtly-dark text-white'}`}>
+      {text}
+    </div>
+  )
+}
+
+function FlowStep({ nummer, tittel, ikon, inntekt, beskrivelse }: { nummer: string; tittel: string; ikon: string; inntekt: string; beskrivelse: string }) {
+  return (
+    <div className="bg-white rounded-xl border border-brand-200 p-5 flex items-start gap-4">
+      <div className="text-3xl flex-shrink-0">{ikon}</div>
+      <div className="flex-1">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="w-6 h-6 bg-tomtly-accent text-white rounded-full text-xs flex items-center justify-center font-bold">{nummer}</span>
+          <h4 className="font-semibold text-tomtly-dark">{tittel}</h4>
+        </div>
+        <p className="text-sm text-brand-600">{beskrivelse}</p>
+      </div>
+      <div className="flex-shrink-0 bg-forest-50 rounded-lg px-3 py-1.5 border border-forest-200">
+        <p className="text-xs font-semibold text-forest-700">{inntekt}</p>
+      </div>
+    </div>
+  )
+}
+
+function InntektBoks({ label, belop, farge, tekstFarge, stor }: { label: string; belop: number; farge: string; tekstFarge: string; stor?: boolean }) {
+  return (
+    <div className={`${farge} rounded-xl p-4 text-center ${stor ? 'md:col-span-2' : ''}`}>
+      <p className={`${tekstFarge} text-xs opacity-80`}>{label}</p>
+      <p className={`${tekstFarge} ${stor ? 'text-2xl' : 'text-lg'} font-bold`}>{belop.toLocaleString('nb-NO')} kr</p>
     </div>
   )
 }
