@@ -215,7 +215,7 @@ function Steg1Tomt() {
             <div className="flex items-start gap-3">
               <input type="checkbox" id="fotograf" className="mt-1 w-4 h-4 rounded border-brand-300 text-tomtly-accent focus:ring-tomtly-accent" />
               <label htmlFor="fotograf" className="cursor-pointer">
-                <span className="text-sm font-medium text-tomtly-dark">Vi ordner fotograf – 5 000 kr</span>
+                <span className="text-sm font-medium text-tomtly-dark">Vi ordner fotograf – 5 500 kr</span>
                 <p className="text-xs text-brand-500 mt-0.5">
                   Profesjonell fotograf tar bilder og dronefoto av tomten. Vi koordinerer alt – du trenger bare gi tilgang til eiendommen.
                 </p>
