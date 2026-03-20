@@ -40,11 +40,11 @@ export function TomtKontakt() {
 
   return (
     <div className="bg-white border border-brand-200 rounded-xl p-6">
-      <h3 className="font-semibold text-tomtly-dark mb-4">Kontakt selger</h3>
+      <h3 className="font-semibold text-tomtly-dark mb-4">Kontakt Tomtly</h3>
 
       <div className="space-y-3 mb-6">
         <p className="text-sm text-brand-600">
-          Ta kontakt med selger for mer informasjon om denne tomten og mulighetene.
+          Ta kontakt med oss for mer informasjon om denne tomten og mulighetene. Tomtly har fagansvarlig megler og bistår med salg.
         </p>
       </div>
 

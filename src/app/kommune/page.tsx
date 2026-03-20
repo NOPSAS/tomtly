@@ -156,9 +156,9 @@ function Prismodell() {
             <p className="text-sm text-brand-600">Per tomt. Mulighetsstudie, husmodeller, visualisering. Fastpris.</p>
           </div>
           <div className="bg-brand-50 rounded-2xl p-8 border border-brand-200">
-            <p className="text-sm font-medium text-brand-500 mb-2">Synlighetspakke</p>
-            <p className="text-4xl font-bold text-tomtly-dark mb-2">9 900 kr</p>
-            <p className="text-sm text-brand-600">Per tomt. Alt i Analyse + publisering på Tomtly, synlig for aktive kjøpere.</p>
+            <p className="text-sm font-medium text-brand-500 mb-2">Salg via Tomtly</p>
+            <p className="text-4xl font-bold text-tomtly-dark mb-2">2,5 %</p>
+            <p className="text-sm text-brand-600">Av salgssum ved salg via Tomtly (med megler). I tillegg til analysepakken.</p>
           </div>
         </div>
       </div>
@@ -184,12 +184,16 @@ function Regnestykke() {
               <span className="font-semibold text-tomtly-dark">122 500 kr</span>
             </div>
             <div className="flex justify-between items-center py-2 border-b border-brand-200">
+              <span className="text-brand-600">Provisjon ved salg via Tomtly (2,5 % av 12 MNOK)</span>
+              <span className="font-semibold text-tomtly-dark">300 000 kr</span>
+            </div>
+            <div className="flex justify-between items-center py-2 border-b border-brand-200">
               <span className="text-brand-600">10 tomter selger første år til snitt 1,2 MNOK</span>
               <span className="font-bold text-tomtly-dark text-lg">12 MNOK</span>
             </div>
             <div className="flex justify-between items-center py-2 border-b border-brand-200">
               <span className="text-brand-600">Kommunens totale kostnad til Tomtly</span>
-              <span className="text-brand-500">122 500 kr</span>
+              <span className="text-brand-500">422 500 kr</span>
             </div>
             <div className="flex justify-between items-center py-3 bg-green-50 rounded-lg px-4 -mx-4">
               <span className="font-semibold text-green-800">Kommunens inntekt fra tomtesalg</span>
@@ -197,7 +201,7 @@ function Regnestykke() {
             </div>
             <div className="flex justify-between items-center py-2">
               <span className="text-brand-600">Tomtly-kostnad som andel av inntekt</span>
-              <span className="font-bold text-tomtly-accent text-lg">ca. 1%</span>
+              <span className="font-bold text-tomtly-accent text-lg">ca. 3,5 %</span>
             </div>
           </div>
         </div>

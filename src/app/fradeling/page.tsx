@@ -82,8 +82,8 @@ function StegForSteg() {
     {
       nummer: '04',
       ikon: Banknote,
-      tittel: 'Tomten blir synlig for kjøpere',
-      beskrivelse: 'Tomten publiseres på Tomtly. Interesserte kjøpere tar kontakt med deg direkte.',
+      tittel: 'Vi selger tomten',
+      beskrivelse: 'Tomten publiseres og markedsføres på Tomtly. Vår megler håndterer salget. Oppgjør via Propr.',
     },
   ]
 
@@ -149,8 +149,8 @@ function Eksempelregning() {
                 <span className="text-brand-500">49 000–89 000 kr</span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-brand-200">
-                <span className="text-brand-600">Analyse + Synlighet av fradelt tomt</span>
-                <span className="text-brand-500">9 900 kr</span>
+                <span className="text-brand-600">Salg via Tomtly (2,5 % av 2,5 MNOK)</span>
+                <span className="text-brand-500">62 500 kr</span>
               </div>
               <div className="flex justify-between items-center py-3 bg-green-50 rounded-lg px-4 -mx-4">
                 <span className="font-semibold text-green-800">Estimert verdi fradelt tomt</span>
@@ -186,9 +186,9 @@ function Priser() {
             <p className="text-sm text-brand-500">kr fastpris avhengig av omfang. Inkl. tegning, søknad og oppmåling.</p>
           </div>
           <div className="bg-white rounded-2xl p-7 border border-brand-200 text-center">
-            <p className="text-sm font-medium text-brand-500 mb-2">Analyse + Synlighet</p>
-            <p className="text-4xl font-bold text-tomtly-dark mb-2">9 900</p>
-            <p className="text-sm text-brand-500">kr i tillegg. Mulighetsstudie og publisering av den fradelte tomten.</p>
+            <p className="text-sm font-medium text-brand-500 mb-2">Salg via Tomtly (med megler)</p>
+            <p className="text-4xl font-bold text-tomtly-dark mb-2">2,5 %</p>
+            <p className="text-sm text-brand-500">av salgssum ved salg. Inkl. mulighetsstudie, publisering og megler.</p>
           </div>
         </div>
       </div>

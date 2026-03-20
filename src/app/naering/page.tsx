@@ -218,6 +218,12 @@ function Priser() {
             </div>
           ))}
         </div>
+
+        <div className="mt-6 max-w-4xl mx-auto bg-forest-50 rounded-xl border border-forest-200 p-5 text-center">
+          <p className="text-sm text-forest-800">
+            <strong>Ved salg via Tomtly (med megler):</strong> 2,5 % av salgssum i tillegg til analysepakken.
+          </p>
+        </div>
       </div>
     </section>
   )

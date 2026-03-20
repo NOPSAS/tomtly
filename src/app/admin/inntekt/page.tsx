@@ -77,11 +77,11 @@ const SCENARIOS: Record<Scenario, ScenarioInputs> = {
 // ─── Revenue data ────────────────────────────────────────────────────────────
 
 const PER_KUNDE_DATA: RevenueRow[] = [
-  { kilde: 'Analysepakke (4 900)', inntekt: 4900, kostnad: 4000, margin: 900, note: '' },
-  { kilde: 'Analyse + Synlighet (9 900)', inntekt: 9900, kostnad: 4500, margin: 5400, note: '6 mnd synlighet' },
-  { kilde: 'Premium Synlighet (14 900)', inntekt: 14900, kostnad: 5000, margin: 9900, note: '12 mnd + SoMe' },
-  { kilde: 'Megler (per tomt)', inntekt: 2900, kostnad: 4000, margin: -1100, note: 'Volum + referanser' },
-  { kilde: 'Fradeling (fastpris)', inntekt: 69000, kostnad: 15000, margin: 54000, note: '49-89k prosess + 9 900 synlighet' },
+  { kilde: 'Tomteeier fastpris (4 990)', inntekt: 4990, kostnad: 4000, margin: 990, note: 'Analyse + markedsføring' },
+  { kilde: 'Provisjon ved salg (2,5 % av snitt 2 MNOK)', inntekt: 50000, kostnad: 0, margin: 50000, note: '2,5 % av salgssum' },
+  { kilde: 'Megler Standard (gratis)', inntekt: 0, kostnad: 0, margin: 0, note: 'Gratis publisering – kjøpere kontakter megler' },
+  { kilde: 'Megler Premium (4 900)', inntekt: 4900, kostnad: 4000, margin: 900, note: 'Full analyse + synlighet' },
+  { kilde: 'Fradeling (fastpris + 2,5 %)', inntekt: 69000, kostnad: 15000, margin: 54000, note: '49-89k prosess + 2,5 % ved salg' },
   { kilde: 'Addons (tegning, søknad) – via Konsepthus', inntekt: 0, kostnad: 0, margin: 0, note: 'Utføres av Konsepthus/Tegnebua, ikke Tomtly-inntekt' },
   { kilde: 'Entreprenørpåslag', inntekt: 14900, kostnad: 0, margin: 14900, note: 'Årsavgift' },
   { kilde: 'Bank lead-fee', inntekt: 4900, kostnad: 0, margin: 4900, note: '' },
@@ -162,28 +162,28 @@ export default function InntektPage() {
   const timerPerTomt = 3.5
   const rows = [
     {
-      label: 'Analysepakke (4 900)',
+      label: 'Tomteeier fastpris (4 990)',
       antall: inputs.analysepakker,
-      inntektPer: 4900,
+      inntektPer: 4990,
       timerPer: timerPerTomt,
     },
     {
-      label: 'Analyse + Synlighet (9 900)',
+      label: 'Provisjon 2,5 % (snitt 50 000)',
       antall: inputs.analyseSynlighet,
-      inntektPer: 9900,
+      inntektPer: 50000,
       timerPer: timerPerTomt + 1,
     },
     {
-      label: 'Premium Synlighet (14 900)',
+      label: 'Megler Premium (4 900)',
       antall: inputs.premiumSynlighet,
-      inntektPer: 14900,
+      inntektPer: 4900,
       timerPer: timerPerTomt + 2,
     },
     {
-      label: 'Megleranalyser',
+      label: 'Megler Standard (gratis)',
       antall: inputs.megleranalyser,
-      inntektPer: 2900,
-      timerPer: timerPerTomt,
+      inntektPer: 0,
+      timerPer: 0.5,
     },
     {
       label: 'Fradelinger (fastpris)',
@@ -323,10 +323,10 @@ export default function InntektPage() {
           {/* Inputs */}
           <div className="space-y-3">
             <h3 className="font-display font-bold text-tomtly-dark">Månedlige volumer</h3>
-            <NumberInput label="Analysepakker (4 900)" value={inputs.analysepakker} onChange={v => updateInput('analysepakker', v)} icon={Calculator} />
-            <NumberInput label="Analyse + Synlighet (9 900)" value={inputs.analyseSynlighet} onChange={v => updateInput('analyseSynlighet', v)} icon={TrendingUp} />
-            <NumberInput label="Premium Synlighet (14 900)" value={inputs.premiumSynlighet} onChange={v => updateInput('premiumSynlighet', v)} icon={TrendingUp} />
-            <NumberInput label="Megleranalyser" value={inputs.megleranalyser} onChange={v => updateInput('megleranalyser', v)} icon={Users} />
+            <NumberInput label="Tomteeier (4 990 kr)" value={inputs.analysepakker} onChange={v => updateInput('analysepakker', v)} icon={Calculator} />
+            <NumberInput label="Provisjon-salg (2,5 %)" value={inputs.analyseSynlighet} onChange={v => updateInput('analyseSynlighet', v)} icon={TrendingUp} />
+            <NumberInput label="Megler Premium (4 900)" value={inputs.premiumSynlighet} onChange={v => updateInput('premiumSynlighet', v)} icon={TrendingUp} />
+            <NumberInput label="Megler Standard (gratis)" value={inputs.megleranalyser} onChange={v => updateInput('megleranalyser', v)} icon={Users} />
             <NumberInput label="Fradelinger" value={inputs.fradelinger} onChange={v => updateInput('fradelinger', v)} icon={Home} />
             <NumberInput label="Addons (tegning/søknad)" value={inputs.addons} onChange={v => updateInput('addons', v)} icon={Hammer} />
             <NumberInput label="Bank lead-fees" value={inputs.bankleads} onChange={v => updateInput('bankleads', v)} icon={Banknote} />

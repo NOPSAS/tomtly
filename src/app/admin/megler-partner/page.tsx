@@ -15,11 +15,11 @@ export default function MeglerPartnerPage() {
   const analyserSynlighet = Math.round(antallAnalyser * synlighetAndel / 100)
   const analyserPremium = Math.round(antallAnalyser * premiumAndel / 100)
 
-  const inntektAnalyse = analyserPure * 4900
-  const inntektSynlighet = analyserSynlighet * 9900
-  const inntektPremium = analyserPremium * 14900
+  const inntektAnalyse = analyserPure * 4990
+  const inntektSynlighet = analyserSynlighet * 50000  // 2,5 % provisjon snitt
+  const inntektPremium = analyserPremium * 4900  // Megler Premium
   const inntektNaering = snittNaering * 24900
-  const inntektMeglere = Math.round(antallAnalyser * 0.3) * 2900
+  const inntektMeglere = 0  // Megler Standard er gratis
   const inntektAddons = 0 // Via Konsepthus, ikke Tomtly
   const inntektEntreprenor = Math.round(3 * 14900 / 12)
   const inntektHuslev = 2 * 15000
@@ -136,11 +136,11 @@ export default function MeglerPartnerPage() {
               <input type="number" value={antallAnalyser} onChange={(e) => setAntallAnalyser(Number(e.target.value))} className="w-full px-3 py-2 border border-brand-200 rounded-lg text-sm" />
             </div>
             <div>
-              <label className="block text-xs text-brand-500 mb-1">% velger Synlighet (9 900)</label>
+              <label className="block text-xs text-brand-500 mb-1">% som selger (2,5 % prov.)</label>
               <input type="number" value={synlighetAndel} onChange={(e) => setSynlighetAndel(Number(e.target.value))} className="w-full px-3 py-2 border border-brand-200 rounded-lg text-sm" />
             </div>
             <div>
-              <label className="block text-xs text-brand-500 mb-1">% velger Premium (14 900)</label>
+              <label className="block text-xs text-brand-500 mb-1">% Megler Premium (4 900)</label>
               <input type="number" value={premiumAndel} onChange={(e) => setPremiumAndel(Number(e.target.value))} className="w-full px-3 py-2 border border-brand-200 rounded-lg text-sm" />
             </div>
             <div>
@@ -162,11 +162,11 @@ export default function MeglerPartnerPage() {
               </thead>
               <tbody>
                 {[
-                  { kilde: 'Analysepakke (4 900 kr)', antall: analyserPure, inntekt: inntektAnalyse },
-                  { kilde: 'Analyse + Synlighet (9 900 kr)', antall: analyserSynlighet, inntekt: inntektSynlighet },
-                  { kilde: 'Premium Synlighet (14 900 kr)', antall: analyserPremium, inntekt: inntektPremium },
+                  { kilde: 'Tomteeier fastpris (4 990 kr)', antall: analyserPure, inntekt: inntektAnalyse },
+                  { kilde: 'Provisjon 2,5 % (snitt 50 000 kr)', antall: analyserSynlighet, inntekt: inntektSynlighet },
+                  { kilde: 'Megler Premium (4 900 kr)', antall: analyserPremium, inntekt: inntektPremium },
                   { kilde: 'Næringstomter (snitt 24 900 kr)', antall: snittNaering, inntekt: inntektNaering },
-                  { kilde: 'Via meglere (2 900 kr)', antall: Math.round(antallAnalyser * 0.3), inntekt: inntektMeglere },
+                  { kilde: 'Megler Standard (gratis)', antall: Math.round(antallAnalyser * 0.3), inntekt: inntektMeglere },
                   { kilde: 'Tegning/søknad (via Konsepthus – 0 kr)', antall: Math.round(antallAnalyser * 0.10), inntekt: inntektAddons },
                   { kilde: 'Entreprenør-abo', antall: 3, inntekt: inntektEntreprenor },
                   { kilde: 'Husleverandør-abo', antall: 2, inntekt: inntektHuslev },
@@ -294,10 +294,10 @@ export default function MeglerPartnerPage() {
             <div className="bg-forest-50 rounded-xl p-5 border border-forest-200">
               <h3 className="font-semibold text-forest-700 mb-2">Tomtly + Propr</h3>
               <ul className="space-y-1 text-sm text-forest-700">
-                <li>• Tomtly: Analyse + synlighet = 4 900–14 900 kr</li>
+                <li>• Tomtly: 4 990 kr fastpris + 2,5 % provisjon</li>
                 <li>• Propr: Oppgjør = 9 990 kr</li>
-                <li>• Totalt: 14 890–24 890 kr</li>
-                <li>• <strong>Billigere enn megler, bedre presentasjon</strong></li>
+                <li>• Tomt 2 MNOK: 4 990 + 50 000 + 9 990 = 64 980 kr</li>
+                <li>• <strong>Konkurransedyktig pris, bedre presentasjon</strong></li>
               </ul>
             </div>
           </div>
@@ -322,11 +322,11 @@ export default function MeglerPartnerPage() {
                 {[
                   ['Arbeidstid', 'Kvelder, helger, visninger', 'Kontortid, mandag-fredag'],
                   ['Visninger', '3-10 per eiendom', 'Ingen – kjøper kontakter selger'],
-                  ['Budrunder', 'Håndterer bud og forhandling', 'Ikke involvert'],
+                  ['Budrunder', 'Håndterer bud og forhandling', 'Vår megler håndterer salget'],
                   ['Oppgjør', 'Ansvar for oppgjørsprosess', 'Outsourcet til Propr (9 990 kr)'],
                   ['Forsikring', 'Meglerforskring påkrevd', 'Ikke nødvendig'],
-                  ['Klagerisiko', 'Reklamasjonsnemnd', 'Minimal – vi analyserer, ikke selger'],
-                  ['Inntektsmodell', '1-3,6% provisjon, 10-15 salg/år', 'Fastpris per analyse, 30+ per mnd'],
+                  ['Klagerisiko', 'Reklamasjonsnemnd', 'Minimal – profesjonell prosess'],
+                  ['Inntektsmodell', '1-3,6% provisjon, 10-15 salg/år', '4 990 kr + 2,5 % provisjon, 30+ per mnd'],
                   ['Din lønn', '500-800k (ansatt), usikkert (selvstendig)', '20% av inntekt + 10% eierskap'],
                   ['Stress', 'Høyt – deadline, kvelder, press', 'Lavt – kontorbasert, B2B-salg'],
                   ['Oppside', 'Lineært – flere timer = mer penger', 'Eksponentielt – eierskap vokser'],

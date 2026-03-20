@@ -56,9 +56,20 @@ Daily 07:00 NO: FINN + dødsbo scrapers. Weekly Monday 07:00/08:00: fradelinger 
 - Interactive map uses Leaflet loaded from CDN (not npm), initialized in useEffect
 
 ### Pricing (must be consistent across all pages)
-Tomteeier Analysepakke: 4 900 kr | Tomteeier Analyse + Synlighet: 9 900 kr | Tomteeier Premium Synlighet: 14 900 kr | Megler: 2 900 kr/tomt | Utvikler: 4 900 kr (5-pack 3 900, abo 14 900+/mnd) | Entreprenør: 14 900 kr/år | Bank: 4 900 kr/innvilget lån | Kommune: Pilot gratis, Analysepakke 4 900 kr/tomt, Synlighetspakke 9 900 kr/tomt | Fradeling: 49 000–89 000 kr fastpris + 9 900 kr Analyse+Synlighet | Husleverandør: abo 10 000+/mnd | Næringstomt: Analyse 14 900, Analyse+Synlighet 24 900, Premium 39 900
+Tomtly has a licensed broker on the team. Pricing model:
+- **Tomteeier:** 4 990 kr fastpris + 2,5 % ved salg (komplett analyse, markedsføring og salg via megler)
+- **Megler Standard:** Gratis (publisering på Tomtly, kjøpere kontakter megler direkte)
+- **Megler Premium:** 4 900 kr (full analyse + synlighet, viderefakturerbar)
+- **Utvikler:** 4 900 kr/tomt, 5-pack 3 900 kr, abo fra 14 900 kr/mnd
+- **Næringstomt:** 14 900–39 900 kr + 2,5 % ved salg via Tomtly
+- **Entreprenør:** 14 900 kr/år
+- **Bank:** 4 900 kr per innvilget byggelån
+- **Kommune:** 4 900 kr/tomt + 2,5 % ved salg (pilot gratis)
+- **Fradeling:** Fastpris prosess (49 000–89 000 kr) + 2,5 % ved salg
+- **Ferdighusleverandører:** Abonnement (ta kontakt)
+- **Husleverandør:** abo 10 000+/mnd
 
-**IMPORTANT: Tomtly is NOT a broker. Never add language about handling sales, negotiations, buyer-seller mediation, "vi selger for deg", "salgsoppdrag", "oppgjør", or any percentage-of-sale pricing. Tomtly is an analysis and marketing platform only.**
+**Tomtly has a licensed broker (fagansvarlig megler) and assists with sales. Settlement (oppgjør) is handled by Propr.**
 
 ### Stripe Products (live)
 Payment links for one-time products, Checkout Sessions for subscriptions. Price IDs are hardcoded in `/api/checkout/route.ts`.

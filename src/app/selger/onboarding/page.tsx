@@ -243,71 +243,27 @@ function Steg1Tomt() {
 }
 
 function Steg2Prismodell() {
-  const [valgt, setValgt] = useState<'analyse' | 'synlighet' | 'premium'>('synlighet')
-
   return (
     <div className="bg-white rounded-xl border border-brand-200 p-8">
       <h2 className="text-lg font-semibold text-tomtly-dark mb-2">
-        Velg pakke
+        Prismodell
       </h2>
       <p className="text-sm text-brand-500 mb-6">
-        Alle pakker inkluderer komplett tomtanalyse med mulighetsstudie, husmodeller og byggekalkyle.
+        Én enkel pris. Alt inkludert – analyse, markedsføring og salg via megler.
       </p>
 
-      <div className="space-y-3">
-        <button
-          onClick={() => setValgt('analyse')}
-          className={`w-full text-left p-5 rounded-xl border-2 transition-all ${
-            valgt === 'analyse'
-              ? 'border-tomtly-accent bg-forest-50'
-              : 'border-brand-200 hover:border-brand-300'
-          }`}
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="font-semibold text-tomtly-dark">Analysepakke</p>
-              <p className="text-sm text-brand-500 mt-0.5">Mulighetsstudie, husmodeller, byggekalkyle. Levert som PDF og digital presentasjon.</p>
-            </div>
-            <p className="text-2xl font-bold text-tomtly-dark whitespace-nowrap ml-4">4 900 kr</p>
+      <div className="p-6 rounded-xl border-2 border-tomtly-accent bg-forest-50">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <p className="font-semibold text-tomtly-dark text-lg">Komplett pakke</p>
+            <p className="text-sm text-brand-500 mt-0.5">Tomtanalyse, mulighetsstudie, husmodeller, byggekalkyle, visualiseringer, publisering, markedsføring og salg via vår megler.</p>
           </div>
-        </button>
-
-        <button
-          onClick={() => setValgt('synlighet')}
-          className={`w-full text-left p-5 rounded-xl border-2 transition-all relative ${
-            valgt === 'synlighet'
-              ? 'border-tomtly-accent bg-forest-50'
-              : 'border-brand-200 hover:border-brand-300'
-          }`}
-        >
-          <div className="absolute -top-2.5 right-4 px-2 py-0.5 bg-tomtly-accent text-white text-xs rounded-full">
-            Mest populær
-          </div>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="font-semibold text-tomtly-dark">Analyse + Synlighet</p>
-              <p className="text-sm text-brand-500 mt-0.5">Alt i Analyse + publisering på Tomtly i 6 mnd, synlig for aktive kjøpere, visningsstatistikk.</p>
-            </div>
-            <p className="text-2xl font-bold text-tomtly-dark whitespace-nowrap ml-4">9 900 kr</p>
-          </div>
-        </button>
-
-        <button
-          onClick={() => setValgt('premium')}
-          className={`w-full text-left p-5 rounded-xl border-2 transition-all ${
-            valgt === 'premium'
-              ? 'border-tomtly-accent bg-forest-50'
-              : 'border-brand-200 hover:border-brand-300'
-          }`}
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="font-semibold text-tomtly-dark">Premium Synlighet</p>
-              <p className="text-sm text-brand-500 mt-0.5">Alt over + fremhevet plassering, SoMe-promotering, 12 mnd synlighet, ukentlig rapport.</p>
-            </div>
-            <p className="text-2xl font-bold text-tomtly-dark whitespace-nowrap ml-4">14 900 kr</p>
-          </div>
-        </button>
+        </div>
+        <div className="flex items-baseline gap-2">
+          <p className="text-3xl font-bold text-tomtly-dark">4 990 kr</p>
+          <p className="text-brand-500">+ 2,5 % ved salg</p>
+        </div>
+        <p className="text-xs text-brand-400 mt-2">Oppgjør håndteres av Propr. Du betaler kun provisjon når tomten er solgt.</p>
       </div>
     </div>
   )
@@ -374,7 +330,7 @@ function Steg3Bekreftelse() {
         className="inline-flex items-center gap-2 px-8 py-3 bg-tomtly-accent text-white font-semibold rounded-lg hover:bg-forest-700 transition-colors disabled:opacity-50 text-lg"
       >
         <CreditCard className="w-5 h-5" />
-        {betaler ? 'Sender til betaling...' : 'Betal 4 900 kr'}
+        {betaler ? 'Sender til betaling...' : 'Betal 4 990 kr'}
       </button>
       <p className="text-xs text-brand-400 mt-3">Sikker betaling via Stripe</p>
     </div>

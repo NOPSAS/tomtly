@@ -276,7 +276,7 @@ function MeglerReferanse() {
     <section className="bg-brand-50 py-12 lg:py-16">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <p className="text-brand-600 mb-4">
-          Jobber du med megler? Meglere kan bestille tomtanalyse fra 2 900 kr per tomt.
+          Jobber du med megler? Meglere kan publisere gratis eller bestille Premium-analyse for 4 900 kr per tomt.
         </p>
         <Link
           href="/for-meglere"

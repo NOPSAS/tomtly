@@ -424,13 +424,13 @@ function TabInntektsmodell() {
       <Card title="Inntektsflyt per tomt">
         <div className="overflow-x-auto">
           <div className="flex items-center gap-3 min-w-[900px] py-4">
-            <FlowStep label="Tomteeier" sublabel="4 900 kr" color="bg-blue-50 border-blue-200 text-blue-800" />
+            <FlowStep label="Tomteeier" sublabel="4 990 kr + 2,5 %" color="bg-blue-50 border-blue-200 text-blue-800" />
             <ArrowRight className="w-5 h-5 text-brand-400 flex-shrink-0" />
             <FlowStep label="Tomtanalyse" sublabel="Mulighetsstudie" color="bg-brand-50 border-brand-200 text-brand-700" />
             <ArrowRight className="w-5 h-5 text-brand-400 flex-shrink-0" />
             <FlowStep label="Publisering" sublabel="Pa Tomtly.no" color="bg-brand-50 border-brand-200 text-brand-700" />
             <ArrowRight className="w-5 h-5 text-brand-400 flex-shrink-0" />
-            <FlowStep label="Synlighet" sublabel="9 900 kr" color="bg-green-50 border-green-200 text-green-800" />
+            <FlowStep label="Salg via megler" sublabel="2,5 % prov." color="bg-green-50 border-green-200 text-green-800" />
             <ArrowRight className="w-5 h-5 text-brand-400 flex-shrink-0" />
             <FlowStep label="Kjoper overtar" sublabel="Velger hus" color="bg-brand-50 border-brand-200 text-brand-700" />
             <ArrowRight className="w-5 h-5 text-brand-400 flex-shrink-0" />
@@ -487,9 +487,9 @@ function TabInntektsmodell() {
             </thead>
             <tbody className="divide-y divide-brand-100">
               {[
-                ['Pris tomtanalyse', '4 900 kr'],
-                ['Analyse + Synlighet', '9 900 kr'],
-                ['Premium Synlighet', '14 900 kr'],
+                ['Tomteeier fastpris', '4 990 kr'],
+                ['Provisjon ved salg', '2,5 %'],
+                ['Megler Premium', '4 900 kr'],
                 ['Addon-inntekt snitt per tomt', '40 000 - 60 000 kr'],
                 ['Kostnad per analyse', '~4 000 kr'],
                 ['LTV per tomt (konservativt)', '~75 000 kr'],

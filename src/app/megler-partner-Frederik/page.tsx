@@ -12,13 +12,13 @@ export default function FrederikPage() {
   // === TOMTLY INNTEKT ===
 
   // 1. Provisjon fra tomtesalg (3 selgere totalt)
-  const provPerSalg = snittpris * 1000000 * 0.03
+  const provPerSalg = snittpris * 1000000 * 0.025
   const provTotal = totalSalg * provPerSalg
 
   // 2. Fast inntekt (analyser, abo, addons – uavhengig av salg)
-  const fastAnalyser = 20 * 4900    // 20 analysepakker
-  const fastPremium = 8 * 7500      // 8 premium
-  const fastMegler = 10 * 2900      // 10 meglerkunder
+  const fastAnalyser = 20 * 4990    // 20 analysepakker
+  const fastPremium = 8 * 4900      // 8 megler premium
+  const fastMegler = 0              // megler standard er gratis
   const fastNaering = 2 * 24900     // 2 næringsanalyser
   const fastAddons = 0               // Tegning/søknad utføres av Konsepthus, ikke Tomtly-inntekt
   const fastFradeling = 1 * 69000   // 1 fradeling
@@ -51,7 +51,7 @@ export default function FrederikPage() {
             Frederik – bli med og selg tomter med Tomtly
           </h1>
           <p className="text-lg text-brand-400 max-w-xl mx-auto">
-            Vi er 3 som selger. Du får 20% av provisjon + 10% av fast inntekt – pluss 10% eierskap i selskapet.
+            Vi er 3 som selger. Tomtly tar 2,5 % provisjon. Du får 20 % av provisjon + 10 % av fast inntekt – pluss 10 % eierskap.
           </p>
         </div>
       </div>
@@ -104,7 +104,7 @@ export default function FrederikPage() {
                 <span className="px-3 py-1 bg-forest-200 text-forest-800 text-xs font-bold rounded-full">Du får 20%</span>
               </div>
               <p className="text-sm text-forest-700 mb-4">
-                Vi er 3 som selger tomter. Hver gang en tomt selges, tar Tomtly 3% provisjon. Du får 20% av den provisjonen.
+                Vi er 3 som selger tomter. Hver gang en tomt selges, tar Tomtly 2,5 % provisjon. Du får 20 % av den provisjonen.
               </p>
               <div className="bg-white rounded-lg p-4">
                 <div className="flex items-center justify-between text-sm text-forest-700 mb-2">
@@ -185,7 +185,7 @@ export default function FrederikPage() {
               </thead>
               <tbody>
                 {[2, 4, 6, 8, 10, 15, 20].map((s) => {
-                  const prov = s * snittpris * 1000000 * 0.03
+                  const prov = s * snittpris * 1000000 * 0.025
                   const dinProv = Math.round(prov * 0.20)
                   const dinFast = frederikFast
                   const dinTot = dinProv + dinFast
@@ -230,7 +230,7 @@ export default function FrederikPage() {
                   { label: 'Vekst (15 salg/mnd)', salg: 15 },
                   { label: 'Skalert (30 salg/mnd)', salg: 30 },
                 ].map((sc) => {
-                  const prov = sc.salg * snittpris * 1000000 * 0.03
+                  const prov = sc.salg * snittpris * 1000000 * 0.025
                   const tot = (prov + fastTotal) * 12
                   const verdi = tot * 4
                   const dinAndel = Math.round(verdi * 0.10)
