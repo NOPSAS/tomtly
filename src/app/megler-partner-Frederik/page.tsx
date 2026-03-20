@@ -94,62 +94,75 @@ export default function FrederikPage() {
             </div>
           </div>
 
-          {/* Tydelig nedbrytning */}
-          <div className="space-y-4 mb-8">
-            {/* Del 1: Provisjon */}
-            <div className="bg-forest-50 rounded-xl p-5 border border-forest-200">
-              <h3 className="text-sm font-semibold text-forest-800 mb-3">Del 1: Provisjon fra tomtesalg</h3>
-              <div className="space-y-1 text-sm">
-                <div className="flex justify-between text-forest-700">
-                  <span>{totalSalg} salg × {snittpris} MNOK × 3% = Tomtly provisjon</span>
-                  <span className="font-semibold">{fmt(provTotal)} kr/mnd</span>
+          {/* DIN INNTEKT – ENKELT */}
+          <div className="space-y-6 mb-8">
+
+            {/* Inntekt 1: Provisjon */}
+            <div className="bg-forest-50 rounded-xl p-6 border border-forest-200">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-semibold text-forest-800">Inntekt 1: Tomtesalg</h3>
+                <span className="px-3 py-1 bg-forest-200 text-forest-800 text-xs font-bold rounded-full">Du får 20%</span>
+              </div>
+              <p className="text-sm text-forest-700 mb-4">
+                Vi er 3 som selger tomter. Hver gang en tomt selges, tar Tomtly 3% provisjon. Du får 20% av den provisjonen.
+              </p>
+              <div className="bg-white rounded-lg p-4">
+                <div className="flex items-center justify-between text-sm text-forest-700 mb-2">
+                  <span>Tomt selges for {snittpris} MNOK</span>
+                  <span>→ Tomtly får {fmt(provPerSalg)} kr</span>
                 </div>
-                <div className="flex justify-between text-tomtly-accent font-bold pt-1 border-t border-forest-300">
-                  <span>Din del (20% av {fmt(provTotal)} kr)</span>
-                  <span>{fmt(frederikProv)} kr/mnd</span>
+                <div className="flex items-center justify-between text-sm font-bold text-tomtly-accent">
+                  <span>Din andel (20%)</span>
+                  <span>{fmt(Math.round(provPerSalg * 0.20))} kr per salg</span>
                 </div>
+              </div>
+              <div className="mt-3 pt-3 border-t border-forest-200 flex items-center justify-between">
+                <span className="text-sm text-forest-700">{totalSalg} salg i måneden →</span>
+                <span className="text-xl font-bold text-tomtly-accent">{fmt(frederikProv)} kr/mnd</span>
               </div>
             </div>
 
-            {/* Del 2: Fast inntekt */}
-            <div className="bg-brand-50 rounded-xl p-5 border border-brand-200">
-              <h3 className="text-sm font-semibold text-brand-700 mb-3">Del 2: Fast inntekt (analyser, abo, addons)</h3>
-              <div className="space-y-1 text-sm text-brand-600">
-                <div className="flex justify-between"><span>Analysepakker (20 × 4 900)</span><span>{fmt(fastAnalyser)} kr</span></div>
-                <div className="flex justify-between"><span>Premium (8 × 7 500)</span><span>{fmt(fastPremium)} kr</span></div>
-                <div className="flex justify-between"><span>Meglerkunder (10 × 2 900)</span><span>{fmt(fastMegler)} kr</span></div>
-                <div className="flex justify-between"><span>Næring (2 × 24 900)</span><span>{fmt(fastNaering)} kr</span></div>
-                <div className="flex justify-between"><span>Addons – tegning, søknad (5 × 30k)</span><span>{fmt(fastAddons)} kr</span></div>
-                <div className="flex justify-between"><span>Propr-fee ({totalSalg} kunder × 2 000 kr)</span><span>{fmt(fastPropr)} kr</span></div>
-                <div className="flex justify-between"><span>Fradeling, abo, bank</span><span>{fmt(fastFradeling + fastEntAbo + fastHusAbo + fastBank)} kr</span></div>
-                <div className="flex justify-between font-semibold text-brand-700 pt-1 border-t border-brand-300">
-                  <span>Sum fast inntekt</span><span>{fmt(fastTotal)} kr/mnd</span>
+            {/* Inntekt 2: Fast inntekt */}
+            <div className="bg-brand-50 rounded-xl p-6 border border-brand-200">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-semibold text-brand-700">Inntekt 2: Tomtlys øvrige inntekter</h3>
+                <span className="px-3 py-1 bg-brand-200 text-brand-700 text-xs font-bold rounded-full">Du får 10%</span>
+              </div>
+              <p className="text-sm text-brand-600 mb-4">
+                I tillegg til tomtesalg tjener Tomtly penger på analyser, abonnementer og tilleggstjenester. Du får 10% av dette.
+              </p>
+              <div className="bg-white rounded-lg p-4 space-y-2 text-sm text-brand-600">
+                <div className="flex justify-between"><span>Tomtanalyser som kunder kjøper</span><span>{fmt(fastAnalyser + fastPremium)} kr</span></div>
+                <div className="flex justify-between"><span>Meglere som kjøper analyser</span><span>{fmt(fastMegler)} kr</span></div>
+                <div className="flex justify-between"><span>Tegninger, byggesøknader og addons</span><span>{fmt(fastAddons + fastFradeling)} kr</span></div>
+                <div className="flex justify-between"><span>Abonnementer og partneravtaler</span><span>{fmt(fastEntAbo + fastHusAbo + fastNaering)} kr</span></div>
+                <div className="flex justify-between"><span>Bank-leads og Propr-fee</span><span>{fmt(fastBank + fastPropr)} kr</span></div>
+                <div className="flex justify-between font-semibold text-brand-700 pt-2 border-t border-brand-200">
+                  <span>Tomtly øvrig inntekt</span><span>{fmt(fastTotal)} kr/mnd</span>
                 </div>
-                <div className="flex justify-between text-tomtly-accent font-bold pt-1 border-t border-brand-300">
-                  <span>Din del (10% av {fmt(fastTotal)} kr)</span>
-                  <span>{fmt(frederikFast)} kr/mnd</span>
-                </div>
+              </div>
+              <div className="mt-3 pt-3 border-t border-brand-200 flex items-center justify-between">
+                <span className="text-sm text-brand-700">Din andel (10%) →</span>
+                <span className="text-xl font-bold text-tomtly-accent">{fmt(frederikFast)} kr/mnd</span>
               </div>
             </div>
 
-            {/* Sum */}
-            <div className="bg-tomtly-dark rounded-xl p-6">
-              <div className="grid grid-cols-3 gap-4 text-center">
-                <div>
-                  <p className="text-xs text-brand-400">20% av provisjon</p>
-                  <p className="text-xl font-bold text-white">{fmt(frederikProv)} kr</p>
+            {/* TOTAL */}
+            <div className="bg-tomtly-dark rounded-xl p-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+                <div className="text-center">
+                  <p className="text-xs text-brand-400 mb-1">Fra tomtesalg</p>
+                  <p className="text-2xl font-bold text-white">{fmt(frederikProv)} kr</p>
                 </div>
-                <div>
-                  <p className="text-xs text-brand-400">10% av fast inntekt</p>
-                  <p className="text-xl font-bold text-white">{fmt(frederikFast)} kr</p>
+                <div className="text-center">
+                  <p className="text-xs text-brand-400 mb-1">Fra øvrige inntekter</p>
+                  <p className="text-2xl font-bold text-white">{fmt(frederikFast)} kr</p>
                 </div>
-                <div>
-                  <p className="text-xs text-tomtly-gold">Din total per måned</p>
-                  <p className="text-3xl font-bold text-tomtly-gold">{fmt(frederikTotal)} kr</p>
+                <div className="text-center bg-white/10 rounded-xl p-4">
+                  <p className="text-xs text-tomtly-gold mb-1">Totalt per måned</p>
+                  <p className="text-4xl font-bold text-tomtly-gold">{fmt(frederikTotal)} kr</p>
+                  <p className="text-sm text-brand-400 mt-2">= {fmt(frederikAar)} kr/år</p>
                 </div>
-              </div>
-              <div className="text-center mt-4 pt-4 border-t border-brand-800">
-                <p className="text-brand-400 text-sm">Din årslønn: <span className="text-white font-bold text-xl">{fmt(frederikAar)} kr</span></p>
               </div>
             </div>
           </div>
