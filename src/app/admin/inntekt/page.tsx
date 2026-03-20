@@ -216,6 +216,18 @@ export default function InntektPage() {
       inntektPer: 15000,
       timerPer: 1,
     },
+    {
+      label: 'Propr-fee (per salg)',
+      antall: inputs.analyseSynlighet,
+      inntektPer: 2000,
+      timerPer: 0,
+    },
+    {
+      label: 'Fotograf (50% av salg)',
+      antall: Math.round(inputs.analyseSynlighet / 2),
+      inntektPer: 1000,
+      timerPer: 0.5,
+    },
   ]
 
   const totalInntekt = rows.reduce((sum, r) => sum + r.antall * r.inntektPer, 0)
