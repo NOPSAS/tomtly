@@ -161,6 +161,9 @@ function Prismodell() {
             <p className="text-sm text-brand-600">Av salgssum ved salg via Tomtly (med megler). I tillegg til analysepakken.</p>
           </div>
         </div>
+        <p className="text-xs text-brand-500 mt-3">
+          For utviklere som ønsker å kjøpe flere kommunale tomter samlet, kan vi koble dem med finansieringspartnere for prosjektfinansiering.
+        </p>
       </div>
     </section>
   )

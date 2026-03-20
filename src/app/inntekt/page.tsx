@@ -466,7 +466,7 @@ function Forretningsmodell() {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
       {/* Header */}
       <div className="text-center">
-        <h2 className="font-display text-3xl font-bold text-tomtly-dark mb-3">Én tomt. Syv inntektsstrømmer.</h2>
+        <h2 className="font-display text-3xl font-bold text-tomtly-dark mb-3">Én tomt. Åtte inntektsstrømmer.</h2>
         <p className="text-brand-600 max-w-2xl mx-auto">Vi eier hele verdikjeden fra tomt til ferdig hus – uten å bygge et eneste hus selv.</p>
       </div>
 
@@ -481,9 +481,10 @@ function Forretningsmodell() {
         <FlowMarker text="TOMTEN SELGES" highlight />
 
         <FlowStep nummer="4" tittel="Bank" ikon="🏦" inntekt="4 900 kr per innvilget lån" beskrivelse="Kjøper trenger byggelån. Vi presenterer totalkostnad banken kan vurdere. Banken får kvalifisert kunde." />
-        <FlowStep nummer="5" tittel="Propr (oppgjør)" ikon="🤝" inntekt="2 500 kr formidlingsgebyr" beskrivelse="Oppgjør håndteres av Propr. Vi får formidlingsgebyr for å sende dem kunden." />
-        <FlowStep nummer="6" tittel="Tegnebua (tegning og søknad)" ikon="✏️" inntekt="Fastpris til arkitektavdeling" beskrivelse="Kjøper trenger byggesøknad og tegninger. Tegnebua gir fastpris – inntekt til arkitektavdelingen." />
-        <FlowStep nummer="7" tittel="Hussalg" ikon="🔑" inntekt="Inkludert i leverandør-abo" beskrivelse="Kjøper velger husmodell fra analysen. Ferdighusleverandøren får et salg direkte fra plattformen." />
+        <FlowStep nummer="5" tittel="Prosjektfinansiering" ikon="💰" inntekt="4 900–14 900 kr lead-fee" beskrivelse="Vi kobler utviklere og kjøpere med alternative finansieringspartnere (Kameo/Oblinor). Lead-fee per innvilget lån." />
+        <FlowStep nummer="6" tittel="Propr (oppgjør)" ikon="🤝" inntekt="2 500 kr formidlingsgebyr" beskrivelse="Oppgjør håndteres av Propr. Vi får formidlingsgebyr for å sende dem kunden." />
+        <FlowStep nummer="7" tittel="Tegnebua (tegning og søknad)" ikon="✏️" inntekt="Fastpris til arkitektavdeling" beskrivelse="Kjøper trenger byggesøknad og tegninger. Tegnebua gir fastpris – inntekt til arkitektavdelingen." />
+        <FlowStep nummer="8" tittel="Hussalg" ikon="🔑" inntekt="Inkludert i leverandør-abo" beskrivelse="Kjøper velger husmodell fra analysen. Ferdighusleverandøren får et salg direkte fra plattformen." />
 
         <FlowMarker text="KJØPER BYGGER DRØMMEHUSET" />
       </div>
@@ -499,7 +500,8 @@ function Forretningsmodell() {
           <InntektBoks label="Bank lead-fee" belop={4900} farge="bg-blue-500" tekstFarge="text-white" />
           <InntektBoks label="Propr formidling" belop={2500} farge="bg-brand-600" tekstFarge="text-white" />
         </div>
-        <div className="grid grid-cols-3 gap-3 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+          <InntektBoks label="Prosjektfin." belop={5000} farge="bg-yellow-600" tekstFarge="text-white" />
           <InntektBoks label="Huslev. abo" belop={3000} farge="bg-forest-500" tekstFarge="text-white" />
           <InntektBoks label="Entreprenør" belop={2000} farge="bg-amber-500" tekstFarge="text-white" />
           <InntektBoks label="Fotograf" belop={1000} farge="bg-purple-500" tekstFarge="text-white" />
@@ -507,7 +509,7 @@ function Forretningsmodell() {
 
         <div className="bg-tomtly-dark rounded-2xl p-8 text-center">
           <p className="text-sm text-brand-400 mb-1">Total inntekt per tomt</p>
-          <p className="text-5xl font-bold text-tomtly-gold">~105 000 kr</p>
+          <p className="text-5xl font-bold text-tomtly-gold">~110 000 kr</p>
           <p className="text-sm text-brand-400 mt-2">Arbeidsinnsats: 10–15 timer</p>
         </div>
       </div>
@@ -557,7 +559,7 @@ function Forretningsmodell() {
               <li>• Mulighetsstudie, husmodeller, kalkyle, 3D</li>
               <li>• Kjøper ser ferdig byggeprosjekt</li>
               <li>• Tjener på alle ledd etter salget også</li>
-              <li>• <strong>Syv inntektsstrømmer per tomt</strong></li>
+              <li>• <strong>Åtte inntektsstrømmer per tomt</strong></li>
               <li>• Samme pris for selger – ti ganger mer verdi</li>
             </ul>
           </div>
@@ -618,7 +620,7 @@ function Forretningsmodell() {
       {/* Footer */}
       <div className="text-center py-8 border-t border-brand-200">
         <p className="text-brand-600 font-medium max-w-2xl mx-auto">
-          Tomtly tjener penger syv steder på én transaksjon. Tomtanalysen er inngangsbilletten – den egentlige inntjeningen ligger i økosystemet rundt.
+          Tomtly tjener penger åtte steder på én transaksjon. Tomtanalysen er inngangsbilletten – den egentlige inntjeningen ligger i økosystemet rundt.
         </p>
       </div>
     </div>

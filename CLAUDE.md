@@ -68,6 +68,7 @@ Tomtly has a licensed broker on the team. Pricing model:
 - **Fradeling:** Fastpris prosess (49 000–89 000 kr) + 2,5 % ved salg
 - **Ferdighusleverandører:** Abonnement (ta kontakt)
 - **Husleverandør:** abo 10 000+/mnd
+- **Prosjektfinansiering:** 4 900–14 900 kr lead-fee per innvilget lån
 
 **Tomtly has a licensed broker (fagansvarlig megler) and assists with sales. Settlement (oppgjør) is handled by Propr.**
 

@@ -251,6 +251,12 @@ function Priser() {
             </div>
           </div>
         </div>
+
+        <div className="bg-amber-50 rounded-lg p-4 border border-amber-200 mt-4 max-w-4xl mx-auto">
+          <p className="text-sm text-amber-700">
+            <strong>Mangler midler?</strong> Fradelingsprosessen krever investering. Vi kan koble deg med finansieringspartnere som gir kortsiktig lån med sikkerhet i eiendommen din. Lånet innfris når tomten selges.
+          </p>
+        </div>
       </div>
     </section>
   )

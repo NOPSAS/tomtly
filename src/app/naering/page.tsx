@@ -21,6 +21,7 @@ export default function NaeringPage() {
       <HvaViLeverer />
       <Priser />
       <Regnestykke />
+      <FinansieringBoks />
       <ForBedrifter />
       <CTATomteeiere />
     </>
@@ -331,6 +332,31 @@ function Regnestykke() {
             <strong>Konklusjon:</strong> Selv med konservative tall gir denne tomten positiv utviklingsverdi.
             Med optimalisert konsept (kombinasjonsbygg, høyere leie) kan verdien øke betydelig.
             Vi lager den fulle investeringscasen for deg.
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ---- Finansiering ----
+
+function FinansieringBoks() {
+  return (
+    <section className="bg-white py-12 lg:py-16">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-amber-50 rounded-xl p-6 border border-amber-200 max-w-3xl mx-auto mb-8">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl">💰</span>
+            <div>
+              <h3 className="font-semibold text-amber-800 mb-1">Finansiering av næringstomt</h3>
+              <p className="text-sm text-amber-700">
+                Trenger du rask finansiering for å sikre en næringstomt? Vi samarbeider med finansieringspartnere som tilbyr brolån og prosjektlån med sikkerhet i eiendom. Du får låneunderlag servert – vi har allerede laget kalkylen.
+              </p>
+              <a href="mailto:hey@nops.no?subject=Næringsfinansiering" className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-amber-800 hover:underline">
+                Spør om finansiering →
+              </a>
+            </div>
           </div>
         </div>
       </div>

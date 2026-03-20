@@ -19,6 +19,24 @@ export default function UtviklerPage() {
       <Fordeler />
       <Prising />
       <VerdiArgument />
+      <section className="bg-white pb-0 pt-12 lg:pt-16">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-amber-50 rounded-xl p-6 border border-amber-200 mb-8">
+            <div className="flex items-start gap-3">
+              <span className="text-2xl">💰</span>
+              <div>
+                <h3 className="font-semibold text-amber-800 mb-1">Trenger du prosjektfinansiering?</h3>
+                <p className="text-sm text-amber-700">
+                  Ikke alle prosjekter passer for tradisjonell bankfinansiering. Vi samarbeider med finansieringspartnere som tilbyr prosjektlån med sikkerhet i eiendom – ofte raskere og mer fleksibelt enn banken. Vi sender med komplett underlag fra analysen vår, så prosessen går raskt.
+                </p>
+                <a href="mailto:hey@nops.no?subject=Prosjektfinansiering" className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-amber-800 hover:underline">
+                  Spør om finansiering →
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <ContactForm />
       <MeglerReferanse />
     </>

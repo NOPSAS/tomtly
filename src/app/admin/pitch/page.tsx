@@ -20,6 +20,7 @@ const TABS = [
   { id: 'leverandorer', label: 'Ferdighusleverandører', icon: Building2 },
   { id: 'entreprenorer', label: 'Entreprenører', icon: Wrench },
   { id: 'banker', label: 'Banker', icon: Landmark },
+  { id: 'samarbeidspartnere', label: 'Samarbeidspartnere', icon: Users },
   { id: 'inntektsmodell', label: 'Inntektsmodell', icon: DollarSign },
 ] as const
 
@@ -68,6 +69,7 @@ export default function PitchPage() {
         {activeTab === 'leverandorer' && <TabLeverandorer />}
         {activeTab === 'entreprenorer' && <TabEntreprenorer />}
         {activeTab === 'banker' && <TabBanker />}
+        {activeTab === 'samarbeidspartnere' && <TabSamarbeidspartnere />}
         {activeTab === 'inntektsmodell' && <TabInntektsmodell />}
       </div>
     </div>
@@ -402,7 +404,120 @@ function TabBanker() {
   )
 }
 
-// ---- Tab 4: Inntektsmodell ----
+// ---- Tab 4: Samarbeidspartnere ----
+
+function TabSamarbeidspartnere() {
+  const partnere = [
+    {
+      ikon: '🏠',
+      navn: 'Ferdighusleverandører',
+      eksempler: 'Hedalm-Anebyhus, ABChus, Mesterhus',
+      viTilbyr: 'Husmodellene deres vises direkte på tomtesider til kvalifiserte kjøpere som har tomt og budsjett. Matching basert på regulering, BYA og topografi.',
+      deBetaler: 'Månedlig abonnement for husmodelleksponering (fra 5 000 kr/mnd)',
+      forKunden: 'Ser hvilke hus som passer på tomten, med komplett budsjett. Slipper å lete selv.',
+    },
+    {
+      ikon: '🔧',
+      navn: 'Entreprenører',
+      eksempler: 'Lokale og regionale entreprenører',
+      viTilbyr: 'Kvalifiserte byggeprosjekter med ferdig budsjett og tidsplan. Kunden har allerede kjøpt tomt og valgt hus.',
+      deBetaler: '14 900 kr/år i årsavgift for kvalifiserte leads',
+      forKunden: 'Får tilbud fra kvalitetssikrede entreprenører med forutsigbare priser.',
+    },
+    {
+      ikon: '🏦',
+      navn: 'Banker',
+      eksempler: 'Samarbeidsbanker for byggelån',
+      viTilbyr: 'Forhåndskvalifiserte byggelånskunder med komplett prosjektbudsjett og dokumentasjon. Raskere saksbehandling.',
+      deBetaler: '4 900 kr lead-fee per innvilget byggelån',
+      forKunden: 'Får raskere lånesvar fordi banken mottar komplett underlag fra Tomtly-analysen.',
+    },
+    {
+      ikon: '💰',
+      navn: 'Finansieringspartnere',
+      eksempler: 'Kameo, Oblinor',
+      viTilbyr: 'Leads fra utviklere og kjøpere som trenger prosjektlån, brolån eller alternativ finansiering. Komplett låneunderlag fra vår analyse.',
+      deBetaler: '4 900–14 900 kr lead-fee per innvilget lån',
+      forKunden: 'Får tilgang til rask og fleksibel finansiering med sikkerhet i eiendom, når banken ikke passer.',
+    },
+    {
+      ikon: '🤝',
+      navn: 'Propr',
+      eksempler: 'Oppgjørspartner',
+      viTilbyr: 'Vi sender alle kunder som kjøper tomt via Tomtly til Propr for oppgjør. Forutsigbar pipeline.',
+      deBetaler: 'Formidlingsgebyr per oppgjør (ca. 2 500 kr)',
+      forKunden: 'Trygt og profesjonelt eiendomsoppgjør til fast pris (9 990 kr).',
+    },
+    {
+      ikon: '📸',
+      navn: 'Fotografer',
+      eksempler: 'Dronefotografer og eiendomsfotografer',
+      viTilbyr: 'Vi fasiliterer drone- og fotojobber for tomtesider. Forutsigbar bestillingsflyt.',
+      deBetaler: 'Vi tar margin per oppdrag (ca. 1 000 kr på 5 500 kr-oppdrag)',
+      forKunden: 'Profesjonelle bilder av tomten uten å måtte finne fotograf selv.',
+    },
+    {
+      ikon: '✏️',
+      navn: 'Tegnebua / Konsepthus',
+      eksempler: 'Arkitektavdeling',
+      viTilbyr: 'Kjøpere som trenger byggesøknad, situasjonsplan og arkitekttegninger sendes til Tegnebua/Konsepthus.',
+      deBetaler: 'Arkitektinntekt per oppdrag (fastpris tegning og søknad)',
+      forKunden: 'Får ferdig byggesøknad og tegninger til fastpris, koordinert med resten av prosessen.',
+    },
+  ]
+
+  return (
+    <div className="space-y-8">
+      <div className="bg-white rounded-2xl border border-brand-200 p-8">
+        <div className="inline-flex items-center gap-2 px-3 py-1 bg-forest-50 text-forest-700 text-xs font-semibold rounded-full mb-4">
+          <Users className="w-3.5 h-3.5" />
+          Samarbeidspartnere
+        </div>
+        <h2 className="font-display text-2xl lg:text-3xl font-bold text-tomtly-dark mb-2">
+          Alle partnere vi pitcher til
+        </h2>
+        <p className="text-brand-600 max-w-2xl">
+          Tomtly eier hele verdikjeden fra tomt til ferdig hus. Her er alle samarbeidspartnerne og hva de betaler oss.
+        </p>
+      </div>
+
+      {partnere.map((p) => (
+        <div key={p.navn} className="bg-white rounded-2xl border border-brand-200 p-6 lg:p-8">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-3xl">{p.ikon}</span>
+            <div>
+              <h3 className="font-display text-lg font-bold text-tomtly-dark">{p.navn}</h3>
+              <p className="text-xs text-brand-500">{p.eksempler}</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-blue-50 rounded-xl p-4 border border-blue-200">
+              <p className="text-xs font-semibold text-blue-700 mb-1 uppercase">Hva vi tilbyr dem</p>
+              <p className="text-sm text-blue-800">{p.viTilbyr}</p>
+            </div>
+            <div className="bg-green-50 rounded-xl p-4 border border-green-200">
+              <p className="text-xs font-semibold text-green-700 mb-1 uppercase">Hva de betaler oss</p>
+              <p className="text-sm text-green-800">{p.deBetaler}</p>
+            </div>
+            <div className="bg-amber-50 rounded-xl p-4 border border-amber-200">
+              <p className="text-xs font-semibold text-amber-700 mb-1 uppercase">Hva det betyr for kunden</p>
+              <p className="text-sm text-amber-800">{p.forKunden}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+
+      <div className="bg-forest-50 rounded-2xl border border-forest-200 p-8 text-center">
+        <h3 className="font-display text-xl font-bold text-tomtly-dark mb-3">Oppsummert</h3>
+        <p className="text-brand-700 max-w-2xl mx-auto">
+          Alle partnere betaler oss fordi vi leverer kvalifiserte kunder med komplett underlag. Kunden betaler lite eller ingenting ekstra – verdien ligger i at vi koordinerer hele prosessen.
+        </p>
+      </div>
+    </div>
+  )
+}
+
+// ---- Tab 5: Inntektsmodell ----
 
 function TabInntektsmodell() {
   return (
