@@ -276,9 +276,8 @@ function Prismodell() {
                   <div className="flex justify-between"><span className="text-forest-700">Oppgjør via Propr</span><span>9 990 kr</span></div>
                   <div className="flex justify-between"><span className="text-forest-700">Grunnbok/tinglyste bestemmelser</span><span>290 kr</span></div>
                   <div className="flex justify-between"><span className="text-forest-700">Tinglysingsgebyr</span><span>545 kr</span></div>
-                  <div className="flex justify-between"><span className="text-forest-700">Dokumentavgift/kommune</span><span>5 000 kr</span></div>
                   <div className="flex justify-between pt-3 border-t border-forest-300 font-bold text-tomtly-dark text-base">
-                    <span>Total kostnad</span><span>95 815 kr</span>
+                    <span>Total kostnad</span><span>90 815 kr</span>
                   </div>
                 </div>
                 <div className="mt-4 pt-3 border-t border-forest-200">
@@ -289,7 +288,7 @@ function Prismodell() {
 
             {/* Oppsummering */}
             <div className="bg-green-50 rounded-xl p-5 border border-green-200 mt-6 text-center">
-              <p className="text-green-800 font-semibold text-lg mb-1">Du sparer 7 770 kr med Tomtly</p>
+              <p className="text-green-800 font-semibold text-lg mb-1">Du sparer 12 770 kr med Tomtly</p>
               <p className="text-sm text-green-700">Og får ti ganger mer – analyse, husmodeller, kalkyle, markedsføring og salg. Samme prosess, lavere pris, langt bedre presentasjon.</p>
             </div>
           </div>

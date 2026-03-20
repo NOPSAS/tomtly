@@ -70,12 +70,21 @@ export default function FrederikPage() {
             </div>
           </div>
           <ul className="space-y-2 text-sm text-brand-700">
-            <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-tomtly-accent mt-0.5 flex-shrink-0" />Vi er 3 selgere. Alle selger tomter under din bevilgning.</li>
+            <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-tomtly-accent mt-0.5 flex-shrink-0" />Vi er totalt 3 selgere (du inkludert). Alle selger tomter under din bevilgning.</li>
+            <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-tomtly-accent mt-0.5 flex-shrink-0" />Du jobber aktivt med salg – du har salgsoppgaver og kundekontakt.</li>
             <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-tomtly-accent mt-0.5 flex-shrink-0" />Du får 20% av all provisjon fra tomtesalg – uansett hvem av oss 3 som selger.</li>
             <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-tomtly-accent mt-0.5 flex-shrink-0" />Du får 10% av all fast inntekt (analyser, abonnementer, partneravtaler).</li>
             <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-tomtly-accent mt-0.5 flex-shrink-0" />Du får 10% eierskap i Tomtly AS – din andel vokser med selskapet.</li>
             <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-tomtly-accent mt-0.5 flex-shrink-0" />Jobb fra hvor som helst. Oppgjør gjøres av Propr.</li>
           </ul>
+
+          {/* Hva rollen innebærer */}
+          <div className="bg-brand-50 rounded-xl p-5 border border-brand-200 mt-6">
+            <h3 className="font-semibold text-tomtly-dark mb-2">Din rolle</h3>
+            <p className="text-sm text-brand-600 leading-relaxed">
+              Du er én av 3 selgere i Tomtly. Du jobber aktivt med salg – det betyr salgsoppgaver, kundekontakt og oppfølging av interessenter. Forskjellen fra tradisjonell megling er at du slipper visninger, helger og oppgjør. Du bruker meglerkunnskapen din til å selge tomter profesjonelt, mens Tomtly-teamet lager analysene og Propr håndterer oppgjøret.
+            </p>
+          </div>
         </div>
 
         {/* Kalkulator */}
@@ -255,7 +264,7 @@ export default function FrederikPage() {
             <div>
               <h3 className="font-semibold text-tomtly-dark mb-3">Det du slipper</h3>
               <ul className="space-y-2">
-                {['Ingen visninger', 'Ingen helgearbeid', 'Ingen oppgjør (Propr)', 'Ingen salgsoppgaver', 'Jobb fra hvor som helst'].map((i) => (
+                {['Ingen visninger på kveld/helg', 'Ingen oppgjørsprosess (Propr)', 'Jobb fra hvor som helst', 'Analyse lages av teamet – du fokuserer på salg', 'Slipper å lage markedsmateriell'].map((i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-brand-600"><CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />{i}</li>
                 ))}
               </ul>
@@ -263,7 +272,7 @@ export default function FrederikPage() {
             <div>
               <h3 className="font-semibold text-tomtly-dark mb-3">Det du får</h3>
               <ul className="space-y-2">
-                {['20% av provisjon + 10% av fast inntekt', '10% eierskap i Tomtly AS', '3 selgere under din bevilgning', 'Frihet og fleksibilitet', 'Gründeroppside – ikke bare en jobb'].map((i) => (
+                {['20% av provisjon + 10% av fast inntekt', '10% eierskap i Tomtly AS', 'Du er 1 av 3 selgere – alle under din bevilgning', 'Salgsoppgaver og kundekontakt – din styrke', 'Bygge noe eget som medeier og gründer'].map((i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-brand-600"><TrendingUp className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />{i}</li>
                 ))}
               </ul>
