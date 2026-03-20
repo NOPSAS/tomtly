@@ -119,14 +119,14 @@ const HUSMODELLER = [
   {
     id: 'nordstrand',
     navn: 'Nordstrand',
-    leverandor: 'ABChus',
+    leverandor: 'Mesterhus',
     beskrivelse: 'Flott og romslig hus over to plan med 4 soverom, 2 bad, kontor/bod og en stor, åpen stue/kjøkkenløsning med balkong. Moderne arkitektur.',
     bra_m2: 132, soverom: 4, bad: '2', etasjer: 2,
     ekstra: { 'Kontor/Bod': 'Ja' },
     pris_hus: 5240000, pris_hus_skra: 5420000,
     total_budsjett: 9422000, total_budsjett_skra: 9602000,
-    kostnader: [...FELLES_KOSTNADER, { post: 'Nordstrand (flat tomt) – nøkkelferdig fra ABChus', belop: 5240000 }, ...ETTER_HUS],
-    kostnader_skra: [...FELLES_KOSTNADER, { post: 'Nordstrand (skrå tomt) – nøkkelferdig fra ABChus', belop: 5420000 }, ...ETTER_HUS],
+    kostnader: [...FELLES_KOSTNADER, { post: 'Nordstrand (flat tomt) – nøkkelferdig fra Mesterhus', belop: 5240000 }, ...ETTER_HUS],
+    kostnader_skra: [...FELLES_KOSTNADER, { post: 'Nordstrand (skrå tomt) – nøkkelferdig fra Mesterhus', belop: 5420000 }, ...ETTER_HUS],
     verdi_bra_m2: 132, verdi_m2_pris: 75000, verdi_total: 9900000,
     inkludert: ['Parkett på gulv i tørre oppholdsrom', 'Flislagt entré og våtrom', 'Pipe og peisovn', 'Komplett el-leveranse', 'Komplett rørleveranse', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Fundament inkludert i prisen'],
     bilder: {
