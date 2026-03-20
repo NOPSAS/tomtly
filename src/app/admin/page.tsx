@@ -132,6 +132,7 @@ export default function AdminDashboard() {
             { href: '/admin/data', label: 'Data' },
             { href: '/admin/matching', label: 'Matching' },
             { href: '/admin/naering', label: 'Næring' },
+            { href: '/admin/megler-partner', label: 'Megler-partner' },
           ].map(({ href, label }) => (
             <Link key={href} href={href} className="px-3 py-1.5 bg-brand-50 border border-brand-200 rounded-lg text-xs font-medium text-brand-700 hover:bg-brand-100 transition-colors whitespace-nowrap">
               {label}
