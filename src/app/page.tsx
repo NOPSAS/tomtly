@@ -401,28 +401,57 @@ function Prismodell() {
           </p>
         </div>
 
-        <div className="max-w-xl mx-auto mb-12">
-          {/* Tomteeier-pakke */}
-          <div className="border-2 border-tomtly-accent rounded-2xl p-8 relative">
-            <div className="absolute -top-3 right-6 px-3 py-1 bg-tomtly-accent text-white text-xs font-semibold rounded-full">
-              Alt inkludert
-            </div>
-            <div className="text-sm font-medium text-brand-500 mb-2">Tomteeier</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-12">
+          {/* Kun analyse */}
+          <div className="border-2 border-brand-200 rounded-2xl p-7">
+            <div className="text-sm font-medium text-brand-500 mb-2">Kun analyse + publisering</div>
             <div className="flex items-baseline gap-2 mb-1">
               <span className="text-4xl font-bold text-tomtly-dark">4 990</span>
               <span className="text-brand-500">kr</span>
-              <span className="text-brand-400 text-sm">+ 2,5 % ved salg</span>
             </div>
-            <p className="text-sm text-brand-500 mb-5">Komplett analyse, markedsføring og salg via megler</p>
+            <p className="text-sm text-brand-500 mb-5">Fastpris – du selger selv</p>
             <ul className="space-y-2 mb-6">
               {[
-                'Tomtanalyse og mulighetsstudie fra arkitektteam',
+                'Tomtanalyse og mulighetsstudie',
                 'Husmodeller tilpasset tomten',
                 'Byggekalkyle og verdivurdering',
-                'Visualiseringer og profesjonell presentasjon',
-                'Publisering og markedsføring på Tomtly',
+                'Publisering på Tomtly.no',
+                'Du håndterer salg selv eller via egen megler',
+              ].map((f) => (
+                <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
+                  <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <Link
+              href="/selger/onboarding"
+              className="block w-full text-center px-4 py-3 border-2 border-tomtly-accent text-tomtly-accent font-medium rounded-lg hover:bg-forest-50 transition-colors"
+            >
+              Bestill analyse
+            </Link>
+          </div>
+
+          {/* Komplett med salg */}
+          <div className="border-2 border-tomtly-accent rounded-2xl p-7 relative">
+            <div className="absolute -top-3 right-6 px-3 py-1 bg-tomtly-accent text-white text-xs font-semibold rounded-full">
+              Mest populær
+            </div>
+            <div className="text-sm font-medium text-brand-500 mb-2">Analyse + vi selger for deg</div>
+            <div className="flex items-baseline gap-2 mb-1">
+              <span className="text-4xl font-bold text-tomtly-dark">4 990</span>
+              <span className="text-brand-500">kr</span>
+              <span className="text-brand-400 text-sm">+ 2,5% ved salg</span>
+            </div>
+            <p className="text-sm text-brand-500 mb-5">Alt inkludert – vi gjør resten</p>
+            <ul className="space-y-2 mb-6">
+              {[
+                'Alt i analysepakken',
+                'Markedsføring mot aktive kjøpere',
                 'Salg via vår fagansvarlige megler',
+                'Visninger, bud og forhandling',
                 'Oppgjør via Propr',
+                '2,5% kun ved gjennomført salg',
               ].map((f) => (
                 <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
                   <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />

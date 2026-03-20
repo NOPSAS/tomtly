@@ -130,32 +130,51 @@ function Eksempelregning() {
             En typisk eneboligtomt i Bærum
           </p>
 
-          <div className="bg-brand-50 rounded-2xl p-8 border border-brand-200">
-            <div className="space-y-4">
-              <div className="flex justify-between items-center py-2 border-b border-brand-200">
-                <span className="text-brand-600">Din eiendom</span>
-                <span className="font-semibold text-tomtly-dark">1 200 m² eneboligtomt i Bærum</span>
+          <div className="space-y-6">
+            {/* Felles fakta */}
+            <div className="bg-brand-50 rounded-2xl p-6 border border-brand-200">
+              <div className="space-y-3">
+                <div className="flex justify-between py-2 border-b border-brand-200">
+                  <span className="text-brand-600">Din eiendom</span>
+                  <span className="font-semibold text-tomtly-dark">1 200 m² eneboligtomt i Bærum</span>
+                </div>
+                <div className="flex justify-between py-2 border-b border-brand-200">
+                  <span className="text-brand-600">Fradeles i</span>
+                  <span className="font-semibold text-tomtly-dark">2 tomter på 600 m² hver</span>
+                </div>
+                <div className="flex justify-between py-2">
+                  <span className="text-brand-600">Estimert verdi ny tomt</span>
+                  <span className="font-bold text-tomtly-dark text-lg">2 500 000 kr</span>
+                </div>
               </div>
-              <div className="flex justify-between items-center py-2 border-b border-brand-200">
-                <span className="text-brand-600">Fradeles i</span>
-                <span className="font-semibold text-tomtly-dark">2 tomter på 600 m² hver</span>
+            </div>
+
+            {/* Side-by-side sammenligning */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-white rounded-xl p-5 border border-brand-200">
+                <h3 className="font-semibold text-tomtly-dark mb-3">Modell A: Kun fradeling</h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between"><span className="text-brand-600">Fradelingsprosess</span><span className="font-semibold text-tomtly-accent">0 kr</span></div>
+                  <div className="flex justify-between"><span className="text-brand-600">Tomtly (3% av 2,5 MNOK)</span><span>75 000 kr</span></div>
+                  <div className="flex justify-between pt-2 border-t border-brand-200"><span className="font-semibold">Du sitter igjen med</span><span className="font-bold text-green-700">2 425 000 kr</span></div>
+                  <p className="text-xs text-brand-400 pt-1">Du selger tomten selv eller via egen megler.</p>
+                </div>
               </div>
-              <div className="flex justify-between items-center py-2 border-b border-brand-200">
-                <span className="text-brand-600">Verditakst ny tomt</span>
-                <span className="font-bold text-tomtly-dark text-lg">2 500 000 kr</span>
+              <div className="bg-forest-50 rounded-xl p-5 border border-forest-200">
+                <h3 className="font-semibold text-tomtly-dark mb-3">Modell B: Fradeling + vi selger</h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between"><span className="text-forest-700">Fradelingsprosess</span><span className="font-semibold text-tomtly-accent">0 kr</span></div>
+                  <div className="flex justify-between"><span className="text-forest-700">Tomtly (5% av 2,5 MNOK)</span><span>125 000 kr</span></div>
+                  <div className="flex justify-between pt-2 border-t border-forest-300"><span className="font-semibold">Du sitter igjen med</span><span className="font-bold text-green-700">2 375 000 kr</span></div>
+                  <p className="text-xs text-forest-600 pt-1">Vi gjør alt – fradeling, analyse, markedsføring og salg.</p>
+                </div>
               </div>
-              <div className="flex justify-between items-center py-2 border-b border-brand-200">
-                <span className="text-brand-600">Fradelingsprosess (tegning, søknad, oppmåling)</span>
-                <span className="text-brand-500">49 000–89 000 kr</span>
-              </div>
-              <div className="flex justify-between items-center py-2 border-b border-brand-200">
-                <span className="text-brand-600">Salg via Tomtly (2,5 % av 2,5 MNOK)</span>
-                <span className="text-brand-500">62 500 kr</span>
-              </div>
-              <div className="flex justify-between items-center py-3 bg-green-50 rounded-lg px-4 -mx-4">
-                <span className="font-semibold text-green-800">Estimert verdi fradelt tomt</span>
-                <span className="font-bold text-green-800 text-xl">2 500 000 kr</span>
-              </div>
+            </div>
+
+            <div className="bg-green-50 rounded-xl p-5 border border-green-200 text-center">
+              <p className="text-sm text-green-800">
+                <strong>I begge modeller:</strong> Du betaler ingenting upfront. Din kostnad: 0 kr. Vi tar risikoen.
+              </p>
             </div>
           </div>
         </div>
@@ -171,24 +190,65 @@ function Priser() {
         <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-10 text-center">
           Prismodell
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-          <div className="bg-white rounded-2xl p-7 border border-brand-200 text-center">
-            <p className="text-sm font-medium text-brand-500 mb-2">Vurdering</p>
-            <p className="text-4xl font-bold text-tomtly-dark mb-2">Gratis</p>
-            <p className="text-sm text-brand-500">Vi sjekker om din eiendom egner seg for fradeling</p>
+        {/* Vurdering */}
+        <div className="max-w-md mx-auto mb-8">
+          <div className="bg-white rounded-2xl p-6 border border-brand-200 text-center">
+            <p className="text-sm font-medium text-brand-500 mb-1">Steg 1: Vurdering</p>
+            <p className="text-3xl font-bold text-tomtly-accent mb-1">Gratis</p>
+            <p className="text-sm text-brand-500">Vi sjekker om din eiendom egner seg for fradeling. Uforpliktende.</p>
           </div>
-          <div className="bg-white rounded-2xl p-7 border-2 border-tomtly-accent text-center relative">
+        </div>
+
+        {/* To modeller */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          {/* Modell 1: Kun fradeling */}
+          <div className="bg-white rounded-2xl p-7 border border-brand-200">
+            <p className="text-sm font-medium text-brand-500 mb-2">Modell A: Kun fradeling</p>
+            <p className="text-4xl font-bold text-tomtly-dark mb-1">0 kr</p>
+            <p className="text-sm text-tomtly-accent font-semibold mb-4">+ 3% av ny tomts verdi</p>
+            <ul className="space-y-2 mb-4">
+              {[
+                'Tegning og søknad kostnadsfritt',
+                'Koordinering av oppmåling',
+                'Nabovarsel og oppfølging',
+                'Du selger den nye tomten selv',
+                'Du betaler 3% av ny tomts verdi ved godkjent fradeling',
+              ].map((f) => (
+                <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
+                  <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />{f}
+                </li>
+              ))}
+            </ul>
+            <p className="text-xs text-brand-400">Betaling ved godkjent fradeling – ikke før.</p>
+          </div>
+
+          {/* Modell 2: Fradeling + salg */}
+          <div className="bg-white rounded-2xl p-7 border-2 border-tomtly-accent relative">
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-tomtly-accent text-white text-xs font-semibold rounded-full">
-              Anbefalt
+              Mest populær
             </div>
-            <p className="text-sm font-medium text-brand-500 mb-2">Fradelingsprosess</p>
-            <p className="text-4xl font-bold text-tomtly-dark mb-2">49 000–89 000</p>
-            <p className="text-sm text-brand-500">kr fastpris avhengig av omfang. Inkl. tegning, søknad og oppmåling.</p>
-          </div>
-          <div className="bg-white rounded-2xl p-7 border border-brand-200 text-center">
-            <p className="text-sm font-medium text-brand-500 mb-2">Salg via Tomtly (med megler)</p>
-            <p className="text-4xl font-bold text-tomtly-dark mb-2">2,5 %</p>
-            <p className="text-sm text-brand-500">av salgssum ved salg. Inkl. mulighetsstudie, publisering og megler.</p>
+            <p className="text-sm font-medium text-brand-500 mb-2">Modell B: Fradeling + vi selger</p>
+            <p className="text-4xl font-bold text-tomtly-dark mb-1">0 kr</p>
+            <p className="text-sm text-tomtly-accent font-semibold mb-4">+ 5% av salgssummen</p>
+            <ul className="space-y-2 mb-4">
+              {[
+                'Alt i Modell A – kostnadsfritt',
+                'Mulighetsstudie med husmodeller og kalkyle',
+                'Publisering og markedsføring via Tomtly',
+                'Salg via vår fagansvarlige megler',
+                'Oppgjør via Propr',
+                'Du betaler 5% av salgssummen – kun ved gjennomført salg',
+              ].map((f) => (
+                <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
+                  <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />{f}
+                </li>
+              ))}
+            </ul>
+            <div className="bg-amber-50 rounded-lg p-3 border border-amber-200">
+              <p className="text-xs text-amber-800">
+                <strong>Viktig:</strong> Dersom du avbryter salget etter at delingssøknad er sendt inn, betaler du uansett 3% av estimert tomteverdi (tilsvarer Modell A).
+              </p>
+            </div>
           </div>
         </div>
       </div>
