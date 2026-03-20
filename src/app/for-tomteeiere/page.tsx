@@ -310,7 +310,7 @@ function FAQ() {
     },
     {
       q: 'Hva om tomten min ikke kan bebygges?',
-      a: 'Vi analyserer reguleringsplanen for vi starter. Hvis tomten ikke kan bebygges, far du beskjed umiddelbart og betaler ingenting.',
+      a: 'Vi analyserer reguleringsplanen før vi starter. Hvis tomten ikke kan bebygges, får du beskjed umiddelbart og betaler ingenting.',
     },
     {
       q: 'Hva er inkludert i prisen?',

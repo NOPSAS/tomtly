@@ -367,7 +367,7 @@ function TabBanker() {
       <Card title="Samarbeidsmodell">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {[
-            'Lead-fee per kvalifisert byggelån-soknad',
+            'Lead-fee per kvalifisert byggelånsøknad',
             'Banken får komplett prosjektbudsjett med dokumentasjon',
             'Kunden er pre-kvalifisert med realistisk budsjett',
             'Mulighet for co-branding på finansieringssiden',
@@ -559,7 +559,7 @@ function TabInntektsmodell() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[
             { tjeneste: 'Situasjonsplan', pris: '5 000 kr' },
-            { tjeneste: 'Byggesoknad', pris: '25 000 kr' },
+            { tjeneste: 'Byggesøknad', pris: '25 000 kr' },
             { tjeneste: 'Dispensasjon', pris: '10 000 kr' },
             { tjeneste: 'Arkitekttegninger', pris: '20 000 kr' },
             { tjeneste: 'Finansiering (lead-fee)', pris: 'Varierer' },
