@@ -44,7 +44,7 @@ export function TomtKontakt() {
 
       <div className="space-y-3 mb-6">
         <p className="text-sm text-brand-600">
-          Ta kontakt med oss for mer informasjon om denne tomten og mulighetene. Tomtly har fagansvarlig megler og bistår med salg.
+          Ta kontakt med oss for mer informasjon om denne tomten og mulighetene. Tomtly har autorisert meglerpartner og bistår med salg.
         </p>
       </div>
 

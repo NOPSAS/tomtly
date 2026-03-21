@@ -82,7 +82,7 @@ function StegForSteg() {
     {
       nummer: '04',
       ikon: Banknote,
-      tittel: 'Vi selger tomten',
+      tittel: 'Salg gjennomføres',
       beskrivelse: 'Tomten publiseres og markedsføres på Tomtly. Vår megler håndterer salget. Oppgjør via Propr.',
     },
   ]
@@ -157,11 +157,11 @@ function Eksempelregning() {
                   <div className="flex justify-between"><span className="text-brand-600">Fradelingsprosess</span><span className="font-semibold text-tomtly-accent">0 kr</span></div>
                   <div className="flex justify-between"><span className="text-brand-600">Tomtly (3% av 2,5 MNOK)</span><span>75 000 kr</span></div>
                   <div className="flex justify-between pt-2 border-t border-brand-200"><span className="font-semibold">Du sitter igjen med</span><span className="font-bold text-green-700">2 425 000 kr</span></div>
-                  <p className="text-xs text-brand-400 pt-1">Du selger tomten selv eller via egen megler.</p>
+                  <p className="text-xs text-brand-400 pt-1">Du selger tomten selv eller via autorisert meglerpartner.</p>
                 </div>
               </div>
               <div className="bg-forest-50 rounded-xl p-5 border border-forest-200">
-                <h3 className="font-semibold text-tomtly-dark mb-3">Modell B: Fradeling + vi selger</h3>
+                <h3 className="font-semibold text-tomtly-dark mb-3">Modell B: Fradeling + salg via meglerpartner</h3>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between"><span className="text-forest-700">Fradelingsprosess</span><span className="font-semibold text-tomtly-accent">0 kr</span></div>
                   <div className="flex justify-between"><span className="text-forest-700">Tomtly (5% av 2,5 MNOK)</span><span>125 000 kr</span></div>
@@ -227,7 +227,7 @@ function Priser() {
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-tomtly-accent text-white text-xs font-semibold rounded-full">
               Mest populær
             </div>
-            <p className="text-sm font-medium text-brand-500 mb-2">Modell B: Fradeling + vi selger</p>
+            <p className="text-sm font-medium text-brand-500 mb-2">Modell B: Fradeling + salg via meglerpartner</p>
             <p className="text-4xl font-bold text-tomtly-dark mb-1">0 kr</p>
             <p className="text-sm text-tomtly-accent font-semibold mb-4">+ 5% av salgssummen</p>
             <ul className="space-y-2 mb-4">

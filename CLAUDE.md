@@ -70,7 +70,7 @@ Tomtly has a licensed broker on the team. Pricing model:
 - **Husleverandør:** abo 10 000+/mnd
 - **Prosjektfinansiering:** 4 900–14 900 kr lead-fee per innvilget lån
 
-**Tomtly has a licensed broker (fagansvarlig megler) and assists with sales. Settlement (oppgjør) is handled by Propr.**
+**Tomtly has a licensed broker (autorisert meglerpartner) and assists with sales. Settlement (oppgjør) is handled by Propr.**
 
 ### Stripe Products (live)
 Payment links for one-time products, Checkout Sessions for subscriptions. Price IDs are hardcoded in `/api/checkout/route.ts`.

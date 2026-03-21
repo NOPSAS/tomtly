@@ -152,9 +152,9 @@ function HvordanDetFungerer() {
     {
       nummer: '04',
       ikon: TrendingUp,
-      tittel: 'Vi selger tomten',
+      tittel: 'Salg og oppgjør',
       beskrivelse:
-        'Vi selger tomten – publisering, markedsføring og salg via vår megler. Du lener deg tilbake.',
+        'Autorisert meglerpartner håndterer visninger, budgivning, kontrakt og oppgjør. Du lener deg tilbake.',
     },
   ]
 
@@ -411,7 +411,7 @@ function Prismodell() {
                 'Husmodeller tilpasset tomten',
                 'Byggekalkyle og verdivurdering',
                 'Publisering på Tomtly.no',
-                'Du håndterer salg selv eller via egen megler',
+                'Du håndterer salg selv eller via autorisert meglerpartner',
               ].map((f) => (
                 <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
                   <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
@@ -432,7 +432,7 @@ function Prismodell() {
             <div className="absolute -top-3 right-6 px-3 py-1 bg-tomtly-accent text-white text-xs font-semibold rounded-full">
               Mest populær
             </div>
-            <div className="text-sm font-medium text-brand-500 mb-2">Analyse + vi selger for deg</div>
+            <div className="text-sm font-medium text-brand-500 mb-2">Analyse + salg via meglerpartner</div>
             <div className="flex items-baseline gap-2 mb-1">
               <span className="text-4xl font-bold text-tomtly-dark">4 990</span>
               <span className="text-brand-500">kr</span>
@@ -523,7 +523,7 @@ function Prismodell() {
 
         {/* Disclaimer */}
         <p className="text-xs text-brand-400 text-center mt-8">
-          Tomtly har fagansvarlig megler og bistår med salg. Oppgjør via Propr.
+          Tomtly har autorisert meglerpartner og bistår med salg. Oppgjør via Propr.
         </p>
       </div>
     </section>

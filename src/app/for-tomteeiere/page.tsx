@@ -263,7 +263,7 @@ function Prismodell() {
                   </div>
                 </div>
                 <div className="mt-4 pt-3 border-t border-red-200">
-                  <p className="text-xs text-red-600">Du får: Megling. Tomten presenteres som en gresslette på FINN. Ingen analyse, ingen husmodeller, ingen kalkyle.</p>
+                  <p className="text-xs text-red-600">Du får: Salgsgjennomføring. Tomten presenteres som en gresslette på FINN. Ingen analyse, ingen husmodeller, ingen kalkyle.</p>
                 </div>
               </div>
 
@@ -281,7 +281,7 @@ function Prismodell() {
                   </div>
                 </div>
                 <div className="mt-4 pt-3 border-t border-forest-200">
-                  <p className="text-xs text-forest-700">Du får: Komplett mulighetsstudie fra arkitekt, husmodeller fra ferdighusleverandører, 3D-visualisering, byggekalkyle, verdivurdering, markedsføring mot aktive kjøpere, salg via fagansvarlig megler, oppgjør via Propr.</p>
+                  <p className="text-xs text-forest-700">Du får: Komplett mulighetsstudie fra arkitekt, husmodeller fra ferdighusleverandører, 3D-visualisering, byggekalkyle, verdivurdering, markedsføring mot aktive kjøpere, salg via autorisert meglerpartner, oppgjør via Propr.</p>
                 </div>
               </div>
             </div>
@@ -295,7 +295,7 @@ function Prismodell() {
         </div>
 
         <p className="text-xs text-brand-400 text-center mt-8">
-          Tomtly har fagansvarlig megler og bistår med salg. Oppgjør via Propr.
+          Tomtly har autorisert meglerpartner og bistår med salg. Oppgjør via Propr.
         </p>
       </div>
     </section>
@@ -320,6 +320,10 @@ function FAQ() {
       q: 'Kan jeg bruke analysen til å markedsføre på FINN eller via megler?',
       a: 'Ja, absolutt. Analysen er din, og du står fritt til å bruke den som underlag hvor du vil – på FINN, via megler, eller privat.',
     },
+    {
+      q: 'Hvem gjennomfører salget?',
+      a: 'Selve salget gjennomføres av en autorisert eiendomsmegler vi samarbeider med. Tomtly står for analyse, markedsføring og kvalifisering av kjøpere.',
+    },
   ]
 
   return (
@@ -327,7 +331,7 @@ function FAQ() {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-4">
-            Ofte stilte sporsmal
+            Ofte stilte spørsmål
           </h2>
         </div>
 

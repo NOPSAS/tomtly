@@ -75,7 +75,7 @@ export default function FrederikPage() {
               </p>
               <div className="bg-forest-50 rounded-xl p-6 border border-forest-200">
                 <p className="text-sm text-forest-800 font-semibold mb-2">Kort oppsummert:</p>
-                <p className="text-sm text-forest-700">Tomteeier betaler 4 990 kr. Vi lager analyse. Vi selger tomten. Vi tar 2,5% ved salg. Alle vinner.</p>
+                <p className="text-sm text-forest-700">Tomteeier betaler 4 990 kr. Vi lager analyse. Autorisert meglerpartner gjennomfører salget. Vi tar 2,5% ved salg. Alle vinner.</p>
               </div>
             </div>
 
@@ -86,7 +86,7 @@ export default function FrederikPage() {
                 {[
                   { nr: '1', tittel: 'Tomteeier kontakter oss', desc: 'Eller vi kontakter dem (vi scraper FINN daglig for tomter som ikke selger).', ikon: '📍' },
                   { nr: '2', tittel: 'Vi lager analyse', desc: 'Mulighetsstudie med husmodeller, kalkyle og visualiseringer. Kunden betaler 4 990 kr.', ikon: '📐' },
-                  { nr: '3', tittel: 'Vi selger tomten', desc: 'Publisering, markedsføring, salgsoppgaver, kundekontakt. Du og de andre selgerne håndterer dette.', ikon: '🤝' },
+                  { nr: '3', tittel: 'Tomten selges', desc: 'Publisering, markedsføring, salgsoppgaver, kundekontakt. Du og de andre selgerne håndterer dette.', ikon: '🤝' },
                   { nr: '4', tittel: 'Tomten selges', desc: 'Tomtly tar 2,5% provisjon. Oppgjør via Propr. Alle er fornøyde.', ikon: '✅' },
                 ].map((s) => (
                   <div key={s.nr} className="flex items-start gap-4 bg-brand-50 rounded-xl p-5 border border-brand-200">
