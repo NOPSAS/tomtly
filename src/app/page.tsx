@@ -462,30 +462,44 @@ function Prismodell() {
             </Link>
           </div>
 
-          {/* Sammenligning */}
+          {/* Sammenligning – basert på ekte DnB-meglertilbud */}
           <div className="mt-6 bg-brand-50 rounded-xl border border-brand-200 p-6">
-            <h3 className="font-semibold text-tomtly-dark mb-3 text-center">Tomtly vs. tradisjonell megler</h3>
-            <div className="grid grid-cols-3 gap-4 text-sm">
+            <h3 className="font-semibold text-tomtly-dark mb-1 text-center">Tomtly vs. tradisjonell megler</h3>
+            <p className="text-xs text-brand-400 text-center mb-4">Basert på et ekte meglertilbud – tomt til 3 MNOK</p>
+            <div className="grid grid-cols-3 gap-3 text-sm">
               <div />
               <div className="text-center font-semibold text-tomtly-accent">Tomtly</div>
-              <div className="text-center font-semibold text-brand-500">Trad. megler</div>
-
-              <div className="text-brand-600">Fastpris</div>
-              <div className="text-center font-medium text-tomtly-dark">4 990 kr</div>
-              <div className="text-center text-brand-500">0 kr</div>
+              <div className="text-center font-semibold text-red-500">Trad. megler</div>
 
               <div className="text-brand-600">Provisjon</div>
-              <div className="text-center font-medium text-tomtly-dark">2,5 %</div>
-              <div className="text-center text-brand-500">1–3,6 %</div>
+              <div className="text-center font-medium text-tomtly-dark">75 000 kr</div>
+              <div className="text-center text-red-600">51 000 kr</div>
 
-              <div className="text-brand-600">Tomt 2 MNOK</div>
-              <div className="text-center font-medium text-green-700">54 990 kr</div>
-              <div className="text-center text-brand-500">20 000–72 000 kr</div>
+              <div className="text-brand-600">Markedspakke</div>
+              <div className="text-center font-medium text-tomtly-dark">0 kr</div>
+              <div className="text-center text-red-600">18 200 kr</div>
 
-              <div className="text-brand-600">Inkluderer analyse</div>
-              <div className="text-center text-tomtly-accent font-bold">Ja</div>
-              <div className="text-center text-brand-500">Nei</div>
+              <div className="text-brand-600">Oppgjør</div>
+              <div className="text-center font-medium text-tomtly-dark">9 990 kr</div>
+              <div className="text-center text-red-600">6 900 kr</div>
+
+              <div className="text-brand-600">Tilrettelegging</div>
+              <div className="text-center font-medium text-tomtly-dark">0 kr</div>
+              <div className="text-center text-red-600">15 900 kr</div>
+
+              <div className="text-brand-600">Visning, gebyr, kommune</div>
+              <div className="text-center font-medium text-tomtly-dark">835 kr</div>
+              <div className="text-center text-red-600">11 585 kr</div>
+
+              <div className="text-brand-600 font-bold pt-2 border-t border-brand-200">Totalt</div>
+              <div className="text-center font-bold text-green-700 pt-2 border-t border-brand-200 text-base">90 815 kr</div>
+              <div className="text-center font-bold text-red-600 pt-2 border-t border-brand-200 text-base">103 585 kr</div>
+
+              <div className="text-brand-600">Analyse og husmodeller</div>
+              <div className="text-center text-tomtly-accent font-bold">Inkludert</div>
+              <div className="text-center text-red-400">Nei</div>
             </div>
+            <p className="text-xs text-green-700 text-center mt-4 font-semibold">Du sparer 12 770 kr – og får ti ganger mer med Tomtly</p>
           </div>
         </div>
 

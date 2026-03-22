@@ -1,18 +1,94 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import {
   Building2,
   CheckCircle2,
   ArrowRight,
   TrendingUp,
   ChevronDown,
+  MapPin,
 } from 'lucide-react'
+
+// Municipality directory data
+const OSTLANDET: { slug: string; navn: string }[] = [
+  { slug: 'oslo', navn: 'Oslo' },
+  { slug: 'barum', navn: 'Bærum' },
+  { slug: 'asker', navn: 'Asker' },
+  { slug: 'lillestrom', navn: 'Lillestrøm' },
+  { slug: 'nordre-follo', navn: 'Nordre Follo' },
+  { slug: 'nesodden', navn: 'Nesodden' },
+  { slug: 'frogn', navn: 'Frogn' },
+  { slug: 'vestby', navn: 'Vestby' },
+  { slug: 'as', navn: 'Ås' },
+  { slug: 'enebakk', navn: 'Enebakk' },
+  { slug: 'rae', navn: 'Rælingen' },
+  { slug: 'lorenskog', navn: 'Lørenskog' },
+  { slug: 'nittedal', navn: 'Nittedal' },
+  { slug: 'gjerdrum', navn: 'Gjerdrum' },
+  { slug: 'nannestad', navn: 'Nannestad' },
+  { slug: 'eidsvoll', navn: 'Eidsvoll' },
+  { slug: 'hurdal', navn: 'Hurdal' },
+  { slug: 'ullensaker', navn: 'Ullensaker' },
+  { slug: 'nes', navn: 'Nes' },
+  { slug: 'aurskog-holand', navn: 'Aurskog-Høland' },
+  { slug: 'rakkestad', navn: 'Rakkestad' },
+  { slug: 'sarpsborg', navn: 'Sarpsborg' },
+  { slug: 'fredrikstad', navn: 'Fredrikstad' },
+  { slug: 'halden', navn: 'Halden' },
+  { slug: 'moss', navn: 'Moss' },
+  { slug: 'rygge', navn: 'Rygge' },
+  { slug: 'rade', navn: 'Råde' },
+  { slug: 'hvaler', navn: 'Hvaler' },
+  { slug: 'indre-ostfold', navn: 'Indre Østfold' },
+  { slug: 'drammen', navn: 'Drammen' },
+  { slug: 'lier', navn: 'Lier' },
+  { slug: 'ovre-eiker', navn: 'Øvre Eiker' },
+  { slug: 'nedre-eiker', navn: 'Nedre Eiker' },
+  { slug: 'kongsberg', navn: 'Kongsberg' },
+  { slug: 'ringerike', navn: 'Ringerike' },
+  { slug: 'hole', navn: 'Hole' },
+  { slug: 'modum', navn: 'Modum' },
+  { slug: 'sigdal', navn: 'Sigdal' },
+  { slug: 'flesberg', navn: 'Flesberg' },
+  { slug: 'rollag', navn: 'Rollag' },
+  { slug: 'toensberg', navn: 'Tønsberg' },
+  { slug: 'sandefjord', navn: 'Sandefjord' },
+  { slug: 'larvik', navn: 'Larvik' },
+  { slug: 'porsgrunn', navn: 'Porsgrunn' },
+  { slug: 'skien', navn: 'Skien' },
+  { slug: 'bamble', navn: 'Bamble' },
+  { slug: 'krageroe', navn: 'Kragerø' },
+  { slug: 'notodden', navn: 'Notodden' },
+  { slug: 'horten', navn: 'Horten' },
+  { slug: 'holmestrand', navn: 'Holmestrand' },
+  { slug: 're', navn: 'Re' },
+  { slug: 'faerder', navn: 'Færder' },
+]
+
+const STORBY: { slug: string; navn: string }[] = [
+  { slug: 'bergen', navn: 'Bergen' },
+  { slug: 'stavanger', navn: 'Stavanger' },
+  { slug: 'sandnes', navn: 'Sandnes' },
+  { slug: 'kristiansand', navn: 'Kristiansand' },
+  { slug: 'tromsoe', navn: 'Tromsø' },
+  { slug: 'bodo', navn: 'Bodø' },
+  { slug: 'aalesund', navn: 'Ålesund' },
+  { slug: 'haugesund', navn: 'Haugesund' },
+  { slug: 'molde', navn: 'Molde' },
+  { slug: 'hamar', navn: 'Hamar' },
+  { slug: 'lillehammer', navn: 'Lillehammer' },
+  { slug: 'gjovik', navn: 'Gjøvik' },
+  { slug: 'kongsvinger', navn: 'Kongsvinger' },
+  { slug: 'elverum', navn: 'Elverum' },
+]
 
 export default function KommunePage() {
   return (
     <>
       <HeroSection />
+      <KommuneOversikt />
       <Problemet />
       <Losningen />
       <Prismodell />
@@ -20,6 +96,61 @@ export default function KommunePage() {
       <PilotTilbud />
       <KontaktSkjema />
     </>
+  )
+}
+
+function KommuneOversikt() {
+  return (
+    <section className="bg-white py-16 lg:py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-4">
+            Se tomter i din kommune
+          </h2>
+          <p className="text-brand-600 max-w-lg mx-auto">
+            Velg kommune for å se ledige tomter, priser og muligheter
+          </p>
+        </div>
+
+        {/* Østlandet */}
+        <div className="mb-10">
+          <h3 className="font-display text-xl font-bold text-tomtly-dark mb-4 flex items-center gap-2">
+            <MapPin className="w-5 h-5 text-tomtly-accent" />
+            Østlandet
+          </h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            {OSTLANDET.map((k) => (
+              <Link
+                key={k.slug}
+                href={`/kommune/${k.slug}`}
+                className="bg-brand-50 rounded-lg border border-brand-200 px-4 py-3 text-sm font-medium text-brand-700 hover:border-tomtly-accent hover:text-tomtly-accent hover:shadow-sm transition-all text-center"
+              >
+                {k.navn}
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* Resten av Norge */}
+        <div>
+          <h3 className="font-display text-xl font-bold text-tomtly-dark mb-4 flex items-center gap-2">
+            <MapPin className="w-5 h-5 text-tomtly-accent" />
+            Resten av Norge
+          </h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            {STORBY.map((k) => (
+              <Link
+                key={k.slug}
+                href={`/kommune/${k.slug}`}
+                className="bg-brand-50 rounded-lg border border-brand-200 px-4 py-3 text-sm font-medium text-brand-700 hover:border-tomtly-accent hover:text-tomtly-accent hover:shadow-sm transition-all text-center"
+              >
+                {k.navn}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
   )
 }
 

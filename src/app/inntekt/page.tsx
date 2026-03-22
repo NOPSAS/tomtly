@@ -78,10 +78,10 @@ const SCENARIOS: Record<Scenario, ScenarioInputs> = {
 
 const PER_KUNDE_DATA: RevenueRow[] = [
   { kilde: 'Tomteeier fastpris (4 990)', inntekt: 4990, kostnad: 4000, margin: 990, note: 'Analyse + markedsføring' },
-  { kilde: 'Provisjon ved salg (2,5 % av snitt 2 MNOK)', inntekt: 50000, kostnad: 0, margin: 50000, note: '2,5 % av salgssum' },
+  { kilde: 'Provisjon ved salg (65% av 2,5 % av snitt 2 MNOK)', inntekt: 32500, kostnad: 0, margin: 32500, note: '65% av 2,5% provisjon (35% til meglerpartner)' },
   { kilde: 'Megler Standard (gratis)', inntekt: 0, kostnad: 0, margin: 0, note: 'Gratis publisering – kjøpere kontakter megler' },
   { kilde: 'Megler Premium (4 900)', inntekt: 4900, kostnad: 4000, margin: 900, note: 'Full analyse + synlighet' },
-  { kilde: 'Fradeling (fastpris + 2,5 %)', inntekt: 69000, kostnad: 15000, margin: 54000, note: '49-89k prosess + 2,5 % ved salg' },
+  { kilde: 'Fradeling (3% av ny tomts verdi)', inntekt: 45000, kostnad: 10000, margin: 35000, note: '3% av ny tomts verdi (snitt 1,5 MNOK). 0 kr hvis kommunen avslår.' },
   { kilde: 'Addons (tegning, søknad) – via Konsepthus', inntekt: 0, kostnad: 0, margin: 0, note: 'Utføres av Konsepthus/Tegnebua, ikke Tomtly-inntekt' },
   { kilde: 'Entreprenørpåslag', inntekt: 14900, kostnad: 0, margin: 14900, note: 'Årsavgift' },
   { kilde: 'Bank lead-fee', inntekt: 4900, kostnad: 0, margin: 4900, note: '' },
@@ -171,9 +171,9 @@ export default function InntektPage() {
       timerPer: timerPerTomt,
     },
     {
-      label: 'Provisjon 2,5 % (snitt 50 000)',
+      label: 'Provisjon 2,5 % (65% = 32 500)',
       antall: inputs.analyseSynlighet,
-      inntektPer: 50000,
+      inntektPer: 32500,
       timerPer: timerPerTomt + 1,
     },
     {
@@ -189,9 +189,9 @@ export default function InntektPage() {
       timerPer: 0.5,
     },
     {
-      label: 'Fradelinger (fastpris)',
+      label: 'Fradelinger (3% av ny tomt)',
       antall: inputs.fradelinger,
-      inntektPer: 69000,
+      inntektPer: 45000,
       timerPer: 15,
     },
     {
@@ -322,7 +322,7 @@ export default function InntektPage() {
                     Total verdi per fullverdig kunde (analyse + salg + addons + bank)
                   </td>
                   <td className="px-5 py-4 text-right font-bold text-green-700 text-lg" colSpan={2}>
-                    180 000 – 220 000 kr
+                    130 000 – 160 000 kr
                   </td>
                 </tr>
               </tfoot>
@@ -475,7 +475,7 @@ function Forretningsmodell() {
       <div className="space-y-4">
         <FlowMarker text="TOMTEEIER HAR EN TOMT" />
 
-        <FlowStep nummer="1" tittel="Tomtanalyse + salg" ikon="📐" inntekt="4 990 kr + 2,5% ved salg" beskrivelse="Vi lager mulighetsstudie med husmodeller og byggekalkyle. Markedsfører og selger via vår megler." />
+        <FlowStep nummer="1" tittel="Tomtanalyse + salg" ikon="📐" inntekt="4 990 kr + 65% av 2,5%" beskrivelse="Vi lager mulighetsstudie med husmodeller og byggekalkyle. Markedsfører og selger via meglerpartner (65/35-split på provisjon)." />
         <FlowStep nummer="2" tittel="Ferdighusleverandør" ikon="🏠" inntekt="Månedlig abonnement" beskrivelse="Husmodeller vises i analysen. Leverandøren som betaler mest i abo får mest eksponering. Velger kjøper deres hus = direkte salg." />
         <FlowStep nummer="3" tittel="Entreprenør" ikon="🔧" inntekt="14 900 kr/år" beskrivelse="Vi innhenter tilbud fra samarbeidsentreprenører. Gir oss kontroll på kostnader og gir entreprenøren kunder." />
 
@@ -496,7 +496,7 @@ function Forretningsmodell() {
         <p className="text-brand-500 text-center mb-6">Eksempel: Tomt i Bærum, 650 m², solgt for 2 500 000 kr</p>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-          <InntektBoks label="Tomtanalyse + salg" belop={67490} farge="bg-tomtly-accent" tekstFarge="text-white" stor />
+          <InntektBoks label="Tomtanalyse + salg" belop={37490} farge="bg-tomtly-accent" tekstFarge="text-white" stor />
           <InntektBoks label="Tegnebua" belop={25000} farge="bg-earth-400" tekstFarge="text-white" />
           <InntektBoks label="Bank lead-fee" belop={4900} farge="bg-blue-500" tekstFarge="text-white" />
           <InntektBoks label="Propr formidling" belop={2500} farge="bg-brand-600" tekstFarge="text-white" />
@@ -510,7 +510,7 @@ function Forretningsmodell() {
 
         <div className="bg-tomtly-dark rounded-2xl p-8 text-center">
           <p className="text-sm text-brand-400 mb-1">Total inntekt per tomt</p>
-          <p className="text-5xl font-bold text-tomtly-gold">~110 000 kr</p>
+          <p className="text-5xl font-bold text-tomtly-gold">~75 000 kr</p>
           <p className="text-sm text-brand-400 mt-2">Arbeidsinnsats: 10–15 timer</p>
         </div>
       </div>
@@ -601,17 +601,17 @@ function Forretningsmodell() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-white rounded-2xl border border-brand-200 p-6 text-center">
             <p className="text-xs text-brand-500 mb-1">Konservativt (5 salg/mnd)</p>
-            <p className="text-3xl font-bold text-tomtly-dark">6,3 MNOK</p>
+            <p className="text-3xl font-bold text-tomtly-dark">4,5 MNOK</p>
             <p className="text-xs text-brand-400">/år</p>
           </div>
           <div className="bg-forest-50 rounded-2xl border-2 border-tomtly-accent p-6 text-center">
             <p className="text-xs text-forest-600 mb-1">Vekst (15 salg/mnd)</p>
-            <p className="text-3xl font-bold text-tomtly-dark">18,9 MNOK</p>
+            <p className="text-3xl font-bold text-tomtly-dark">13,5 MNOK</p>
             <p className="text-xs text-forest-600">/år</p>
           </div>
           <div className="bg-tomtly-dark rounded-2xl p-6 text-center">
             <p className="text-xs text-brand-400 mb-1">Skalert (30 salg/mnd)</p>
-            <p className="text-3xl font-bold text-tomtly-gold">37,8 MNOK</p>
+            <p className="text-3xl font-bold text-tomtly-gold">27 MNOK</p>
             <p className="text-xs text-brand-400">/år</p>
           </div>
         </div>

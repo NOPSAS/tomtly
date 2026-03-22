@@ -20,6 +20,7 @@ const NAV_LINKS = [
   { href: '/admin/some', label: 'SoMe' },
   { href: '/admin/data', label: 'Data' },
   { href: '/admin/megler-partner', label: 'Partner' },
+  { href: '/meglerpartner', label: 'Meglerpartner-pitch' },
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
