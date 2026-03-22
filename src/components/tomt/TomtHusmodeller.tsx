@@ -82,23 +82,26 @@ export function TomtHusmodeller({ modeller, tomtType, tomtNavn }: Props) {
 
       {/* Modell-tabs */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-        {modeller.map((m, idx) => (
-          <button
-            key={m.id}
-            onClick={() => setAktivModell(idx)}
-            className={`text-left p-4 rounded-xl border-2 transition-all ${
-              aktivModell === idx
-                ? 'border-tomtly-accent bg-forest-50'
-                : 'border-brand-200 hover:border-brand-300'
-            }`}
-          >
-            <p className="font-semibold text-tomtly-dark text-sm">{m.navn}</p>
-            <p className="text-xs text-brand-500">{m.leverandor}</p>
-            <p className="text-sm font-bold text-tomtly-accent mt-1">
-              {(totalBudsjett / 1000000).toFixed(1)} MNOK
-            </p>
-          </button>
-        ))}
+        {modeller.map((m, idx) => {
+          const mBudsjett = tomtType === 'skra' && m.total_budsjett_skra ? m.total_budsjett_skra : m.total_budsjett
+          return (
+            <button
+              key={m.id}
+              onClick={() => setAktivModell(idx)}
+              className={`text-left p-4 rounded-xl border-2 transition-all ${
+                aktivModell === idx
+                  ? 'border-tomtly-accent bg-forest-50'
+                  : 'border-brand-200 hover:border-brand-300'
+              }`}
+            >
+              <p className="font-semibold text-tomtly-dark text-sm">{m.navn}</p>
+              <p className="text-xs text-brand-500">{m.leverandor}</p>
+              <p className="text-sm font-bold text-tomtly-accent mt-1">
+                {(mBudsjett / 1000000).toFixed(1)} MNOK
+              </p>
+            </button>
+          )
+        })}
       </div>
 
       {/* ---- Aktiv modell ---- */}
