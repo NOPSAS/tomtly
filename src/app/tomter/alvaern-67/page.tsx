@@ -190,11 +190,11 @@ export default function Alvaern67() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex gap-6 overflow-x-auto py-3 text-sm">
             {[
-              { href: '#bilder', label: 'Bilder' },
               { href: '#husmodeller', label: 'Husmodeller' },
               { href: '#tegnebua', label: 'Tegning og søknad' },
               { href: '#tidsplan', label: 'Tidsplan' },
               { href: '#regulering', label: 'Regulering' },
+              { href: '#bilder', label: 'Bilder' },
               { href: '#nabolag', label: 'Nabolag' },
               { href: '#dokumenter', label: 'Dokumenter' },
               { href: '#risiko', label: 'Risiko' },
@@ -208,7 +208,6 @@ export default function Alvaern67() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2 space-y-16">
-            <section id="bilder"><TomtBildegalleri bilder={BILDER} adresse={TOMT.adresse} /></section>
             <section id="husmodeller"><TomtHusmodeller modeller={HUSMODELLER as any} tomtType="skra" tomtNavn="Gamle Alværnvei 67 (skrånende tomt)" /></section>
             <section id="tegnebua"><TomtTegnebua valgte_husmodeller={1} /></section>
 
@@ -233,6 +232,7 @@ export default function Alvaern67() {
             </section>
 
             <section id="regulering"><TomtRegulering regulering={TOMT.regulering} /></section>
+            <section id="bilder"><TomtBildegalleri bilder={BILDER} adresse={TOMT.adresse} /></section>
             <section id="nabolag"><TomtNabolag punkter={TOMT.nabolag.punkter} nabolag_beskrivelse={TOMT.nabolag.beskrivelse} /></section>
 
             <section id="dokumenter">

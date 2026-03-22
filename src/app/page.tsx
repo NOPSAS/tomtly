@@ -13,6 +13,7 @@ import {
   CheckCircle2,
   Calculator,
 } from 'lucide-react'
+import { TomteSokLead } from '@/components/TomteSokLead'
 
 // ============================================================
 // FORSIDE – Tomtly
@@ -27,6 +28,7 @@ export default function Forside() {
       <ForHvem />
       <Prismodell />
       <FradelingBanner />
+      <TomteSokLead />
       <CTASection />
     </>
   )

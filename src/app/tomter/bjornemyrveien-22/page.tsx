@@ -51,7 +51,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 136, verdi_m2_pris: 70000, verdi_total: 9520000,
     inkludert: ['Parkett på gulv i tørre oppholdsrom', 'Flislagt entré og våtrom', 'Pipe og peisovn', 'Komplett innvendig el-leveranse', 'Komplett rørleveranse', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Lyskilder innvendig og utvendig', 'Innglassert balkong'],
     bilder: {
-      fasade: [`${IMG}/skogly-fasade-1.png`, `${IMG}/skogly-fasade-2.png`],
+      fasade: [`${IMG}/skogly-fasade-2.png`],
       plantegninger: [
         { url: `${IMG}/skogly-plan-hoved.png`, label: 'Hovedetasje – stue, kjøkken, bad og soverom 1' },
         { url: `${IMG}/skogly-plan-under.png`, label: 'Underetasje – 3 soverom, bad og sportsbod' },
@@ -205,11 +205,11 @@ export default function Bjornemyrveien22() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex gap-6 overflow-x-auto py-3 text-sm">
             {[
-              { href: '#bilder', label: 'Bilder' },
               { href: '#husmodeller', label: 'Husmodeller' },
               { href: '#tegnebua', label: 'Tegning og søknad' },
               { href: '#tidsplan', label: 'Tidsplan' },
               { href: '#regulering', label: 'Regulering' },
+              { href: '#bilder', label: 'Bilder' },
               { href: '#nabolag', label: 'Nabolag' },
               { href: '#dokumenter', label: 'Dokumenter' },
               { href: '#risiko', label: 'Risiko' },
@@ -223,7 +223,6 @@ export default function Bjornemyrveien22() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2 space-y-16">
-            <section id="bilder"><TomtBildegalleri bilder={BILDER} adresse={TOMT.adresse} /></section>
             <section id="husmodeller"><TomtHusmodeller modeller={HUSMODELLER as any} tomtType="skra" tomtNavn="Tomt C (skrå tomt)" /></section>
             <section id="tegnebua"><TomtTegnebua valgte_husmodeller={1} /></section>
 
@@ -248,6 +247,7 @@ export default function Bjornemyrveien22() {
             </section>
 
             <section id="regulering"><TomtRegulering regulering={TOMT.regulering} /></section>
+            <section id="bilder"><TomtBildegalleri bilder={BILDER} adresse={TOMT.adresse} /></section>
             <section id="nabolag"><TomtNabolag punkter={TOMT.nabolag.punkter} nabolag_beskrivelse={TOMT.nabolag.beskrivelse} /></section>
 
             <section id="dokumenter">

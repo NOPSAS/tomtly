@@ -104,14 +104,10 @@ export function TomtHusmodeller({ modeller, tomtType, tomtNavn }: Props) {
       {/* ---- Aktiv modell ---- */}
       <div className="bg-white border border-brand-200 rounded-2xl overflow-hidden">
 
-        {/* Fasadebilder */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-1 bg-brand-100">
-          {bilder.fasade.map((url, idx) => (
-            <div key={idx} className="aspect-[4/3] relative">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={url} alt={`${aktiv.navn} – bilde ${idx + 1}`} className="w-full h-full object-cover" />
-            </div>
-          ))}
+        {/* Fasadebilde – 1 bilde per modell */}
+        <div className="aspect-[16/9] relative bg-brand-100">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={bilder.fasade[0]} alt={`${aktiv.navn} – fasade`} className="w-full h-full object-contain bg-white" />
         </div>
 
         <div className="p-6 md:p-8">
