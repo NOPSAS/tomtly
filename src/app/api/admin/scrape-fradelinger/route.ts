@@ -3,22 +3,30 @@ import { createClient } from '@supabase/supabase-js'
 
 const KOMMUNER = [
   { nummer: '3020', navn: 'Nordre Follo' },
-  { nummer: '3024', navn: 'Baerum' },
-  { nummer: '3203', navn: 'Asker' },
-  { nummer: '3220', navn: 'Nesodden' },
-  { nummer: '3222', navn: 'Frogn' },
+  { nummer: '3024', navn: 'Bærum' },
+  { nummer: '3025', navn: 'Asker' },
+  { nummer: '3212', navn: 'Nesodden' },
+  { nummer: '3214', navn: 'Frogn' },
 ]
 
-async function searchMatrikkel(kommunenummer: string) {
-  // Search GeoNorge for addresses in kommune
+interface GeoNorgeAdresse {
+  adressetekst: string
+  kommunenavn: string
+  kommunenummer: string
+  gardsnummer?: number
+  bruksnummer?: number
+  representasjonspunkt?: { lat: number; lon: number }
+}
+
+async function searchMatrikkel(kommunenummer: string, side: number = 0) {
   try {
     const res = await fetch(
-      `https://ws.geonorge.no/adresser/v1/sok?kommunenummer=${kommunenummer}&treffPerSide=50&side=0`,
-      { headers: { 'Accept': 'application/json' } }
+      `https://ws.geonorge.no/adresser/v1/sok?kommunenummer=${kommunenummer}&treffPerSide=200&side=${side}&filtrer=adressetekst,kommunenavn,kommunenummer,gardsnummer,bruksnummer,representasjonspunkt`,
+      { headers: { Accept: 'application/json' } }
     )
     if (!res.ok) return []
     const data = await res.json()
-    return data.adresser || []
+    return (data.adresser || []) as GeoNorgeAdresse[]
   } catch {
     return []
   }
@@ -32,19 +40,61 @@ async function handler() {
   }
   const supabase = createClient(supabaseUrl, supabaseKey)
 
-  let total = 0
+  let totalFound = 0
+  let totalSaved = 0
+  const resultPerKommune: { kommune: string; funnet: number; lagret: number }[] = []
+
   for (const kommune of KOMMUNER) {
-    await new Promise(r => setTimeout(r, 2000))
+    await new Promise(r => setTimeout(r, 1000))
     const adresser = await searchMatrikkel(kommune.nummer)
-    // Filter for potential subdivisions: look for large plots
-    // In production this would check actual matrikkel data
-    total += adresser.length
+    totalFound += adresser.length
+    let lagretKommune = 0
+
+    for (const adr of adresser) {
+      if (!adr.gardsnummer || !adr.bruksnummer) continue
+
+      const matrikkelenhet = `${kommune.nummer}-${adr.gardsnummer}/${adr.bruksnummer}`
+
+      // Check if already exists
+      const { data: existing } = await supabase
+        .from('kartverket_fradelinger')
+        .select('id')
+        .eq('matrikkelenhet', matrikkelenhet)
+        .single()
+
+      if (!existing) {
+        const { error } = await supabase.from('kartverket_fradelinger').insert({
+          matrikkelenhet,
+          adresse: adr.adressetekst,
+          kommune: adr.kommunenavn || kommune.navn,
+          gardsnummer: adr.gardsnummer,
+          bruksnummer: adr.bruksnummer,
+          lat: adr.representasjonspunkt?.lat || null,
+          lon: adr.representasjonspunkt?.lon || null,
+          status: 'ny',
+          notater: '',
+          dato: new Date().toISOString().split('T')[0],
+        })
+        if (!error) {
+          totalSaved++
+          lagretKommune++
+        }
+      }
+    }
+
+    resultPerKommune.push({
+      kommune: kommune.navn,
+      funnet: adresser.length,
+      lagret: lagretKommune,
+    })
   }
 
   return NextResponse.json({
     success: true,
     kommuner_sjekket: KOMMUNER.length,
-    adresser_funnet: total,
+    adresser_funnet: totalFound,
+    nye_lagret: totalSaved,
+    per_kommune: resultPerKommune,
   })
 }
 

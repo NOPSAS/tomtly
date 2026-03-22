@@ -195,14 +195,30 @@ function CopyButton({ text }: { text: string }) {
 
 export default function FradelingerPage() {
   const [activeTab, setActiveTab] = useState<TabType>('kartverket')
-  const [kartverketEntries, setKartverketEntries] = useState<KartverketEntry[]>(DEMO_KARTVERKET)
-  const [kandidater, setKandidater] = useState<FradelingsKandidat[]>(DEMO_KANDIDATER)
+  const [kartverketEntries, setKartverketEntries] = useState<KartverketEntry[]>([])
+  const [kandidater, setKandidater] = useState<FradelingsKandidat[]>([])
+  const [kartverketLoading, setKartverketLoading] = useState(true)
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [showPitch, setShowPitch] = useState(false)
   const [scraperLoading, setScraperLoading] = useState(false)
   const [scraperResult, setScraperResult] = useState<string | null>(null)
 
   const supabase = createClient()
+
+  const fetchAll = useCallback(async () => {
+    setKartverketLoading(true)
+    const [kartRes, kandRes] = await Promise.all([
+      supabase.from('kartverket_fradelinger').select('*').order('dato', { ascending: false }),
+      supabase.from('fradelingskandidater').select('*').order('created_at', { ascending: false }),
+    ])
+    if (kartRes.data && kartRes.data.length > 0) {
+      setKartverketEntries(kartRes.data)
+    }
+    if (kandRes.data && kandRes.data.length > 0) {
+      setKandidater(kandRes.data)
+    }
+    setKartverketLoading(false)
+  }, [])
 
   const runScraper = async () => {
     setScraperLoading(true)
@@ -211,7 +227,8 @@ export default function FradelingerPage() {
       const res = await fetch('/api/admin/scrape-fradelinger', { method: 'POST' })
       const data = await res.json()
       if (data.success) {
-        setScraperResult(`Sjekket ${data.kommuner_sjekket} kommuner, fant ${data.adresser_funnet} adresser`)
+        setScraperResult(`Sjekket ${data.kommuner_sjekket} kommuner, fant ${data.adresser_funnet} adresser, lagret ${data.nye_lagret} nye`)
+        fetchAll()
       } else {
         setScraperResult(`Feil: ${data.error || 'Ukjent feil'}`)
       }
@@ -223,19 +240,11 @@ export default function FradelingerPage() {
   }
 
   useEffect(() => {
-    async function fetchKandidater() {
-      const { data } = await supabase
-        .from('fradelingskandidater')
-        .select('*')
-        .order('created_at', { ascending: false })
-      if (data && data.length > 0) {
-        setKandidater(data)
-      }
-    }
-    fetchKandidater()
-  }, [])
+    fetchAll()
+  }, [fetchAll])
 
-  const handleKartverketStatusChange = (id: string, status: KartverketStatus) => {
+  const handleKartverketStatusChange = async (id: string, status: KartverketStatus) => {
+    await supabase.from('kartverket_fradelinger').update({ status }).eq('id', id)
     setKartverketEntries(prev => prev.map(e => e.id === id ? { ...e, status } : e))
   }
 
@@ -303,12 +312,18 @@ export default function FradelingerPage() {
         {/* ─── Tab 1: Kartverket ──────────────────────────────────────────── */}
         {activeTab === 'kartverket' && (
           <div className="space-y-4">
-            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
-              <p className="text-sm text-amber-800">
-                <strong>Datakilde:</strong> Nye fradelinger registrert i Kartverkets matrikkel. Kartverket-integrasjon settes opp separat.
-                Tabellen under viser demo-data.
-              </p>
-            </div>
+            {kartverketEntries.length === 0 && !kartverketLoading && (
+              <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+                <p className="text-sm text-amber-800">
+                  <strong>Ingen data ennå.</strong> Klikk «Kjør scraper» for å hente adresser fra GeoNorge for utvalgte kommuner.
+                </p>
+              </div>
+            )}
+            {kartverketLoading && (
+              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                <p className="text-sm text-blue-800">Henter data...</p>
+              </div>
+            )}
 
             {/* Pipeline stats */}
             <div className="grid grid-cols-5 gap-3">

@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import { createClient } from '@/lib/supabase'
 import Link from 'next/link'
 import {
   ArrowLeft,
@@ -10,44 +11,126 @@ import {
   Users,
   Scissors,
   BarChart3,
-  Eye,
-  Share2,
   MapPin,
+  RefreshCw,
+  Loader2,
 } from 'lucide-react'
 
-// ─── Types ───────────────────────────────────────────────────────────────────
+type TabType = 'marked' | 'aktivitet' | 'kjøper' | 'fradeling'
 
-type TabType = 'marked' | 'aktivitet' | 'husmodell' | 'kjøper' | 'fradeling'
+interface Stats {
+  finnTomter: number
+  finnNye30d: number
+  delesaker: number
+  fradelinger: number
+  naeringstomter: number
+  henvendelser: number
+  kjoperprofiler: number
+  kandidater: number
+}
 
-// ─── Demo husmodell data ─────────────────────────────────────────────────────
+interface FinnTomt {
+  id: string
+  adresse: string
+  kommune: string
+  prisantydning: number | null
+  tomtestorrelse_m2: number | null
+  status: string
+  created_at: string
+  megler_firma: string | null
+  flagg: string[] | null
+}
 
-const HUSMODELLER = [
-  { modell: 'Skogly', leverandor: 'Nordbohus', vist_i_studier: 12, henvendelser: 3 },
-  { modell: 'Vindy', leverandor: 'Mesterhus', vist_i_studier: 9, henvendelser: 2 },
-  { modell: 'Emilie', leverandor: 'BoligPartner', vist_i_studier: 8, henvendelser: 1 },
-  { modell: 'Nordstrand', leverandor: 'Nordbohus', vist_i_studier: 7, henvendelser: 2 },
-  { modell: 'Wide A', leverandor: 'Norgeshus', vist_i_studier: 6, henvendelser: 1 },
-  { modell: 'Nelly', leverandor: 'Mesterhus', vist_i_studier: 5, henvendelser: 0 },
-  { modell: 'Adele', leverandor: 'BoligPartner', vist_i_studier: 4, henvendelser: 1 },
-]
-
-// ─── Main page ───────────────────────────────────────────────────────────────
+interface Henvendelse {
+  id: string
+  type: string
+  navn: string | null
+  epost: string | null
+  created_at: string
+  ekstra: Record<string, any> | null
+}
 
 export default function DataDashboard() {
   const [activeTab, setActiveTab] = useState<TabType>('marked')
-  const [viewMode, setViewMode] = useState<'intern' | 'delbar'>('intern')
+  const [loading, setLoading] = useState(true)
+  const [stats, setStats] = useState<Stats>({
+    finnTomter: 0, finnNye30d: 0, delesaker: 0, fradelinger: 0,
+    naeringstomter: 0, henvendelser: 0, kjoperprofiler: 0, kandidater: 0,
+  })
+  const [finnTomter, setFinnTomter] = useState<FinnTomt[]>([])
+  const [henvendelser, setHenvendelser] = useState<Henvendelse[]>([])
+  const [kjopere, setKjopere] = useState<any[]>([])
+
+  const supabase = createClient()
+
+  const fetchAll = useCallback(async () => {
+    setLoading(true)
+
+    const thirtyDaysAgo = new Date()
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+    const thirtyDaysStr = thirtyDaysAgo.toISOString()
+
+    const [
+      finnRes, finnNyeRes, deleRes, fradRes, naerRes, henvRes, kjopRes, kandRes
+    ] = await Promise.all([
+      supabase.from('finn_tomter').select('*', { count: 'exact' }).order('created_at', { ascending: false }).limit(200),
+      supabase.from('finn_tomter').select('id', { count: 'exact' }).gte('created_at', thirtyDaysStr),
+      supabase.from('delesaker').select('id', { count: 'exact' }),
+      supabase.from('kartverket_fradelinger').select('id', { count: 'exact' }),
+      supabase.from('naeringstomter').select('id', { count: 'exact' }),
+      supabase.from('henvendelser').select('*').order('created_at', { ascending: false }).limit(50),
+      supabase.from('kjoper_profiler').select('*').order('created_at', { ascending: false }),
+      supabase.from('fradelingskandidater').select('id', { count: 'exact' }),
+    ])
+
+    setFinnTomter(finnRes.data || [])
+    setHenvendelser(henvRes.data || [])
+    setKjopere(kjopRes.data || [])
+
+    setStats({
+      finnTomter: finnRes.count || finnRes.data?.length || 0,
+      finnNye30d: finnNyeRes.count || finnNyeRes.data?.length || 0,
+      delesaker: deleRes.count || deleRes.data?.length || 0,
+      fradelinger: fradRes.count || fradRes.data?.length || 0,
+      naeringstomter: naerRes.count || naerRes.data?.length || 0,
+      henvendelser: henvRes.data?.length || 0,
+      kjoperprofiler: kjopRes.data?.length || 0,
+      kandidater: kandRes.count || kandRes.data?.length || 0,
+    })
+    setLoading(false)
+  }, [])
+
+  useEffect(() => { fetchAll() }, [fetchAll])
 
   const tabs = [
-    { key: 'marked' as TabType, label: 'Markedsoversikt', icon: BarChart3 },
-    { key: 'aktivitet' as TabType, label: 'Tomtly-aktivitet', icon: TrendingUp },
-    { key: 'husmodell' as TabType, label: 'Husmodell-popularitet', icon: Home },
-    { key: 'kjøper' as TabType, label: 'Kjøperinnsikt', icon: Users },
-    { key: 'fradeling' as TabType, label: 'Fradelingspotensial', icon: Scissors },
+    { key: 'marked' as TabType, label: 'Dataoversikt', icon: BarChart3 },
+    { key: 'aktivitet' as TabType, label: 'Henvendelser', icon: TrendingUp },
+    { key: 'kjøper' as TabType, label: 'Kjøperprofiler', icon: Users },
+    { key: 'fradeling' as TabType, label: 'FINN-tomter', icon: Home },
   ]
+
+  // Compute price stats from real data
+  const tomterMedPris = finnTomter.filter(t => t.prisantydning && t.prisantydning > 0)
+  const tomterMedAreal = finnTomter.filter(t => t.tomtestorrelse_m2 && t.tomtestorrelse_m2 > 0)
+  const snittPrisPerM2 = tomterMedPris.length > 0 && tomterMedAreal.length > 0
+    ? Math.round(
+        tomterMedPris.reduce((sum, t) => sum + (t.prisantydning || 0), 0) /
+        tomterMedAreal.reduce((sum, t) => sum + (t.tomtestorrelse_m2 || 0), 0)
+      )
+    : null
+
+  // Kommune distribution
+  const kommuneCount: Record<string, number> = {}
+  finnTomter.forEach(t => {
+    if (t.kommune) kommuneCount[t.kommune] = (kommuneCount[t.kommune] || 0) + 1
+  })
+  const kommuneSorted = Object.entries(kommuneCount).sort((a, b) => b[1] - a[1]).slice(0, 10)
+  const maxKommune = kommuneSorted[0]?.[1] || 1
+
+  const fmt = (n: number) => n.toLocaleString('nb-NO')
 
   return (
     <div className="min-h-screen bg-brand-50">
-      {/* Header */}
       <div className="bg-tomtly-dark text-white px-4 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -55,37 +138,34 @@ export default function DataDashboard() {
               <ArrowLeft className="w-5 h-5" />
             </Link>
             <div>
-              <h1 className="font-display text-lg font-bold">
-                {viewMode === 'intern' ? 'Tomtly Data – Intern oversikt' : 'Tomtly Data – Markedsinnsikt'}
-              </h1>
-              <p className="text-xs text-brand-400">Markedsdata, aktivitet og innsikt</p>
+              <h1 className="font-display text-lg font-bold">Tomtly Data</h1>
+              <p className="text-xs text-brand-400">Live data fra Supabase</p>
             </div>
           </div>
-          {/* View mode toggle */}
-          <div className="flex items-center gap-2 bg-white/10 rounded-lg p-1">
-            <button
-              onClick={() => setViewMode('intern')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
-                viewMode === 'intern' ? 'bg-white text-tomtly-dark' : 'text-brand-300 hover:text-white'
-              }`}
-            >
-              <Eye className="w-3.5 h-3.5" />
-              Intern visning
-            </button>
-            <button
-              onClick={() => setViewMode('delbar')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
-                viewMode === 'delbar' ? 'bg-white text-tomtly-dark' : 'text-brand-300 hover:text-white'
-              }`}
-            >
-              <Share2 className="w-3.5 h-3.5" />
-              Delbar visning
-            </button>
-          </div>
+          <button
+            onClick={fetchAll}
+            disabled={loading}
+            className="flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
+          >
+            {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <RefreshCw className="w-3.5 h-3.5" />}
+            Oppdater
+          </button>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {/* Top stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3 mb-6">
+          <StatCard label="FINN-tomter" value={stats.finnTomter} icon={Home} />
+          <StatCard label="Nye (30d)" value={stats.finnNye30d} icon={TrendingUp} />
+          <StatCard label="Næring" value={stats.naeringstomter} icon={Database} />
+          <StatCard label="Delesaker" value={stats.delesaker} icon={Scissors} />
+          <StatCard label="GeoNorge" value={stats.fradelinger} icon={MapPin} />
+          <StatCard label="Kandidater" value={stats.kandidater} icon={Scissors} />
+          <StatCard label="Henvendelser" value={stats.henvendelser} icon={TrendingUp} />
+          <StatCard label="Kjøpere" value={stats.kjoperprofiler} icon={Users} />
+        </div>
+
         {/* Tabs */}
         <div className="flex flex-wrap gap-1 mb-6 bg-brand-100 rounded-lg p-1">
           {tabs.map(({ key, label, icon: Icon }) => (
@@ -102,234 +182,220 @@ export default function DataDashboard() {
           ))}
         </div>
 
-        {/* ─── Markedsoversikt ──────────────────────────────────────────────── */}
+        {/* Dataoversikt */}
         {activeTab === 'marked' && (
           <div className="space-y-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <DataCard label="Totalt tomter i DB" value="127" sublabel="Oppdateres med live data" />
-              <DataCard label="Nye siste 30 dager" value="23" sublabel="Oppdateres med live data" />
-              <DataCard label="Snitt pris/m²" value="2 450 kr" sublabel="Oppdateres med live data" />
-              <DataCard label="Snitt tid-til-salg" value="84 dager" sublabel="Oppdateres med live data" />
+              <DataCard label="Totalt tomter i DB" value={String(stats.finnTomter)} />
+              <DataCard label="Nye siste 30 dager" value={String(stats.finnNye30d)} />
+              <DataCard label="Snitt pris/m²" value={snittPrisPerM2 ? `${fmt(snittPrisPerM2)} kr` : '–'} />
+              <DataCard label="Med pris" value={`${tomterMedPris.length} av ${stats.finnTomter}`} />
             </div>
 
-            <div className="bg-white rounded-xl border border-brand-200 p-6">
-              <h3 className="font-semibold text-tomtly-dark mb-4">Prisutvikling per region</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {[
-                  { region: 'Akershus Vest', snitt: '3 200 kr/m²', trend: '+5%' },
-                  { region: 'Akershus Øst', snitt: '2 100 kr/m²', trend: '+3%' },
-                  { region: 'Østfold', snitt: '1 400 kr/m²', trend: '+8%' },
-                ].map(r => (
-                  <div key={r.region} className="bg-brand-50 rounded-lg p-4 border border-brand-100">
-                    <h4 className="font-medium text-sm text-tomtly-dark">{r.region}</h4>
-                    <p className="text-lg font-bold text-tomtly-dark mt-1">{r.snitt}</p>
-                    <p className="text-xs text-green-600 font-medium">{r.trend} siste 12 mnd</p>
-                  </div>
-                ))}
+            {kommuneSorted.length > 0 && (
+              <div className="bg-white rounded-xl border border-brand-200 p-6">
+                <h3 className="font-semibold text-tomtly-dark mb-4">Tomter per kommune (topp 10)</h3>
+                <div className="space-y-3">
+                  {kommuneSorted.map(([kommune, count]) => (
+                    <div key={kommune} className="flex items-center gap-3">
+                      <span className="text-sm text-brand-700 w-32 truncate">{kommune}</span>
+                      <div className="flex-1 bg-brand-100 rounded-full h-3">
+                        <div
+                          className="bg-tomtly-accent h-3 rounded-full transition-all"
+                          style={{ width: `${Math.round((count / maxKommune) * 100)}%` }}
+                        />
+                      </div>
+                      <span className="text-xs text-brand-500 w-12 text-right">{count}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <p className="text-xs text-brand-400 mt-3">Placeholder-data. Oppdateres med live markedsdata.</p>
-            </div>
+            )}
+
+            {finnTomter.length === 0 && !loading && (
+              <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 text-center">
+                <p className="text-amber-800">Ingen FINN-tomter i databasen ennå. Kjør FINN-scraperen fra admin-panelet.</p>
+              </div>
+            )}
           </div>
         )}
 
-        {/* ─── Tomtly-aktivitet ─────────────────────────────────────────────── */}
+        {/* Henvendelser */}
         {activeTab === 'aktivitet' && (
           <div className="space-y-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <DataCard label="Analysert" value="3" sublabel="Mulighetsstudier gjennomført" />
-              <DataCard label="Solgt" value="0" sublabel="Tomter solgt via Tomtly" />
-              <DataCard label="Snitt pris vs antydning" value="–" sublabel="Ingen salg ennå" />
-              <DataCard label="Konverteringsrate" value="–" sublabel="Analyse → salg" />
+              <DataCard label="Totalt henvendelser" value={String(stats.henvendelser)} />
+              <DataCard label="Siste 7 dager" value={String(henvendelser.filter(h => {
+                const d = new Date(h.created_at)
+                return d > new Date(Date.now() - 7 * 86400000)
+              }).length)} />
             </div>
 
-            <div className="bg-white rounded-xl border border-brand-200 p-6">
-              <h3 className="font-semibold text-tomtly-dark mb-4">Aktivitetslogg</h3>
-              <div className="space-y-3">
-                {[
-                  { dato: '19.03.2026', hendelse: 'Mulighetsstudie: Bjørnemyrveien 20', type: 'analyse' },
-                  { dato: '18.03.2026', hendelse: 'Mulighetsstudie: Bjørnemyrveien 22', type: 'analyse' },
-                  { dato: '15.03.2026', hendelse: 'Mulighetsstudie: Gamle Alværnvei 67', type: 'analyse' },
-                  { dato: '12.03.2026', hendelse: 'Ny bruker registrert', type: 'bruker' },
-                  { dato: '10.03.2026', hendelse: 'Henvendelse fra FINN-eier', type: 'lead' },
-                ].map((h, i) => (
-                  <div key={i} className="flex items-center gap-3 text-sm">
-                    <span className="text-xs text-brand-400 w-20">{h.dato}</span>
-                    <div className={`w-2 h-2 rounded-full ${
-                      h.type === 'analyse' ? 'bg-blue-400' : h.type === 'bruker' ? 'bg-green-400' : 'bg-amber-400'
-                    }`} />
-                    <span className="text-brand-700">{h.hendelse}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ─── Husmodell-popularitet ────────────────────────────────────────── */}
-        {activeTab === 'husmodell' && (
-          <div className="space-y-6">
             <div className="bg-white rounded-xl border border-brand-200 overflow-hidden">
               <div className="p-4 border-b border-brand-200">
-                <h3 className="font-semibold text-tomtly-dark">Husmodell-popularitet</h3>
-                <p className="text-xs text-brand-400 mt-1">Basert på mulighetsstudier og henvendelser</p>
+                <h3 className="font-semibold text-tomtly-dark">Siste henvendelser</h3>
               </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="bg-brand-50 text-brand-500 text-xs uppercase tracking-wide">
-                      <th className="text-left px-4 py-3 font-medium">Husmodell</th>
-                      <th className="text-left px-4 py-3 font-medium">Leverandør</th>
-                      <th className="text-right px-4 py-3 font-medium">Vist i studier</th>
-                      <th className="text-right px-4 py-3 font-medium">Henvendelser</th>
-                      <th className="text-left px-4 py-3 font-medium">Popularitet</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {HUSMODELLER.map((hm, i) => {
-                      const maxVist = Math.max(...HUSMODELLER.map(h => h.vist_i_studier))
-                      const barWidth = Math.round((hm.vist_i_studier / maxVist) * 100)
-                      return (
-                        <tr key={i} className="border-t border-brand-100 hover:bg-brand-50 transition-colors">
-                          <td className="px-4 py-3 font-medium text-tomtly-dark">{hm.modell}</td>
-                          <td className="px-4 py-3 text-brand-600">{hm.leverandor}</td>
-                          <td className="px-4 py-3 text-right text-brand-600">{hm.vist_i_studier}</td>
-                          <td className="px-4 py-3 text-right text-brand-600">{hm.henvendelser}</td>
+              {henvendelser.length > 0 ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-brand-50 text-brand-500 text-xs uppercase tracking-wide">
+                        <th className="text-left px-4 py-3 font-medium">Dato</th>
+                        <th className="text-left px-4 py-3 font-medium">Type</th>
+                        <th className="text-left px-4 py-3 font-medium">Navn</th>
+                        <th className="text-left px-4 py-3 font-medium">E-post</th>
+                        <th className="text-left px-4 py-3 font-medium">Detaljer</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {henvendelser.map(h => (
+                        <tr key={h.id} className="border-t border-brand-100 hover:bg-brand-50">
+                          <td className="px-4 py-3 text-xs text-brand-500">{new Date(h.created_at).toLocaleDateString('nb-NO')}</td>
                           <td className="px-4 py-3">
-                            <div className="w-full bg-brand-100 rounded-full h-2">
-                              <div
-                                className="bg-tomtly-accent h-2 rounded-full transition-all"
-                                style={{ width: `${barWidth}%` }}
-                              />
-                            </div>
+                            <span className="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">{h.type}</span>
+                          </td>
+                          <td className="px-4 py-3 font-medium text-tomtly-dark">{h.navn || '–'}</td>
+                          <td className="px-4 py-3 text-brand-600">{h.epost || '–'}</td>
+                          <td className="px-4 py-3 text-xs text-brand-500 max-w-xs truncate">
+                            {h.ekstra ? JSON.stringify(h.ekstra) : '–'}
                           </td>
                         </tr>
-                      )
-                    })}
-                  </tbody>
-                </table>
-              </div>
-              <div className="px-4 py-3 bg-brand-50 border-t border-brand-200 text-xs text-brand-400">
-                Placeholder-data. Oppdateres med faktisk bruk.
-              </div>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="p-8 text-center text-brand-400">
+                  {loading ? 'Henter...' : 'Ingen henvendelser ennå.'}
+                </div>
+              )}
             </div>
           </div>
         )}
 
-        {/* ─── Kjøperinnsikt ────────────────────────────────────────────────── */}
+        {/* Kjøperprofiler */}
         {activeTab === 'kjøper' && (
           <div className="space-y-6">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <DataCard label="Registrerte kjøpere" value="8" sublabel="Brukere med kjøperprofil" />
-              <DataCard label="Mest etterspurte kommune" value="Nesodden" sublabel="Basert på søk og henvendelser" />
-              <DataCard label="Vanligste hustype" value="Enebolig" sublabel="Foretrukket av 75% av kjøpere" />
-              <DataCard label="Snitt budsjett" value="5,2M" sublabel="Gjennomsnittlig totalbudsjett" />
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <DataCard label="Registrerte kjøpere" value={String(stats.kjoperprofiler)} />
             </div>
 
-            <div className="bg-white rounded-xl border border-brand-200 p-6">
-              <h3 className="font-semibold text-tomtly-dark mb-4">Etterspørsel per kommune</h3>
-              <div className="space-y-3">
-                {[
-                  { kommune: 'Nesodden', kjopere: 3, andel: 38 },
-                  { kommune: 'Asker', kjopere: 2, andel: 25 },
-                  { kommune: 'Bærum', kjopere: 1, andel: 13 },
-                  { kommune: 'Nordre Follo', kjopere: 1, andel: 13 },
-                  { kommune: 'Frogn', kjopere: 1, andel: 13 },
-                ].map(k => (
-                  <div key={k.kommune} className="flex items-center gap-3">
-                    <span className="text-sm text-brand-700 w-28">{k.kommune}</span>
-                    <div className="flex-1 bg-brand-100 rounded-full h-3">
-                      <div
-                        className="bg-tomtly-accent h-3 rounded-full transition-all"
-                        style={{ width: `${k.andel}%` }}
-                      />
-                    </div>
-                    <span className="text-xs text-brand-500 w-20 text-right">{k.kjopere} kjøpere</span>
-                  </div>
-                ))}
+            <div className="bg-white rounded-xl border border-brand-200 overflow-hidden">
+              <div className="p-4 border-b border-brand-200">
+                <h3 className="font-semibold text-tomtly-dark">Kjøperprofiler</h3>
               </div>
-              <p className="text-xs text-brand-400 mt-3">Placeholder-data. Oppdateres med faktiske kjøperprofiler.</p>
-            </div>
-
-            <div className="bg-white rounded-xl border border-brand-200 p-6">
-              <h3 className="font-semibold text-tomtly-dark mb-4">Budsjettfordeling</h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {[
-                  { range: '3–4M', andel: '15%' },
-                  { range: '4–5M', andel: '30%' },
-                  { range: '5–6M', andel: '35%' },
-                  { range: '6M+', andel: '20%' },
-                ].map(b => (
-                  <div key={b.range} className="bg-brand-50 rounded-lg p-3 text-center border border-brand-100">
-                    <p className="text-lg font-bold text-tomtly-dark">{b.andel}</p>
-                    <p className="text-xs text-brand-500">{b.range}</p>
-                  </div>
-                ))}
-              </div>
+              {kjopere.length > 0 ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-brand-50 text-brand-500 text-xs uppercase tracking-wide">
+                        <th className="text-left px-4 py-3 font-medium">Navn</th>
+                        <th className="text-left px-4 py-3 font-medium">E-post</th>
+                        <th className="text-left px-4 py-3 font-medium">Kommuner</th>
+                        <th className="text-right px-4 py-3 font-medium">Budsjett</th>
+                        <th className="text-right px-4 py-3 font-medium">Areal</th>
+                        <th className="text-left px-4 py-3 font-medium">Registrert</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {kjopere.map((k: any) => (
+                        <tr key={k.id} className="border-t border-brand-100 hover:bg-brand-50">
+                          <td className="px-4 py-3 font-medium text-tomtly-dark">{k.navn || '–'}</td>
+                          <td className="px-4 py-3 text-brand-600">{k.email || '–'}</td>
+                          <td className="px-4 py-3 text-brand-600">{Array.isArray(k.kommune) ? k.kommune.join(', ') : k.kommune || '–'}</td>
+                          <td className="px-4 py-3 text-right text-brand-600">
+                            {k.budsjett_min || k.budsjett_maks
+                              ? `${k.budsjett_min ? fmt(k.budsjett_min) : '?'} – ${k.budsjett_maks ? fmt(k.budsjett_maks) : '?'}`
+                              : '–'}
+                          </td>
+                          <td className="px-4 py-3 text-right text-brand-600">
+                            {k.areal_min || k.areal_maks
+                              ? `${k.areal_min || '?'} – ${k.areal_maks || '?'} m²`
+                              : '–'}
+                          </td>
+                          <td className="px-4 py-3 text-xs text-brand-500">
+                            {k.created_at ? new Date(k.created_at).toLocaleDateString('nb-NO') : '–'}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="p-8 text-center text-brand-400">
+                  {loading ? 'Henter...' : 'Ingen kjøperprofiler registrert ennå. Profiler opprettes via /tomt-varsling.'}
+                </div>
+              )}
             </div>
           </div>
         )}
 
-        {/* ─── Fradelingspotensial ──────────────────────────────────────────── */}
+        {/* FINN-tomter */}
         {activeTab === 'fradeling' && (
           <div className="space-y-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <DataCard label="Identifiserte kandidater" value="47" sublabel="Eiendommer med fradelingspotensial" />
-              <DataCard label="Estimert totalverdi" value="142M" sublabel="Samlet verdi av fradelte tomter" />
-              <DataCard label="Pågående saker" value="3" sublabel="Fradelingssøknader under behandling" />
-              <DataCard label="Gjennomførte" value="0" sublabel="Fullførte fradelinger via Tomtly" />
+              <DataCard label="Totalt i DB" value={String(stats.finnTomter)} />
+              <DataCard label="Nye (status)" value={String(finnTomter.filter(t => t.status === 'ny').length)} />
+              <DataCard label="Tvangssalg" value={String(finnTomter.filter(t => t.flagg?.includes('tvangssalg')).length)} />
+              <DataCard label="Dødsbo" value={String(finnTomter.filter(t => t.flagg?.includes('dødsbo')).length)} />
             </div>
 
-            <div className="bg-white rounded-xl border border-brand-200 p-6">
-              <h3 className="font-semibold text-tomtly-dark mb-4">Potensial per kommune</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {[
-                  { kommune: 'Nesodden', kandidater: 15, estVerdi: '45M' },
-                  { kommune: 'Asker', kandidater: 12, estVerdi: '48M' },
-                  { kommune: 'Bærum', kandidater: 8, estVerdi: '32M' },
-                  { kommune: 'Nordre Follo', kandidater: 6, estVerdi: '9M' },
-                  { kommune: 'Frogn', kandidater: 4, estVerdi: '5,5M' },
-                  { kommune: 'Moss', kandidater: 2, estVerdi: '2,5M' },
-                ].map(k => (
-                  <div key={k.kommune} className="bg-brand-50 rounded-lg p-4 border border-brand-100">
-                    <div className="flex items-center gap-2 mb-2">
-                      <MapPin className="w-4 h-4 text-tomtly-accent" />
-                      <h4 className="font-medium text-sm text-tomtly-dark">{k.kommune}</h4>
-                    </div>
-                    <div className="flex justify-between text-xs text-brand-600">
-                      <span>{k.kandidater} kandidater</span>
-                      <span className="font-medium">Est. {k.estVerdi}</span>
-                    </div>
-                  </div>
-                ))}
+            <div className="bg-white rounded-xl border border-brand-200 overflow-hidden">
+              <div className="p-4 border-b border-brand-200">
+                <h3 className="font-semibold text-tomtly-dark">Siste FINN-tomter</h3>
               </div>
-              <p className="text-xs text-brand-400 mt-3">Placeholder-data. Oppdateres med faktiske fradelingsanalyser.</p>
-            </div>
-
-            <div className="bg-white rounded-xl border border-brand-200 p-6">
-              <h3 className="font-semibold text-tomtly-dark mb-4">Tomtestørrelser med potensial</h3>
-              <div className="space-y-3">
-                {[
-                  { range: '1 000–1 500 m²', antall: 8, potensial: 'Lav' },
-                  { range: '1 500–2 000 m²', antall: 14, potensial: 'Middels' },
-                  { range: '2 000–3 000 m²', antall: 18, potensial: 'Høy' },
-                  { range: '3 000+ m²', antall: 7, potensial: 'Svært høy' },
-                ].map(s => (
-                  <div key={s.range} className="flex items-center justify-between bg-brand-50 rounded-lg p-3 border border-brand-100">
-                    <span className="text-sm text-brand-700">{s.range}</span>
-                    <div className="flex items-center gap-4">
-                      <span className="text-sm font-medium text-tomtly-dark">{s.antall} eiendommer</span>
-                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                        s.potensial === 'Svært høy' ? 'bg-green-100 text-green-800' :
-                        s.potensial === 'Høy' ? 'bg-emerald-100 text-emerald-800' :
-                        s.potensial === 'Middels' ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-gray-100 text-gray-600'
-                      }`}>
-                        {s.potensial}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              {finnTomter.length > 0 ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-brand-50 text-brand-500 text-xs uppercase tracking-wide">
+                        <th className="text-left px-4 py-3 font-medium">Adresse</th>
+                        <th className="text-left px-4 py-3 font-medium">Kommune</th>
+                        <th className="text-right px-4 py-3 font-medium">Pris</th>
+                        <th className="text-right px-4 py-3 font-medium">Areal</th>
+                        <th className="text-left px-4 py-3 font-medium">Megler</th>
+                        <th className="text-left px-4 py-3 font-medium">Status</th>
+                        <th className="text-left px-4 py-3 font-medium">Flagg</th>
+                        <th className="text-left px-4 py-3 font-medium">Lagt til</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {finnTomter.slice(0, 50).map(t => (
+                        <tr key={t.id} className="border-t border-brand-100 hover:bg-brand-50">
+                          <td className="px-4 py-3 font-medium text-tomtly-dark max-w-xs truncate">{t.adresse || '–'}</td>
+                          <td className="px-4 py-3 text-brand-600">{t.kommune || '–'}</td>
+                          <td className="px-4 py-3 text-right text-brand-600">{t.prisantydning ? `${fmt(t.prisantydning)} kr` : '–'}</td>
+                          <td className="px-4 py-3 text-right text-brand-600">{t.tomtestorrelse_m2 ? `${fmt(t.tomtestorrelse_m2)} m²` : '–'}</td>
+                          <td className="px-4 py-3 text-brand-600 text-xs">{t.megler_firma || '–'}</td>
+                          <td className="px-4 py-3">
+                            <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                              t.status === 'ny' ? 'bg-blue-100 text-blue-800' :
+                              t.status === 'kontaktet' ? 'bg-yellow-100 text-yellow-800' :
+                              t.status === 'kunde' ? 'bg-green-100 text-green-800' :
+                              'bg-gray-100 text-gray-600'
+                            }`}>{t.status}</span>
+                          </td>
+                          <td className="px-4 py-3">
+                            {t.flagg?.map(f => (
+                              <span key={f} className="px-2 py-0.5 text-[10px] font-medium rounded-full bg-red-100 text-red-700 mr-1">{f}</span>
+                            ))}
+                          </td>
+                          <td className="px-4 py-3 text-xs text-brand-500">{new Date(t.created_at).toLocaleDateString('nb-NO')}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="p-8 text-center text-brand-400">
+                  {loading ? 'Henter...' : 'Ingen FINN-tomter i databasen. Kjør FINN-scraperen for å hente data.'}
+                </div>
+              )}
+              {finnTomter.length > 50 && (
+                <div className="px-4 py-3 bg-brand-50 border-t border-brand-200 text-xs text-brand-500">
+                  Viser 50 av {finnTomter.length}. Se alle i FINN-admin.
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -338,14 +404,21 @@ export default function DataDashboard() {
   )
 }
 
-// ─── Data card component ─────────────────────────────────────────────────────
+function StatCard({ label, value, icon: Icon }: { label: string; value: number; icon: any }) {
+  return (
+    <div className="bg-white rounded-xl border border-brand-200 p-4 text-center">
+      <Icon className="w-4 h-4 text-brand-400 mx-auto mb-1" />
+      <p className="text-xl font-bold text-tomtly-dark">{value}</p>
+      <p className="text-[10px] text-brand-500">{label}</p>
+    </div>
+  )
+}
 
-function DataCard({ label, value, sublabel }: { label: string; value: string; sublabel: string }) {
+function DataCard({ label, value }: { label: string; value: string }) {
   return (
     <div className="bg-white rounded-xl border border-brand-200 p-5">
       <p className="text-2xl font-bold text-tomtly-dark">{value}</p>
       <p className="text-xs font-medium text-brand-700 mt-1">{label}</p>
-      <p className="text-[10px] text-brand-400 mt-0.5">{sublabel}</p>
     </div>
   )
 }

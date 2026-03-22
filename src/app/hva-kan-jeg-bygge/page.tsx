@@ -2,54 +2,83 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Search, MapPin, Ruler, Building2, TrendingUp, Home, ArrowRight, Phone, CheckCircle2, Loader2 } from 'lucide-react'
-
-function getMockData(address: string) {
-  const len = address.length
-  const seed = len % 7
-
-  const tomtestorrelse = 650 + seed * 80
-  const byaProsent = 20 + (seed % 4) * 5
-  const maksAreal = Math.round(tomtestorrelse * byaProsent / 100)
-  const gesimshoeyde = 7.0 + (seed % 3) * 0.5
-  const etasjer = seed > 4 ? 3 : 2
-  const verdiLav = Math.round((1400000 + seed * 200000) / 100000) * 100000
-  const verdiHoey = Math.round(verdiLav * 1.35 / 100000) * 100000
-
-  const husmodeller = [
-    { navn: 'Nordstrand 120', areal: 120, pris: '2 800 000', farge: 'bg-forest-600' },
-    { navn: 'Fjordheim 95', areal: 95, pris: '2 200 000', farge: 'bg-tomtly-accent' },
-    { navn: 'Solvik 145', areal: 145, pris: '3 400 000', farge: 'bg-earth-600' },
-  ]
-
-  return {
-    tomtestorrelse,
-    byaProsent,
-    maksAreal,
-    gesimshoeyde,
-    etasjer,
-    verdiLav: verdiLav.toLocaleString('nb-NO'),
-    verdiHoey: verdiHoey.toLocaleString('nb-NO'),
-    husmodeller,
-  }
-}
+import { Search, MapPin, Ruler, Home, ArrowRight, Phone, CheckCircle2, Loader2, Mail, User } from 'lucide-react'
 
 export default function HvaKanJegByggePage() {
   const [adresse, setAdresse] = useState('')
-  const [soeker, setSoeker] = useState(false)
-  const [resultat, setResultat] = useState<ReturnType<typeof getMockData> | null>(null)
-  const [soektAdresse, setSoektAdresse] = useState('')
+  const [navn, setNavn] = useState('')
+  const [epost, setEpost] = useState('')
+  const [telefon, setTelefon] = useState('')
+  const [sender, setSender] = useState(false)
+  const [sendt, setSendt] = useState(false)
+  const [feil, setFeil] = useState('')
 
-  function handleSoek() {
-    if (!adresse.trim()) return
-    setSoeker(true)
-    setResultat(null)
-    setSoektAdresse(adresse.trim())
+  async function handleSend(e: React.FormEvent) {
+    e.preventDefault()
+    if (!adresse.trim() || !epost.trim()) return
+    setSender(true)
+    setFeil('')
+    try {
+      const res = await fetch('/api/henvendelse', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'hva-kan-jeg-bygge',
+          navn: navn.trim(),
+          epost: epost.trim(),
+          telefon: telefon.trim(),
+          ekstra: { adresse: adresse.trim() },
+        }),
+      })
+      if (res.ok) {
+        setSendt(true)
+      } else {
+        setFeil('Noe gikk galt. Prøv igjen eller ring oss.')
+      }
+    } catch {
+      setFeil('Kunne ikke sende forespørselen. Prøv igjen.')
+    } finally {
+      setSender(false)
+    }
+  }
 
-    setTimeout(() => {
-      setResultat(getMockData(adresse.trim()))
-      setSoeker(false)
-    }, 1500)
+  if (sendt) {
+    return (
+      <div className="min-h-screen bg-tomtly-light">
+        <section className="bg-tomtly-dark text-white">
+          <div className="max-w-3xl mx-auto px-4 py-20 md:py-32 text-center">
+            <div className="w-16 h-16 rounded-full bg-tomtly-accent/20 flex items-center justify-center mx-auto mb-6">
+              <CheckCircle2 className="w-8 h-8 text-tomtly-accent" />
+            </div>
+            <h1 className="font-display text-3xl md:text-4xl font-bold mb-4">
+              Takk for forespørselen!
+            </h1>
+            <p className="text-lg text-brand-300 mb-3">
+              Vi sjekker hva som kan bygges på <span className="font-semibold text-white">{adresse}</span>
+            </p>
+            <p className="text-brand-400 mb-10 max-w-lg mx-auto">
+              Du hører fra oss innen 1–3 virkedager med en vurdering av tomten din.
+              Vi sjekker reguleringsplan, utnyttelsesgrad og foreslår passende husmodeller.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/"
+                className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-medium rounded-lg transition-colors"
+              >
+                Til forsiden
+              </Link>
+              <Link
+                href="/for-tomteeiere"
+                className="px-6 py-3 bg-tomtly-accent hover:bg-forest-700 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
+              >
+                Se full tomtanalyse
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </section>
+      </div>
+    )
   }
 
   return (
@@ -60,35 +89,84 @@ export default function HvaKanJegByggePage() {
           <h1 className="font-display text-3xl md:text-5xl font-bold mb-4 leading-tight">
             Hva kan du bygge på tomten din?
           </h1>
-          <p className="text-lg md:text-xl text-brand-300 mb-10 max-w-2xl mx-auto">
-            Skriv inn adressen og få svar på sekunder – helt gratis
+          <p className="text-lg md:text-xl text-brand-300 mb-4 max-w-2xl mx-auto">
+            Oppgi adressen – vi sjekker reguleringsplan, utnyttelsesgrad og foreslår husmodeller
+          </p>
+          <p className="text-sm text-brand-400 mb-10">
+            Gratis og uforpliktende. Du får svar innen 1–3 virkedager.
           </p>
 
-          <div className="max-w-xl mx-auto flex flex-col sm:flex-row gap-3">
-            <div className="relative flex-1">
+          {/* Form */}
+          <form onSubmit={handleSend} className="max-w-xl mx-auto space-y-4">
+            <div className="relative">
               <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-400" />
               <input
                 type="text"
                 value={adresse}
                 onChange={(e) => setAdresse(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSoek()}
-                placeholder="F.eks. Bjørnemyrveien 20, Nesodden"
+                placeholder="Adresse, f.eks. Bjørnemyrveien 20, Nesodden"
+                required
                 className="w-full pl-12 pr-4 py-4 rounded-lg bg-white text-tomtly-dark placeholder:text-brand-400 text-base focus:outline-none focus:ring-2 focus:ring-tomtly-gold"
               />
             </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="relative">
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-400" />
+                <input
+                  type="text"
+                  value={navn}
+                  onChange={(e) => setNavn(e.target.value)}
+                  placeholder="Ditt navn"
+                  className="w-full pl-12 pr-4 py-3.5 rounded-lg bg-white text-tomtly-dark placeholder:text-brand-400 text-base focus:outline-none focus:ring-2 focus:ring-tomtly-gold"
+                />
+              </div>
+              <div className="relative">
+                <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-400" />
+                <input
+                  type="tel"
+                  value={telefon}
+                  onChange={(e) => setTelefon(e.target.value)}
+                  placeholder="Telefon (valgfritt)"
+                  className="w-full pl-12 pr-4 py-3.5 rounded-lg bg-white text-tomtly-dark placeholder:text-brand-400 text-base focus:outline-none focus:ring-2 focus:ring-tomtly-gold"
+                />
+              </div>
+            </div>
+
+            <div className="relative">
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-400" />
+              <input
+                type="email"
+                value={epost}
+                onChange={(e) => setEpost(e.target.value)}
+                placeholder="E-postadresse"
+                required
+                className="w-full pl-12 pr-4 py-4 rounded-lg bg-white text-tomtly-dark placeholder:text-brand-400 text-base focus:outline-none focus:ring-2 focus:ring-tomtly-gold"
+              />
+            </div>
+
+            {feil && (
+              <p className="text-red-400 text-sm">{feil}</p>
+            )}
+
             <button
-              onClick={handleSoek}
-              disabled={soeker || !adresse.trim()}
-              className="px-8 py-4 bg-tomtly-accent hover:bg-forest-700 disabled:opacity-50 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 whitespace-nowrap"
+              type="submit"
+              disabled={sender || !adresse.trim() || !epost.trim()}
+              className="w-full px-8 py-4 bg-tomtly-accent hover:bg-forest-700 disabled:opacity-50 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
             >
-              {soeker ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
+              {sender ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Sender...
+                </>
               ) : (
-                <Search className="w-5 h-5" />
+                <>
+                  <Search className="w-5 h-5" />
+                  Sjekk tomten min
+                </>
               )}
-              Sjekk tomten
             </button>
-          </div>
+          </form>
         </div>
       </section>
 
@@ -103,20 +181,20 @@ export default function HvaKanJegByggePage() {
               {
                 ikon: <MapPin className="w-7 h-7" />,
                 steg: '1',
-                tittel: 'Skriv inn adressen',
-                beskrivelse: 'Oppgi adressen til tomten du vil sjekke.',
+                tittel: 'Du oppgir adressen',
+                beskrivelse: 'Fortell oss hvilken tomt du vil sjekke.',
               },
               {
                 ikon: <Ruler className="w-7 h-7" />,
                 steg: '2',
-                tittel: 'Vi sjekker reguleringsplan, tomtestørrelse og utnyttelsesgrad',
-                beskrivelse: 'Dataene hentes automatisk fra offentlige kilder.',
+                tittel: 'Vi sjekker reguleringsplan og utnyttelsesgrad',
+                beskrivelse: 'Dataene hentes fra offentlige kilder og vurderes av vårt team.',
               },
               {
                 ikon: <Home className="w-7 h-7" />,
                 steg: '3',
-                tittel: 'Du får svar – og kan bestille full analyse',
-                beskrivelse: 'Se hva du kan bygge, estimert verdi og passende husmodeller.',
+                tittel: 'Du får svar med husmodellforslag',
+                beskrivelse: 'Innen 1–3 virkedager mottar du en vurdering med hva som kan bygges.',
               },
             ].map((s) => (
               <div key={s.steg} className="text-center">
@@ -132,143 +210,37 @@ export default function HvaKanJegByggePage() {
         </div>
       </section>
 
-      {/* Loading */}
-      {soeker && (
-        <section className="py-20 text-center">
-          <Loader2 className="w-10 h-10 animate-spin text-tomtly-accent mx-auto mb-4" />
-          <p className="text-brand-600 text-lg">Sjekker tomten på <span className="font-semibold">{soektAdresse}</span>...</p>
-        </section>
-      )}
-
-      {/* Results */}
-      {resultat && !soeker && (
-        <section className="py-12 md:py-16">
-          <div className="max-w-4xl mx-auto px-4 space-y-8">
-            {/* Demo badge */}
-            <div className="text-center">
-              <span className="inline-block bg-tomtly-gold/10 text-tomtly-gold border border-tomtly-gold/30 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wide">
-                Demo-resultat
-              </span>
-            </div>
-
-            {/* Tomteinformasjon */}
-            <div className="bg-white rounded-xl border border-brand-100 p-6 md:p-8 shadow-sm">
-              <h3 className="font-display text-xl font-bold text-tomtly-dark mb-5 flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-tomtly-accent" />
-                Tomteinformasjon
-              </h3>
-              <div className="grid sm:grid-cols-3 gap-4">
+      {/* What you get */}
+      <section className="bg-brand-50 border-b border-brand-100">
+        <div className="max-w-4xl mx-auto px-4 py-16">
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-tomtly-dark text-center mb-10">
+            Hva du får i vurderingen
+          </h2>
+          <div className="grid sm:grid-cols-2 gap-6">
+            {[
+              { tittel: 'Reguleringsformål', beskrivelse: 'Hva eiendommen er regulert til (bolig, fritid, næring osv.)' },
+              { tittel: 'Utnyttelsesgrad', beskrivelse: 'Maks BYA, gesimshøyde og antall etasjer' },
+              { tittel: 'Estimert tomteverdi', beskrivelse: 'Basert på sammenlignbare salg i området' },
+              { tittel: 'Husmodellforslag', beskrivelse: 'Hvilke hus som passer tomtens størrelse og regulering' },
+            ].map((punkt) => (
+              <div key={punkt.tittel} className="bg-white rounded-xl border border-brand-200 p-5 flex items-start gap-4">
+                <CheckCircle2 className="w-5 h-5 text-tomtly-accent mt-0.5 shrink-0" />
                 <div>
-                  <div className="text-sm text-brand-500 mb-1">Adresse</div>
-                  <div className="font-semibold text-tomtly-dark">{soektAdresse}</div>
-                </div>
-                <div>
-                  <div className="text-sm text-brand-500 mb-1">Estimert tomtestørrelse</div>
-                  <div className="font-semibold text-tomtly-dark">{resultat.tomtestorrelse} m²</div>
-                </div>
-                <div>
-                  <div className="text-sm text-brand-500 mb-1">Reguleringsformål</div>
-                  <div className="font-semibold text-tomtly-dark">Boligbebyggelse</div>
+                  <h3 className="font-semibold text-tomtly-dark mb-1">{punkt.tittel}</h3>
+                  <p className="text-sm text-brand-500">{punkt.beskrivelse}</p>
                 </div>
               </div>
-            </div>
-
-            {/* Hva kan du bygge? */}
-            <div className="bg-white rounded-xl border border-brand-100 p-6 md:p-8 shadow-sm">
-              <h3 className="font-display text-xl font-bold text-tomtly-dark mb-5 flex items-center gap-2">
-                <Building2 className="w-5 h-5 text-tomtly-accent" />
-                Hva kan du bygge?
-              </h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                {[
-                  { label: 'Maks utnyttelsesgrad (BYA)', verdi: `${resultat.byaProsent}%` },
-                  { label: 'Maks bebygd areal', verdi: `${resultat.maksAreal} m²` },
-                  { label: 'Tillatt gesimshøyde', verdi: `${resultat.gesimshoeyde.toFixed(1)} m` },
-                  { label: 'Antall etasjer', verdi: `${resultat.etasjer}` },
-                ].map((d) => (
-                  <div key={d.label}>
-                    <div className="text-sm text-brand-500 mb-1">{d.label}</div>
-                    <div className="text-2xl font-bold text-tomtly-dark">{d.verdi}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Estimert tomteverdi */}
-            <div className="bg-white rounded-xl border border-brand-100 p-6 md:p-8 shadow-sm">
-              <h3 className="font-display text-xl font-bold text-tomtly-dark mb-5 flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-tomtly-accent" />
-                Estimert tomteverdi
-              </h3>
-              <div className="text-3xl md:text-4xl font-bold text-tomtly-accent mb-2">
-                {resultat.verdiLav} – {resultat.verdiHoey} kr
-              </div>
-              <p className="text-sm text-brand-400">
-                Basert på sammenlignbare salg i området
-              </p>
-            </div>
-
-            {/* Husmodeller */}
-            <div className="bg-white rounded-xl border border-brand-100 p-6 md:p-8 shadow-sm">
-              <h3 className="font-display text-xl font-bold text-tomtly-dark mb-5 flex items-center gap-2">
-                <Home className="w-5 h-5 text-tomtly-accent" />
-                Husmodeller som passer denne tomten
-              </h3>
-              <div className="grid sm:grid-cols-3 gap-5">
-                {resultat.husmodeller.map((hus) => (
-                  <div key={hus.navn} className="rounded-lg border border-brand-100 overflow-hidden">
-                    <div className={`${hus.farge} h-36 flex items-center justify-center`}>
-                      <Home className="w-12 h-12 text-white/50" />
-                    </div>
-                    <div className="p-4">
-                      <div className="font-semibold text-tomtly-dark mb-1">{hus.navn}</div>
-                      <div className="text-sm text-brand-500 mb-2">{hus.areal} m²</div>
-                      <div className="text-sm font-semibold text-tomtly-accent">Fra {hus.pris} kr</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* CTA */}
-            <div className="bg-tomtly-dark rounded-xl p-8 md:p-12 text-center text-white">
-              <h3 className="font-display text-2xl md:text-3xl font-bold mb-4">
-                Vil du ha den fulle analysen?
-              </h3>
-              <p className="text-brand-300 mb-8 max-w-xl mx-auto leading-relaxed">
-                For 4 990 kr får du komplett mulighetsstudie med husmodeller tilpasset din tomt,
-                byggekalkyle, verdivurdering og markedsvurdering.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <Link
-                  href="/for-tomteeiere"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-tomtly-accent hover:bg-forest-700 text-white font-semibold rounded-lg transition-colors"
-                >
-                  Bestill full tomtanalyse
-                  <ArrowRight className="w-5 h-5" />
-                </Link>
-                <a
-                  href="tel:40603908"
-                  className="inline-flex items-center gap-2 text-brand-300 hover:text-white transition-colors"
-                >
-                  <Phone className="w-4 h-4" />
-                  Eller ring oss: 40 60 39 08
-                </a>
-              </div>
-            </div>
+            ))}
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
-      {/* Bottom section */}
-      <section className="bg-brand-50 border-t border-brand-100">
+      {/* Social proof */}
+      <section className="bg-white border-b border-brand-100">
         <div className="max-w-4xl mx-auto px-4 py-16 text-center">
           <h2 className="font-display text-2xl font-bold text-tomtly-dark mb-6">
-            Brukes av tomteeiere over hele Norge
+            Se ekte eksempler på tomtanalyser
           </h2>
-          <p className="text-brand-500 mb-8">
-            Se ekte eksempler på tomtanalyser vi har gjennomført:
-          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
             {[
               { navn: 'Bjørnemyrveien 20', href: '/tomter/bjornemyrveien-20' },

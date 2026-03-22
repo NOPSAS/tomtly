@@ -187,7 +187,8 @@ function CopyButton({ text }: { text: string }) {
 // ─── Main page ───────────────────────────────────────────────────────────────
 
 export default function DelesakerPage() {
-  const [delesaker, setDelesaker] = useState<Delesak[]>(DEMO_DELESAKER)
+  const [delesaker, setDelesaker] = useState<Delesak[]>([])
+  const [dataLoading, setDataLoading] = useState(true)
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [filterKommune, setFilterKommune] = useState('Alle kommuner')
   const [showGodkjentPitch, setShowGodkjentPitch] = useState(false)
@@ -197,6 +198,18 @@ export default function DelesakerPage() {
 
   const supabase = createClient()
 
+  const fetchData = useCallback(async () => {
+    setDataLoading(true)
+    const { data } = await supabase
+      .from('delesaker')
+      .select('*')
+      .order('dato', { ascending: false })
+    if (data) {
+      setDelesaker(data)
+    }
+    setDataLoading(false)
+  }, [])
+
   const runScraper = async () => {
     setScraperLoading(true)
     setScraperResult(null)
@@ -204,7 +217,8 @@ export default function DelesakerPage() {
       const res = await fetch('/api/admin/scrape-delesaker', { method: 'POST' })
       const data = await res.json()
       if (data.success) {
-        setScraperResult(`Sokte ${data.sokeord} termer, fant ${data.funnet} treff, lagret ${data.lagret} nye`)
+        setScraperResult(`Søkte ${data.sokeord} termer, fant ${data.funnet} treff, lagret ${data.lagret} nye`)
+        fetchData()
       } else {
         setScraperResult(`Feil: ${data.error || 'Ukjent feil'}`)
       }
@@ -216,17 +230,8 @@ export default function DelesakerPage() {
   }
 
   useEffect(() => {
-    async function fetchData() {
-      const { data } = await supabase
-        .from('delesaker')
-        .select('*')
-        .order('dato', { ascending: false })
-      if (data && data.length > 0) {
-        setDelesaker(data)
-      }
-    }
     fetchData()
-  }, [])
+  }, [fetchData])
 
   const handleVaarStatusChange = async (id: string, status: VaarStatus) => {
     await supabase.from('delesaker').update({ vaar_status: status }).eq('id', id)
@@ -275,12 +280,18 @@ export default function DelesakerPage() {
         </div>
 
         {/* Info banner */}
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
-          <p className="text-sm text-amber-800">
-            <strong>Datakilde:</strong> Kommunale postlister (søknader om fradeling/deling). Scraping av postlister settes opp per kommune.
-            Tabellen under viser demo-data.
-          </p>
-        </div>
+        {delesaker.length === 0 && !dataLoading && (
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+            <p className="text-sm text-amber-800">
+              <strong>Ingen data ennå.</strong> Klikk «Søk i postlister» for å hente delesaker fra eInnsyn.
+            </p>
+          </div>
+        )}
+        {dataLoading && (
+          <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
+            <p className="text-sm text-blue-800">Henter data...</p>
+          </div>
+        )}
 
         {/* Filter bar */}
         <div className="bg-white rounded-xl border border-brand-200 p-4 mb-6">
