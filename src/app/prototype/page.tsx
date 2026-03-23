@@ -15,6 +15,8 @@ const KARTVERKET_EIENDOM = 'https://ws.geonorge.no/eiendom/v1'
 const KARTVERKET_TRANSFORM = 'https://ws.geonorge.no/transformering/v1'
 const KARTVERKET_DOK = 'https://kartverket-ogc-api.azurewebsites.net/processes/fullstendighetsdekning/execution'
 const NIBIO_AR5 = 'https://wms.nibio.no/cgi-bin/ar5'
+const AREALPLANER_BASE = 'https://api.arealplaner.no/api'
+const AREALPLANER_TOKEN = 'D7D7FFB4-1A4A-44EA-BD15-BCDB6CEF8CA5'
 
 const API_TIMEOUT = 15000
 
@@ -117,6 +119,27 @@ interface TeigResult {
   teiger: number
   noyaktighetsklasse?: string
   raw?: unknown
+}
+
+interface ArealplanerDok {
+  id: number
+  dokumentnavn: string
+  dokumenttype: string
+  dokumenttypeId: number
+  url?: string
+  direkteUrl?: string
+  dokumentdato?: string
+  tilgang?: string
+}
+
+interface ArealplanerPlan {
+  id: number
+  planId: string
+  planNavn: string
+  planType?: { beskrivelse?: string }
+  planStatus?: { beskrivelse?: string }
+  iKraft?: string
+  dokumenter?: ArealplanerDok[]
 }
 
 type StepStatus = 'pending' | 'loading' | 'done' | 'error'
@@ -265,6 +288,7 @@ export default function PrototypePage() {
   const [dokDatasets, setDokDatasets] = useState<DOKDataset[]>([])
   const [ar5, setAr5] = useState<AR5Result | null>(null)
   const [tomteScore, setTomteScore] = useState<number | null>(null)
+  const [arealplaner, setArealplaner] = useState<ArealplanerPlan[]>([])
   const [steps, setSteps] = useState<Step[]>([])
 
   // Expandable sections
@@ -317,6 +341,7 @@ export default function PrototypePage() {
     setTomteScore(null)
     setExpandedPlans(new Set())
     setExpandedDOK(new Set())
+    setArealplaner([])
 
     const { lat, lon } = adr.representasjonspunkt
     const knr = adr.kommunenummer
@@ -331,6 +356,7 @@ export default function PrototypePage() {
       { label: 'Koordinattransformasjon', status: 'pending' },
       { label: 'KI-tolkning av planer', status: 'pending' },
       { label: 'Arealressurser (NIBIO)', status: 'pending' },
+      { label: 'Arealplaner.no dokumenter', status: 'pending' },
     ]
     setSteps([...stepsList])
 
@@ -519,6 +545,81 @@ export default function PrototypePage() {
       }
     } else {
       updateStep(6, { status: 'error', label: 'Mangler UTM-koordinater' })
+    }
+
+    // Arealplaner.no – hent dokumenter (bestemmelser, plankart, planbeskrivelse)
+    updateStep(7, { status: 'loading' })
+    try {
+      // Find kundeId for this kommune
+      const kunderRes = await fetchWithTimeout(`${AREALPLANER_BASE}/kunder`, {
+        headers: { 'X-WAAPI-TOKEN': AREALPLANER_TOKEN }
+      })
+      if (!kunderRes.ok) throw new Error(`HTTP ${kunderRes.status}`)
+      const kunder = await kunderRes.json()
+      const kunde = kunder.find((k: any) => k.kommunenummer === knr && k.status === 0)
+
+      if (kunde) {
+        // Hent planer for kommune (første side)
+        const planerRes = await fetchWithTimeout(
+          `${AREALPLANER_BASE}/kunder/${kunde.id}/arealplaner?side=1&antall=50`,
+          { headers: { 'X-WAAPI-TOKEN': AREALPLANER_TOKEN } }
+        )
+        if (planerRes.ok) {
+          const apPlaner: ArealplanerPlan[] = await planerRes.json()
+
+          // For de første 20 planene, hent dokumenter parallelt
+          const withDocs = await Promise.allSettled(
+            apPlaner.slice(0, 20).map(async (plan) => {
+              try {
+                const dokRes2 = await fetch(
+                  `${AREALPLANER_BASE}/kunder/${kunde.id}/arealplaner/${plan.id}/dokumenter`,
+                  { headers: { 'X-WAAPI-TOKEN': AREALPLANER_TOKEN } }
+                )
+                if (!dokRes2.ok) return { ...plan, dokumenter: [] }
+                const docs = await dokRes2.json()
+
+                // For bestemmelser, hent direkteUrl
+                const enriched = await Promise.all(
+                  docs.map(async (d: any) => {
+                    if (d.dokumenttypeId === 5 || d.dokumenttype === 'Bestemmelser') {
+                      try {
+                        const metaRes = await fetch(
+                          `${AREALPLANER_BASE}/kunder/${kunde.id}/dokumenter/${d.id}`,
+                          { headers: { 'X-WAAPI-TOKEN': AREALPLANER_TOKEN } }
+                        )
+                        if (metaRes.ok) {
+                          const meta = await metaRes.json()
+                          return { ...d, direkteUrl: meta.direkteUrl }
+                        }
+                      } catch {}
+                    }
+                    return d
+                  })
+                )
+
+                return { ...plan, dokumenter: enriched }
+              } catch {
+                return { ...plan, dokumenter: [] }
+              }
+            })
+          )
+
+          const result = withDocs
+            .filter(r => r.status === 'fulfilled')
+            .map(r => (r as PromiseFulfilledResult<ArealplanerPlan>).value)
+            .filter(p => p.dokumenter && p.dokumenter.length > 0)
+
+          setArealplaner(result)
+          updateStep(7, { status: 'done', label: `${result.length} planer med dokumenter` })
+        } else {
+          throw new Error(`Planer HTTP ${planerRes.status}`)
+        }
+      } else {
+        updateStep(7, { status: 'error', label: 'Kommune ikke i arealplaner.no' })
+      }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err)
+      updateStep(7, { status: 'error', label: 'Arealplaner.no feilet', detail: msg })
     }
 
     // Calculate score
@@ -836,6 +937,72 @@ export default function PrototypePage() {
               </div>
             )}
 
+            {/* 4b2: Arealplaner.no dokumenter */}
+            {arealplaner.length > 0 && (
+              <div className="bg-white rounded-2xl border border-brand-100 p-6 md:p-8 shadow-sm">
+                <div className="flex items-center gap-3 mb-1">
+                  <Database className="w-5 h-5 text-tomtly-accent" />
+                  <h2 className="font-display text-xl font-bold text-tomtly-dark">
+                    Plandokumenter fra arealplaner.no
+                  </h2>
+                </div>
+                <p className="text-sm text-brand-500 mb-6">
+                  Bestemmelser, plankart og planbeskrivelser – {arealplaner.length} planer med dokumenter
+                </p>
+
+                <div className="space-y-4">
+                  {arealplaner.map(plan => (
+                    <div key={plan.id} className="border border-brand-200 rounded-xl overflow-hidden">
+                      <div className="bg-brand-50 px-4 py-3">
+                        <h3 className="font-semibold text-tomtly-dark text-sm">{plan.planNavn || plan.planId}</h3>
+                        <div className="flex flex-wrap gap-3 mt-1 text-xs text-brand-500">
+                          {plan.planType?.beskrivelse && <span>{plan.planType.beskrivelse}</span>}
+                          {plan.planStatus?.beskrivelse && <span className="text-green-700">{plan.planStatus.beskrivelse}</span>}
+                          {plan.iKraft && <span>I kraft: {new Date(plan.iKraft).toLocaleDateString('nb-NO')}</span>}
+                          <span className="text-brand-400">PlanID: {plan.planId}</span>
+                        </div>
+                      </div>
+                      <div className="divide-y divide-brand-100">
+                        {plan.dokumenter?.filter((d: ArealplanerDok) => d.tilgang === 'Alle' || !d.tilgang).map((dok: ArealplanerDok) => {
+                          const isBestemmelse = dok.dokumenttypeId === 5 || dok.dokumenttype === 'Bestemmelser'
+                          const isPlankart = dok.dokumenttype === 'Plankart'
+                          const isBeskrivelse = dok.dokumenttype === 'Planbeskrivelse'
+                          const color = isBestemmelse ? 'text-red-600 bg-red-50' : isPlankart ? 'text-blue-600 bg-blue-50' : isBeskrivelse ? 'text-purple-600 bg-purple-50' : 'text-brand-600 bg-brand-50'
+
+                          return (
+                            <div key={dok.id} className="flex items-center justify-between px-4 py-2.5 hover:bg-brand-50/50">
+                              <div className="flex items-center gap-3 min-w-0">
+                                <span className={`px-2 py-0.5 text-[10px] font-semibold rounded ${color}`}>
+                                  {dok.dokumenttype || 'Dokument'}
+                                </span>
+                                <span className="text-sm text-brand-700 truncate">{dok.dokumentnavn}</span>
+                              </div>
+                              <div className="flex items-center gap-2 shrink-0 ml-2">
+                                {dok.dokumentdato && (
+                                  <span className="text-[10px] text-brand-400">{new Date(dok.dokumentdato).toLocaleDateString('nb-NO')}</span>
+                                )}
+                                {(dok.direkteUrl || dok.url) && (
+                                  <a
+                                    href={dok.direkteUrl || dok.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-1 px-2 py-1 text-xs font-medium text-tomtly-accent hover:bg-forest-50 rounded transition-colors"
+                                  >
+                                    <ExternalLink className="w-3 h-3" />
+                                    {isBestemmelse ? 'Last ned PDF' : 'Åpne'}
+                                  </a>
+                                )}
+                              </div>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* 4c: DOK-analyse */}
             {dokDatasets.length > 0 && (
               <div className="space-y-4">
@@ -978,6 +1145,7 @@ export default function PrototypePage() {
                     <span>Kartverket – Koordinattransformasjon</span>
                     <span>Planslurpen – Planregister og KI-tolkning</span>
                     <span>NIBIO – AR5 Arealressurskart</span>
+                    <span>Arealplaner.no – Plandokumenter</span>
                     <span>Geonorge – Adresseregisteret</span>
                   </div>
                   <p className="text-[10px] text-brand-400 mt-3">
