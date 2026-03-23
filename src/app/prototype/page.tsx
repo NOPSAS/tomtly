@@ -328,6 +328,12 @@ function parseAR5GML(text: string): AR5Result {
 
 function PrototypeContent() {
   const searchParams = useSearchParams()
+  // Lead capture
+  const [leadNavn, setLeadNavn] = useState('')
+  const [leadEpost, setLeadEpost] = useState('')
+  const [leadTelefon, setLeadTelefon] = useState('')
+  const [leadCaptured, setLeadCaptured] = useState(false)
+
   const [query, setQuery] = useState('')
   const [suggestions, setSuggestions] = useState<Adresse[]>([])
   const [showSuggestions, setShowSuggestions] = useState(false)
@@ -368,6 +374,7 @@ function PrototypeContent() {
     const bnr = searchParams.get('bnr')
     if (knr && gnr && bnr) {
       autoStarted.current = true
+      setLeadCaptured(true) // Skip lead gate for shared links
       // Look up address by gnr/bnr
       fetch(`https://ws.geonorge.no/adresser/v1/sok?kommunenummer=${knr}&gardsnummer=${gnr}&bruksnummer=${bnr}&treffPerSide=1`)
         .then(r => r.json())
@@ -437,10 +444,30 @@ function PrototypeContent() {
     setAnalysing(true)
     setLinkCopied(false)
 
-    // Update URL for sharing (without triggering navigation)
+    // Update URL for sharing
     if (adr.gardsnummer && adr.bruksnummer) {
       const url = `/prototype?knr=${adr.kommunenummer}&gnr=${adr.gardsnummer}&bnr=${adr.bruksnummer}`
       window.history.replaceState({}, '', url)
+    }
+
+    // Save lead + analysis request
+    if (leadEpost) {
+      fetch('/api/henvendelse', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'prototype-analyse',
+          navn: leadNavn,
+          epost: leadEpost,
+          telefon: leadTelefon,
+          ekstra: {
+            adresse: adr.adressetekst,
+            kommunenummer: adr.kommunenummer,
+            gnr: adr.gardsnummer,
+            bnr: adr.bruksnummer,
+          },
+        }),
+      }).catch(() => {})
     }
     setTeigResult(null)
     setPlans([])
@@ -995,17 +1022,56 @@ function PrototypeContent() {
       <section className="bg-tomtly-dark text-white">
         <div className="max-w-4xl mx-auto px-4 py-16 md:py-24 text-center">
           <span className="inline-block bg-tomtly-accent/20 text-tomtly-accent text-xs font-semibold px-3 py-1 rounded-full mb-4 uppercase tracking-wide">
-            Prototype – Tomteanalyse
+            Gratis tomteanalyse
           </span>
           <h1 className="font-display text-3xl md:text-5xl font-bold mb-4 leading-tight">
-            Komplett tomteanalyse
+            Hva kan du bygge på tomten?
           </h1>
           <p className="text-lg text-brand-300 mb-10 max-w-2xl mx-auto">
-            Skriv inn en adresse for full analyse med reguleringsplaner, DOK-data, arealressurser og KI-tolkning
+            Få en komplett analyse med reguleringsplan, byggemuligheter, husmodeller og verdivurdering – på sekunder.
           </p>
 
-          {/* Search */}
+          {/* Lead capture gate */}
+          {!leadCaptured ? (
+            <form onSubmit={(e) => { e.preventDefault(); if (leadEpost && leadTelefon) setLeadCaptured(true) }} className="max-w-md mx-auto space-y-3">
+              <input
+                type="text"
+                value={leadNavn}
+                onChange={e => setLeadNavn(e.target.value)}
+                placeholder="Ditt navn"
+                className="w-full px-4 py-3.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-brand-500 text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/50"
+              />
+              <div className="grid grid-cols-2 gap-3">
+                <input
+                  type="email"
+                  value={leadEpost}
+                  onChange={e => setLeadEpost(e.target.value)}
+                  placeholder="E-post *"
+                  required
+                  className="w-full px-4 py-3.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-brand-500 text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/50"
+                />
+                <input
+                  type="tel"
+                  value={leadTelefon}
+                  onChange={e => setLeadTelefon(e.target.value)}
+                  placeholder="Telefon *"
+                  required
+                  className="w-full px-4 py-3.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-brand-500 text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/50"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={!leadEpost || !leadTelefon}
+                className="w-full py-3.5 bg-tomtly-accent hover:bg-forest-700 disabled:opacity-50 text-white font-semibold rounded-lg transition-colors"
+              >
+                Start gratis analyse
+              </button>
+              <p className="text-[10px] text-brand-500">Vi kontakter deg med en fullstendig analyserapport. Ingen forpliktelser.</p>
+            </form>
+          ) : (
+          /* Address search (shown after lead capture) */
           <div className="max-w-xl mx-auto relative">
+            <p className="text-xs text-green-400 mb-3">✓ Registrert som {leadNavn || leadEpost}. Skriv inn adressen til tomten:</p>
             <div className="relative">
               <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-400" />
               <input
@@ -1040,6 +1106,7 @@ function PrototypeContent() {
               </div>
             )}
           </div>
+          )}
         </div>
       </section>
 
