@@ -163,11 +163,11 @@ function Eksempelregning() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-forest-700">Tomtly tar 5%</span>
-                  <span className="text-tomtly-dark">45 000 kr</span>
+                  <span className="text-tomtly-dark">75 000 kr</span>
                 </div>
                 <div className="flex justify-between pt-3 border-t border-forest-300">
                   <span className="font-bold text-tomtly-dark">Du sitter igjen med</span>
-                  <span className="font-bold text-green-700 text-lg">1 455 000 kr</span>
+                  <span className="font-bold text-green-700 text-lg">1 425 000 kr</span>
                 </div>
               </div>
             </div>
