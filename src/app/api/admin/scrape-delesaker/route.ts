@@ -48,6 +48,7 @@ async function scrapeEinnsyn(): Promise<DelesakeResult[]> {
 
       const items: any[] = []
       if (Array.isArray(data)) items.push(...data)
+      else if (data.items && Array.isArray(data.items)) items.push(...data.items)
       else if (data._embedded) {
         for (const key of Object.keys(data._embedded)) {
           if (Array.isArray(data._embedded[key])) items.push(...data._embedded[key])

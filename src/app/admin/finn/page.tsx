@@ -74,7 +74,16 @@ const STATUS_COLORS: Record<string, string> = {
   avslått: 'bg-gray-100 text-gray-600',
 }
 
-const RIVNING_KEYWORDS = ['rivning', 'totalrenovering', 'kondemnabel', 'tomteverdi', 'utviklingseiendom', 'rives', 'rivingsobjekt', 'oppussingsobjekt']
+const RIVNING_KEYWORDS = [
+  'rivning', 'rives', 'rivingsobjekt', 'rivningstomt', 'rive',
+  'totalrenovering', 'totalrenover',
+  'kondemnabel', 'kondemnert', 'ubeboelig',
+  'tomteverdi', 'tomtepotensial', 'utviklingstomt', 'utviklingseiendom', 'utviklingspotensial',
+  'oppussingsobjekt', 'oppussing',
+  'prosjekttomt', 'byggetomt',
+  'erstattes', 'kan rives', 'riving inkludert',
+  'sanering', 'utbyggingspotensial',
+]
 
 // ─── Pitch templates ─────────────────────────────────────────────────────────
 

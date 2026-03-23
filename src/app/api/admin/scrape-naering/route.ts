@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
 // FINN.no Næringstomt-scraper
-// https://www.finn.no/realestate/businessplots/search.html
+// Riktig URL: /realestate/businessplots/ (IKKE commercialplotsforsale)
 
 const HEADERS = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
@@ -10,7 +10,8 @@ const HEADERS = {
   'Accept-Language': 'nb-NO,nb;q=0.9,no;q=0.8,en;q=0.5',
 }
 
-const PAGES = Array.from({ length: 8 }, (_, i) => (
+// businessplots er riktig kategori for næringstomter på FINN
+const PAGES = Array.from({ length: 3 }, (_, i) => (
   `https://www.finn.no/realestate/businessplots/search.html?page=${i + 1}&sort=PUBLISHED_ASC`
 ))
 
@@ -28,6 +29,7 @@ async function extractFinnKoder(url: string): Promise<string[]> {
 }
 
 async function scrapeAdDetails(finnKode: string) {
+  // Detaljside bruker også businessplots
   const url = `https://www.finn.no/realestate/businessplots/ad.html?finnkode=${finnKode}`
   try {
     const res = await fetch(url, { headers: HEADERS })
@@ -59,9 +61,6 @@ async function scrapeAdDetails(finnKode: string) {
     const companyMatch = html.match(/"company_name"\s*:\s*"([^"]+)"/)
     if (companyMatch) d.megler_firma = companyMatch[1]
 
-    const imgMatch = html.match(/"(https:\/\/images\.finncdn\.no\/dynamic\/[^"]+)"/)
-    if (imgMatch) d.thumbnail_url = imgMatch[1]
-
     return d
   } catch { return {} }
 }
@@ -74,16 +73,17 @@ async function handler(request?: NextRequest) {
   }
   const supabase = createClient(supabaseUrl, supabaseKey)
 
-  let body: any = {}
-  if (request) { try { body = await request.json() } catch {} }
-  const maxDetails = body.maxAds || 30
-
+  const maxDetails = 10
   const allKoder = new Set<string>()
 
   for (const pageUrl of PAGES) {
-    await new Promise(r => setTimeout(r, 800))
+    await new Promise(r => setTimeout(r, 300))
     const koder = await extractFinnKoder(pageUrl)
     koder.forEach(k => allKoder.add(k))
+  }
+
+  if (allKoder.size === 0) {
+    return NextResponse.json({ success: false, error: 'Ingen koder funnet fra FINN', sider: PAGES.length })
   }
 
   let newCount = 0
@@ -97,18 +97,14 @@ async function handler(request?: NextRequest) {
       .eq('finn_kode', finnKode)
       .single()
 
-    if (existing) {
-      updatedCount++
-      continue
-    }
-
+    if (existing) { updatedCount++; continue }
     if (detailsFetched >= maxDetails) continue
 
-    await new Promise(r => setTimeout(r, 1200))
+    await new Promise(r => setTimeout(r, 500))
     const details = await scrapeAdDetails(finnKode)
     detailsFetched++
 
-    await supabase.from('naeringstomter').insert({
+    const { error } = await supabase.from('naeringstomter').insert({
       finn_kode: finnKode,
       finn_url: `https://www.finn.no/realestate/businessplots/ad.html?finnkode=${finnKode}`,
       adresse: details.adresse || null,
@@ -122,7 +118,8 @@ async function handler(request?: NextRequest) {
       status: 'identifisert',
       status_historikk: [{ status: 'identifisert', dato: new Date().toISOString() }],
     })
-    newCount++
+
+    if (!error) newCount++
   }
 
   return NextResponse.json({

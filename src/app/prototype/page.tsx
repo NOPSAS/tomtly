@@ -192,9 +192,11 @@ function scoreBg(score: number): string {
 
 function statusColor(status: string): string {
   const s = (status || '').toLowerCase()
-  if (s.includes('dekket') || s.includes('ok') || s === 'ja') return 'bg-green-50 text-green-800'
-  if (s.includes('ikke') || s.includes('mangl')) return 'bg-red-50 text-red-800'
-  if (s.includes('delvis')) return 'bg-amber-50 text-amber-800'
+  if (s.includes('uten funn') || s.includes('ikke relevant') || s.includes('utenfor')) return 'bg-green-50 text-green-800'
+  if (s.includes('grundig kartlagt med funn')) return 'bg-amber-50 text-amber-800'
+  if (s.includes('med funn')) return 'bg-red-50 text-red-800'
+  if (s.includes('ikke kartlagt') || s.includes('ikke-system')) return 'bg-orange-50 text-orange-800'
+  if (s.includes('dekket') || s.includes('ok')) return 'bg-green-50 text-green-800'
   return 'bg-brand-50 text-brand-700'
 }
 
@@ -609,18 +611,16 @@ export default function PrototypePage() {
             const docs = dokRes2.status === 'fulfilled' ? dokRes2.value : []
             const disps = dispRes.status === 'fulfilled' ? dispRes.value : []
 
-            // For bestemmelser: hent direkteUrl for PDF-nedlasting
+            // Hent direkteUrl for ALLE dokumenter (PDF-nedlasting)
             const enrichedDocs = await Promise.all(
               docs.map(async (d: any) => {
-                if (d.dokumenttypeId === 5 || d.dokumenttype === 'Bestemmelser' || d.dokumentnavn?.toLowerCase().includes('bestemmelse')) {
-                  try {
-                    const metaRes = await fetch(`${AREALPLANER_BASE}/kunder/${kunde.id}/dokumenter/${d.id}`, { headers: apHeaders })
-                    if (metaRes.ok) {
-                      const meta = await metaRes.json()
-                      return { ...d, direkteUrl: meta.direkteUrl }
-                    }
-                  } catch {}
-                }
+                try {
+                  const metaRes = await fetch(`${AREALPLANER_BASE}/kunder/${kunde.id}/dokumenter/${d.id}`, { headers: apHeaders })
+                  if (metaRes.ok) {
+                    const meta = await metaRes.json()
+                    return { ...d, direkteUrl: meta.direkteUrl }
+                  }
+                } catch {}
                 return d
               })
             )
