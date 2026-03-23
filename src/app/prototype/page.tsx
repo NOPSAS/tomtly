@@ -395,7 +395,6 @@ export default function PrototypePage() {
       { label: 'DOK-analyse', status: 'pending' },
       { label: 'Koordinattransformasjon', status: 'pending' },
       { label: 'KI-tolkning av planer', status: 'pending' },
-      { label: 'Arealressurser (NIBIO)', status: 'pending' },
       { label: 'Arealplaner.no dokumenter', status: 'pending' },
     ]
     setSteps([...stepsList])
@@ -579,37 +578,8 @@ export default function PrototypePage() {
       updateStep(5, { status: 'done', label: 'Ingen planer å tolke' })
     }
 
-    // NIBIO AR5 via WMS GetFeatureInfo
-    updateStep(6, { status: 'loading' })
-    if (utmCoords) {
-      try {
-        const east = utmCoords.x
-        const north = utmCoords.y
-        const bbox = `${east - 50},${north - 50},${east + 50},${north + 50}`
-        const url = `${NIBIO_AR5}?service=WMS&version=1.3.0&request=GetFeatureInfo&layers=AR5_FLATE&query_layers=AR5_FLATE&crs=EPSG:25833&bbox=${bbox}&width=101&height=101&i=50&j=50&info_format=application/vnd.ogc.gml`
-        const res = await fetchWithTimeout(url)
-        if (res.ok) {
-          const text = await res.text()
-          const parsed = parseAR5GML(text)
-          setAr5(parsed)
-          updateStep(6, { status: 'done', label: 'Arealressurser hentet' })
-        } else {
-          throw new Error(`HTTP ${res.status}`)
-        }
-      } catch (err: unknown) {
-        const msg = err instanceof Error ? err.message : String(err)
-        if (msg.includes('abort') || msg.includes('CORS') || msg.includes('Failed to fetch')) {
-          updateStep(6, { status: 'error', label: 'NIBIO blokkert (CORS)', detail: msg })
-        } else {
-          updateStep(6, { status: 'error', label: 'Arealressurser feilet', detail: msg })
-        }
-      }
-    } else {
-      updateStep(6, { status: 'error', label: 'Mangler UTM-koordinater' })
-    }
-
     // Arealplaner.no – hent dokumenter + dispensasjoner for denne eiendommen
-    updateStep(7, { status: 'loading' })
+    updateStep(6, { status: 'loading' })
     try {
       const apHeaders = { 'X-WAAPI-TOKEN': AREALPLANER_TOKEN }
 
@@ -684,9 +654,9 @@ export default function PrototypePage() {
         setArealplaner(result)
         const totalDocs = result.reduce((s, p) => s + (p.dokumenter?.length || 0), 0)
         const totalDisps = result.reduce((s, p) => s + ((p as any).dispensasjoner?.length || 0), 0)
-        updateStep(7, { status: 'done', label: `${result.length} planer, ${totalDocs} dok, ${totalDisps} disp.` })
+        updateStep(6, { status: 'done', label: `${result.length} planer, ${totalDocs} dok, ${totalDisps} disp.` })
       } else {
-        updateStep(7, { status: 'error', label: kunde ? 'Mangler gnr/bnr' : 'Kommune ikke i arealplaner.no' })
+        updateStep(6, { status: 'error', label: kunde ? 'Mangler gnr/bnr' : 'Kommune ikke i arealplaner.no' })
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err)
@@ -1424,16 +1394,82 @@ export default function PrototypePage() {
             )}
 
             {/* 4c: DOK-analyse */}
-            {dokDatasets.length > 0 && (
+            {dokDatasets.length > 0 && (() => {
+              // Key risk factors
+              const keyRisks = [
+                { label: 'Flom', keywords: ['flom', 'flomsone'], icon: '🌊' },
+                { label: 'Overvann', keywords: ['overvann', 'oversvøm'], icon: '💧' },
+                { label: 'Skred', keywords: ['skred', 'snøskred', 'jordskred', 'steinsprang'], icon: '⛰️' },
+                { label: 'Kvikkleire', keywords: ['kvikkleire', 'marin leire'], icon: '🟤' },
+                { label: 'Radon', keywords: ['radon', 'aktsomhet'], icon: '☢️' },
+                { label: 'Forurensning', keywords: ['forurens', 'grunn'], icon: '⚠️' },
+                { label: 'Kulturminner', keywords: ['kulturmin', 'fredet'], icon: '🏛️' },
+                { label: 'Verneområde', keywords: ['verne', 'naturreservat', 'naturvern'], icon: '🌿' },
+              ]
+
+              const riskResults = keyRisks.map(risk => {
+                const matches = dokDatasets.filter(ds => {
+                  const name = (ds.tittel || '').toLowerCase()
+                  return risk.keywords.some(kw => name.includes(kw))
+                })
+                const hasFunn = matches.some(m => {
+                  const s = (m.status || '').toLowerCase()
+                  return s.includes('med funn')
+                })
+                const isKartlagt = matches.some(m => {
+                  const s = (m.status || '').toLowerCase()
+                  return s.includes('kartlagt') && !s.includes('ikke kartlagt')
+                })
+                return { ...risk, matches, hasFunn, isKartlagt, count: matches.length }
+              })
+
+              const funnCount = riskResults.filter(r => r.hasFunn).length
+              const okCount = riskResults.filter(r => r.isKartlagt && !r.hasFunn).length
+
+              return (
               <div className="space-y-4">
                 <h2 className="font-display text-lg font-bold text-tomtly-dark flex items-center gap-2">
                   <Shield className="w-5 h-5 text-tomtly-accent" />
-                  DOK-analyse ({dokDatasets.length} datasett)
+                  DOK-analyse ({dokDatasets.length} datasett sjekket)
                 </h2>
 
-                {/* Summary box */}
-                <div className="bg-white rounded-xl border border-brand-100 p-5 shadow-sm">
-                  <div className="flex flex-wrap gap-3">
+                {/* Key risks visual summary */}
+                <div className="bg-white rounded-2xl border border-brand-100 p-6 shadow-sm">
+                  <div className="flex items-center gap-4 mb-5">
+                    <div className="flex items-center gap-2 text-sm">
+                      <span className="w-3 h-3 rounded-full bg-red-500" />
+                      <span className="text-brand-600">{funnCount} funn å vurdere</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <span className="w-3 h-3 rounded-full bg-green-500" />
+                      <span className="text-brand-600">{okCount} kartlagt uten fare</span>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    {riskResults.map(risk => (
+                      <div key={risk.label} className={`rounded-xl p-4 border ${
+                        risk.hasFunn
+                          ? 'bg-red-50 border-red-200'
+                          : risk.isKartlagt
+                          ? 'bg-green-50 border-green-200'
+                          : 'bg-brand-50 border-brand-200'
+                      }`}>
+                        <div className="text-2xl mb-1">{risk.icon}</div>
+                        <p className="text-sm font-semibold text-tomtly-dark">{risk.label}</p>
+                        <p className={`text-xs font-medium mt-1 ${
+                          risk.hasFunn ? 'text-red-700' : risk.isKartlagt ? 'text-green-700' : 'text-brand-500'
+                        }`}>
+                          {risk.hasFunn ? 'Funn registrert' : risk.isKartlagt ? 'Ingen fare' : 'Ikke kartlagt'}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Status summary */}
+                <div className="bg-white rounded-xl border border-brand-100 p-4 shadow-sm">
+                  <div className="flex flex-wrap gap-2">
                     {Object.entries(dokStatusCounts).map(([status, count]) => (
                       <div key={status} className={`px-3 py-1.5 rounded-lg text-xs font-medium ${statusColor(status)}`}>
                         {status}: {count}
@@ -1512,30 +1548,8 @@ export default function PrototypePage() {
                   )
                 })}
               </div>
-            )}
-
-            {/* 4d: Arealressurser (NIBIO AR5) */}
-            {ar5 && (
-              <div className="space-y-4">
-                <h2 className="font-display text-lg font-bold text-tomtly-dark flex items-center gap-2">
-                  <TreePine className="w-5 h-5 text-tomtly-accent" />
-                  Arealressurser (NIBIO AR5)
-                </h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {[
-                    { label: 'Arealtype', value: ar5.arealtype },
-                    { label: 'Treslag', value: ar5.treslag },
-                    { label: 'Skogbonitet', value: ar5.skogbonitet },
-                    { label: 'Grunnforhold', value: ar5.grunnforhold },
-                  ].map((item) => (
-                    <div key={item.label} className="bg-white rounded-xl border border-brand-100 p-4 shadow-sm">
-                      <p className="text-[10px] text-brand-500 uppercase tracking-wide mb-1">{item.label}</p>
-                      <p className="text-sm font-medium text-tomtly-dark">{item.value || 'Ikke tilgjengelig'}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+              )
+            })()}
 
             {/* 4e: Eiendomsgeometri */}
             {teigResult && (
@@ -1564,7 +1578,6 @@ export default function PrototypePage() {
                     <span>Kartverket – DOK fullstendighetsdekning</span>
                     <span>Kartverket – Koordinattransformasjon</span>
                     <span>Planslurpen – Planregister og KI-tolkning</span>
-                    <span>NIBIO – AR5 Arealressurskart</span>
                     <span>Arealplaner.no – Plandokumenter</span>
                     <span>Geonorge – Adresseregisteret</span>
                   </div>
@@ -1602,7 +1615,7 @@ export default function PrototypePage() {
       <footer className="bg-white border-t border-brand-100 py-6 mt-8">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <p className="text-xs text-brand-400">
-            Intern prototype – Tomtly.no | Data fra Kartverket, Planslurpen og NIBIO | NOPS AS
+            Tomteanalyse – Tomtly.no | Data fra Kartverket, Planslurpen og arealplaner.no | NOPS AS
           </p>
         </div>
       </footer>
