@@ -125,7 +125,7 @@ function VelgPakke() {
                 '3D-visualisering',
                 'Byggekalkyle og verdivurdering',
                 'DOK-analyse (70+ datasett)',
-                'Tomtescore og tomterapport (PDF)',
+                'Tomterapport (PDF)',
                 'Publisering på Tomtly.no',
               ].map((f) => (
                 <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
@@ -234,9 +234,6 @@ function HvaErInkludert() {
     },
     {
       ikon: Star,
-      tittel: 'Tomtescore',
-      beskrivelse:
-        'En samlet vurdering av tomtens potensial basert på beliggenhet, regulering, grunnforhold og marked.',
     },
     {
       ikon: FileText,

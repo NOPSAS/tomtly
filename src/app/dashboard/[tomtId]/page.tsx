@@ -909,7 +909,6 @@ export default function SelgerDashboard() {
                   { label: 'Visninger', ...data.metrics.visninger },
                   { label: 'Interessenter', ...data.metrics.interessenter },
                   { label: 'Visningsforespørsler', ...data.metrics.visningsforespørsler },
-                  { label: 'Tomtescore', ...data.metrics.tomtescore },
                 ].map((m) => (
                   <div
                     key={m.label}
