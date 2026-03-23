@@ -39,7 +39,7 @@ interface TomtCase {
   metrics: {
     visninger: { tall: number; endring: string; trend: string }
     interessenter: { tall: number; endring: string; trend: string }
-    visningsforesporsler: { tall: number; endring: string; trend: string }
+    visningsforespørsler: { tall: number; endring: string; trend: string }
     tomtescore: { tall: string; endring: string; trend: string }
   }
   interessenter: Interessent[]
@@ -48,19 +48,24 @@ interface TomtCase {
     regulering: string
     utnyttelsesgrad: string
     maksHoyde: string
+    gesimshøyde?: string
+    etasjer?: string
+    terreng?: string
     vann: string
     avlop: string
     adkomst: string
     grunnforhold: string
     solforhold: string
-    stoy: string
+    støy: string
     prisantydning: string
     kommunaleAvgifter: string
     matrikkel: string
+    fradelingStatus?: string
   }
+  husmodeller: string[]
   trafikk: { dag: string; visninger: number }[]
   trafikkkilder: { kilde: string; prosent: number; visninger: number }[]
-  markedsforing: { kanal: string; status: string; detalj: string; ikon: string; farge: string }[]
+  markedsføring: { kanal: string; status: string; detalj: string; ikon: string; farge: string }[]
   dokumenter: { navn: string; type: string; dato: string; ikon: string }[]
   fremdrift: { steg: string; status: 'done' | 'current' | 'future' }[]
   sammenlignbare: { adresse: string; areal: number; pris: number; dato: string }[]
@@ -86,25 +91,25 @@ const CASES: Record<string, TomtCase> = {
     statusLabel: 'Aktiv',
     dagerPaaMarkedet: 8,
     pakke: 'Analyse + Markedsføring',
-    pris: 2850000,
-    areal: 812,
+    pris: 3000000,
+    areal: 605,
     publisert: '15.03.2026',
     tomtescore: 8.4,
     selger: { navn: 'Jakob Bjøndal', epost: 'jakobbjondal@outlook.com', telefon: '40603908' },
     metrics: {
       visninger: { tall: 312, endring: '+18 denne uken', trend: 'up' },
       interessenter: { tall: 11, endring: '+3 nye siste 7 dager', trend: 'up' },
-      visningsforesporsler: { tall: 4, endring: '2 venter på svar', trend: 'neutral' },
+      visningsforespørsler: { tall: 4, endring: '2 venter på svar', trend: 'neutral' },
       tomtescore: { tall: '8.4/10', endring: 'Over gjennomsnittet på Nesodden', trend: 'up' },
     },
     interessenter: [
       { id: 1, navn: 'Martin Olsen', type: 'Privatperson', dato: '2026-03-23', status: 'ny', telefon: '912 34 567', epost: 'martin.olsen@gmail.com', notat: 'Ønsker å bygge enebolig, familie med 2 barn.', foreslattSvar: 'Hei Martin! Takk for din interesse for tomten på Bjørnemyrveien 20. Vi har en detaljert tomterapport som viser regulering, grunnforhold og solforhold. Ønsker du å motta denne, eller vil du booke en visning? Vi har ledig lørdag 29. mars. Vennlig hilsen, Tomtly Eiendomsekspert' },
       { id: 2, navn: 'Kari Nordby', type: 'Privatperson', dato: '2026-03-22', status: 'visning_avtalt', telefon: '934 56 789', epost: 'kari.nordby@outlook.com', notat: 'Visning avtalt lørdag 29. mars kl. 12:00.', foreslattSvar: 'Hei Kari! Flott at du kommer på visning lørdag 29. mars kl. 12:00. Vi har klargjort tomterapport og mulighetsstudie som du kan se gjennom i forkant. Trenger du veibeskrivelse? Vennlig hilsen, Tomtly Eiendomsekspert' },
-      { id: 3, navn: 'Erik Johansen', type: 'Utbygger', dato: '2026-03-20', status: 'kontaktet', telefon: '901 23 456', epost: 'erik@johansen-bygg.no', notat: 'Interessert i fradeling og utvikling av to enheter.', foreslattSvar: 'Hei Erik! Takk for henvendelsen. Tomten på Bjørnemyrveien 20 har 812 m² og er regulert til boligformål. Tomterapporten vår inkluderer vurdering av fradelingspotensial. Ønsker du en visning med gjennomgang av muligheter? Vennlig hilsen, Tomtly Eiendomsekspert' },
-      { id: 4, navn: 'OBOS Boligutvikling', type: 'Selskap', dato: '2026-03-16', status: 'kontaktet', telefon: '22 86 55 00', epost: 'tomter@obos.no', notat: 'Forespørsel om utviklingspotensial, ønsker mulighetsstudie.', foreslattSvar: 'Hei, takk for forespørselen fra OBOS. Vi har utarbeidet en fullstendig tomterapport med mulighetsstudie for Bjørnemyrveien 20. Tomten er på 812 m² med regulering til boligformål. Vi kan sende over rapporten og avtale et møte for gjennomgang. Vennlig hilsen, Tomtly Eiendomsekspert' },
+      { id: 3, navn: 'Erik Johansen', type: 'Utbygger', dato: '2026-03-20', status: 'kontaktet', telefon: '901 23 456', epost: 'erik@johansen-bygg.no', notat: 'Interessert i fradeling og utvikling av to enheter.', foreslattSvar: 'Hei Erik! Takk for henvendelsen. Tomten på Bjørnemyrveien 20 har 605 m2 og er regulert til boligformål. Tomterapporten vår inkluderer vurdering av fradelingspotensial. Ønsker du en visning med gjennomgang av muligheter? Vennlig hilsen, Tomtly Eiendomsekspert' },
+      { id: 4, navn: 'OBOS Boligutvikling', type: 'Selskap', dato: '2026-03-16', status: 'kontaktet', telefon: '22 86 55 00', epost: 'tomter@obos.no', notat: 'Forespørsel om utviklingspotensial, ønsker mulighetsstudie.', foreslattSvar: 'Hei, takk for forespørselen fra OBOS. Vi har utarbeidet en fullstendig tomterapport med mulighetsstudie for Bjørnemyrveien 20. Tomten er på 605 m2 med regulering til boligformål. Vi kan sende over rapporten og avtale et møte for gjennomgang. Vennlig hilsen, Tomtly Eiendomsekspert' },
       { id: 5, navn: 'Familien Hansen', type: 'Privatperson', dato: '2026-03-18', status: 'bud_mottatt', telefon: '976 54 321', epost: 'hansen.fam@gmail.com', notat: 'Har gitt muntlig bud på 2 700 000 kr. Avventer skriftlig.', foreslattSvar: 'Hei! Takk for budet på Bjørnemyrveien 20. For å gå videre trenger vi et skriftlig bud via budskjema. Du finner dette i dokumentene på tomteprofilen. Har du spørsmål om prosessen? Vennlig hilsen, Tomtly Eiendomsekspert' },
-      { id: 6, navn: 'Lise Berger', type: 'Privatperson', dato: '2026-03-21', status: 'ny', telefon: '917 88 432', epost: 'lise.berger@hotmail.com', notat: 'Ønsker info om byggemuligheter og nærhet til skole.', foreslattSvar: 'Hei Lise! Takk for din interesse for tomten på Bjørnemyrveien 20. Tomterapporten vår dekker byggemuligheter, regulering og nærområdet inkludert skoler. Nærmeste barneskole er Bjørnemyr skole, ca. 800 m unna. Ønsker du å booke en visning? Vennlig hilsen, Tomtly Eiendomsekspert' },
-      { id: 7, navn: 'Bygghus Nord AS', type: 'Selskap', dato: '2026-03-19', status: 'kontaktet', telefon: '22 44 55 66', epost: 'post@bygghus-nord.no', notat: 'Ferdighusleverandør – ønsker å vurdere tomten for sine kunder.', foreslattSvar: 'Hei! Takk for henvendelsen fra Bygghus Nord. Tomten på Bjørnemyrveien 20 har gode byggeforhold og er regulert til småhusbebyggelse. Vi kan sende over tomterapporten med reguleringskart og grunnforhold. Vennlig hilsen, Tomtly Eiendomsekspert' },
+      { id: 6, navn: 'Lise Berger', type: 'Privatperson', dato: '2026-03-21', status: 'ny', telefon: '917 88 432', epost: 'lise.berger@hotmail.com', notat: 'Ønsker info om byggemuligheter og nærhet til skole.', foreslattSvar: 'Hei Lise! Takk for din interesse for tomten på Bjørnemyrveien 20. Tomterapporten vår dekker byggemuligheter, regulering og nærområdet inkludert skoler. Nærmeste barneskole er Bjornemyr skole, ca. 800 m unna. Ønsker du å booke en visning? Vennlig hilsen, Tomtly Eiendomsekspert' },
+      { id: 7, navn: 'Bygghus Nord AS', type: 'Selskap', dato: '2026-03-19', status: 'kontaktet', telefon: '22 44 55 66', epost: 'post@bygghus-nord.no', notat: 'Ferdighusleverandor – ønsker å vurdere tomten for sine kunder.', foreslattSvar: 'Hei! Takk for henvendelsen fra Bygghus Nord. Tomten på Bjørnemyrveien 20 har gode byggeforhold og er regulert til småhusbebyggelse. Vi kan sende over tomterapporten med reguleringskart og grunnforhold. Vennlig hilsen, Tomtly Eiendomsekspert' },
     ],
     aktiviteter: [
       { id: 1, type: 'interessent', icon: '🔔', tid: '1 time siden', tekst: 'Ny interessent: Martin Olsen har registrert interesse for tomten.', harHandling: true },
@@ -124,19 +129,24 @@ const CASES: Record<string, TomtCase> = {
       { id: 15, type: 'rapport', icon: '📈', tid: '8 dager siden', tekst: 'Tomtescore beregnet: 8.4/10 – god beliggenhet og regulering på Nesodden.', harHandling: false },
     ],
     tomtDetaljer: {
-      regulering: 'Boligformål – frittliggende småhusbebyggelse',
-      utnyttelsesgrad: '25% BYA',
-      maksHoyde: '8,0 meter (mønehøyde)',
+      regulering: 'Boligbebyggelse – frittliggende småhusbebyggelse',
+      utnyttelsesgrad: '20% BYA (121 m²)',
+      maksHoyde: '9,0 meter (mønehøyde)',
+      gesimshøyde: '7,0 meter',
+      etasjer: '2 etasjer',
+      terreng: 'Flat tomt',
       vann: 'Offentlig tilknytning',
       avlop: 'Offentlig tilknytning',
-      adkomst: 'Felles privat vei fra Bjørnemyrveien',
+      adkomst: 'Felles privat vei fra Bjornemyrveien',
       grunnforhold: 'Fjell / morene – gode grunnforhold',
       solforhold: 'Gode solforhold, sør-vestvendt',
-      stoy: 'Gul støysone (vei) – tiltak i byggesøknad',
-      prisantydning: '2 850 000 kr',
+      støy: 'Gul støysone (vei) – tiltak i byggesøknad',
+      prisantydning: '3 000 000 kr',
       kommunaleAvgifter: '12 400 kr/år (estimat)',
       matrikkel: '3212-1/1011',
+      fradelingStatus: 'Godkjent fradeling',
     },
+    husmodeller: ['Skogly', 'Vindy', 'Emilie', 'Nordstrand'],
     trafikk: [
       { dag: '10. mar', visninger: 14 },
       { dag: '11. mar', visninger: 18 },
@@ -160,17 +170,17 @@ const CASES: Record<string, TomtCase> = {
       { kilde: 'E-postkampanje', prosent: 14, visninger: 44 },
       { kilde: 'Annet / delt lenke', prosent: 8, visninger: 25 },
     ],
-    markedsforing: [
+    markedsføring: [
       { kanal: 'Tomtly.no', status: 'Publisert', detalj: '312 visninger totalt', ikon: '🌐', farge: 'bg-forest-50 border-forest-200' },
       { kanal: 'Annonsering', status: 'Aktiv kampanje', detalj: '14 800 rekkevidde · 218 klikk', ikon: '📣', farge: 'bg-blue-50 border-blue-200' },
-      { kanal: 'E-postliste', status: 'Sendt', detalj: 'Sendt til 342 registrerte kjøpere på Nesodden', ikon: '📧', farge: 'bg-purple-50 border-purple-200' },
+      { kanal: 'E-postliste', status: 'Sendt', detalj: 'Sendt til 342 registrerte kjopere på Nesodden', ikon: '📧', farge: 'bg-purple-50 border-purple-200' },
     ],
     dokumenter: [
       { navn: 'Tomterapport', type: 'PDF', dato: '20. mars 2026', ikon: '📄' },
       { navn: 'Budskjema', type: 'PDF', dato: '16. mars 2026', ikon: '📝' },
       { navn: 'Akseptbrev', type: 'PDF', dato: '16. mars 2026', ikon: '✉️' },
       { navn: 'Visningsguide', type: 'PDF', dato: '15. mars 2026', ikon: '🗺️' },
-      { navn: 'Sjekkliste for kjøper', type: 'PDF', dato: '15. mars 2026', ikon: '☑️' },
+      { navn: 'Sjekkliste for kjoper', type: 'PDF', dato: '15. mars 2026', ikon: '☑️' },
       { navn: 'Reguleringsbestemmelser', type: 'PDF', dato: '10. mars 2026', ikon: '📋' },
     ],
     fremdrift: [
@@ -211,23 +221,23 @@ const CASES: Record<string, TomtCase> = {
     statusLabel: 'Aktiv',
     dagerPaaMarkedet: 8,
     pakke: 'Analyse + Markedsføring',
-    pris: 2650000,
-    areal: 756,
+    pris: 3000000,
+    areal: 613,
     publisert: '15.03.2026',
     tomtescore: 7.8,
     selger: { navn: 'Jakob Bjøndal', epost: 'jakobbjondal@outlook.com', telefon: '40603908' },
     metrics: {
       visninger: { tall: 287, endring: '+14 denne uken', trend: 'up' },
       interessenter: { tall: 9, endring: '+2 nye siste 7 dager', trend: 'up' },
-      visningsforesporsler: { tall: 3, endring: '1 venter på svar', trend: 'neutral' },
+      visningsforespørsler: { tall: 3, endring: '1 venter på svar', trend: 'neutral' },
       tomtescore: { tall: '7.8/10', endring: 'Over gjennomsnittet på Nesodden', trend: 'up' },
     },
     interessenter: [
-      { id: 1, navn: 'Anders Vik', type: 'Privatperson', dato: '2026-03-22', status: 'ny', telefon: '922 11 334', epost: 'anders.vik@gmail.com', notat: 'Barnefamilie som ønsker å bygge på Nesodden.', foreslattSvar: 'Hei Anders! Takk for din interesse for tomten på Bjørnemyrveien 22. Vi har en detaljert tomterapport som dekker regulering, grunnforhold og byggemuligheter. Ønsker du å motta denne, eller booke en visning? Vennlig hilsen, Tomtly Eiendomsekspert' },
-      { id: 2, navn: 'Silje Tangen', type: 'Privatperson', dato: '2026-03-21', status: 'kontaktet', telefon: '948 77 221', epost: 'silje.tangen@outlook.com', notat: 'Spørsmål om solforhold og utsikt.', foreslattSvar: 'Hei Silje! Tomten på Bjørnemyrveien 22 har gode solforhold og delvis sjøutsikt. Tomterapporten vår inneholder detaljert solanalyse og terrengkart. Ønsker du å komme på visning? Vennlig hilsen, Tomtly Eiendomsekspert' },
-      { id: 3, navn: 'Rune Brekke', type: 'Utbygger', dato: '2026-03-19', status: 'kontaktet', telefon: '905 66 789', epost: 'rune@brekke-bygg.no', notat: 'Vurderer tomten sammen med nr. 20 for prosjekt.', foreslattSvar: 'Hei Rune! Takk for interessen for Bjørnemyrveien 22. Vi ser at du også vurderer nabotomten. Vi kan sende tomterapport for begge eiendommene og avtale et møte for å diskutere utviklingspotensial. Vennlig hilsen, Tomtly Eiendomsekspert' },
+      { id: 1, navn: 'Anders Vik', type: 'Privatperson', dato: '2026-03-22', status: 'ny', telefon: '922 11 334', epost: 'anders.vik@gmail.com', notat: 'Barnefamilie som ønsker å bygge på Nesodden.', foreslattSvar: 'Hei Anders! Takk for din interesse for tomten på Bjørnemyrveien 2. Vi har en detaljert tomterapport som dekker regulering, grunnforhold og byggemuligheter. Ønsker du å motta denne, eller booke en visning? Vennlig hilsen, Tomtly Eiendomsekspert' },
+      { id: 2, navn: 'Silje Tangen', type: 'Privatperson', dato: '2026-03-21', status: 'kontaktet', telefon: '948 77 221', epost: 'silje.tangen@outlook.com', notat: 'Sporsmal om solforhold og utsikt.', foreslattSvar: 'Hei Silje! Tomten på Bjørnemyrveien 2 har gode solforhold og delvis sjøutsikt. Tomterapporten vår inneholder detaljert solanalyse og terrengkart. Ønsker du å komme på visning? Vennlig hilsen, Tomtly Eiendomsekspert' },
+      { id: 3, navn: 'Rune Brekke', type: 'Utbygger', dato: '2026-03-19', status: 'kontaktet', telefon: '905 66 789', epost: 'rune@brekke-bygg.no', notat: 'Vurderer tomten sammen med nr. 20 for prosjekt.', foreslattSvar: 'Hei Rune! Takk for interessen for Bjørnemyrveien 2. Vi ser at du også vurderer nabotomten. Vi kan sende tomterapport for begge eiendommene og avtale et møte for å diskutere utviklingspotensial. Vennlig hilsen, Tomtly Eiendomsekspert' },
       { id: 4, navn: 'Mona Kristiansen', type: 'Privatperson', dato: '2026-03-18', status: 'visning_avtalt', telefon: '913 44 556', epost: 'mona.k@gmail.com', notat: 'Visning avtalt søndag 30. mars kl. 13:00.', foreslattSvar: 'Hei Mona! Vi gleder oss til visningen søndag 30. mars kl. 13:00. Vi har klargjort tomterapport som du gjerne kan se gjennom på forhånd. Gi beskjed om du har spørsmål! Vennlig hilsen, Tomtly Eiendomsekspert' },
-      { id: 5, navn: 'Tor Helgesen', type: 'Privatperson', dato: '2026-03-17', status: 'ny', telefon: '976 22 111', epost: 'tor.helgesen@yahoo.no', notat: 'Ønsker å vite mer om kommunale avgifter og tilknytning.', foreslattSvar: 'Hei Tor! Takk for din interesse. Kommunale avgifter for Bjørnemyrveien 22 er estimert til ca. 11 800 kr/år. Tomten har offentlig vann og avløp. Alt dette er dekket i tomterapporten. Ønsker du visning? Vennlig hilsen, Tomtly Eiendomsekspert' },
+      { id: 5, navn: 'Tor Helgesen', type: 'Privatperson', dato: '2026-03-17', status: 'ny', telefon: '976 22 111', epost: 'tor.helgesen@yahoo.no', notat: 'Ønsker å vite mer om kommunale avgifter og tilknytning.', foreslattSvar: 'Hei Tor! Takk for din interesse. Kommunale avgifter for Bjørnemyrveien 2 er estimert til ca. 11 800 kr/år. Tomten har offentlig vann og avlop. Alt dette er dekket i tomterapporten. Ønsker du visning? Vennlig hilsen, Tomtly Eiendomsekspert' },
     ],
     aktiviteter: [
       { id: 1, type: 'interessent', icon: '🔔', tid: '4 timer siden', tekst: 'Ny interessent: Anders Vik har registrert interesse for tomten.', harHandling: true },
@@ -235,7 +245,7 @@ const CASES: Record<string, TomtCase> = {
       { id: 3, type: 'interessent', icon: '🔔', tid: 'I går, 11:20', tekst: 'Silje Tangen har spørsmål om solforhold.', harHandling: true },
       { id: 4, type: 'kampanje', icon: '📣', tid: 'I går, 09:00', tekst: 'Annonsekampanje oppdatert – ny målgruppe: unge par på Nesodden.', harHandling: false },
       { id: 5, type: 'interessent', icon: '🔔', tid: '2 dager siden', tekst: 'Rune Brekke (utbygger) vurderer samlet prosjekt med nabotomt.', harHandling: true },
-      { id: 6, type: 'system', icon: '✅', tid: '3 dager siden', tekst: 'Tomterapport ferdigstilt for Bjørnemyrveien 22.', harHandling: false },
+      { id: 6, type: 'system', icon: '✅', tid: '3 dager siden', tekst: 'Tomterapport ferdigstilt for Bjørnemyrveien 2.', harHandling: false },
       { id: 7, type: 'interessent', icon: '🔔', tid: '4 dager siden', tekst: 'Mona Kristiansen ønsker visning søndag 30. mars.', harHandling: true },
       { id: 8, type: 'rapport', icon: '📈', tid: '5 dager siden', tekst: 'Ukentlig rapport: 82 visninger, 2 nye interessenter.', harHandling: false },
       { id: 9, type: 'interessent', icon: '🔔', tid: '6 dager siden', tekst: 'Tor Helgesen ønsker info om kommunale avgifter.', harHandling: true },
@@ -244,19 +254,23 @@ const CASES: Record<string, TomtCase> = {
       { id: 12, type: 'rapport', icon: '📈', tid: '8 dager siden', tekst: 'Tomtescore beregnet: 7.8/10 – god beliggenhet på Nesodden.', harHandling: false },
     ],
     tomtDetaljer: {
-      regulering: 'Boligformål – frittliggende småhusbebyggelse',
-      utnyttelsesgrad: '25% BYA',
-      maksHoyde: '8,0 meter (mønehøyde)',
+      regulering: 'Boligbebyggelse – frittliggende småhusbebyggelse',
+      utnyttelsesgrad: '20% BYA',
+      maksHoyde: '9,0 meter (mønehøyde)',
+      gesimshøyde: '7,0 meter',
+      etasjer: '2 etasjer',
+      terreng: 'Skrånende tomt (Parsell C)',
       vann: 'Offentlig tilknytning',
       avlop: 'Offentlig tilknytning',
-      adkomst: 'Felles privat vei fra Bjørnemyrveien',
+      adkomst: 'Felles privat vei fra Bjornemyrveien',
       grunnforhold: 'Fjell / morene – gode grunnforhold',
       solforhold: 'Gode solforhold, vestvendt',
-      stoy: 'Grønn støysone – ingen tiltak nødvendig',
-      prisantydning: '2 650 000 kr',
+      støy: 'Grønn støysone – ingen tiltak nødvendig',
+      prisantydning: '3 000 000 kr',
       kommunaleAvgifter: '11 800 kr/år (estimat)',
       matrikkel: '3212-1/1012',
     },
+    husmodeller: ['Skogly', 'Vindy', 'Emilie', 'Nordstrand'],
     trafikk: [
       { dag: '10. mar', visninger: 11 },
       { dag: '11. mar', visninger: 16 },
@@ -280,16 +294,16 @@ const CASES: Record<string, TomtCase> = {
       { kilde: 'E-postkampanje', prosent: 13, visninger: 37 },
       { kilde: 'Annet / delt lenke', prosent: 8, visninger: 24 },
     ],
-    markedsforing: [
+    markedsføring: [
       { kanal: 'Tomtly.no', status: 'Publisert', detalj: '287 visninger totalt', ikon: '🌐', farge: 'bg-forest-50 border-forest-200' },
       { kanal: 'Annonsering', status: 'Aktiv kampanje', detalj: '12 200 rekkevidde · 194 klikk', ikon: '📣', farge: 'bg-blue-50 border-blue-200' },
-      { kanal: 'E-postliste', status: 'Sendt', detalj: 'Sendt til 342 registrerte kjøpere på Nesodden', ikon: '📧', farge: 'bg-purple-50 border-purple-200' },
+      { kanal: 'E-postliste', status: 'Sendt', detalj: 'Sendt til 342 registrerte kjopere på Nesodden', ikon: '📧', farge: 'bg-purple-50 border-purple-200' },
     ],
     dokumenter: [
       { navn: 'Tomterapport', type: 'PDF', dato: '20. mars 2026', ikon: '📄' },
       { navn: 'Budskjema', type: 'PDF', dato: '16. mars 2026', ikon: '📝' },
       { navn: 'Visningsguide', type: 'PDF', dato: '15. mars 2026', ikon: '🗺️' },
-      { navn: 'Sjekkliste for kjøper', type: 'PDF', dato: '15. mars 2026', ikon: '☑️' },
+      { navn: 'Sjekkliste for kjoper', type: 'PDF', dato: '15. mars 2026', ikon: '☑️' },
       { navn: 'Reguleringsbestemmelser', type: 'PDF', dato: '10. mars 2026', ikon: '📋' },
     ],
     fremdrift: [
@@ -324,46 +338,50 @@ const CASES: Record<string, TomtCase> = {
     adresse: 'Gamle Alværnvei 67, 1453 Nesodden',
     kommune: 'Nesodden (3212)',
     kommunenr: '3212',
-    gnr: 0,
-    bnr: 0,
+    gnr: 30,
+    bnr: 45,
     status: 'analyse_ferdig',
     statusLabel: 'Analyse ferdig',
     dagerPaaMarkedet: 5,
     pakke: 'Tomteanalyse',
-    pris: 3200000,
-    areal: 1240,
+    pris: 3500000,
+    areal: 900,
     publisert: '18.03.2026',
     tomtescore: 7.2,
     selger: { navn: 'Jakob Bjøndal', epost: 'jakobbjondal@outlook.com', telefon: '40603908' },
     metrics: {
       visninger: { tall: 0, endring: 'Ikke publisert ennå', trend: 'neutral' },
       interessenter: { tall: 0, endring: 'Ingen ennå', trend: 'neutral' },
-      visningsforesporsler: { tall: 0, endring: 'Ingen ennå', trend: 'neutral' },
+      visningsforespørsler: { tall: 0, endring: 'Ingen ennå', trend: 'neutral' },
       tomtescore: { tall: '7.2/10', endring: 'Over gjennomsnittet på Nesodden', trend: 'up' },
     },
     interessenter: [],
     aktiviteter: [
       { id: 1, type: 'rapport', icon: '📈', tid: '2 dager siden', tekst: 'Tomtescore beregnet: 7.2/10 – godt potensial på Nesodden.', harHandling: false },
-      { id: 2, type: 'system', icon: '✅', tid: '3 dager siden', tekst: 'Tomterapport ferdigstilt for Gamle Alværnvei 67.', harHandling: false },
+      { id: 2, type: 'system', icon: '✅', tid: '3 dager siden', tekst: 'Tomterapport ferdigstilt for Gamle Alværnvei 7.', harHandling: false },
       { id: 3, type: 'system', icon: '✅', tid: '5 dager siden', tekst: 'Tomt registrert i Tomtly – analyse startet.', harHandling: false },
     ],
     tomtDetaljer: {
-      regulering: 'Boligformål – frittliggende småhusbebyggelse',
-      utnyttelsesgrad: '20% BYA',
-      maksHoyde: '8,0 meter (mønehøyde)',
+      regulering: 'Boligbebyggelse – frittliggende småhusbebyggelse',
+      utnyttelsesgrad: '20% BYA (180 m²)',
+      maksHoyde: '9,0 meter (mønehøyde)',
+      gesimshøyde: '7,0 meter',
+      etasjer: '2 etasjer',
+      terreng: 'Skrånende med fjordutsikt (+81 moh)',
       vann: 'Offentlig tilknytning tilgjengelig',
       avlop: 'Privat – krav om septiktank/bioreaktor',
       adkomst: 'Privat vei fra Gamle Alværnvei',
       grunnforhold: 'Leire / morene – geoteknisk vurdering anbefalt',
       solforhold: 'Gode solforhold, sørvendt skråning',
-      stoy: 'Grønn støysone – stille beliggenhet',
-      prisantydning: '3 200 000 kr',
+      støy: 'Grønn støysone – stille beliggenhet',
+      prisantydning: '3 500 000 kr',
       kommunaleAvgifter: '14 200 kr/år (estimat)',
-      matrikkel: '3212 (ikke matrikkelført tomt)',
+      matrikkel: '3212-30/45',
     },
+    husmodeller: ['Wide A', 'Emilie', 'Skogly'],
     trafikk: [],
     trafikkkilder: [],
-    markedsforing: [],
+    markedsføring: [],
     dokumenter: [
       { navn: 'Tomterapport', type: 'PDF', dato: '20. mars 2026', ikon: '📄' },
       { navn: 'Reguleringsbestemmelser', type: 'PDF', dato: '18. mars 2026', ikon: '📋' },
@@ -390,7 +408,7 @@ const CASES: Record<string, TomtCase> = {
     pakkePris: '2 490 kr',
     pakkeProvisjon: 'Ingen provisjon',
     tomtepresentasjonLink: '/tomter/alvaern-67',
-    shareUrl: 'tomtly.no/tomt/3212',
+    shareUrl: 'tomtly.no/tomt/3212/30/45',
   },
 
   // Default demo fallback
@@ -413,7 +431,7 @@ const CASES: Record<string, TomtCase> = {
     metrics: {
       visninger: { tall: 247, endring: '+12 denne uken', trend: 'up' },
       interessenter: { tall: 8, endring: '+3 nye siste 7 dager', trend: 'up' },
-      visningsforesporsler: { tall: 3, endring: '2 venter på svar', trend: 'neutral' },
+      visningsforespørsler: { tall: 3, endring: '2 venter på svar', trend: 'neutral' },
       tomtescore: { tall: '8.2/10', endring: 'Over gjennomsnittet', trend: 'up' },
     },
     interessenter: [
@@ -427,7 +445,7 @@ const CASES: Record<string, TomtCase> = {
       { id: 3, type: 'system', icon: '✅', tid: '2 dager siden', tekst: 'Tomterapport oppdatert.', harHandling: false },
     ],
     tomtDetaljer: {
-      regulering: 'Boligformål – frittliggende småhusbebyggelse',
+      regulering: 'Boligformal – frittliggende småhusbebyggelse',
       utnyttelsesgrad: '25% BYA',
       maksHoyde: '8,0 meter (mønehøyde)',
       vann: 'Offentlig tilknytning',
@@ -435,11 +453,12 @@ const CASES: Record<string, TomtCase> = {
       adkomst: 'Kommunal vei',
       grunnforhold: 'Fjell / morene – gode grunnforhold',
       solforhold: 'Gode solforhold',
-      stoy: 'Grønn støysone',
+      støy: 'Grønn støysone',
       prisantydning: '2 850 000 kr',
       kommunaleAvgifter: '12 400 kr/år (estimat)',
       matrikkel: '0000-1/1',
     },
+    husmodeller: [],
     trafikk: [
       { dag: '10. mar', visninger: 12 },
       { dag: '11. mar', visninger: 15 },
@@ -463,10 +482,10 @@ const CASES: Record<string, TomtCase> = {
       { kilde: 'E-postkampanje', prosent: 12, visninger: 30 },
       { kilde: 'Annet / delt lenke', prosent: 8, visninger: 20 },
     ],
-    markedsforing: [
+    markedsføring: [
       { kanal: 'Tomtly.no', status: 'Publisert', detalj: '247 visninger totalt', ikon: '🌐', farge: 'bg-forest-50 border-forest-200' },
       { kanal: 'Annonsering', status: 'Aktiv kampanje', detalj: '12 400 rekkevidde · 186 klikk', ikon: '📣', farge: 'bg-blue-50 border-blue-200' },
-      { kanal: 'E-postliste', status: 'Sendt', detalj: 'Sendt til 342 registrerte kjøpere', ikon: '📧', farge: 'bg-purple-50 border-purple-200' },
+      { kanal: 'E-postliste', status: 'Sendt', detalj: 'Sendt til 342 registrerte kjopere', ikon: '📧', farge: 'bg-purple-50 border-purple-200' },
     ],
     dokumenter: [
       { navn: 'Tomterapport', type: 'PDF', dato: '20. mars 2026', ikon: '📄' },
@@ -518,18 +537,27 @@ const TIPS = [
   {
     tittel: 'Svar raskt på forespørsler',
     tekst: 'Interessenter som får svar innen 2 timer har 3x høyere sannsynlighet for å booke visning. Du har 2 ubesvarte forespørsler.',
+    ekstraTekst: 'Gå til Interessenter-fanen og klikk på de som har status "Ny". Bruk det foreslatte svaret, eller skriv ditt eget. Tips: Nevn at du har ledig visningstid denne helgen – det øker sjansen for respons betraktelig.',
     prioritet: 'hoy' as const,
   },
   {
     tittel: 'Vurder å senke prisantydning',
     tekst: 'Tomter på Nesodden med lignende areal selges i snitt for 2 650 000 kr. En prisjustering kan øke interessen.',
+    ekstraTekst: 'Basert på sammenlignbare salg i området ligger din prisantydning noe over markedssnittet. En reduksjon på 5-10% kan doble antall henvendelser den første uken. Du kan også vurdere å legge inn "prisantydning fra" i stedet for fast pris, noe som gir mer fleksibilitet i forhandlinger.',
     prioritet: 'medium' as const,
   },
   {
     tittel: 'Del tomten på sosiale medier',
     tekst: 'Tomter som deles aktivt på Facebook og Instagram får i snitt 40% flere visninger den første måneden.',
+    ekstraTekst: 'Bruk "Del tomteprofil"-knappen i Hurtighandlinger for a fa en delbar lenke. Post den i lokale Facebook-grupper som "Nesodden – kjop/salg", "Tomter til salgs Follo" og lignende. Legg gjerne ved et bilde og en kort beskrivelse. Tidspunkt: Legg ut søndag kveld eller mandag morgen for best rekkevidde.',
     prioritet: 'lav' as const,
   },
+]
+
+const TOMTER_SIDEBAR = [
+  { id: 'bjornemyrveien-20', label: 'Bjørnemyrveien 20' },
+  { id: 'bjornemyrveien-22', label: 'Bjørnemyrveien 2' },
+  { id: 'alvaern-67', label: 'Alværnvei 7' },
 ]
 
 type NavSection = 'oversikt' | 'interessenter' | 'statistikk' | 'dokumenter' | 'innstillinger'
@@ -558,6 +586,14 @@ export default function SelgerDashboard() {
   const [shareKopiert, setShareKopiert] = useState(false)
   const [tomtlyHaandterer, setTomtlyHaandterer] = useState(false)
   const [kopierteForslag, setKopierteForslag] = useState<Record<number, boolean>>({})
+  const [showKontaktPanel, setShowKontaktPanel] = useState(false)
+  const [kontaktMelding, setKontaktMelding] = useState('')
+  const [kontaktSendt, setKontaktSendt] = useState(false)
+  const [expandedTips, setExpandedTips] = useState<Record<number, boolean>>({})
+  const [showVisningModal, setShowVisningModal] = useState<number | null>(null)
+  const [visningDato, setVisningDato] = useState('')
+  const [visningTid, setVisningTid] = useState('12:00')
+  const [visningsendt, setVisningsendt] = useState(false)
 
   const harBud = Object.values(interessentStatuser).includes('bud_mottatt')
 
@@ -584,11 +620,32 @@ export default function SelgerDashboard() {
     })
   }
 
+  function handleSendKontaktMelding() {
+    if (!kontaktMelding.trim()) return
+    setKontaktSendt(true)
+    setKontaktMelding('')
+    setTimeout(() => setKontaktSendt(false), 3000)
+  }
+
+  function handleSendVisning(interessent: Interessent) {
+    setVisningsendt(true)
+    setTimeout(() => {
+      setVisningsendt(false)
+      setShowVisningModal(null)
+      setVisningDato('')
+      setVisningTid('12:00')
+    }, 2000)
+  }
+
+  function getVisningMelding(interessent: Interessent) {
+    return `Hei ${interessent.navn}, vi inviterer deg til visning av ${data.adresse} den ${visningDato} kl. ${visningTid}. Mvh ${data.selger.navn}`
+  }
+
   const QUICK_ACTIONS = [
     { label: shareKopiert ? 'Kopiert!' : 'Del tomteprofil', ikon: shareKopiert ? '✅' : '🔗', beskrivelse: shareKopiert ? `https://${data.shareUrl}` : 'Kopier lenke til tomtens profil på Tomtly.no', onClick: handleShare },
-    { label: 'Inviter til visning', ikon: '📅', beskrivelse: 'Send visningsinvitasjon til interessenter', onClick: () => {} },
-    { label: 'Last opp dokument', ikon: '📎', beskrivelse: 'Legg til nytt dokument i dokumentarkivet', onClick: () => {} },
-    { label: 'Kontakt Eiendomsekspert', ikon: '🏠', beskrivelse: 'Send melding til din Eiendomsekspert hos Tomtly', onClick: () => {} },
+    { label: 'Inviter til visning', ikon: '📅', beskrivelse: 'Send visningsinvitasjon til interessenter', onClick: () => setActiveNav('interessenter') },
+    { label: 'Last opp dokument', ikon: '📎', beskrivelse: 'Legg til nytt dokument i dokumentarkivet', onClick: () => setActiveNav('dokumenter') },
+    { label: 'Kontakt Eiendomsekspert', ikon: '🏠', beskrivelse: 'Send melding til din Eiendomsekspert hos Tomtly', onClick: () => setShowKontaktPanel(true) },
   ]
 
   // ─── Render ─────────────────────────────────────────────────────────────────
@@ -644,6 +701,27 @@ export default function SelgerDashboard() {
               <span>{item.label}</span>
             </button>
           ))}
+
+          {/* Dine tomter */}
+          <div className="mt-6 px-6 mb-2">
+            <p className="text-[10px] uppercase tracking-widest text-white/30 font-semibold">Dine tomter</p>
+          </div>
+          {TOMTER_SIDEBAR.map((t) => (
+            <Link
+              key={t.id}
+              href={`/dashboard/${t.id}`}
+              className={`
+                w-full flex items-center gap-3 px-6 py-2.5 text-sm transition-colors
+                ${tomtId === t.id
+                  ? 'bg-white/10 text-tomtly-gold border-r-2 border-tomtly-gold'
+                  : 'text-white/40 hover:text-white hover:bg-white/5'
+                }
+              `}
+            >
+              <span className="text-xs">{tomtId === t.id ? '●' : '○'}</span>
+              <span className="text-xs">{t.label}</span>
+            </Link>
+          ))}
         </nav>
 
         {/* Sidebar footer */}
@@ -664,6 +742,127 @@ export default function SelgerDashboard() {
           className="fixed inset-0 bg-black/50 z-30 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
+      )}
+
+      {/* ── Visning Modal ──────────────────────────────────────────────────── */}
+      {showVisningModal !== null && (() => {
+        const interessent = data.interessenter.find(i => i.id === showVisningModal)
+        if (!interessent) return null
+        return (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+            <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-display font-bold text-tomtly-dark">Inviter til visning</h3>
+                <button onClick={() => { setShowVisningModal(null); setVisningsendt(false) }} className="text-brand-400 hover:text-tomtly-dark text-xl">&times;</button>
+              </div>
+              <p className="text-sm text-brand-500 mb-4">Send visningsinvitasjon til <span className="font-semibold">{interessent.navn}</span></p>
+              <div className="space-y-3 mb-4">
+                <div>
+                  <label className="text-xs font-medium text-brand-500 block mb-1">Dato</label>
+                  <input
+                    type="date"
+                    value={visningDato}
+                    onChange={(e) => setVisningDato(e.target.value)}
+                    className="w-full border border-brand-200 rounded-lg px-3 py-2 text-sm text-tomtly-dark focus:outline-none focus:ring-2 focus:ring-tomtly-accent/30"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-brand-500 block mb-1">Tidspunkt</label>
+                  <input
+                    type="time"
+                    value={visningTid}
+                    onChange={(e) => setVisningTid(e.target.value)}
+                    className="w-full border border-brand-200 rounded-lg px-3 py-2 text-sm text-tomtly-dark focus:outline-none focus:ring-2 focus:ring-tomtly-accent/30"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-brand-500 block mb-1">Melding</label>
+                  <textarea
+                    readOnly
+                    value={visningDato ? getVisningMelding(interessent) : `Hei ${interessent.navn}, vi inviterer deg til visning av ${data.adresse} den [velg dato]. Mvh ${data.selger.navn}`}
+                    className="w-full border border-brand-200 rounded-lg px-3 py-2 text-sm text-brand-600 bg-brand-50 h-24 resize-none focus:outline-none"
+                  />
+                </div>
+              </div>
+              {visningsendt ? (
+                <div className="text-center py-3">
+                  <p className="text-sm text-green-700 font-medium">Invitasjon sendt!</p>
+                </div>
+              ) : (
+                <button
+                  onClick={() => handleSendVisning(interessent)}
+                  disabled={!visningDato}
+                  className="w-full bg-tomtly-accent text-white text-sm font-medium py-2.5 rounded-lg hover:bg-forest-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Send invitasjon
+                </button>
+              )}
+            </div>
+          </div>
+        )
+      })()}
+
+      {/* ── Kontakt Eiendomsekspert Panel ──────────────────────────────────── */}
+      {showKontaktPanel && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-display font-bold text-tomtly-dark">Kontakt Eiendomsekspert</h3>
+              <button onClick={() => setShowKontaktPanel(false)} className="text-brand-400 hover:text-tomtly-dark text-xl">&times;</button>
+            </div>
+            <div className="flex items-center gap-4 mb-4 pb-4 border-b border-brand-100">
+              <div className="w-12 h-12 rounded-full bg-forest-100 flex items-center justify-center text-lg">🏠</div>
+              <div>
+                <p className="text-sm font-semibold text-tomtly-dark">Jakob Bjøndal</p>
+                <p className="text-xs text-brand-400">Eiendomsekspert</p>
+              </div>
+            </div>
+            <div className="space-y-2 mb-4">
+              <div className="flex items-center gap-2 text-sm text-brand-600">
+                <span>📞</span>
+                <a href="tel:40603908" className="hover:text-tomtly-accent">40603908</a>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-brand-600">
+                <span>✉️</span>
+                <a href="mailto:jakob@tomtly.no" className="hover:text-tomtly-accent">jakob@tomtly.no</a>
+              </div>
+            </div>
+            <div className="flex gap-2 mb-4">
+              <a
+                href="tel:40603908"
+                className="flex-1 text-center text-sm font-medium bg-tomtly-accent text-white py-2.5 rounded-lg hover:bg-forest-600 transition-colors"
+              >
+                Ring na
+              </a>
+              <a
+                href="mailto:jakob@tomtly.no"
+                className="flex-1 text-center text-sm font-medium bg-white border border-brand-200 text-tomtly-dark py-2.5 rounded-lg hover:bg-brand-50 transition-colors"
+              >
+                Send melding
+              </a>
+            </div>
+            <div className="border-t border-brand-100 pt-4">
+              <label className="text-xs font-medium text-brand-500 block mb-2">Skriv en melding</label>
+              <textarea
+                value={kontaktMelding}
+                onChange={(e) => setKontaktMelding(e.target.value)}
+                placeholder="Skriv din melding her..."
+                className="w-full border border-brand-200 rounded-lg px-3 py-2 text-sm text-tomtly-dark h-24 resize-none focus:outline-none focus:ring-2 focus:ring-tomtly-accent/30 mb-2"
+              />
+              {kontaktSendt ? (
+                <p className="text-sm text-green-700 font-medium text-center py-2">Melding sendt!</p>
+              ) : (
+                <button
+                  onClick={handleSendKontaktMelding}
+                  disabled={!kontaktMelding.trim()}
+                  className="w-full bg-tomtly-accent text-white text-sm font-medium py-2.5 rounded-lg hover:bg-forest-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Send melding
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
       )}
 
       {/* ── Main Content ───────────────────────────────────────────────────── */}
@@ -699,710 +898,844 @@ export default function SelgerDashboard() {
 
         <div className="px-4 sm:px-8 py-6 max-w-6xl">
 
-          {/* ── Key Metrics ──────────────────────────────────────────────── */}
-          <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            {[
-              { label: 'Visninger', ...data.metrics.visninger },
-              { label: 'Interessenter', ...data.metrics.interessenter },
-              { label: 'Visningsforespørsler', ...data.metrics.visningsforesporsler },
-              { label: 'Tomtescore', ...data.metrics.tomtescore },
-            ].map((m) => (
-              <div
-                key={m.label}
-                className="bg-white rounded-xl border border-brand-200 p-5 hover:shadow-md transition-shadow"
-              >
-                <p className="text-xs font-medium text-brand-500 uppercase tracking-wide mb-1">
-                  {m.label}
-                </p>
-                <p className="text-2xl sm:text-3xl font-bold text-tomtly-dark font-mono">
-                  {m.tall}
-                </p>
-                <p className={`text-xs mt-1 ${m.trend === 'up' ? 'text-green-600' : 'text-brand-400'}`}>
-                  {m.trend === 'up' && '↑ '}{m.endring}
-                </p>
-              </div>
-            ))}
-          </section>
-
-          {/* ── Quick Actions ────────────────────────────────────────────── */}
-          <section className="mb-8">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-              {QUICK_ACTIONS.map((a) => (
-                <button
-                  key={a.label}
-                  onClick={a.onClick}
-                  className="bg-white rounded-xl border border-brand-200 p-4 hover:shadow-md hover:border-forest-300 transition-all text-left group"
-                >
-                  <span className="text-2xl block mb-2 group-hover:scale-110 transition-transform inline-block">
-                    {a.ikon}
-                  </span>
-                  <p className="text-sm font-medium text-tomtly-dark mb-0.5">{a.label}</p>
-                  <p className="text-xs text-brand-400 leading-relaxed">{a.beskrivelse}</p>
-                </button>
-              ))}
-            </div>
-          </section>
-
-          {/* ── La Tomtly håndtere forespørsler ────────────────────────── */}
-          <section className="mb-8">
-            <div className="bg-white rounded-xl border border-brand-200 p-5">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-semibold text-tomtly-dark mb-0.5">La Tomtly håndtere forespørsler</p>
-                  <p className="text-xs text-brand-400">
-                    {tomtlyHaandterer
-                      ? 'Tomtly Eiendomsekspert svarer på vegne av deg'
-                      : 'Du håndterer forespørsler selv'}
-                  </p>
-                </div>
-                <button
-                  onClick={() => setTomtlyHaandterer(!tomtlyHaandterer)}
-                  className={`
-                    w-12 h-7 rounded-full flex items-center px-0.5 cursor-pointer transition-colors
-                    ${tomtlyHaandterer ? 'bg-tomtly-accent' : 'bg-brand-200'}
-                  `}
-                >
+          {/* ══════════════════════════════════════════════════════════════════
+              OVERSIKT
+              ══════════════════════════════════════════════════════════════════ */}
+          {activeNav === 'oversikt' && (
+            <>
+              {/* ── Key Metrics ──────────────────────────────────────────────── */}
+              <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                {[
+                  { label: 'Visninger', ...data.metrics.visninger },
+                  { label: 'Interessenter', ...data.metrics.interessenter },
+                  { label: 'Visningsforespørsler', ...data.metrics.visningsforespørsler },
+                  { label: 'Tomtescore', ...data.metrics.tomtescore },
+                ].map((m) => (
                   <div
-                    className={`
-                      w-6 h-6 rounded-full bg-white shadow-sm transition-transform
-                      ${tomtlyHaandterer ? 'translate-x-5' : 'translate-x-0'}
-                    `}
-                  />
-                </button>
-              </div>
-              {tomtlyHaandterer && (
-                <div className="mt-3 pt-3 border-t border-brand-100">
-                  <p className="text-xs text-green-700 bg-green-50 border border-green-200 rounded-lg px-3 py-2">
-                    Tomtly Eiendomsekspert vil svare på alle nye forespørsler innen 2 timer. Du kan se alle svar i aktivitetsloggen.
-                  </p>
-                </div>
-              )}
-            </div>
-          </section>
-
-          {/* ── Tips / Neste steg ─────────────────────────────────────────── */}
-          <section className="mb-8">
-            <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
-              Anbefalinger
-            </h2>
-            <div className="space-y-3">
-              {TIPS.map((tip, idx) => (
-                <div
-                  key={idx}
-                  className={`rounded-xl border p-4 flex items-start gap-4 ${
-                    tip.prioritet === 'hoy'
-                      ? 'bg-red-50 border-red-200'
-                      : tip.prioritet === 'medium'
-                        ? 'bg-yellow-50 border-yellow-200'
-                        : 'bg-brand-50 border-brand-200'
-                  }`}
-                >
-                  <span className={`flex-shrink-0 w-2 h-2 rounded-full mt-2 ${
-                    tip.prioritet === 'hoy'
-                      ? 'bg-red-500'
-                      : tip.prioritet === 'medium'
-                        ? 'bg-yellow-500'
-                        : 'bg-brand-400'
-                  }`} />
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold text-tomtly-dark mb-0.5">{tip.tittel}</p>
-                    <p className="text-xs text-brand-500 leading-relaxed">{tip.tekst}</p>
+                    key={m.label}
+                    className="bg-white rounded-xl border border-brand-200 p-5 hover:shadow-md transition-shadow"
+                  >
+                    <p className="text-xs font-medium text-brand-500 uppercase tracking-wide mb-1">
+                      {m.label}
+                    </p>
+                    <p className="text-2xl sm:text-3xl font-bold text-tomtly-dark font-mono">
+                      {m.tall}
+                    </p>
+                    <p className={`text-xs mt-1 ${m.trend === 'up' ? 'text-green-600' : 'text-brand-400'}`}>
+                      {m.trend === 'up' && '↑ '}{m.endring}
+                    </p>
                   </div>
-                  <button className="flex-shrink-0 text-xs font-medium text-tomtly-accent hover:underline mt-0.5">
-                    Se mer
-                  </button>
-                </div>
-              ))}
-            </div>
-          </section>
+                ))}
+              </section>
 
-          {/* ── Activity Feed ────────────────────────────────────────────── */}
-          <section className="mb-8">
-            <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
-              Aktivitet
-            </h2>
-            <div className="bg-white rounded-xl border border-brand-200 divide-y divide-brand-100">
-              {data.aktiviteter.map((a) => (
-                <div key={a.id} className="px-5 py-4 flex items-start gap-4 hover:bg-brand-50 transition-colors">
-                  <span className="text-xl mt-0.5 flex-shrink-0">{a.icon}</span>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-tomtly-dark leading-relaxed">{a.tekst}</p>
-                    <p className="text-xs text-brand-400 mt-1">{a.tid}</p>
-                  </div>
-                  {a.harHandling && (
-                    <button className="flex-shrink-0 text-xs font-medium text-tomtly-accent bg-forest-50 hover:bg-forest-100 border border-forest-200 px-3 py-1.5 rounded-lg transition-colors">
-                      Svar
+              {/* ── Quick Actions ────────────────────────────────────────────── */}
+              <section className="mb-8">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                  {QUICK_ACTIONS.map((a) => (
+                    <button
+                      key={a.label}
+                      onClick={a.onClick}
+                      className="bg-white rounded-xl border border-brand-200 p-4 hover:shadow-md hover:border-forest-300 transition-all text-left group"
+                    >
+                      <span className="text-2xl block mb-2 group-hover:scale-110 transition-transform inline-block">
+                        {a.ikon}
+                      </span>
+                      <p className="text-sm font-medium text-tomtly-dark mb-0.5">{a.label}</p>
+                      <p className="text-xs text-brand-400 leading-relaxed">{a.beskrivelse}</p>
                     </button>
+                  ))}
+                </div>
+              </section>
+
+              {/* ── Activity Feed ────────────────────────────────────────────── */}
+              <section className="mb-8">
+                <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
+                  Aktivitet
+                </h2>
+                <div className="bg-white rounded-xl border border-brand-200 divide-y divide-brand-100">
+                  {data.aktiviteter.slice(0, 8).map((a) => (
+                    <div key={a.id} className="px-5 py-4 flex items-start gap-4 hover:bg-brand-50 transition-colors">
+                      <span className="text-xl mt-0.5 flex-shrink-0">{a.icon}</span>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm text-tomtly-dark leading-relaxed">{a.tekst}</p>
+                        <p className="text-xs text-brand-400 mt-1">{a.tid}</p>
+                      </div>
+                      {a.harHandling && (
+                        <button className="flex-shrink-0 text-xs font-medium text-tomtly-accent bg-forest-50 hover:bg-forest-100 border border-forest-200 px-3 py-1.5 rounded-lg transition-colors">
+                          Svar
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  {data.aktiviteter.length === 0 && (
+                    <div className="px-5 py-8 text-center">
+                      <p className="text-sm text-brand-400">Ingen aktivitet ennå. Aktivitet vises her etter publisering.</p>
+                    </div>
                   )}
                 </div>
-              ))}
-              {data.aktiviteter.length === 0 && (
-                <div className="px-5 py-8 text-center">
-                  <p className="text-sm text-brand-400">Ingen aktivitet ennå. Aktivitet vises her etter publisering.</p>
-                </div>
-              )}
-            </div>
-          </section>
+              </section>
 
-          {/* ── Interessenter Table ──────────────────────────────────────── */}
-          <section className="mb-8">
-            <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
-              Interessenter
-            </h2>
-            <div className="bg-white rounded-xl border border-brand-200 overflow-hidden">
-              {/* Table header */}
-              <div className="hidden sm:grid sm:grid-cols-[1fr_120px_100px_140px_50px] gap-4 px-5 py-3 bg-brand-50 border-b border-brand-200 text-xs font-medium text-brand-500 uppercase tracking-wide">
-                <span>Navn</span>
-                <span>Type</span>
-                <span>Dato</span>
-                <span>Status</span>
-                <span />
-              </div>
-
-              {/* Table rows */}
-              {data.interessenter.map((i) => {
-                const currentStatus = interessentStatuser[i.id] || i.status
-                const isExpanded = expandedInteressent === i.id
-
-                return (
-                  <div key={i.id} className="border-b border-brand-100 last:border-0">
-                    {/* Main row */}
-                    <div className="grid grid-cols-1 sm:grid-cols-[1fr_120px_100px_140px_50px] gap-2 sm:gap-4 px-5 py-4 items-center hover:bg-brand-50 transition-colors">
-                      <div>
-                        <p className="text-sm font-medium text-tomtly-dark">{i.navn}</p>
-                        <p className="text-xs text-brand-400 sm:hidden">{i.type} · {i.dato}</p>
-                      </div>
-                      <span className="hidden sm:block text-sm text-brand-600">{i.type}</span>
-                      <span className="hidden sm:block text-sm text-brand-500">{i.dato.slice(5)}</span>
-                      <div>
-                        <select
-                          value={currentStatus}
-                          onChange={(e) => updateStatus(i.id, e.target.value as InteressentStatus)}
-                          className={`text-xs font-medium px-2.5 py-1 rounded-full border cursor-pointer appearance-none ${STATUS_COLORS[currentStatus]}`}
+              {/* ── Anbefalinger ──────────────────────────────────────────────── */}
+              <section className="mb-8">
+                <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
+                  Anbefalinger
+                </h2>
+                <div className="space-y-3">
+                  {TIPS.map((tip, idx) => (
+                    <div
+                      key={idx}
+                      className={`rounded-xl border p-4 ${
+                        tip.prioritet === 'hoy'
+                          ? 'bg-red-50 border-red-200'
+                          : tip.prioritet === 'medium'
+                            ? 'bg-yellow-50 border-yellow-200'
+                            : 'bg-brand-50 border-brand-200'
+                      }`}
+                    >
+                      <div className="flex items-start gap-4">
+                        <span className={`flex-shrink-0 w-2 h-2 rounded-full mt-2 ${
+                          tip.prioritet === 'hoy'
+                            ? 'bg-red-500'
+                            : tip.prioritet === 'medium'
+                              ? 'bg-yellow-500'
+                              : 'bg-brand-400'
+                        }`} />
+                        <div className="flex-1">
+                          <p className="text-sm font-semibold text-tomtly-dark mb-0.5">{tip.tittel}</p>
+                          <p className="text-xs text-brand-500 leading-relaxed">{tip.tekst}</p>
+                        </div>
+                        <button
+                          onClick={() => setExpandedTips(prev => ({ ...prev, [idx]: !prev[idx] }))}
+                          className="flex-shrink-0 text-xs font-medium text-tomtly-accent hover:underline mt-0.5"
                         >
-                          {(Object.keys(STATUS_LABELS) as InteressentStatus[]).map((s) => (
-                            <option key={s} value={s}>{STATUS_LABELS[s]}</option>
-                          ))}
-                        </select>
+                          {expandedTips[idx] ? 'Skjul' : 'Se mer'}
+                        </button>
                       </div>
-                      <button
-                        onClick={() => setExpandedInteressent(isExpanded ? null : i.id)}
-                        className="text-brand-400 hover:text-tomtly-dark transition-colors text-sm"
-                        aria-label="Vis detaljer"
-                      >
-                        {isExpanded ? '▲' : '▼'}
-                      </button>
+                      {expandedTips[idx] && (
+                        <div className="mt-3 ml-6 pt-3 border-t border-brand-200/50">
+                          <p className="text-xs text-brand-600 leading-relaxed">{tip.ekstraTekst}</p>
+                        </div>
+                      )}
                     </div>
+                  ))}
+                </div>
+              </section>
 
-                    {/* Expanded details */}
-                    {isExpanded && (
-                      <div className="px-5 pb-4 bg-brand-50 animate-fade-up">
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
-                          <div>
-                            <p className="text-xs text-brand-400 mb-1">Telefon</p>
-                            <p className="text-tomtly-dark font-mono">{i.telefon}</p>
-                          </div>
-                          <div>
-                            <p className="text-xs text-brand-400 mb-1">E-post</p>
-                            <p className="text-tomtly-dark">{i.epost}</p>
-                          </div>
-                          <div>
-                            <p className="text-xs text-brand-400 mb-1">Notat</p>
-                            <p className="text-brand-600">{i.notat}</p>
-                          </div>
+              {/* ── Husmodeller ─────────────────────────────────────────────── */}
+              {data.husmodeller.length > 0 && (
+                <section className="mb-8">
+                  <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
+                    Husmodeller tilpasset tomten
+                  </h2>
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                    {data.husmodeller.map((modell) => (
+                      <div key={modell} className="bg-white rounded-xl border border-brand-200 p-4 hover:shadow-md transition-shadow text-center">
+                        <div className="w-12 h-12 bg-forest-50 rounded-lg flex items-center justify-center mx-auto mb-2">
+                          <span className="text-xl">🏠</span>
                         </div>
-                        <div className="flex gap-2 mt-3">
-                          <a
-                            href={`tel:${i.telefon.replace(/\s/g, '')}`}
-                            className="text-xs bg-tomtly-accent text-white px-3 py-1.5 rounded-lg hover:bg-forest-600 transition-colors"
+                        <p className="text-sm font-medium text-tomtly-dark">{modell}</p>
+                        <p className="text-xs text-brand-400 mt-0.5">Konsepthus</p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {/* ── Fremdrift ──────────────────────────────────────────────── */}
+              <section className="mb-8">
+                <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
+                  Fremdrift
+                </h2>
+                <div className="bg-white rounded-xl border border-brand-200 p-5">
+                  <div className="space-y-0">
+                    {data.fremdrift.map((s, idx) => (
+                      <div key={idx} className="flex items-start gap-3">
+                        <div className="flex flex-col items-center">
+                          {s.status === 'done' && (
+                            <div className="w-7 h-7 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0">
+                              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                <path d="M3 7l3 3 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            </div>
+                          )}
+                          {s.status === 'current' && (
+                            <div className="w-7 h-7 rounded-full bg-tomtly-accent flex items-center justify-center flex-shrink-0 relative">
+                              <div className="w-2.5 h-2.5 rounded-full bg-white animate-pulse" />
+                              <div className="absolute inset-0 rounded-full border-2 border-tomtly-accent animate-ping opacity-30" />
+                            </div>
+                          )}
+                          {s.status === 'future' && (
+                            <div className="w-7 h-7 rounded-full bg-brand-200 flex items-center justify-center flex-shrink-0">
+                              <div className="w-2 h-2 rounded-full bg-brand-400" />
+                            </div>
+                          )}
+                          {idx < data.fremdrift.length - 1 && (
+                            <div
+                              className={`w-0.5 h-6 ${
+                                s.status === 'done' ? 'bg-green-400' : s.status === 'current' ? 'bg-tomtly-accent/30' : 'bg-brand-200'
+                              }`}
+                            />
+                          )}
+                        </div>
+                        <p
+                          className={`text-sm pt-1 ${
+                            s.status === 'done'
+                              ? 'text-brand-500 line-through'
+                              : s.status === 'current'
+                                ? 'text-tomtly-dark font-semibold'
+                                : 'text-brand-400'
+                          }`}
+                        >
+                          {s.steg}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+
+              {/* ── Oppgjør (visible when bud_mottatt) ─────────────────────── */}
+              {harBud && (
+                <section className="mb-8 animate-fade-up">
+                  <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
+                    Oppgjør
+                  </h2>
+                  <div className="bg-gradient-to-br from-purple-50 to-white rounded-xl border border-purple-200 p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                      <div>
+                        <p className="text-sm text-brand-600 mb-1">
+                          Du har mottatt bud. Når bud er akseptert kan du starte oppgjør digitalt via Propr.
+                        </p>
+                        <p className="text-xs text-brand-400">
+                          Propr håndterer trygt oppgjør, tinglysning og overføring av eiendom.
+                        </p>
+                      </div>
+                      <a
+                        href="https://propr.no"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition-colors flex-shrink-0"
+                      >
+                        Start oppgjør via Propr
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                          <path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </section>
+              )}
+            </>
+          )}
+
+          {/* ══════════════════════════════════════════════════════════════════
+              INTERESSENTER
+              ══════════════════════════════════════════════════════════════════ */}
+          {activeNav === 'interessenter' && (
+            <>
+              <section className="mb-8">
+                <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
+                  Interessenter ({data.interessenter.length})
+                </h2>
+                <div className="bg-white rounded-xl border border-brand-200 overflow-hidden">
+                  {/* Table header */}
+                  <div className="hidden sm:grid sm:grid-cols-[1fr_120px_100px_140px_100px_50px] gap-4 px-5 py-3 bg-brand-50 border-b border-brand-200 text-xs font-medium text-brand-500 uppercase tracking-wide">
+                    <span>Navn</span>
+                    <span>Type</span>
+                    <span>Dato</span>
+                    <span>Status</span>
+                    <span>Visning</span>
+                    <span />
+                  </div>
+
+                  {/* Table rows */}
+                  {data.interessenter.map((i) => {
+                    const currentStatus = interessentStatuser[i.id] || i.status
+                    const isExpanded = expandedInteressent === i.id
+
+                    return (
+                      <div key={i.id} className="border-b border-brand-100 last:border-0">
+                        {/* Main row */}
+                        <div className="grid grid-cols-1 sm:grid-cols-[1fr_120px_100px_140px_100px_50px] gap-2 sm:gap-4 px-5 py-4 items-center hover:bg-brand-50 transition-colors">
+                          <div>
+                            <p className="text-sm font-medium text-tomtly-dark">{i.navn}</p>
+                            <p className="text-xs text-brand-400 sm:hidden">{i.type} · {i.dato}</p>
+                          </div>
+                          <span className="hidden sm:block text-sm text-brand-600">{i.type}</span>
+                          <span className="hidden sm:block text-sm text-brand-500">{i.dato.slice(5)}</span>
+                          <div>
+                            <select
+                              value={currentStatus}
+                              onChange={(e) => updateStatus(i.id, e.target.value as InteressentStatus)}
+                              className={`text-xs font-medium px-2.5 py-1 rounded-full border cursor-pointer appearance-none ${STATUS_COLORS[currentStatus]}`}
+                            >
+                              {(Object.keys(STATUS_LABELS) as InteressentStatus[]).map((s) => (
+                                <option key={s} value={s}>{STATUS_LABELS[s]}</option>
+                              ))}
+                            </select>
+                          </div>
+                          <div className="hidden sm:block">
+                            <button
+                              onClick={() => setShowVisningModal(i.id)}
+                              className="text-xs font-medium text-tomtly-accent bg-forest-50 hover:bg-forest-100 border border-forest-200 px-2.5 py-1 rounded-lg transition-colors"
+                            >
+                              📅 Inviter
+                            </button>
+                          </div>
+                          <button
+                            onClick={() => setExpandedInteressent(isExpanded ? null : i.id)}
+                            className="text-brand-400 hover:text-tomtly-dark transition-colors text-sm"
+                            aria-label="Vis detaljer"
                           >
-                            Ring
-                          </a>
-                          <a
-                            href={`mailto:${i.epost}`}
-                            className="text-xs bg-white border border-brand-200 text-tomtly-dark px-3 py-1.5 rounded-lg hover:bg-brand-50 transition-colors"
-                          >
-                            Send e-post
-                          </a>
+                            {isExpanded ? '▲' : '▼'}
+                          </button>
                         </div>
 
-                        {/* Foreslått svar / AI auto-reply */}
-                        {i.foreslattSvar && (
-                          <div className="mt-4 pt-4 border-t border-brand-200">
-                            <p className="text-xs font-semibold text-brand-500 uppercase tracking-wide mb-2">Foreslått svar</p>
-                            <div className="bg-white border border-brand-200 rounded-lg p-3">
-                              <p className="text-xs text-brand-600 leading-relaxed">{i.foreslattSvar}</p>
+                        {/* Expanded details */}
+                        {isExpanded && (
+                          <div className="px-5 pb-4 bg-brand-50 animate-fade-up">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+                              <div>
+                                <p className="text-xs text-brand-400 mb-1">Telefon</p>
+                                <p className="text-tomtly-dark font-mono">{i.telefon}</p>
+                              </div>
+                              <div>
+                                <p className="text-xs text-brand-400 mb-1">E-post</p>
+                                <p className="text-tomtly-dark">{i.epost}</p>
+                              </div>
+                              <div>
+                                <p className="text-xs text-brand-400 mb-1">Notat</p>
+                                <p className="text-brand-600">{i.notat}</p>
+                              </div>
                             </div>
-                            <div className="flex gap-2 mt-2">
-                              <button
-                                onClick={() => handleKopierForslag(i.id, i.foreslattSvar || '')}
-                                className="text-xs font-medium bg-white border border-brand-200 text-tomtly-dark px-3 py-1.5 rounded-lg hover:bg-brand-50 transition-colors"
+                            <div className="flex gap-2 mt-3">
+                              <a
+                                href={`tel:${i.telefon.replace(/\s/g, '')}`}
+                                className="text-xs bg-tomtly-accent text-white px-3 py-1.5 rounded-lg hover:bg-forest-600 transition-colors"
                               >
-                                {kopierteForslag[i.id] ? 'Kopiert!' : 'Kopier svar'}
-                              </button>
-                              <button
-                                onClick={() => setTomtlyHaandterer(true)}
-                                className="text-xs font-medium bg-tomtly-accent text-white px-3 py-1.5 rounded-lg hover:bg-forest-600 transition-colors"
+                                Ring
+                              </a>
+                              <a
+                                href={`mailto:${i.epost}`}
+                                className="text-xs bg-white border border-brand-200 text-tomtly-dark px-3 py-1.5 rounded-lg hover:bg-brand-50 transition-colors"
                               >
-                                La Tomtly håndtere
+                                Send e-post
+                              </a>
+                              <button
+                                onClick={() => setShowVisningModal(i.id)}
+                                className="text-xs bg-white border border-forest-200 text-tomtly-accent px-3 py-1.5 rounded-lg hover:bg-forest-50 transition-colors sm:hidden"
+                              >
+                                📅 Inviter til visning
                               </button>
                             </div>
+
+                            {/* Foreslatt svar / AI auto-reply */}
+                            {i.foreslattSvar && (
+                              <div className="mt-4 pt-4 border-t border-brand-200">
+                                <p className="text-xs font-semibold text-brand-500 uppercase tracking-wide mb-2">Foreslatt svar</p>
+                                <div className="bg-white border border-brand-200 rounded-lg p-3">
+                                  <p className="text-xs text-brand-600 leading-relaxed">{i.foreslattSvar}</p>
+                                </div>
+                                <div className="flex gap-2 mt-2">
+                                  <button
+                                    onClick={() => handleKopierForslag(i.id, i.foreslattSvar || '')}
+                                    className="text-xs font-medium bg-white border border-brand-200 text-tomtly-dark px-3 py-1.5 rounded-lg hover:bg-brand-50 transition-colors"
+                                  >
+                                    {kopierteForslag[i.id] ? 'Kopiert!' : 'Kopier svar'}
+                                  </button>
+                                  <button
+                                    onClick={() => setTomtlyHaandterer(true)}
+                                    className="text-xs font-medium bg-tomtly-accent text-white px-3 py-1.5 rounded-lg hover:bg-forest-600 transition-colors"
+                                  >
+                                    La Tomtly håndtere
+                                  </button>
+                                </div>
+                              </div>
+                            )}
                           </div>
                         )}
                       </div>
-                    )}
-                  </div>
-                )
-              })}
+                    )
+                  })}
 
-              {data.interessenter.length === 0 && (
-                <div className="px-5 py-8 text-center">
-                  <p className="text-sm text-brand-400">Ingen interessenter ennå. Interessenter vises her etter publisering og markedsføring.</p>
+                  {data.interessenter.length === 0 && (
+                    <div className="px-5 py-8 text-center">
+                      <p className="text-sm text-brand-400">Ingen interessenter ennå. Interessenter vises her etter publisering og markedsføring.</p>
+                    </div>
+                  )}
                 </div>
+              </section>
+            </>
+          )}
+
+          {/* ══════════════════════════════════════════════════════════════════
+              STATISTIKK
+              ══════════════════════════════════════════════════════════════════ */}
+          {activeNav === 'statistikk' && (
+            <>
+              {/* ── Traffic Chart (CSS-based) ────────────────────────────────── */}
+              {data.trafikk.length > 0 ? (
+                <section className="mb-8">
+                  <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
+                    Trafikk siste 14 dager
+                  </h2>
+                  <div className="bg-white rounded-xl border border-brand-200 p-5">
+                    {/* Bar chart */}
+                    <div className="flex items-end gap-1 sm:gap-2 h-40 mb-4">
+                      {data.trafikk.map((d, idx) => (
+                        <div key={idx} className="flex-1 flex flex-col items-center gap-1">
+                          <span className="text-[10px] font-mono text-brand-400">{d.visninger}</span>
+                          <div
+                            className="w-full rounded-t bg-gradient-to-t from-forest-500 to-forest-300 transition-all duration-300 hover:from-tomtly-accent hover:to-forest-400"
+                            style={{ height: `${(d.visninger / maxVisninger) * 100}%` }}
+                          />
+                          <span className="text-[9px] text-brand-400 whitespace-nowrap hidden sm:block">
+                            {d.dag.slice(0, 6)}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Stats row */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-brand-100">
+                      <div>
+                        <p className="text-xs text-brand-400">Totalt</p>
+                        <p className="text-lg font-bold font-mono text-tomtly-dark">{totalVisninger}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-brand-400">Gjennomsnitt/dag</p>
+                        <p className="text-lg font-bold font-mono text-tomtly-dark">{gjennomsnitt}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-brand-400">Beste dag</p>
+                        <p className="text-lg font-bold font-mono text-tomtly-dark">{besteDag.visninger} <span className="text-xs font-normal text-brand-400">({besteDag.dag})</span></p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-brand-400">Trend</p>
+                        <p className="text-lg font-bold text-green-600">↑ Stigende</p>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              ) : (
+                <section className="mb-8">
+                  <div className="bg-white rounded-xl border border-brand-200 p-8 text-center">
+                    <p className="text-lg mb-1">📊</p>
+                    <p className="text-sm text-brand-400">Ingen trafikkdata ennå. Statistikk vises etter publisering.</p>
+                  </div>
+                </section>
               )}
-            </div>
-          </section>
 
-          {/* ── Traffic Chart (CSS-based) ────────────────────────────────── */}
-          {data.trafikk.length > 0 && (
-            <section className="mb-8">
-              <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
-                Trafikk siste 14 dager
-              </h2>
-              <div className="bg-white rounded-xl border border-brand-200 p-5">
-                {/* Bar chart */}
-                <div className="flex items-end gap-1 sm:gap-2 h-40 mb-4">
-                  {data.trafikk.map((d, idx) => (
-                    <div key={idx} className="flex-1 flex flex-col items-center gap-1">
-                      <span className="text-[10px] font-mono text-brand-400">{d.visninger}</span>
+              {/* ── Traffic Sources ──────────────────────────────────────────── */}
+              {data.trafikkkilder.length > 0 && (
+                <section className="mb-8">
+                  <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
+                    Trafikkilder
+                  </h2>
+                  <div className="bg-white rounded-xl border border-brand-200 p-5">
+                    <div className="space-y-3">
+                      {data.trafikkkilder.map((s) => (
+                        <div key={s.kilde}>
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-sm text-tomtly-dark">{s.kilde}</span>
+                            <span className="text-sm font-mono text-brand-500">
+                              {s.visninger} <span className="text-xs text-brand-400">({s.prosent}%)</span>
+                            </span>
+                          </div>
+                          <div className="w-full h-2 bg-brand-100 rounded-full overflow-hidden">
+                            <div
+                              className="h-full rounded-full bg-gradient-to-r from-forest-400 to-forest-600 transition-all duration-500"
+                              style={{ width: `${s.prosent}%` }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-4 pt-4 border-t border-brand-100">
+                      <p className="text-xs text-brand-400">
+                        Totalt {data.metrics.visninger.tall} visninger fra {data.trafikkkilder.length} kilder.
+                        Hovedkilden er direkte trafikk til Tomtly.no.
+                      </p>
+                    </div>
+                  </div>
+                </section>
+              )}
+
+              {/* ── Marketing Status ─────────────────────────────────────────── */}
+              {data.markedsføring.length > 0 && (
+                <section className="mb-8">
+                  <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
+                    Markedsføring
+                  </h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    {data.markedsføring.map((m) => (
                       <div
-                        className="w-full rounded-t bg-gradient-to-t from-forest-500 to-forest-300 transition-all duration-300 hover:from-tomtly-accent hover:to-forest-400"
-                        style={{ height: `${(d.visninger / maxVisninger) * 100}%` }}
-                      />
-                      <span className="text-[9px] text-brand-400 whitespace-nowrap hidden sm:block">
-                        {d.dag.slice(0, 6)}
-                      </span>
+                        key={m.kanal}
+                        className={`rounded-xl border p-5 ${m.farge}`}
+                      >
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-xl">{m.ikon}</span>
+                          <span className="text-sm font-semibold text-tomtly-dark">{m.kanal}</span>
+                        </div>
+                        <p className="text-xs font-medium text-green-700 mb-1">{m.status}</p>
+                        <p className="text-xs text-brand-500">{m.detalj}</p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {/* ── Comparable Sales ────────────────────────────────────────── */}
+              {data.sammenlignbare.length > 0 && (
+                <section className="mb-8">
+                  <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
+                    Sammenlignbare salg i området
+                  </h2>
+                  <div className="bg-white rounded-xl border border-brand-200 overflow-hidden">
+                    <div className="hidden sm:grid sm:grid-cols-[1fr_100px_100px_120px_100px] gap-4 px-5 py-3 bg-brand-50 border-b border-brand-200 text-xs font-medium text-brand-500 uppercase tracking-wide">
+                      <span>Adresse</span>
+                      <span>Areal</span>
+                      <span>Solgt for</span>
+                      <span>Kr/m²</span>
+                      <span>Dato</span>
+                    </div>
+                    {data.sammenlignbare.map((s, idx) => (
+                      <div
+                        key={idx}
+                        className="grid grid-cols-1 sm:grid-cols-[1fr_100px_100px_120px_100px] gap-1 sm:gap-4 px-5 py-3 border-b border-brand-100 last:border-0 hover:bg-brand-50 transition-colors"
+                      >
+                        <p className="text-sm text-tomtly-dark font-medium">{s.adresse}</p>
+                        <p className="text-sm text-brand-600 font-mono">{s.areal} m²</p>
+                        <p className="text-sm text-tomtly-dark font-mono">{(s.pris / 1000000).toFixed(1)}M</p>
+                        <p className="text-sm text-brand-500 font-mono">
+                          {Math.round(s.pris / s.areal).toLocaleString('nb-NO')} kr
+                        </p>
+                        <p className="text-sm text-brand-400">{s.dato}</p>
+                      </div>
+                    ))}
+                    <div className="px-5 py-3 bg-brand-50 border-t border-brand-200">
+                      <p className="text-xs text-brand-400">
+                        Gjennomsnittlig m²-pris på Nesodden: <span className="font-mono font-semibold text-tomtly-dark">3 310 kr/m²</span>.
+                        Din tomt: <span className="font-mono font-semibold text-tomtly-dark">{Math.round(data.pris / data.areal).toLocaleString('nb-NO')} kr/m²</span> (prisantydning).
+                      </p>
+                    </div>
+                  </div>
+                </section>
+              )}
+            </>
+          )}
+
+          {/* ══════════════════════════════════════════════════════════════════
+              DOKUMENTER
+              ══════════════════════════════════════════════════════════════════ */}
+          {activeNav === 'dokumenter' && (
+            <>
+              <section className="mb-8">
+                <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
+                  Dokumenter
+                </h2>
+                <div className="bg-white rounded-xl border border-brand-200 divide-y divide-brand-100">
+                  {data.dokumenter.map((d) => (
+                    <div key={d.navn} className="flex items-center justify-between px-5 py-3.5 hover:bg-brand-50 transition-colors">
+                      <div className="flex items-center gap-3">
+                        <span className="text-lg">{d.ikon}</span>
+                        <div>
+                          <p className="text-sm font-medium text-tomtly-dark">{d.navn}</p>
+                          <p className="text-xs text-brand-400">{d.type} · {d.dato}</p>
+                        </div>
+                      </div>
+                      <button className="text-xs font-medium text-tomtly-accent bg-forest-50 hover:bg-forest-100 border border-forest-200 px-3 py-1.5 rounded-lg transition-colors">
+                        Last ned
+                      </button>
                     </div>
                   ))}
                 </div>
+              </section>
 
-                {/* Stats row */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-brand-100">
-                  <div>
-                    <p className="text-xs text-brand-400">Totalt</p>
-                    <p className="text-lg font-bold font-mono text-tomtly-dark">{totalVisninger}</p>
+              {/* ── File Upload Area ────────────────────────────────────────── */}
+              <section className="mb-8">
+                <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
+                  Last opp dokumenter
+                </h2>
+                <div className="bg-white rounded-xl border-2 border-dashed border-brand-300 p-8 text-center hover:border-tomtly-accent hover:bg-forest-50/30 transition-colors cursor-pointer">
+                  <div className="mb-3">
+                    <span className="text-4xl">📂</span>
                   </div>
-                  <div>
-                    <p className="text-xs text-brand-400">Gjennomsnitt/dag</p>
-                    <p className="text-lg font-bold font-mono text-tomtly-dark">{gjennomsnitt}</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-brand-400">Beste dag</p>
-                    <p className="text-lg font-bold font-mono text-tomtly-dark">{besteDag.visninger} <span className="text-xs font-normal text-brand-400">({besteDag.dag})</span></p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-brand-400">Trend</p>
-                    <p className="text-lg font-bold text-green-600">↑ Stigende</p>
-                  </div>
-                </div>
-              </div>
-            </section>
-          )}
-
-          {/* ── Traffic Sources ──────────────────────────────────────────── */}
-          {data.trafikkkilder.length > 0 && (
-            <section className="mb-8">
-              <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
-                Trafikkilder
-              </h2>
-              <div className="bg-white rounded-xl border border-brand-200 p-5">
-                <div className="space-y-3">
-                  {data.trafikkkilder.map((s) => (
-                    <div key={s.kilde}>
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-sm text-tomtly-dark">{s.kilde}</span>
-                        <span className="text-sm font-mono text-brand-500">
-                          {s.visninger} <span className="text-xs text-brand-400">({s.prosent}%)</span>
-                        </span>
-                      </div>
-                      <div className="w-full h-2 bg-brand-100 rounded-full overflow-hidden">
-                        <div
-                          className="h-full rounded-full bg-gradient-to-r from-forest-400 to-forest-600 transition-all duration-500"
-                          style={{ width: `${s.prosent}%` }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-4 pt-4 border-t border-brand-100">
-                  <p className="text-xs text-brand-400">
-                    Totalt {data.metrics.visninger.tall} visninger fra {data.trafikkkilder.length} kilder.
-                    Hovedkilden er direkte trafikk til Tomtly.no.
-                  </p>
-                </div>
-              </div>
-            </section>
-          )}
-
-          {/* ── Property Summary Card ────────────────────────────────────── */}
-          <section className="mb-8">
-            <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
-              Tomtedetaljer
-            </h2>
-            <div className="bg-white rounded-xl border border-brand-200 overflow-hidden">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-brand-100">
-                {/* Column 1: Regulering */}
-                <div className="p-5 space-y-3">
-                  <h3 className="text-xs font-semibold text-brand-500 uppercase tracking-wide">
-                    Regulering
-                  </h3>
-                  <div>
-                    <p className="text-xs text-brand-400">Formål</p>
-                    <p className="text-sm text-tomtly-dark">{data.tomtDetaljer.regulering}</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-brand-400">Utnyttelsesgrad</p>
-                    <p className="text-sm text-tomtly-dark font-mono">{data.tomtDetaljer.utnyttelsesgrad}</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-brand-400">Maks byggehøyde</p>
-                    <p className="text-sm text-tomtly-dark font-mono">{data.tomtDetaljer.maksHoyde}</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-brand-400">Matrikkel</p>
-                    <p className="text-sm text-tomtly-dark font-mono">{data.tomtDetaljer.matrikkel}</p>
-                  </div>
-                </div>
-
-                {/* Column 2: Infrastruktur */}
-                <div className="p-5 space-y-3">
-                  <h3 className="text-xs font-semibold text-brand-500 uppercase tracking-wide">
-                    Infrastruktur
-                  </h3>
-                  <div>
-                    <p className="text-xs text-brand-400">Vann</p>
-                    <p className="text-sm text-tomtly-dark">{data.tomtDetaljer.vann}</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-brand-400">Avløp</p>
-                    <p className="text-sm text-tomtly-dark">{data.tomtDetaljer.avlop}</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-brand-400">Adkomst</p>
-                    <p className="text-sm text-tomtly-dark">{data.tomtDetaljer.adkomst}</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-brand-400">Grunnforhold</p>
-                    <p className="text-sm text-tomtly-dark">{data.tomtDetaljer.grunnforhold}</p>
-                  </div>
-                </div>
-
-                {/* Column 3: Økonomi & forhold */}
-                <div className="p-5 space-y-3">
-                  <h3 className="text-xs font-semibold text-brand-500 uppercase tracking-wide">
-                    Økonomi & forhold
-                  </h3>
-                  <div>
-                    <p className="text-xs text-brand-400">Prisantydning</p>
-                    <p className="text-sm text-tomtly-dark font-bold font-mono">{data.tomtDetaljer.prisantydning}</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-brand-400">Kommunale avgifter</p>
-                    <p className="text-sm text-tomtly-dark font-mono">{data.tomtDetaljer.kommunaleAvgifter}</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-brand-400">Solforhold</p>
-                    <p className="text-sm text-tomtly-dark">{data.tomtDetaljer.solforhold}</p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-brand-400">Støy</p>
-                    <p className="text-sm text-tomtly-dark">{data.tomtDetaljer.stoy}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* View public profile link */}
-              <div className="border-t border-brand-100 px-5 py-3 bg-brand-50 flex items-center justify-between">
-                <p className="text-xs text-brand-400">
-                  Denne informasjonen vises til interessenter på tomteprofilen.
-                </p>
-                <Link
-                  href={data.tomtepresentasjonLink}
-                  className="text-xs font-medium text-tomtly-accent hover:underline flex items-center gap-1"
-                >
-                  Se tomtepresentasjon
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M3 9L9 3M9 3H4.5M9 3v4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </Link>
-              </div>
-            </div>
-          </section>
-
-          {/* ── Marketing Status ─────────────────────────────────────────── */}
-          {data.markedsforing.length > 0 && (
-            <section className="mb-8">
-              <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
-                Markedsføring
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {data.markedsforing.map((m) => (
-                  <div
-                    key={m.kanal}
-                    className={`rounded-xl border p-5 ${m.farge}`}
+                  <p className="text-sm font-medium text-tomtly-dark mb-1">Last opp dokumenter eller bilder</p>
+                  <p className="text-xs text-brand-400 mb-4">Dra og slipp filer hit, eller klikk for a velge</p>
+                  <p className="text-xs text-brand-300">Aksepterte formater: PDF, JPG, PNG (maks 25 MB)</p>
+                  <input
+                    type="file"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    multiple
+                    className="hidden"
+                    id="file-upload"
+                  />
+                  <label
+                    htmlFor="file-upload"
+                    className="inline-block mt-4 text-xs font-medium bg-tomtly-accent text-white px-4 py-2 rounded-lg hover:bg-forest-600 transition-colors cursor-pointer"
                   >
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xl">{m.ikon}</span>
-                      <span className="text-sm font-semibold text-tomtly-dark">{m.kanal}</span>
-                    </div>
-                    <p className="text-xs font-medium text-green-700 mb-1">{m.status}</p>
-                    <p className="text-xs text-brand-500">{m.detalj}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
+                    Velg filer
+                  </label>
+                </div>
+              </section>
+            </>
           )}
 
-          {/* ── Documents ────────────────────────────────────────────────── */}
-          <section className="mb-8">
-            <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
-              Dokumenter
-            </h2>
-            <div className="bg-white rounded-xl border border-brand-200 divide-y divide-brand-100">
-              {data.dokumenter.map((d) => (
-                <div key={d.navn} className="flex items-center justify-between px-5 py-3.5 hover:bg-brand-50 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <span className="text-lg">{d.ikon}</span>
+          {/* ══════════════════════════════════════════════════════════════════
+              INNSTILLINGER
+              ══════════════════════════════════════════════════════════════════ */}
+          {activeNav === 'innstillinger' && (
+            <>
+              {/* ── Your Package ──────────────────────────────────────────────── */}
+              <section className="mb-8">
+                <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
+                  Din pakke
+                </h2>
+                <div className="bg-gradient-to-br from-forest-50 to-white rounded-xl border border-forest-200 p-6">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                     <div>
-                      <p className="text-sm font-medium text-tomtly-dark">{d.navn}</p>
-                      <p className="text-xs text-brand-400">{d.type} · {d.dato}</p>
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-xl">🌲</span>
+                        <h3 className="text-lg font-display font-bold text-tomtly-dark">
+                          {data.pakke}
+                        </h3>
+                      </div>
+                      <p className="text-sm text-brand-600 mb-3 max-w-md">
+                        {data.pakkeBeskrivelse}
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {data.pakkeFeatures.map((f) => (
+                          <span
+                            key={f}
+                            className="text-xs bg-forest-100 text-forest-700 px-2.5 py-1 rounded-full border border-forest-200"
+                          >
+                            {f}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="text-right flex-shrink-0">
+                      <p className="text-xs text-brand-400">Fastpris</p>
+                      <p className="text-2xl font-bold font-mono text-tomtly-dark">{data.pakkePris}</p>
+                      <p className="text-xs text-brand-400 mt-0.5">{data.pakkeProvisjon}</p>
                     </div>
                   </div>
-                  <button className="text-xs font-medium text-tomtly-accent bg-forest-50 hover:bg-forest-100 border border-forest-200 px-3 py-1.5 rounded-lg transition-colors">
-                    Last ned
-                  </button>
+                  {/* Insurance clause */}
+                  <div className="mt-4 pt-4 border-t border-forest-200">
+                    <p className="text-xs text-brand-500 leading-relaxed">
+                      Ved oppsigelse av markedsføringspakken gjelder markedsføringsgebyret (2%) fortsatt dersom eiendommen selges innen 3 måneder etter oppsigelsesdato.
+                    </p>
+                  </div>
                 </div>
-              ))}
-            </div>
-          </section>
+              </section>
 
-          {/* ── Progress Checklist ────────────────────────────────────────── */}
-          <section className="mb-8">
-            <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
-              Fremdrift
-            </h2>
-            <div className="bg-white rounded-xl border border-brand-200 p-5">
-              <div className="space-y-0">
-                {data.fremdrift.map((s, idx) => (
-                  <div key={idx} className="flex items-start gap-3">
-                    {/* Vertical line + indicator */}
-                    <div className="flex flex-col items-center">
-                      {s.status === 'done' && (
-                        <div className="w-7 h-7 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0">
-                          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                            <path d="M3 7l3 3 5-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
+              {/* ── Notification Preferences ──────────────────────────────────── */}
+              <section className="mb-8">
+                <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
+                  Varsler og kontaktpreferanser
+                </h2>
+                <div className="bg-white rounded-xl border border-brand-200 p-5">
+                  <div className="space-y-4">
+                    {[
+                      { label: 'Nye interessenter', beskrivelse: 'Få varsel når noen registrerer interesse', aktiv: true },
+                      { label: 'Visningsforespørsler', beskrivelse: 'Bli varslet om nye forespørsler om visning', aktiv: true },
+                      { label: 'Ukentlig rapport', beskrivelse: 'Motta sammendrag med statistikk hver mandag', aktiv: true },
+                      { label: 'Markedsføringsoppdateringer', beskrivelse: 'Statusendringer for annonsekampanjer', aktiv: false },
+                      { label: 'Prisendringer i området', beskrivelse: 'Varsle når sammenlignbare tomter endrer pris', aktiv: false },
+                    ].map((v, idx) => (
+                      <div key={idx} className="flex items-center justify-between py-2">
+                        <div>
+                          <p className="text-sm font-medium text-tomtly-dark">{v.label}</p>
+                          <p className="text-xs text-brand-400">{v.beskrivelse}</p>
                         </div>
-                      )}
-                      {s.status === 'current' && (
-                        <div className="w-7 h-7 rounded-full bg-tomtly-accent flex items-center justify-center flex-shrink-0 relative">
-                          <div className="w-2.5 h-2.5 rounded-full bg-white animate-pulse" />
-                          <div className="absolute inset-0 rounded-full border-2 border-tomtly-accent animate-ping opacity-30" />
-                        </div>
-                      )}
-                      {s.status === 'future' && (
-                        <div className="w-7 h-7 rounded-full bg-brand-200 flex items-center justify-center flex-shrink-0">
-                          <div className="w-2 h-2 rounded-full bg-brand-400" />
-                        </div>
-                      )}
-                      {/* Connector line */}
-                      {idx < data.fremdrift.length - 1 && (
                         <div
-                          className={`w-0.5 h-6 ${
-                            s.status === 'done' ? 'bg-green-400' : s.status === 'current' ? 'bg-tomtly-accent/30' : 'bg-brand-200'
-                          }`}
-                        />
-                      )}
+                          className={`
+                            w-10 h-6 rounded-full flex items-center px-0.5 cursor-pointer transition-colors
+                            ${v.aktiv ? 'bg-tomtly-accent' : 'bg-brand-200'}
+                          `}
+                        >
+                          <div
+                            className={`
+                              w-5 h-5 rounded-full bg-white shadow-sm transition-transform
+                              ${v.aktiv ? 'translate-x-4' : 'translate-x-0'}
+                            `}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-5 pt-4 border-t border-brand-100">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-tomtly-dark">E-post for varsler</p>
+                        <p className="text-xs text-brand-400 font-mono">{data.selger.epost}</p>
+                      </div>
+                      <button className="text-xs font-medium text-tomtly-accent hover:underline">
+                        Endre
+                      </button>
                     </div>
-                    {/* Label */}
-                    <p
-                      className={`text-sm pt-1 ${
-                        s.status === 'done'
-                          ? 'text-brand-500 line-through'
-                          : s.status === 'current'
-                            ? 'text-tomtly-dark font-semibold'
-                            : 'text-brand-400'
-                      }`}
-                    >
-                      {s.steg}
-                    </p>
                   </div>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* ── Oppgjør Section (visible when bud_mottatt) ───────────────── */}
-          {harBud && (
-            <section className="mb-8 animate-fade-up">
-              <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
-                Oppgjør
-              </h2>
-              <div className="bg-gradient-to-br from-purple-50 to-white rounded-xl border border-purple-200 p-6">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                  <div>
-                    <p className="text-sm text-brand-600 mb-1">
-                      Du har mottatt bud. Når bud er akseptert kan du starte oppgjør digitalt via Propr.
-                    </p>
-                    <p className="text-xs text-brand-400">
-                      Propr håndterer trygt oppgjør, tinglysning og overføring av eiendom.
-                    </p>
-                  </div>
-                  <a
-                    href="https://propr.no"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition-colors flex-shrink-0"
-                  >
-                    Start oppgjør via Propr
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </a>
                 </div>
-              </div>
-            </section>
-          )}
+              </section>
 
-          {/* ── Comparable Sales ────────────────────────────────────────── */}
-          {data.sammenlignbare.length > 0 && (
-            <section className="mb-8">
-              <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
-                Sammenlignbare salg i området
-              </h2>
-              <div className="bg-white rounded-xl border border-brand-200 overflow-hidden">
-                <div className="hidden sm:grid sm:grid-cols-[1fr_100px_100px_120px_100px] gap-4 px-5 py-3 bg-brand-50 border-b border-brand-200 text-xs font-medium text-brand-500 uppercase tracking-wide">
-                  <span>Adresse</span>
-                  <span>Areal</span>
-                  <span>Solgt for</span>
-                  <span>Kr/m²</span>
-                  <span>Dato</span>
-                </div>
-                {data.sammenlignbare.map((s, idx) => (
-                  <div
-                    key={idx}
-                    className="grid grid-cols-1 sm:grid-cols-[1fr_100px_100px_120px_100px] gap-1 sm:gap-4 px-5 py-3 border-b border-brand-100 last:border-0 hover:bg-brand-50 transition-colors"
-                  >
-                    <p className="text-sm text-tomtly-dark font-medium">{s.adresse}</p>
-                    <p className="text-sm text-brand-600 font-mono">{s.areal} m²</p>
-                    <p className="text-sm text-tomtly-dark font-mono">{(s.pris / 1000000).toFixed(1)}M</p>
-                    <p className="text-sm text-brand-500 font-mono">
-                      {Math.round(s.pris / s.areal).toLocaleString('nb-NO')} kr
-                    </p>
-                    <p className="text-sm text-brand-400">{s.dato}</p>
-                  </div>
-                ))}
-                <div className="px-5 py-3 bg-brand-50 border-t border-brand-200">
-                  <p className="text-xs text-brand-400">
-                    Gjennomsnittlig m²-pris på Nesodden: <span className="font-mono font-semibold text-tomtly-dark">3 310 kr/m²</span>.
-                    Din tomt: <span className="font-mono font-semibold text-tomtly-dark">{Math.round(data.pris / data.areal).toLocaleString('nb-NO')} kr/m²</span> (prisantydning).
-                  </p>
-                </div>
-              </div>
-            </section>
-          )}
-
-          {/* ── Notification Preferences ──────────────────────────────────── */}
-          <section className="mb-8">
-            <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
-              Varsler og kontaktpreferanser
-            </h2>
-            <div className="bg-white rounded-xl border border-brand-200 p-5">
-              <div className="space-y-4">
-                {[
-                  { label: 'Nye interessenter', beskrivelse: 'Få varsel når noen registrerer interesse', aktiv: true },
-                  { label: 'Visningsforespørsler', beskrivelse: 'Bli varslet om nye forespørsler om visning', aktiv: true },
-                  { label: 'Ukentlig rapport', beskrivelse: 'Motta sammendrag med statistikk hver mandag', aktiv: true },
-                  { label: 'Markedsføringsoppdateringer', beskrivelse: 'Statusendringer for annonsekampanjer', aktiv: false },
-                  { label: 'Prisendringer i området', beskrivelse: 'Varsle når sammenlignbare tomter endrer pris', aktiv: false },
-                ].map((v, idx) => (
-                  <div key={idx} className="flex items-center justify-between py-2">
+              {/* ── La Tomtly håndtere forespørsler ────────────────────────── */}
+              <section className="mb-8">
+                <div className="bg-white rounded-xl border border-brand-200 p-5">
+                  <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium text-tomtly-dark">{v.label}</p>
-                      <p className="text-xs text-brand-400">{v.beskrivelse}</p>
+                      <p className="text-sm font-semibold text-tomtly-dark mb-0.5">La Tomtly håndtere forespørsler</p>
+                      <p className="text-xs text-brand-400">
+                        {tomtlyHaandterer
+                          ? 'Tomtly Eiendomsekspert svarer på vegne av deg'
+                          : 'Du håndterer forespørsler selv'}
+                      </p>
                     </div>
-                    <div
+                    <button
+                      onClick={() => setTomtlyHaandterer(!tomtlyHaandterer)}
                       className={`
-                        w-10 h-6 rounded-full flex items-center px-0.5 cursor-pointer transition-colors
-                        ${v.aktiv ? 'bg-tomtly-accent' : 'bg-brand-200'}
+                        w-12 h-7 rounded-full flex items-center px-0.5 cursor-pointer transition-colors
+                        ${tomtlyHaandterer ? 'bg-tomtly-accent' : 'bg-brand-200'}
                       `}
                     >
                       <div
                         className={`
-                          w-5 h-5 rounded-full bg-white shadow-sm transition-transform
-                          ${v.aktiv ? 'translate-x-4' : 'translate-x-0'}
+                          w-6 h-6 rounded-full bg-white shadow-sm transition-transform
+                          ${tomtlyHaandterer ? 'translate-x-5' : 'translate-x-0'}
                         `}
                       />
+                    </button>
+                  </div>
+                  {tomtlyHaandterer && (
+                    <div className="mt-3 pt-3 border-t border-brand-100">
+                      <p className="text-xs text-green-700 bg-green-50 border border-green-200 rounded-lg px-3 py-2">
+                        Tomtly Eiendomsekspert vil svare på alle nye forespørsler innen 2 timer. Du kan se alle svar i aktivitetsloggen.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </section>
+
+              {/* ── Property Summary Card ────────────────────────────────────── */}
+              <section className="mb-8">
+                <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
+                  Tomtedetaljer
+                </h2>
+                <div className="bg-white rounded-xl border border-brand-200 overflow-hidden">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-brand-100">
+                    {/* Column 1: Regulering */}
+                    <div className="p-5 space-y-3">
+                      <h3 className="text-xs font-semibold text-brand-500 uppercase tracking-wide">
+                        Regulering
+                      </h3>
+                      <div>
+                        <p className="text-xs text-brand-400">Formål</p>
+                        <p className="text-sm text-tomtly-dark">{data.tomtDetaljer.regulering}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-brand-400">Utnyttelsesgrad</p>
+                        <p className="text-sm text-tomtly-dark font-mono">{data.tomtDetaljer.utnyttelsesgrad}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-brand-400">Maks byggehøyde</p>
+                        <p className="text-sm text-tomtly-dark font-mono">{data.tomtDetaljer.maksHoyde}</p>
+                      </div>
+                      {data.tomtDetaljer.gesimshøyde && (
+                        <div>
+                          <p className="text-xs text-brand-400">Gesimshoeyde</p>
+                          <p className="text-sm text-tomtly-dark font-mono">{data.tomtDetaljer.gesimshøyde}</p>
+                        </div>
+                      )}
+                      {data.tomtDetaljer.etasjer && (
+                        <div>
+                          <p className="text-xs text-brand-400">Etasjer</p>
+                          <p className="text-sm text-tomtly-dark font-mono">{data.tomtDetaljer.etasjer}</p>
+                        </div>
+                      )}
+                      <div>
+                        <p className="text-xs text-brand-400">Matrikkel</p>
+                        <p className="text-sm text-tomtly-dark font-mono">{data.tomtDetaljer.matrikkel}</p>
+                      </div>
+                      {data.tomtDetaljer.fradelingStatus && (
+                        <div>
+                          <p className="text-xs text-brand-400">Fradelingsstatus</p>
+                          <p className="text-sm text-green-700 font-medium">{data.tomtDetaljer.fradelingStatus}</p>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Column 2: Infrastruktur */}
+                    <div className="p-5 space-y-3">
+                      <h3 className="text-xs font-semibold text-brand-500 uppercase tracking-wide">
+                        Infrastruktur
+                      </h3>
+                      <div>
+                        <p className="text-xs text-brand-400">Vann</p>
+                        <p className="text-sm text-tomtly-dark">{data.tomtDetaljer.vann}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-brand-400">Avlop</p>
+                        <p className="text-sm text-tomtly-dark">{data.tomtDetaljer.avlop}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-brand-400">Adkomst</p>
+                        <p className="text-sm text-tomtly-dark">{data.tomtDetaljer.adkomst}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-brand-400">Grunnforhold</p>
+                        <p className="text-sm text-tomtly-dark">{data.tomtDetaljer.grunnforhold}</p>
+                      </div>
+                      {data.tomtDetaljer.terreng && (
+                        <div>
+                          <p className="text-xs text-brand-400">Terreng</p>
+                          <p className="text-sm text-tomtly-dark">{data.tomtDetaljer.terreng}</p>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Column 3: Økonomi & forhold */}
+                    <div className="p-5 space-y-3">
+                      <h3 className="text-xs font-semibold text-brand-500 uppercase tracking-wide">
+                        Økonomi &amp; forhold
+                      </h3>
+                      <div>
+                        <p className="text-xs text-brand-400">Prisantydning</p>
+                        <p className="text-sm text-tomtly-dark font-bold font-mono">{data.tomtDetaljer.prisantydning}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-brand-400">Kommunale avgifter</p>
+                        <p className="text-sm text-tomtly-dark font-mono">{data.tomtDetaljer.kommunaleAvgifter}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-brand-400">Solforhold</p>
+                        <p className="text-sm text-tomtly-dark">{data.tomtDetaljer.solforhold}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-brand-400">Støy</p>
+                        <p className="text-sm text-tomtly-dark">{data.tomtDetaljer.støy}</p>
+                      </div>
                     </div>
                   </div>
-                ))}
-              </div>
-              <div className="mt-5 pt-4 border-t border-brand-100">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-tomtly-dark">E-post for varsler</p>
-                    <p className="text-xs text-brand-400 font-mono">{data.selger.epost}</p>
-                  </div>
-                  <button className="text-xs font-medium text-tomtly-accent hover:underline">
-                    Endre
-                  </button>
-                </div>
-              </div>
-            </div>
-          </section>
 
-          {/* ── Your Package ──────────────────────────────────────────────── */}
-          <section className="mb-8">
-            <h2 className="text-lg font-display font-semibold text-tomtly-dark mb-4">
-              Din pakke
-            </h2>
-            <div className="bg-gradient-to-br from-forest-50 to-white rounded-xl border border-forest-200 p-6">
-              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xl">🌲</span>
-                    <h3 className="text-lg font-display font-bold text-tomtly-dark">
-                      {data.pakke}
-                    </h3>
-                  </div>
-                  <p className="text-sm text-brand-600 mb-3 max-w-md">
-                    {data.pakkeBeskrivelse}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {data.pakkeFeatures.map((f) => (
-                      <span
-                        key={f}
-                        className="text-xs bg-forest-100 text-forest-700 px-2.5 py-1 rounded-full border border-forest-200"
-                      >
-                        {f}
-                      </span>
-                    ))}
+                  {/* View public profile link */}
+                  <div className="border-t border-brand-100 px-5 py-3 bg-brand-50 flex items-center justify-between">
+                    <p className="text-xs text-brand-400">
+                      Denne informasjonen vises til interessenter på tomteprofilen.
+                    </p>
+                    <Link
+                      href={data.tomtepresentasjonLink}
+                      className="text-xs font-medium text-tomtly-accent hover:underline flex items-center gap-1"
+                    >
+                      Se tomtepresentasjon
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                        <path d="M3 9L9 3M9 3H4.5M9 3v4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </Link>
                   </div>
                 </div>
-                <div className="text-right flex-shrink-0">
-                  <p className="text-xs text-brand-400">Fastpris</p>
-                  <p className="text-2xl font-bold font-mono text-tomtly-dark">{data.pakkePris}</p>
-                  <p className="text-xs text-brand-400 mt-0.5">{data.pakkeProvisjon}</p>
-                </div>
-              </div>
-              {/* Insurance clause */}
-              <div className="mt-4 pt-4 border-t border-forest-200">
-                <p className="text-xs text-brand-500 leading-relaxed">
-                  Ved oppsigelse av markedsføringspakken gjelder markedsføringsgebyret (2%) fortsatt dersom eiendommen selges innen 3 måneder etter oppsigelsesdato.
-                </p>
-              </div>
-            </div>
-          </section>
+              </section>
+            </>
+          )}
 
           {/* ── Footer spacer ────────────────────────────────────────────── */}
           <div className="pb-12" />
