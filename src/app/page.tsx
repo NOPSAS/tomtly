@@ -75,17 +75,29 @@ function HeroSection() {
             og verdivurdering – klar til salg.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col sm:flex-row gap-3 flex-wrap">
             <Link
               href="/selger/onboarding"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-tomtly-accent text-white font-semibold rounded-lg hover:bg-forest-700 transition-colors text-lg"
+              className="inline-flex items-center justify-center gap-2 px-7 py-4 bg-tomtly-accent text-white font-semibold rounded-lg hover:bg-forest-700 transition-colors text-lg"
             >
-              Analyser din tomt
+              Legg ut din tomt
               <ArrowRight className="w-5 h-5" />
             </Link>
             <Link
+              href="/tomteanalyse"
+              className="inline-flex items-center justify-center gap-2 px-7 py-4 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-medium rounded-lg hover:bg-white/20 transition-colors"
+            >
+              Gratis tomteanalyse
+            </Link>
+            <a
+              href="#verdivurdering"
+              className="inline-flex items-center justify-center gap-2 px-7 py-4 border border-brand-600 text-brand-300 font-medium rounded-lg hover:bg-brand-900 transition-colors"
+            >
+              Hva er tomten din verdt?
+            </a>
+            <Link
               href="/tomter"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-brand-600 text-brand-300 font-medium rounded-lg hover:bg-brand-900 transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-7 py-4 border border-brand-600 text-brand-300 font-medium rounded-lg hover:bg-brand-900 transition-colors"
             >
               Se tomter til salgs
             </Link>

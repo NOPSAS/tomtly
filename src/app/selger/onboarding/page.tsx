@@ -256,28 +256,75 @@ function Steg1Tomt() {
 }
 
 function Steg2Prismodell() {
+  const [valgtPakke, setValgtPakke] = useState<'analyse' | 'markedsforing'>('markedsforing')
+
   return (
     <div className="bg-white rounded-xl border border-brand-200 p-8">
       <h2 className="text-lg font-semibold text-tomtly-dark mb-2">
-        Prismodell
+        Velg pakke
       </h2>
       <p className="text-sm text-brand-500 mb-6">
-        Én enkel pris. Alt inkludert – analyse, markedsføring og salg via megler.
+        Velg mellom å gjøre alt selv eller la Tomtly håndtere markedsføring og interessenter.
       </p>
 
-      <div className="p-6 rounded-xl border-2 border-tomtly-accent bg-forest-50">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <p className="font-semibold text-tomtly-dark text-lg">Komplett pakke</p>
-            <p className="text-sm text-brand-500 mt-0.5">Tomtanalyse, mulighetsstudie, husmodeller, byggekalkyle, visualiseringer, publisering, markedsføring og salg via vår megler.</p>
+      <div className="space-y-4">
+        {/* Tomteanalyse */}
+        <button
+          onClick={() => setValgtPakke('analyse')}
+          className={`w-full text-left p-5 rounded-xl border-2 transition-all ${
+            valgtPakke === 'analyse' ? 'border-tomtly-accent bg-forest-50' : 'border-brand-200 hover:border-brand-300'
+          }`}
+        >
+          <div className="flex items-center justify-between mb-2">
+            <p className="font-semibold text-tomtly-dark">Tomteanalyse</p>
+            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${valgtPakke === 'analyse' ? 'border-tomtly-accent' : 'border-brand-300'}`}>
+              {valgtPakke === 'analyse' && <div className="w-2.5 h-2.5 rounded-full bg-tomtly-accent" />}
+            </div>
           </div>
-        </div>
-        <div className="flex items-baseline gap-2">
-          <p className="text-3xl font-bold text-tomtly-dark">4 990 kr</p>
-          <p className="text-brand-500">+ 2,5 % ved salg</p>
-        </div>
-        <p className="text-xs text-brand-400 mt-2">Oppgjør håndteres av Propr. Du betaler kun provisjon når tomten er solgt.</p>
+          <p className="text-sm text-brand-500 mb-3">Komplett analyse med husmodeller, 3D-visualisering, byggekalkyle og verdivurdering. Du selger selv.</p>
+          <div className="flex items-baseline gap-2">
+            <span className="text-2xl font-bold text-tomtly-dark">9 900 kr</span>
+            <span className="text-sm text-brand-400">engangspris</span>
+          </div>
+        </button>
+
+        {/* Analyse + Markedsføring */}
+        <button
+          onClick={() => setValgtPakke('markedsforing')}
+          className={`w-full text-left p-5 rounded-xl border-2 transition-all relative ${
+            valgtPakke === 'markedsforing' ? 'border-tomtly-accent bg-forest-50' : 'border-brand-200 hover:border-brand-300'
+          }`}
+        >
+          <div className="absolute -top-2.5 right-4 px-2.5 py-0.5 bg-tomtly-accent text-white text-[10px] font-semibold rounded-full">Mest populær</div>
+          <div className="flex items-center justify-between mb-2">
+            <p className="font-semibold text-tomtly-dark">Analyse + Markedsføring</p>
+            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${valgtPakke === 'markedsforing' ? 'border-tomtly-accent' : 'border-brand-300'}`}>
+              {valgtPakke === 'markedsforing' && <div className="w-2.5 h-2.5 rounded-full bg-tomtly-accent" />}
+            </div>
+          </div>
+          <p className="text-sm text-brand-500 mb-3">Alt i analysepakken + profesjonell annonsering, salgsdashboard, interessenthåndtering og Eiendomsekspert-støtte i inntil 12 måneder.</p>
+          <div className="flex items-baseline gap-2">
+            <span className="text-2xl font-bold text-tomtly-dark">4 990 kr</span>
+            <span className="text-sm text-brand-400">+ 2 % markedsføringsgebyr ved salg</span>
+          </div>
+          <p className="text-[10px] text-brand-400 mt-1">2% forfaller kun ved gjennomført salg. Ingen salg = ingen ekstra kostnad.</p>
+        </button>
       </div>
+
+      {/* Oppgjør info */}
+      <div className="mt-6 bg-brand-50 rounded-lg border border-brand-200 p-4">
+        <p className="text-sm text-brand-600">
+          <span className="font-semibold text-tomtly-dark">Oppgjør via Propr</span> – fra 9 990 kr (betales separat).
+          Trygt og autorisert eiendomsoppgjør via Norsk eiendomsoppgjør AS.
+        </p>
+      </div>
+
+      {/* Forsikringsklausul */}
+      {valgtPakke === 'markedsforing' && (
+        <p className="text-[10px] text-brand-400 mt-3">
+          Ved oppsigelse av markedsføringspakken gjelder markedsføringsgebyret (2%) fortsatt dersom eiendommen selges innen 3 måneder etter oppsigelsesdato.
+        </p>
+      )}
     </div>
   )
 }

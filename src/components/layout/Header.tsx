@@ -110,16 +110,16 @@ export function Header() {
               </Link>
             ) : null}
             <Link
-              href="/selger/onboarding"
+              href="/tomteanalyse"
               className="px-4 py-2 text-sm font-medium text-tomtly-accent border border-tomtly-accent rounded-lg hover:bg-forest-50 transition-colors"
             >
-              Selg din tomt
+              Gratis tomteanalyse
             </Link>
             <Link
-              href="/megler/onboarding"
+              href="/selger/onboarding"
               className="px-4 py-2 text-sm font-medium text-white bg-tomtly-accent rounded-lg hover:bg-forest-700 transition-colors"
             >
-              For meglere
+              Legg ut din tomt
             </Link>
           </div>
 
