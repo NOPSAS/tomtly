@@ -203,13 +203,13 @@ function FremhevedeTomter() {
     },
     {
       href: '/tomter/alvaern-67',
-      bilde: '/tomter/alvaern-67/oversikt.jpg',
+      bilde: '/tomter/bjornemyrveien-shared/dronebilde.jpg',
       adresse: 'Gamle Alværnvei 67',
       sted: 'Nesodden',
-      areal: '1 015 m²',
-      pris: '4 900 000 kr',
+      areal: '900 m²',
+      pris: '3 500 000 kr',
       husmodeller: 3,
-      type: 'Skråtomt med sjøutsikt',
+      type: 'Skråtomt med fjordutsikt (+81 moh)',
     },
   ]
 
@@ -379,62 +379,73 @@ function Kostnadssammenligning() {
           </p>
         </div>
 
-        <div className="max-w-5xl mx-auto overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b-2 border-brand-300">
-                <th className="text-left py-3 pr-4 font-semibold text-tomtly-dark">Salgssum</th>
-                <th className="text-center py-3 px-4 font-semibold text-red-600">Tradisjonell megler</th>
-                <th className="text-center py-3 px-4 font-semibold text-tomtly-accent">Tomtly Analyse</th>
-                <th className="text-center py-3 px-4 font-semibold text-tomtly-accent">Tomtly Analyse + Markedsføring</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* 2 MNOK */}
-              <tr className="border-b border-brand-200">
-                <td className="py-4 pr-4 font-semibold text-tomtly-dark">2 000 000 kr</td>
-                <td className="py-4 px-4 text-center">
-                  <div className="font-mono font-semibold text-red-600">50 000–72 000 kr</div>
-                  <div className="text-xs text-brand-400 mt-1">Provisjon 2,5–3,6 %</div>
-                </td>
-                <td className="py-4 px-4 text-center">
-                  <div className="font-mono font-semibold text-tomtly-dark">19 890 kr</div>
-                  <div className="text-xs text-brand-400 mt-1">9 900 + 9 990 oppgjør</div>
-                </td>
-                <td className="py-4 px-4 text-center">
-                  <div className="font-mono font-semibold text-tomtly-dark">54 980 kr</div>
-                  <div className="text-xs text-brand-400 mt-1">4 990 + 40 000 (2 %) + 9 990</div>
-                </td>
-              </tr>
-              {/* 3 MNOK */}
-              <tr className="border-b border-brand-200">
-                <td className="py-4 pr-4 font-semibold text-tomtly-dark">3 000 000 kr</td>
-                <td className="py-4 px-4 text-center">
-                  <div className="font-mono font-semibold text-red-600">75 000–108 000 kr</div>
-                  <div className="text-xs text-brand-400 mt-1">Provisjon 2,5–3,6 %</div>
-                </td>
-                <td className="py-4 px-4 text-center">
-                  <div className="font-mono font-semibold text-tomtly-dark">19 890 kr</div>
-                  <div className="text-xs text-brand-400 mt-1">9 900 + 9 990 oppgjør</div>
-                </td>
-                <td className="py-4 px-4 text-center">
-                  <div className="font-mono font-semibold text-tomtly-dark">74 980 kr</div>
-                  <div className="text-xs text-brand-400 mt-1">4 990 + 60 000 (2 %) + 9 990</div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        {/* Detaljert regneeksempel for 3 MNOK */}
+        <div className="max-w-5xl mx-auto">
+          <h3 className="font-display text-xl font-bold text-tomtly-dark text-center mb-6">Regneeksempel – tomt til 3 000 000 kr</h3>
 
-          {/* Besparelsesrad */}
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+            {/* Megler */}
+            <div className="bg-white rounded-2xl border-2 border-red-200 p-6">
+              <h4 className="font-semibold text-red-700 mb-4">Tradisjonell megler</h4>
+              <div className="space-y-2 text-sm mb-4">
+                <div className="flex justify-between"><span className="text-brand-600">Meglerprovisjoner (2,5–3,6%)</span><span className="font-mono">75–108 000</span></div>
+                <div className="flex justify-between"><span className="text-brand-600">Oppstarts-/tilretteleggingsgebyr</span><span className="font-mono">10–15 000</span></div>
+                <div className="flex justify-between"><span className="text-brand-600">Foto/styling</span><span className="font-mono">5–15 000</span></div>
+                <div className="flex justify-between"><span className="text-brand-600">Markedsføringspakke</span><span className="font-mono">10–20 000</span></div>
+                <div className="flex justify-between"><span className="text-brand-600">Visninger</span><span className="font-mono">3–5 000</span></div>
+                <div className="flex justify-between"><span className="text-brand-600">Oppgjør (inkludert)</span><span className="font-mono">0</span></div>
+                <div className="flex justify-between text-brand-400"><span>Tomteanalyse</span><span className="italic">Ikke inkludert</span></div>
+                <div className="flex justify-between text-brand-400"><span>Husmodeller/3D</span><span className="italic">Ikke inkludert</span></div>
+              </div>
+              <div className="border-t border-red-200 pt-3 flex justify-between font-bold text-red-700">
+                <span>Totalt</span><span className="font-mono">103 000–163 000 kr</span>
+              </div>
+            </div>
+
+            {/* Tomtly Analyse */}
+            <div className="bg-white rounded-2xl border-2 border-brand-200 p-6">
+              <h4 className="font-semibold text-tomtly-dark mb-4">Tomtly Tomteanalyse</h4>
+              <div className="space-y-2 text-sm mb-4">
+                <div className="flex justify-between"><span className="text-brand-600">Tomteanalyse</span><span className="font-mono">9 900</span></div>
+                <div className="flex justify-between"><span className="text-brand-600">Oppgjør via Propr</span><span className="font-mono">9 990</span></div>
+                <div className="flex justify-between text-brand-400"><span>Markedsføring</span><span className="italic">Du gjør det selv</span></div>
+                <div className="flex justify-between text-green-700"><span>Husmodeller/3D/verdivurdering</span><span className="font-semibold">Inkludert</span></div>
+                <div className="flex justify-between text-green-700"><span>Reguleringsanalyse</span><span className="font-semibold">Inkludert</span></div>
+                <div className="flex justify-between text-green-700"><span>DOK-analyse</span><span className="font-semibold">Inkludert</span></div>
+              </div>
+              <div className="border-t border-brand-200 pt-3 flex justify-between font-bold text-tomtly-dark">
+                <span>Totalt</span><span className="font-mono">19 890 kr</span>
+              </div>
+            </div>
+
+            {/* Tomtly Analyse + Markedsføring */}
+            <div className="bg-white rounded-2xl border-2 border-tomtly-accent p-6 relative">
+              <div className="absolute -top-3 right-4 px-2.5 py-0.5 bg-tomtly-accent text-white text-[10px] font-semibold rounded-full">Mest populær</div>
+              <h4 className="font-semibold text-tomtly-accent mb-4">Tomtly Analyse + Markedsføring</h4>
+              <div className="space-y-2 text-sm mb-4">
+                <div className="flex justify-between"><span className="text-brand-600">Analyse (oppstart)</span><span className="font-mono">4 990</span></div>
+                <div className="flex justify-between"><span className="text-brand-600">Markedsføringsgebyr (2%)</span><span className="font-mono">60 000</span></div>
+                <div className="flex justify-between"><span className="text-brand-600">Oppgjør via Propr</span><span className="font-mono">9 990</span></div>
+                <div className="flex justify-between text-green-700"><span>Alt i analyse + markedsføring</span><span className="font-semibold">Inkludert</span></div>
+                <div className="flex justify-between text-green-700"><span>Salgsdashboard</span><span className="font-semibold">Inkludert</span></div>
+                <div className="flex justify-between text-green-700"><span>Eiendomsekspert-støtte</span><span className="font-semibold">Inkludert</span></div>
+              </div>
+              <div className="border-t border-tomtly-accent/30 pt-3 flex justify-between font-bold text-tomtly-dark">
+                <span>Totalt</span><span className="font-mono">74 980 kr</span>
+              </div>
+              <p className="text-[10px] text-brand-400 mt-2">Tilsvarende pris som megler – men du får mye mer</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
             <div className="bg-white rounded-xl border border-green-200 p-4 text-center">
-              <p className="text-xs text-brand-500 mb-1">Spar med Analyse (3 MNOK tomt)</p>
-              <p className="text-2xl font-bold text-green-700">55 000–88 000 kr</p>
+              <p className="text-xs text-brand-500 mb-1">Spar med Tomteanalyse (3 MNOK)</p>
+              <p className="text-2xl font-bold text-green-700">83 000–143 000 kr</p>
               <p className="text-xs text-brand-400 mt-1">vs. tradisjonell megler</p>
             </div>
             <div className="bg-white rounded-xl border border-green-200 p-4 text-center">
-              <p className="text-xs text-brand-500 mb-1">Spar med Analyse + Markedsføring (3 MNOK)</p>
-              <p className="text-2xl font-bold text-green-700">0–33 000 kr</p>
+              <p className="text-xs text-brand-500 mb-1">Analyse + Markedsføring gir deg i tillegg</p>
+              <p className="text-2xl font-bold text-tomtly-accent">Mye mer for pengene</p>
               <p className="text-xs text-brand-400 mt-1">vs. tradisjonell megler</p>
             </div>
           </div>
