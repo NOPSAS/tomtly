@@ -653,29 +653,30 @@ function PrototypeContent() {
       updateStep(5, { status: 'done', label: 'Ingen planer å tolke' })
     }
 
-    // ─── 2D Tomtekart (non-blocking) ─────────────────────────────
+    // ─── 2D Tomtekart ──────────────────────────────────────────────
+    // Kartet tegnes direkte i TomteKartSection via WMTS tiles
+    // Vi trenger bare å konvertere UTM teig-koordinater til lat/lon
     if (teigRes.status === 'fulfilled') {
-      setKartLoading(true)
       const features = teigRes.value?.features || []
-      const coords = features[0]?.geometry?.coordinates?.[0] || []
-      let tMinX = Infinity, tMinY = Infinity, tMaxX = -Infinity, tMaxY = -Infinity
-      for (const c of coords) {
-        tMinX = Math.min(tMinX, c[0]); tMinY = Math.min(tMinY, c[1])
-        tMaxX = Math.max(tMaxX, c[0]); tMaxY = Math.max(tMaxY, c[1])
-      }
-      if (tMinX < Infinity) {
-        const margin = 30
-        const bboxArr = [tMinX - margin, tMinY - margin, tMaxX + margin, tMaxY + margin]
-        setKartBbox(bboxArr)
-
-        fetch('/api/tomtekart', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ type: 'fkb', bbox: bboxArr }),
-        }).then(r => r.ok ? r.json() : null).then(data => {
-          if (data?.image) setFkbKart(data.image)
+      const utmCoords2 = features[0]?.geometry?.coordinates?.[0] || []
+      if (utmCoords2.length > 0 && utmCoords) {
+        setKartLoading(true)
+        // Convert UTM polygon to lat/lon using Kartverket API
+        // Send corners only (max 50 pts per call)
+        const sample = utmCoords2.length > 45 ? utmCoords2.filter((_: any, i: number) => i % Math.ceil(utmCoords2.length / 45) === 0) : utmCoords2
+        Promise.all(
+          sample.map(async (c: number[]) => {
+            try {
+              const r = await fetch(`https://ws.geonorge.no/transformering/v1/transformer?x=${c[1]}&y=${c[0]}&fra=25833&til=4258`)
+              if (r.ok) { const d = await r.json(); return [d.y, d.x] as [number, number] } // [lon, lat]
+            } catch {}
+            return null
+          })
+        ).then(results => {
+          const valid = results.filter((r): r is [number, number] => r !== null)
+          if (valid.length > 0) setFkbKart(JSON.stringify(valid)) // Store as JSON string for now
           setKartLoading(false)
-        }).catch(() => setKartLoading(false))
+        })
       }
     }
 
@@ -1101,12 +1102,12 @@ function PrototypeContent() {
             </div>
 
             {/* Tomtekart */}
-            {(fkbKart || kartLoading) && (
+            {valgtAdresse && (
               <TomteKartSection
-                fkbKart={fkbKart}
-                kartBbox={kartBbox}
+                lat={valgtAdresse.representasjonspunkt.lat}
+                lon={valgtAdresse.representasjonspunkt.lon}
                 kartLoading={kartLoading}
-                teigCoords={(teigResult?.raw as any)?.features?.[0]?.geometry?.coordinates?.[0]}
+                teigCoordsLatLon={fkbKart ? JSON.parse(fkbKart) : undefined}
               />
             )}
 
@@ -1881,67 +1882,95 @@ function PrototypeContent() {
 
 // ─── Tomtekart with polygon overlay ─────────────────────────────────────────
 
-function TomteKartSection({ fkbKart, kartBbox, kartLoading, teigCoords }: {
-  fkbKart: string | null
-  kartBbox: number[] | null
+function TomteKartSection({ lat, lon, kartLoading, teigCoordsLatLon }: {
+  lat: number
+  lon: number
   kartLoading: boolean
-  teigCoords?: number[][]
+  teigCoordsLatLon?: [number, number][] // [lon, lat] pairs in WGS84
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const imgRef = useRef<HTMLImageElement>(null)
+  const [drawn, setDrawn] = useState(false)
 
   useEffect(() => {
-    if (!fkbKart || !canvasRef.current || !kartBbox) return
+    if (!canvasRef.current || drawn || kartLoading) return
+    const canvas = canvasRef.current
+    const ctx = canvas.getContext('2d')!
 
-    const img = new Image()
-    img.onload = () => {
-      const canvas = canvasRef.current!
-      const ctx = canvas.getContext('2d')!
-      canvas.width = img.width
-      canvas.height = img.height
+    const zoom = 17
+    const tileSize = 256
+    const gridSize = 3
+    canvas.width = tileSize * gridSize
+    canvas.height = tileSize * gridSize
 
-      // Draw map image
-      ctx.drawImage(img, 0, 0)
+    // Lat/lon to precise tile coordinates
+    const n = Math.pow(2, zoom)
+    const centerTileX = Math.floor((lon + 180) / 360 * n)
+    const latRad = lat * Math.PI / 180
+    const centerTileY = Math.floor((1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2 * n)
 
-      // Draw teig polygon
-      if (teigCoords && teigCoords.length > 2 && kartBbox) {
-        const [minE, minN, maxE, maxN] = kartBbox
+    // Load 3x3 tiles
+    let loaded = 0
+    const totalTiles = gridSize * gridSize
 
-        function utmToPx(east: number, north: number): [number, number] {
-          const x = ((east - minE) / (maxE - minE)) * canvas.width
-          const y = canvas.height - ((north - minN) / (maxN - minN)) * canvas.height
-          return [x, y]
+    for (let dy = -1; dy <= 1; dy++) {
+      for (let dx = -1; dx <= 1; dx++) {
+        const tx = centerTileX + dx
+        const ty = centerTileY + dy
+        const img = new Image()
+        img.crossOrigin = 'anonymous'
+        img.onload = () => {
+          ctx.drawImage(img, (dx + 1) * tileSize, (dy + 1) * tileSize, tileSize, tileSize)
+          loaded++
+          if (loaded === totalTiles) drawOverlay()
         }
+        img.onerror = () => {
+          loaded++
+          if (loaded === totalTiles) drawOverlay()
+        }
+        img.src = `https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/${zoom}/${ty}/${tx}.png`
+      }
+    }
 
-        // Fill
+    function latLonToPx(ptLat: number, ptLon: number): [number, number] {
+      const exactX = (ptLon + 180) / 360 * n
+      const ptLatRad = ptLat * Math.PI / 180
+      const exactY = (1 - Math.log(Math.tan(ptLatRad) + 1 / Math.cos(ptLatRad)) / Math.PI) / 2 * n
+      const px = (exactX - (centerTileX - 1)) * tileSize
+      const py = (exactY - (centerTileY - 1)) * tileSize
+      return [px, py]
+    }
+
+    function drawOverlay() {
+      // Draw teig polygon
+      if (teigCoordsLatLon && teigCoordsLatLon.length > 2) {
         ctx.beginPath()
-        teigCoords.forEach((c, i) => {
-          const [px, py] = utmToPx(c[0], c[1])
+        teigCoordsLatLon.forEach((c, i) => {
+          const [px, py] = latLonToPx(c[1], c[0]) // c is [lon, lat]
           if (i === 0) ctx.moveTo(px, py)
           else ctx.lineTo(px, py)
         })
         ctx.closePath()
-        ctx.fillStyle = 'rgba(255, 80, 40, 0.12)'
+        ctx.fillStyle = 'rgba(255, 50, 30, 0.15)'
         ctx.fill()
-
-        // Stroke
-        ctx.strokeStyle = '#FF3322'
+        ctx.strokeStyle = '#FF2211'
         ctx.lineWidth = 3
+        ctx.setLineDash([])
         ctx.stroke()
-
-        // Label
-        let cx = 0, cy = 0
-        teigCoords.forEach(c => { cx += c[0]; cy += c[1] })
-        cx /= teigCoords.length; cy /= teigCoords.length
-        const [labelX, labelY] = utmToPx(cx, cy)
-        ctx.font = 'bold 14px Inter, sans-serif'
-        ctx.fillStyle = '#FF3322'
-        ctx.textAlign = 'center'
-        ctx.fillText('Eiendomsgrense', labelX, labelY)
       }
+
+      // Draw center marker
+      const [cx, cy] = latLonToPx(lat, lon)
+      ctx.beginPath()
+      ctx.arc(cx, cy, 6, 0, Math.PI * 2)
+      ctx.fillStyle = '#FF2211'
+      ctx.fill()
+      ctx.strokeStyle = '#FFFFFF'
+      ctx.lineWidth = 2
+      ctx.stroke()
+
+      setDrawn(true)
     }
-    img.src = fkbKart
-  }, [fkbKart, kartBbox, teigCoords])
+  }, [lat, lon, teigCoordsLatLon, kartLoading, drawn])
 
   return (
     <div className="bg-white rounded-2xl border border-brand-100 p-6 md:p-8 shadow-sm">
@@ -1950,27 +1979,23 @@ function TomteKartSection({ fkbKart, kartBbox, kartLoading, teigCoords }: {
         Tomtekart
       </h2>
 
-      {fkbKart ? (
-        <div className="relative">
-          <canvas ref={canvasRef} className="w-full rounded-lg border border-brand-200" />
-        </div>
-      ) : kartLoading ? (
-        <div className="aspect-square bg-brand-50 rounded-lg flex items-center justify-center">
-          <div className="text-center">
-            <div className="w-6 h-6 border-2 border-tomtly-accent border-t-transparent rounded-full animate-spin mx-auto mb-2" />
-            <p className="text-xs text-brand-500">Henter kart fra Kartverket...</p>
+      <div className="relative">
+        <canvas ref={canvasRef} className="w-full rounded-lg border border-brand-200" style={{ imageRendering: 'auto' }} />
+        {kartLoading && !drawn && (
+          <div className="absolute inset-0 flex items-center justify-center bg-brand-50/80 rounded-lg">
+            <div className="text-center">
+              <div className="w-6 h-6 border-2 border-tomtly-accent border-t-transparent rounded-full animate-spin mx-auto mb-2" />
+              <p className="text-xs text-brand-500">Henter kart...</p>
+            </div>
           </div>
-        </div>
-      ) : null}
+        )}
+      </div>
 
       <div className="mt-3 flex flex-wrap gap-3 text-[10px] text-brand-500">
+        <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-red-500 border border-white" /> Adresse</span>
         <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-sm border-2 border-red-500 bg-red-500/10" /> Eiendomsgrense</span>
-        <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 bg-[#8B7355] rounded-sm" /> Bygninger</span>
-        <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 bg-white border border-brand-300 rounded-sm" /> Veier</span>
-        <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 bg-[#C4A35A] rounded-sm" /> Høydekurver</span>
-        <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 bg-green-600 rounded-sm" /> Natur</span>
       </div>
-      <p className="text-[10px] text-brand-400 mt-2">Kart: Kartverket FKB. Eiendomsgrense: Kartverket Matrikkel.</p>
+      <p className="text-[10px] text-brand-400 mt-2">Kartverket topografisk kart. Eiendomsgrense fra Kartverket Matrikkel.</p>
     </div>
   )
 }
