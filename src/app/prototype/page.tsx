@@ -139,6 +139,20 @@ interface EiendomsAnalyse {
   maksEtasjer: number | null
 }
 
+interface BestemmelseAnalyse {
+  planNavn?: string
+  planType?: string
+  sammendrag?: string
+  utnyttelsesgrad?: { bya_prosent?: number | null; bra_prosent?: number | null; tu_prosent?: number | null; beskrivelse?: string }
+  hoyder?: { gesimshøyde_m?: number | null; mønehøyde_m?: number | null; maks_kotehøyde?: number | null; beskrivelse?: string }
+  etasjer?: { maks_etasjer?: number | null; beskrivelse?: string }
+  byggegrenser?: { mot_vei_m?: number | null; mot_nabo_m?: number | null; beskrivelse?: string }
+  parkering?: { krav?: string; antall_per_boenhet?: number | null }
+  uteoppholdsareal?: { krav_prosent?: number | null; beskrivelse?: string }
+  viktige_bestemmelser?: string[]
+  restriksjoner?: string[]
+}
+
 interface DispensasjonAnalyse {
   totalt: number
   godkjent: number
@@ -327,6 +341,8 @@ export default function PrototypePage() {
   const [arealplaner, setArealplaner] = useState<ArealplanerPlan[]>([])
   const [eiendomsAnalyse, setEiendomsAnalyse] = useState<EiendomsAnalyse | null>(null)
   const [dispAnalyse, setDispAnalyse] = useState<DispensasjonAnalyse | null>(null)
+  const [bestemmelseAnalyser, setBestemmelseAnalyser] = useState<BestemmelseAnalyse[]>([])
+  const [analyseringBestemmelser, setAnalyseringBestemmelser] = useState(false)
   const [steps, setSteps] = useState<Step[]>([])
 
   // Expandable sections
@@ -382,6 +398,8 @@ export default function PrototypePage() {
     setArealplaner([])
     setEiendomsAnalyse(null)
     setDispAnalyse(null)
+    setBestemmelseAnalyser([])
+    setAnalyseringBestemmelser(false)
 
     const { lat, lon } = adr.representasjonspunkt
     const knr = adr.kommunenummer
@@ -688,12 +706,73 @@ export default function PrototypePage() {
           }).sort((a, b) => (b.godkjent + b.avslatt) - (a.godkjent + a.avslatt))
           setDispAnalyse({ totalt, godkjent, avslatt, godkjentProsent: totalt > 0 ? Math.round((godkjent / totalt) * 100) : 0, kategorier })
         }
+
+        // Analyser bestemmelser-PDFer med Claude (async, non-blocking)
+        const bestemmelseDocs: { url: string; planNavn: string; planType: string }[] = []
+        for (const ap of result) {
+          const docs = ap.dokumenter || []
+          const bestemmelser = docs.filter((d: ArealplanerDok) =>
+            d.dokumenttypeId === 5 || d.dokumenttype === 'Bestemmelser' || d.dokumentnavn?.toLowerCase().includes('bestemmelse')
+          )
+          for (const dok of bestemmelser) {
+            if (dok.direkteUrl) {
+              const pType = typeof ap.planType === 'string' ? ap.planType : ap.planType?.beskrivelse || ''
+              const isKommune = pType.toLowerCase().includes('kommune')
+              bestemmelseDocs.push({
+                url: dok.direkteUrl,
+                planNavn: ap.planNavn || ap.planId,
+                planType: isKommune ? 'kommune' : 'regulering',
+              })
+            }
+          }
+        }
+
+        if (bestemmelseDocs.length > 0) {
+          setAnalyseringBestemmelser(true)
+          // Analyse each bestemmelse (max 2 for speed)
+          Promise.allSettled(
+            bestemmelseDocs.slice(0, 2).map(async (doc) => {
+              const res = await fetch('/api/analyse-bestemmelser', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pdfUrl: doc.url, planNavn: doc.planNavn, planType: doc.planType }),
+              })
+              if (!res.ok) return null
+              const data = await res.json()
+              return data.success ? data.analyse : null
+            })
+          ).then(results => {
+            const analyser = results
+              .filter(r => r.status === 'fulfilled' && r.value)
+              .map(r => (r as PromiseFulfilledResult<BestemmelseAnalyse>).value)
+            setBestemmelseAnalyser(analyser)
+
+            // Update eiendomsanalyse with extracted values
+            if (analyser.length > 0) {
+              setEiendomsAnalyse(prev => {
+                if (!prev) return prev
+                let bya = prev.byaProsent
+                let gesims = prev.gesimshoydeM
+                let mone = prev.monehoydeM
+                let etasjer = prev.maksEtasjer
+                for (const a of analyser) {
+                  if (!bya && a.utnyttelsesgrad?.bya_prosent) bya = a.utnyttelsesgrad.bya_prosent
+                  if (!gesims && a.hoyder?.gesimshøyde_m) gesims = a.hoyder.gesimshøyde_m
+                  if (!mone && a.hoyder?.mønehøyde_m) mone = a.hoyder.mønehøyde_m
+                  if (!etasjer && a.etasjer?.maks_etasjer) etasjer = a.etasjer.maks_etasjer
+                }
+                return { ...prev, byaProsent: bya, gesimshoydeM: gesims, monehoydeM: mone, maksEtasjer: etasjer }
+              })
+            }
+            setAnalyseringBestemmelser(false)
+          })
+        }
       } else {
         updateStep(6, { status: 'error', label: kunde ? 'Mangler gnr/bnr' : 'Kommune ikke i arealplaner.no' })
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err)
-      updateStep(7, { status: 'error', label: 'Arealplaner.no feilet', detail: msg })
+      updateStep(6, { status: 'error', label: 'Arealplaner.no feilet', detail: msg })
     }
 
     // ─── Bygg eiendomsanalyse ─────────────────────────────────────────
@@ -986,6 +1065,120 @@ export default function PrototypePage() {
                     <p className="text-sm text-brand-700">{eiendomsAnalyse.plansammendrag}</p>
                   </div>
                 )}
+              </div>
+            )}
+
+            {/* Bestemmelse-analyse (KI-tolket) */}
+            {(bestemmelseAnalyser.length > 0 || analyseringBestemmelser) && (
+              <div className="bg-white rounded-2xl border border-brand-100 p-6 md:p-8 shadow-sm">
+                <h2 className="font-display text-lg font-bold text-tomtly-dark mb-2 flex items-center gap-2">
+                  <FileText className="w-5 h-5 text-tomtly-accent" />
+                  Reguleringsbestemmelser (KI-tolket)
+                </h2>
+                {analyseringBestemmelser && bestemmelseAnalyser.length === 0 && (
+                  <div className="flex items-center gap-3 py-8 justify-center">
+                    <Loader2 className="w-5 h-5 animate-spin text-tomtly-accent" />
+                    <span className="text-sm text-brand-500">Analyserer bestemmelser-PDF med KI...</span>
+                  </div>
+                )}
+                {bestemmelseAnalyser.map((analyse, ai) => (
+                  <div key={ai} className="mb-6 last:mb-0">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-sm font-semibold text-tomtly-dark">{analyse.planNavn || 'Plan'}</span>
+                      <span className="text-[10px] bg-tomtly-accent/10 text-tomtly-accent px-2 py-0.5 rounded-full">KI-tolket</span>
+                    </div>
+
+                    {/* Sammendrag */}
+                    {analyse.sammendrag && (
+                      <div className="bg-forest-50 border border-forest-200 rounded-xl p-4 mb-4">
+                        <p className="text-sm text-brand-700 leading-relaxed">{analyse.sammendrag}</p>
+                      </div>
+                    )}
+
+                    {/* Nøkkeltall grid */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+                      {analyse.utnyttelsesgrad?.bya_prosent && eiendomsAnalyse && (
+                        <div className="bg-forest-50 rounded-xl p-3 border border-forest-200">
+                          <p className="text-[10px] text-forest-600 uppercase">%-BYA</p>
+                          <p className="text-lg font-bold text-tomtly-accent">{analyse.utnyttelsesgrad.bya_prosent}%</p>
+                          <p className="text-[10px] text-forest-600">= {Math.round(eiendomsAnalyse.arealM2 * analyse.utnyttelsesgrad.bya_prosent / 100)} m²</p>
+                        </div>
+                      )}
+                      {analyse.hoyder?.gesimshøyde_m && (
+                        <div className="bg-forest-50 rounded-xl p-3 border border-forest-200">
+                          <p className="text-[10px] text-forest-600 uppercase">Gesimshøyde</p>
+                          <p className="text-lg font-bold text-tomtly-accent">{analyse.hoyder.gesimshøyde_m} m</p>
+                        </div>
+                      )}
+                      {analyse.hoyder?.mønehøyde_m && (
+                        <div className="bg-forest-50 rounded-xl p-3 border border-forest-200">
+                          <p className="text-[10px] text-forest-600 uppercase">Mønehøyde</p>
+                          <p className="text-lg font-bold text-tomtly-accent">{analyse.hoyder.mønehøyde_m} m</p>
+                        </div>
+                      )}
+                      {analyse.etasjer?.maks_etasjer && (
+                        <div className="bg-forest-50 rounded-xl p-3 border border-forest-200">
+                          <p className="text-[10px] text-forest-600 uppercase">Maks etasjer</p>
+                          <p className="text-lg font-bold text-tomtly-accent">{analyse.etasjer.maks_etasjer}</p>
+                        </div>
+                      )}
+                      {analyse.byggegrenser?.mot_vei_m && (
+                        <div className="bg-brand-50 rounded-xl p-3 border border-brand-200">
+                          <p className="text-[10px] text-brand-500 uppercase">Byggegrense vei</p>
+                          <p className="text-lg font-bold text-tomtly-dark">{analyse.byggegrenser.mot_vei_m} m</p>
+                        </div>
+                      )}
+                      {analyse.byggegrenser?.mot_nabo_m && (
+                        <div className="bg-brand-50 rounded-xl p-3 border border-brand-200">
+                          <p className="text-[10px] text-brand-500 uppercase">Byggegrense nabo</p>
+                          <p className="text-lg font-bold text-tomtly-dark">{analyse.byggegrenser.mot_nabo_m} m</p>
+                        </div>
+                      )}
+                      {analyse.parkering?.antall_per_boenhet && (
+                        <div className="bg-brand-50 rounded-xl p-3 border border-brand-200">
+                          <p className="text-[10px] text-brand-500 uppercase">Parkering</p>
+                          <p className="text-lg font-bold text-tomtly-dark">{analyse.parkering.antall_per_boenhet} /boenhet</p>
+                        </div>
+                      )}
+                      {analyse.uteoppholdsareal?.krav_prosent && (
+                        <div className="bg-brand-50 rounded-xl p-3 border border-brand-200">
+                          <p className="text-[10px] text-brand-500 uppercase">Uteopphold</p>
+                          <p className="text-lg font-bold text-tomtly-dark">{analyse.uteoppholdsareal.krav_prosent}%</p>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Viktige bestemmelser */}
+                    {analyse.viktige_bestemmelser && analyse.viktige_bestemmelser.length > 0 && (
+                      <div className="mb-3">
+                        <h4 className="text-xs font-semibold text-brand-600 uppercase tracking-wide mb-2">Viktige bestemmelser</h4>
+                        <ul className="space-y-1">
+                          {analyse.viktige_bestemmelser.map((b, bi) => (
+                            <li key={bi} className="flex items-start gap-2 text-xs text-brand-700">
+                              <CheckCircle2 className="w-3.5 h-3.5 text-tomtly-accent mt-0.5 shrink-0" />
+                              {b}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Restriksjoner */}
+                    {analyse.restriksjoner && analyse.restriksjoner.length > 0 && (
+                      <div>
+                        <h4 className="text-xs font-semibold text-red-600 uppercase tracking-wide mb-2">Restriksjoner</h4>
+                        <ul className="space-y-1">
+                          {analyse.restriksjoner.map((r, ri) => (
+                            <li key={ri} className="flex items-start gap-2 text-xs text-red-700">
+                              <AlertTriangle className="w-3.5 h-3.5 text-red-500 mt-0.5 shrink-0" />
+                              {r}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
             )}
 
