@@ -3,7 +3,9 @@
     "src/app/api/admin/scrape-finn/route.ts": { "maxDuration": 60 },
     "src/app/api/admin/scrape-delesaker/route.ts": { "maxDuration": 60 },
     "src/app/api/admin/scrape-naering/route.ts": { "maxDuration": 60 },
-    "src/app/api/admin/scrape-arealplaner/route.ts": { "maxDuration": 60 }
+    "src/app/api/admin/scrape-arealplaner/route.ts": { "maxDuration": 60 },
+    "src/app/api/analyse-bestemmelser/route.ts": { "maxDuration": 60 },
+    "src/app/api/tomtekart/route.ts": { "maxDuration": 60 }
   },
   "crons": [
     { "path": "/api/admin/scrape-finn", "schedule": "0 5 * * *" },
