@@ -41,7 +41,10 @@ Key tables: `profiles` (user data, auto-created on signup via trigger), `henvend
 - `/api/admin/match-kjopere` — Matches buyer profiles against available plots
 
 ### Cron Jobs (vercel.json)
-Daily 07:00 NO: FINN + dødsbo scrapers. Weekly Monday 07:00/08:00: fradelinger + delesaker.
+Daily 07:00 NO: FINN scraper. Weekly Monday 07:00: delesaker (eInnsyn + OpenGov + PBE).
+
+### Local Scripts (require Playwright)
+- `node scripts/scrape-elements.mjs` — Scrapes 37 kommuner via Elements Publikum (Playwright). Saves to `delesaker` table. Cannot run on Vercel.
 
 ### Page Structure
 **Public pages:** Frontpage, 3 real property pages (bjornemyrveien-20, bjornemyrveien-22, alvaern-67), /tomter (list), /kart (Leaflet map), /verdivurdering, /fradeling, /sok-tomt, /finansiering, /kommune, segment pages (/for-tomteeiere, /for-meglere, /for-husleverandorer, /for-entreprenorer, /for-banker, /utvikler, /leverandor)

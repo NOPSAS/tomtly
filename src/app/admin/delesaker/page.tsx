@@ -265,17 +265,38 @@ export default function DelesakerPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* Scraper button */}
-        <div className="flex items-center gap-3 mb-6">
+        {/* Scraper buttons */}
+        <div className="flex flex-wrap items-center gap-3 mb-6">
           <button
             onClick={runScraper}
             disabled={scraperLoading}
             className="px-4 py-2 bg-tomtly-accent text-white text-sm font-medium rounded-lg hover:bg-forest-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {scraperLoading ? 'Soker i postlister...' : 'Sok i postlister'}
+            {scraperLoading ? 'Søker i postlister...' : 'Søk i postlister (eInnsyn + OpenGov + PBE)'}
+          </button>
+          <button
+            onClick={async () => {
+              setScraperLoading(true)
+              setScraperResult(null)
+              try {
+                const res = await fetch('/api/admin/scrape-elements', { method: 'POST' })
+                const data = await res.json()
+                if (data.success) {
+                  setScraperResult(`Elements: ${data.lagret} nye fra ${data.kommuner_scraped?.join(', ')}`)
+                  fetchData()
+                } else {
+                  setScraperResult(data.error || 'Feil')
+                }
+              } catch { setScraperResult('Feil ved Elements-scraping') }
+              finally { setScraperLoading(false) }
+            }}
+            disabled={scraperLoading}
+            className="px-4 py-2 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Elements Publikum (37 kommuner)
           </button>
           {scraperResult && (
-            <span className="text-sm text-brand-600 bg-brand-100 px-3 py-1.5 rounded-lg">{scraperResult}</span>
+            <span className="text-sm text-brand-600 bg-brand-100 px-3 py-1.5 rounded-lg max-w-xl truncate">{scraperResult}</span>
           )}
         </div>
 
@@ -283,7 +304,7 @@ export default function DelesakerPage() {
         {delesaker.length === 0 && !dataLoading && (
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
             <p className="text-sm text-amber-800">
-              <strong>Ingen data ennå.</strong> Klikk «Søk i postlister» for å hente delesaker fra eInnsyn.
+              <strong>Ingen data ennå.</strong> Klikk «Søk i postlister» for eInnsyn/OpenGov/PBE, eller «Elements Publikum» for 37 kommuner (krever lokal kjøring for alle: <code className="bg-amber-100 px-1 rounded">node scripts/scrape-elements.mjs</code>).
             </p>
           </div>
         )}
