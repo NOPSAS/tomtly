@@ -221,11 +221,11 @@ function FremhevedeTomter() {
     },
     {
       href: '/tomter/alvaern-67',
-      bilde: '/tomter/bjornemyrveien-shared/dronebilde.jpg',
+      bilde: '/tomter/alvaern-shared/alvaern-render-aerial-1-DvVXdDku.jpg',
       adresse: 'Gamle Alværnvei 67',
       sted: 'Nesodden',
       areal: '900 m²',
-      pris: '3 500 000 kr',
+      pris: '3 200 000 kr',
       husmodeller: 3,
       type: 'Skråtomt med fjordutsikt (+81 moh)',
     },
