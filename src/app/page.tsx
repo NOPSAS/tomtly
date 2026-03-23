@@ -25,10 +25,10 @@ export default function Forside() {
       <HeroSection />
       <HvordanDetFungerer />
       <FremhevedeTomter />
+      <TomteSokLead />
       <ForHvem />
       <Prismodell />
       <FradelingBanner />
-      <TomteSokLead />
       <CTASection />
     </>
   )

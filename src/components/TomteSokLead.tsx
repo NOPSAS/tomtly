@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { MapPin, Search, CheckCircle2, Loader2, ChevronDown } from 'lucide-react'
+import { MapPin, Search, CheckCircle2, Loader2 } from 'lucide-react'
 
 const KOMMUNER = [
   'Oslo', 'Bærum', 'Asker', 'Nesodden', 'Frogn', 'Nordre Follo',
@@ -10,23 +10,12 @@ const KOMMUNER = [
   'Stavanger', 'Bergen', 'Trondheim', 'Tromsø',
 ]
 
-const OMRADER: Record<string, string[]> = {
-  'Oslo': ['Nordstrand', 'Søndre Nordstrand', 'Østensjø', 'Alna', 'Grorud', 'Stovner', 'Bjerke', 'Vestre Aker', 'Ullern', 'Nordre Aker'],
-  'Bærum': ['Sandvika', 'Lysaker', 'Bekkestua', 'Høvik', 'Stabekk', 'Lommedalen', 'Rykkinn', 'Kolsås'],
-  'Asker': ['Asker sentrum', 'Heggedal', 'Holmen', 'Billingstad', 'Vettre', 'Dikemark'],
-  'Nesodden': ['Tangen', 'Nesoddtangen', 'Fagerstrand', 'Bjørnemyr', 'Berger', 'Oksval', 'Flaskebekk'],
-  'Frogn': ['Drøbak', 'Seiersten', 'Heer', 'Nordre Frogn'],
-  'Nordre Follo': ['Ski', 'Kolbotn', 'Oppegård', 'Langhus', 'Siggerud'],
-}
-
 export function TomteSokLead() {
   const [kommune, setKommune] = useState('')
   const [omrade, setOmrade] = useState('')
   const [epost, setEpost] = useState('')
   const [sender, setSender] = useState(false)
   const [sendt, setSendt] = useState(false)
-
-  const tilgjengeligeOmrader = kommune ? (OMRADER[kommune] || []) : []
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -91,31 +80,25 @@ export function TomteSokLead() {
                 <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-400" />
                 <select
                   value={kommune}
-                  onChange={e => { setKommune(e.target.value); setOmrade('') }}
+                  onChange={e => setKommune(e.target.value)}
                   required
-                  className="w-full pl-10 pr-8 py-3 rounded-lg border border-brand-200 bg-white text-tomtly-dark text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/30 focus:border-tomtly-accent appearance-none"
+                  className="w-full pl-10 pr-4 py-3 rounded-lg border border-brand-200 bg-white text-tomtly-dark text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/30 focus:border-tomtly-accent"
                 >
                   <option value="">Velg kommune</option>
                   {KOMMUNER.map(k => <option key={k} value={k}>{k}</option>)}
                 </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-400 pointer-events-none" />
               </div>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-brand-700 mb-1.5">Område (valgfritt)</label>
-              <div className="relative">
-                <select
-                  value={omrade}
-                  onChange={e => setOmrade(e.target.value)}
-                  disabled={tilgjengeligeOmrader.length === 0}
-                  className="w-full px-4 py-3 rounded-lg border border-brand-200 bg-white text-tomtly-dark text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/30 focus:border-tomtly-accent appearance-none disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <option value="">Hele kommunen</option>
-                  {tilgjengeligeOmrader.map(o => <option key={o} value={o}>{o}</option>)}
-                </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-400 pointer-events-none" />
-              </div>
+              <input
+                type="text"
+                value={omrade}
+                onChange={e => setOmrade(e.target.value)}
+                placeholder="F.eks. Bjørnemyr, Tangen, Bekkestua..."
+                className="w-full px-4 py-3 rounded-lg border border-brand-200 bg-white text-tomtly-dark text-sm placeholder:text-brand-400 focus:outline-none focus:ring-2 focus:ring-tomtly-accent/30 focus:border-tomtly-accent"
+              />
             </div>
           </div>
 
