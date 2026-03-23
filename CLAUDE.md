@@ -59,21 +59,23 @@ Daily 07:00 NO: FINN scraper. Weekly Monday 07:00: delesaker (eInnsyn + OpenGov 
 - Interactive map uses Leaflet loaded from CDN (not npm), initialized in useEffect
 
 ### Pricing (must be consistent across all pages)
-Tomtly has a licensed broker on the team. Pricing model:
-- **Tomteeier:** 4 990 kr fastpris + 2,5 % ved salg (komplett analyse, markedsføring og salg via megler)
-- **Megler Standard:** Gratis (publisering på Tomtly, kjøpere kontakter megler direkte)
-- **Megler Premium:** 4 900 kr (full analyse + synlighet, viderefakturerbar)
-- **Utvikler:** 4 900 kr/tomt, 5-pack 3 900 kr, abo fra 14 900 kr/mnd
-- **Næringstomt:** 14 900–39 900 kr + 2,5 % ved salg via Tomtly
-- **Entreprenør:** 14 900 kr/år
-- **Bank:** 4 900 kr per innvilget byggelån
-- **Kommune:** 4 900 kr/tomt + 2,5 % ved salg (pilot gratis)
-- **Fradeling:** Fastpris prosess (49 000–89 000 kr) + 2,5 % ved salg
-- **Ferdighusleverandører:** Abonnement (ta kontakt)
-- **Husleverandør:** abo 10 000+/mnd
-- **Prosjektfinansiering:** 4 900–14 900 kr lead-fee per innvilget lån
+TOMTLY er IKKE et meglerfirma. TOMTLY er en analyseplattform og markedsføringskanal. Tomteeier selger selv. Oppgjør via Propr (Norsk eiendomsoppgjør AS).
 
-**Tomtly has a licensed broker (autorisert meglerpartner) and assists with sales. Settlement (oppgjør) is handled by Propr.**
+**Hovedprodukter:**
+- **Tomteanalyse:** 9 900 kr engangspris (analyse, husmodeller, 3D, verdivurdering, tomterapport)
+- **Analyse + Markedsføring:** 4 990 kr + 2% markedsføringsgebyr ved salg (alt i analyse + annonsering, salgsdashboard, interessenthåndtering)
+- **Oppgjør via Propr:** fra 9 990 kr (betales separat til Propr, ikke til Tomtly)
+
+**Forsikringsklausul:** Ved oppsigelse av markedsføringspakken gjelder markedsføringsgebyret (2%) fortsatt dersom eiendommen selges innen 3 måneder etter oppsigelsesdato.
+
+**Andre produkter:**
+- **Fradeling:** 3% av ny tomts verdi
+- **Husleverandør-abo:** 10 000–20 000 kr/mnd
+- **Bank lead-fee:** 4 900 kr per innvilget byggelån
+
+**Terminologi:** Bruk "Eiendomsekspert" (ikke "megler") om Tomtly-teamet. "Tradisjonell megler" kun ved sammenligning. "på Nesodden" (ikke "i Nesodden").
+
+**TOMTLY er ikke et eiendomsmeglingsforetak. Tomteeier selger selv med Tomtly sine verktøy. Oppgjør håndteres av Propr via Norsk eiendomsoppgjør AS.**
 
 ### Stripe Products (live)
 Payment links for one-time products, Checkout Sessions for subscriptions. Price IDs are hardcoded in `/api/checkout/route.ts`.

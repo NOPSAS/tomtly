@@ -137,9 +137,9 @@ function HvordanDetFungerer() {
     {
       nummer: '04',
       ikon: CheckCircle2,
-      tittel: 'Du selger',
+      tittel: 'Du selger – vi støtter deg',
       beskrivelse:
-        'Interesserte kontakter deg direkte. Du håndterer visning og bud med våre maler. Oppgjør via Propr.',
+        'Interesserte kontakter deg direkte. Du håndterer visning og bud med våre maler. Vår Eiendomsekspert hjelper deg hele veien. Oppgjør via Propr.',
     },
   ]
 

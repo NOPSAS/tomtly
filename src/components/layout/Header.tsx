@@ -186,7 +186,7 @@ export function Header() {
                 href="/selger/onboarding"
                 className="block w-full text-center px-4 py-2.5 text-sm font-medium text-white bg-tomtly-accent rounded-lg"
               >
-                Legg ut tomt
+                Selg din tomt
               </Link>
             </div>
           </div>

@@ -20,7 +20,9 @@ const NAV_LINKS = [
   { href: '/admin/data', label: 'Data' },
   { href: '/admin/megler-partner', label: 'Partner' },
   { href: '/meglerpartner', label: 'Meglerpartner-pitch' },
-  { href: '/dashboard/demo123', label: 'Kundeportal (demo)' },
+  { href: '/dashboard/bjornemyrveien-20', label: 'Portal: Bjørnmyr 20' },
+  { href: '/dashboard/bjornemyrveien-22', label: 'Portal: Bjørnmyr 22' },
+  { href: '/dashboard/alvaern-67', label: 'Portal: Alværn 67' },
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
