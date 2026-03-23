@@ -578,84 +578,73 @@ export default function PrototypePage() {
       updateStep(6, { status: 'error', label: 'Mangler UTM-koordinater' })
     }
 
-    // Arealplaner.no – hent dokumenter (bestemmelser, plankart, planbeskrivelse)
+    // Arealplaner.no – hent dokumenter + dispensasjoner for denne eiendommen
     updateStep(7, { status: 'loading' })
     try {
+      const apHeaders = { 'X-WAAPI-TOKEN': AREALPLANER_TOKEN }
+
       // Find kundeId for this kommune
-      const kunderRes = await fetchWithTimeout(`${AREALPLANER_BASE}/kunder`, {
-        headers: { 'X-WAAPI-TOKEN': AREALPLANER_TOKEN }
-      })
+      const kunderRes = await fetchWithTimeout(`${AREALPLANER_BASE}/kunder`, { headers: apHeaders })
       if (!kunderRes.ok) throw new Error(`HTTP ${kunderRes.status}`)
       const kunder = await kunderRes.json()
       const kunde = kunder.find((k: any) => k.kommunenummer === knr && k.status === 0)
 
-      if (kunde) {
-        // Hent planer for kommune (første side)
+      if (kunde && gnr && bnr) {
+        // Hent planer som gjelder denne eiendommen (gnr/bnr-filter)
         const planerRes = await fetchWithTimeout(
-          `${AREALPLANER_BASE}/kunder/${kunde.id}/arealplaner?side=1&antall=50`,
-          { headers: { 'X-WAAPI-TOKEN': AREALPLANER_TOKEN } }
+          `${AREALPLANER_BASE}/kunder/${kunde.id}/arealplaner?knr=${knr}&gnr=${gnr}&bnr=${bnr}`,
+          { headers: apHeaders }
         )
-        if (planerRes.ok) {
-          const apPlaner: ArealplanerPlan[] = await planerRes.json()
+        if (!planerRes.ok) throw new Error(`Planer HTTP ${planerRes.status}`)
+        const apPlaner: any[] = await planerRes.json()
 
-          // For de første 20 planene, hent dokumenter parallelt
-          const withDocs = await Promise.allSettled(
-            apPlaner.slice(0, 20).map(async (plan) => {
-              try {
-                const dokRes2 = await fetch(
-                  `${AREALPLANER_BASE}/kunder/${kunde.id}/arealplaner/${plan.id}/dokumenter`,
-                  { headers: { 'X-WAAPI-TOKEN': AREALPLANER_TOKEN } }
-                )
-                if (!dokRes2.ok) return { ...plan, dokumenter: [] }
-                const docs = await dokRes2.json()
+        // For hver plan: hent dokumenter + dispensasjoner parallelt
+        const withDetails = await Promise.allSettled(
+          apPlaner.map(async (plan: any) => {
+            const [dokRes2, dispRes] = await Promise.allSettled([
+              fetch(`${AREALPLANER_BASE}/kunder/${kunde.id}/arealplaner/${plan.id}/dokumenter`, { headers: apHeaders }).then(r => r.ok ? r.json() : []),
+              fetch(`${AREALPLANER_BASE}/kunder/${kunde.id}/arealplaner/${plan.id}/dispensasjoner`, { headers: apHeaders }).then(r => r.ok ? r.json() : []),
+            ])
 
-                // For bestemmelser, hent direkteUrl
-                const enriched = await Promise.all(
-                  docs.map(async (d: any) => {
-                    if (d.dokumenttypeId === 5 || d.dokumenttype === 'Bestemmelser') {
-                      try {
-                        const metaRes = await fetch(
-                          `${AREALPLANER_BASE}/kunder/${kunde.id}/dokumenter/${d.id}`,
-                          { headers: { 'X-WAAPI-TOKEN': AREALPLANER_TOKEN } }
-                        )
-                        if (metaRes.ok) {
-                          const meta = await metaRes.json()
-                          return { ...d, direkteUrl: meta.direkteUrl }
-                        }
-                      } catch {}
+            const docs = dokRes2.status === 'fulfilled' ? dokRes2.value : []
+            const disps = dispRes.status === 'fulfilled' ? dispRes.value : []
+
+            // For bestemmelser: hent direkteUrl for PDF-nedlasting
+            const enrichedDocs = await Promise.all(
+              docs.map(async (d: any) => {
+                if (d.dokumenttypeId === 5 || d.dokumenttype === 'Bestemmelser' || d.dokumentnavn?.toLowerCase().includes('bestemmelse')) {
+                  try {
+                    const metaRes = await fetch(`${AREALPLANER_BASE}/kunder/${kunde.id}/dokumenter/${d.id}`, { headers: apHeaders })
+                    if (metaRes.ok) {
+                      const meta = await metaRes.json()
+                      return { ...d, direkteUrl: meta.direkteUrl }
                     }
-                    return d
-                  })
-                )
+                  } catch {}
+                }
+                return d
+              })
+            )
 
-                return { ...plan, dokumenter: enriched }
-              } catch {
-                return { ...plan, dokumenter: [] }
-              }
-            })
-          )
+            return { ...plan, dokumenter: enrichedDocs, dispensasjoner: disps }
+          })
+        )
 
-          const result = withDocs
-            .filter(r => r.status === 'fulfilled')
-            .map(r => (r as PromiseFulfilledResult<ArealplanerPlan>).value)
-            .filter(p => p.dokumenter && p.dokumenter.length > 0)
+        const result = withDetails
+          .filter(r => r.status === 'fulfilled')
+          .map(r => (r as PromiseFulfilledResult<ArealplanerPlan & { dispensasjoner?: any[] }>).value)
 
-          setArealplaner(result)
-          updateStep(7, { status: 'done', label: `${result.length} planer med dokumenter` })
-        } else {
-          throw new Error(`Planer HTTP ${planerRes.status}`)
-        }
+        setArealplaner(result)
+        const totalDocs = result.reduce((s, p) => s + (p.dokumenter?.length || 0), 0)
+        const totalDisps = result.reduce((s, p) => s + ((p as any).dispensasjoner?.length || 0), 0)
+        updateStep(7, { status: 'done', label: `${result.length} planer, ${totalDocs} dok, ${totalDisps} disp.` })
       } else {
-        updateStep(7, { status: 'error', label: 'Kommune ikke i arealplaner.no' })
+        updateStep(7, { status: 'error', label: kunde ? 'Mangler gnr/bnr' : 'Kommune ikke i arealplaner.no' })
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err)
       updateStep(7, { status: 'error', label: 'Arealplaner.no feilet', detail: msg })
     }
 
-    // Calculate score
-    const score = calculateScore(dokList, planList)
-    setTomteScore(score)
     setAnalysing(false)
   }
 
@@ -777,34 +766,21 @@ export default function PrototypePage() {
       )}
 
       {/* Results */}
-      {valgtAdresse && !analysing && tomteScore !== null && (
+      {valgtAdresse && !analysing && (
         <section className="py-8 md:py-12">
           <div className="max-w-5xl mx-auto px-4 space-y-8">
 
             {/* 4a: Eiendomsheader */}
             <div className="bg-white rounded-xl border border-brand-100 p-6 shadow-sm">
-              <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
-                <div className="flex-1">
-                  <h2 className="font-display text-xl font-bold text-tomtly-dark mb-4 flex items-center gap-2">
-                    <MapPin className="w-5 h-5 text-tomtly-accent" />
-                    {valgtAdresse.adressetekst}
-                  </h2>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                    <InfoBox label="Kommune" value={`${valgtAdresse.kommunenavn} (${valgtAdresse.kommunenummer})`} />
-                    <InfoBox label="GNR/BNR" value={gnr && bnr ? `${gnr}/${bnr}` : 'Ikke tilgjengelig'} />
-                    <InfoBox label="Postnr" value={valgtAdresse.postnummer ? `${valgtAdresse.postnummer} ${valgtAdresse.poststed || ''}` : '–'} />
-                    <InfoBox label="Koordinater" value={`${valgtAdresse.representasjonspunkt.lat.toFixed(5)}, ${valgtAdresse.representasjonspunkt.lon.toFixed(5)}`} />
-                  </div>
-                </div>
-
-                {/* Score badge */}
-                <div className={`flex flex-col items-center justify-center rounded-xl border p-5 min-w-[140px] ${scoreBg(tomteScore)}`}>
-                  <span className="text-[10px] uppercase tracking-wide text-brand-500 mb-1">Tomtescore</span>
-                  <span className={`font-display text-4xl font-bold ${scoreColor(tomteScore)}`}>
-                    {tomteScore.toFixed(1)}
-                  </span>
-                  <span className="text-[10px] text-brand-400 mt-0.5">av 10</span>
-                </div>
+              <h2 className="font-display text-xl font-bold text-tomtly-dark mb-4 flex items-center gap-2">
+                <MapPin className="w-5 h-5 text-tomtly-accent" />
+                {valgtAdresse.adressetekst}, {valgtAdresse.postnummer} {valgtAdresse.poststed}
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                <InfoBox label="Kommune" value={`${valgtAdresse.kommunenavn} (${valgtAdresse.kommunenummer})`} />
+                <InfoBox label="Eiendom" value={gnr && bnr ? `gnr. ${gnr} / bnr. ${bnr}` : 'Ikke tilgjengelig'} />
+                {teigResult && <InfoBox label="Teiger" value={`${teigResult.teiger} (${teigResult.noyaktighetsklasse || 'ukjent'})`} />}
+                <InfoBox label="Koordinater" value={`${valgtAdresse.representasjonspunkt.lat.toFixed(5)}, ${valgtAdresse.representasjonspunkt.lon.toFixed(5)}`} />
               </div>
             </div>
 
@@ -981,55 +957,80 @@ export default function PrototypePage() {
                   Bestemmelser, plankart og planbeskrivelser – {arealplaner.length} planer med dokumenter
                 </p>
 
-                <div className="space-y-4">
-                  {arealplaner.map(plan => (
-                    <div key={plan.id} className="border border-brand-200 rounded-xl overflow-hidden">
-                      <div className="bg-brand-50 px-4 py-3">
-                        <h3 className="font-semibold text-tomtly-dark text-sm">{plan.planNavn || plan.planId}</h3>
-                        <div className="flex flex-wrap gap-3 mt-1 text-xs text-brand-500">
-                          {plan.planType?.beskrivelse && <span>{plan.planType.beskrivelse}</span>}
-                          {plan.planStatus?.beskrivelse && <span className="text-green-700">{plan.planStatus.beskrivelse}</span>}
-                          {plan.iKraft && <span>I kraft: {new Date(plan.iKraft).toLocaleDateString('nb-NO')}</span>}
-                          <span className="text-brand-400">PlanID: {plan.planId}</span>
-                        </div>
-                      </div>
-                      <div className="divide-y divide-brand-100">
-                        {plan.dokumenter?.filter((d: ArealplanerDok) => d.tilgang === 'Alle' || !d.tilgang).map((dok: ArealplanerDok) => {
-                          const isBestemmelse = dok.dokumenttypeId === 5 || dok.dokumenttype === 'Bestemmelser'
-                          const isPlankart = dok.dokumenttype === 'Plankart'
-                          const isBeskrivelse = dok.dokumenttype === 'Planbeskrivelse'
-                          const color = isBestemmelse ? 'text-red-600 bg-red-50' : isPlankart ? 'text-blue-600 bg-blue-50' : isBeskrivelse ? 'text-purple-600 bg-purple-50' : 'text-brand-600 bg-brand-50'
+                <div className="space-y-6">
+                  {arealplaner.map((plan: any) => {
+                    const planType = typeof plan.planType === 'string' ? plan.planType : plan.planType?.beskrivelse || ''
+                    const planStatus = typeof plan.planStatus === 'string' ? plan.planStatus : plan.planStatus?.beskrivelse || ''
+                    const dispensasjoner = plan.dispensasjoner || []
 
-                          return (
-                            <div key={dok.id} className="flex items-center justify-between px-4 py-2.5 hover:bg-brand-50/50">
-                              <div className="flex items-center gap-3 min-w-0">
-                                <span className={`px-2 py-0.5 text-[10px] font-semibold rounded ${color}`}>
-                                  {dok.dokumenttype || 'Dokument'}
-                                </span>
-                                <span className="text-sm text-brand-700 truncate">{dok.dokumentnavn}</span>
+                    return (
+                      <div key={plan.id} className="border border-brand-200 rounded-xl overflow-hidden">
+                        <div className="bg-brand-50 px-4 py-3">
+                          <h3 className="font-semibold text-tomtly-dark">{plan.planNavn || plan.planId}</h3>
+                          <div className="flex flex-wrap gap-3 mt-1 text-xs text-brand-500">
+                            {planType && <span className="bg-white px-2 py-0.5 rounded border border-brand-200">{planType}</span>}
+                            {planStatus && <span className="text-green-700 bg-green-50 px-2 py-0.5 rounded">{planStatus}</span>}
+                            {plan.iKraft && <span>I kraft: {new Date(plan.iKraft).toLocaleDateString('nb-NO')}</span>}
+                            <span className="text-brand-400">PlanID: {plan.planId}</span>
+                          </div>
+                        </div>
+
+                        {/* Dokumenter */}
+                        <div className="divide-y divide-brand-100">
+                          {plan.dokumenter?.filter((d: ArealplanerDok) => d.tilgang === 'Alle' || !d.tilgang).map((dok: ArealplanerDok) => {
+                            const isBestemmelse = dok.dokumenttypeId === 5 || dok.dokumenttype === 'Bestemmelser' || dok.dokumentnavn?.toLowerCase().includes('bestemmelse')
+                            const isPlankart = dok.dokumenttype === 'Arealplankart' || dok.dokumenttype === 'Plankart'
+                            const isBeskrivelse = dok.dokumenttype === 'Planbeskrivelse'
+                            const isROS = dok.dokumentnavn?.toLowerCase().includes('ros')
+                            const color = isBestemmelse ? 'text-red-600 bg-red-50' : isPlankart ? 'text-blue-600 bg-blue-50' : isBeskrivelse ? 'text-purple-600 bg-purple-50' : isROS ? 'text-amber-600 bg-amber-50' : 'text-brand-600 bg-brand-50'
+
+                            return (
+                              <div key={dok.id} className="flex items-center justify-between px-4 py-2.5 hover:bg-brand-50/50">
+                                <div className="flex items-center gap-3 min-w-0">
+                                  <span className={`px-2 py-0.5 text-[10px] font-semibold rounded shrink-0 ${color}`}>
+                                    {dok.dokumenttype || 'Dokument'}
+                                  </span>
+                                  <span className="text-sm text-brand-700 truncate">{dok.dokumentnavn}</span>
+                                </div>
+                                <div className="flex items-center gap-2 shrink-0 ml-2">
+                                  {(dok.direkteUrl || dok.url) && (
+                                    <a
+                                      href={dok.direkteUrl || dok.url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-tomtly-accent hover:bg-forest-50 rounded transition-colors border border-tomtly-accent/20"
+                                    >
+                                      <ExternalLink className="w-3 h-3" />
+                                      {isBestemmelse ? 'Last ned PDF' : 'Åpne'}
+                                    </a>
+                                  )}
+                                </div>
                               </div>
-                              <div className="flex items-center gap-2 shrink-0 ml-2">
-                                {dok.dokumentdato && (
-                                  <span className="text-[10px] text-brand-400">{new Date(dok.dokumentdato).toLocaleDateString('nb-NO')}</span>
-                                )}
-                                {(dok.direkteUrl || dok.url) && (
-                                  <a
-                                    href={dok.direkteUrl || dok.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center gap-1 px-2 py-1 text-xs font-medium text-tomtly-accent hover:bg-forest-50 rounded transition-colors"
-                                  >
-                                    <ExternalLink className="w-3 h-3" />
-                                    {isBestemmelse ? 'Last ned PDF' : 'Åpne'}
-                                  </a>
-                                )}
-                              </div>
+                            )
+                          })}
+                        </div>
+
+                        {/* Dispensasjoner */}
+                        {dispensasjoner.length > 0 && (
+                          <div className="border-t border-brand-200 bg-amber-50/50 px-4 py-3">
+                            <h4 className="text-xs font-semibold text-amber-800 uppercase tracking-wide mb-2">
+                              {dispensasjoner.length} dispensasjon{dispensasjoner.length !== 1 ? 'er' : ''} fra denne planen
+                            </h4>
+                            <div className="space-y-2">
+                              {dispensasjoner.map((disp: any) => (
+                                <div key={disp.id} className="bg-white rounded-lg p-3 border border-amber-200 text-xs">
+                                  <p className="text-brand-700 leading-relaxed">{disp.beskrivelse}</p>
+                                  {disp.vedtaksdato && (
+                                    <p className="text-brand-400 mt-1">Vedtatt: {new Date(disp.vedtaksdato).toLocaleDateString('nb-NO')}</p>
+                                  )}
+                                </div>
+                              ))}
                             </div>
-                          )
-                        })}
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  ))}
+                    )
+                  })}
                 </div>
               </div>
             )}
