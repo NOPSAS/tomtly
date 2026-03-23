@@ -137,10 +137,11 @@ interface ArealplanerPlan {
   id: number
   planId: string
   planNavn: string
-  planType?: { beskrivelse?: string }
-  planStatus?: { beskrivelse?: string }
+  planType?: { beskrivelse?: string } | string
+  planStatus?: { beskrivelse?: string } | string
   iKraft?: string
   dokumenter?: ArealplanerDok[]
+  dispensasjoner?: any[]
 }
 
 type StepStatus = 'pending' | 'loading' | 'done' | 'error'
@@ -609,7 +610,7 @@ export default function PrototypePage() {
             const docs = dokRes2.status === 'fulfilled' ? dokRes2.value : []
             const disps = dispRes.status === 'fulfilled' ? dispRes.value : []
 
-            // Hent direkteUrl for ALLE dokumenter (PDF-nedlasting)
+            // Hent direkteUrl for ALLE plandokumenter
             const enrichedDocs = await Promise.all(
               docs.map(async (d: any) => {
                 try {
@@ -623,7 +624,27 @@ export default function PrototypePage() {
               })
             )
 
-            return { ...plan, dokumenter: enrichedDocs, dispensasjoner: disps }
+            // Hent direkteUrl for dispensasjonsdokumenter (vedtak)
+            const enrichedDisps = await Promise.all(
+              disps.map(async (disp: any) => {
+                if (!disp.dokumenter?.length) return disp
+                const enrichedDispDocs = await Promise.all(
+                  disp.dokumenter.map(async (d: any) => {
+                    try {
+                      const metaRes = await fetch(`${AREALPLANER_BASE}/kunder/${kunde.id}/dokumenter/${d.id}`, { headers: apHeaders })
+                      if (metaRes.ok) {
+                        const meta = await metaRes.json()
+                        return { ...d, direkteUrl: meta.direkteUrl }
+                      }
+                    } catch {}
+                    return d
+                  })
+                )
+                return { ...disp, dokumenter: enrichedDispDocs }
+              })
+            )
+
+            return { ...plan, dokumenter: enrichedDocs, dispensasjoner: enrichedDisps }
           })
         )
 
@@ -917,11 +938,86 @@ export default function PrototypePage() {
                             <div className="bg-brand-50 border border-brand-100 rounded-lg p-4">
                               <p className="text-sm text-brand-600">
                                 {tolkning.meta?.status?.navn
-                                  ? `Status: ${tolkning.meta.status.navn}`
-                                  : 'KI-tolkning ikke tilgjengelig for denne planen'}
+                                  ? `KI-tolkning status: ${tolkning.meta.status.navn}`
+                                  : 'KI-tolkning ikke tilgjengelig for denne planen. Se dokumenter nedenfor.'}
                               </p>
                             </div>
                           )}
+
+                          {/* Dokumenter fra arealplaner.no for denne planen */}
+                          {(() => {
+                            const matchingAP = arealplaner.find((ap: any) => ap.planId === tolkning.planId)
+                            if (!matchingAP || !matchingAP.dokumenter?.length) return null
+                            return (
+                              <div className="bg-white border border-brand-200 rounded-lg overflow-hidden">
+                                <div className="px-4 py-2 bg-brand-50 border-b border-brand-200">
+                                  <h5 className="text-xs font-semibold text-brand-600">Plandokumenter (arealplaner.no)</h5>
+                                </div>
+                                <div className="divide-y divide-brand-100">
+                                  {matchingAP.dokumenter.filter((d: any) => d.tilgang === 'Alle' || !d.tilgang).map((dok: any) => {
+                                    const isBest = dok.dokumenttypeId === 5 || dok.dokumenttype === 'Bestemmelser'
+                                    const isKart = dok.dokumenttype === 'Arealplankart' || dok.dokumenttype === 'Plankart'
+                                    const isBesk = dok.dokumenttype === 'Planbeskrivelse'
+                                    const color = isBest ? 'text-red-600 bg-red-50' : isKart ? 'text-blue-600 bg-blue-50' : isBesk ? 'text-purple-600 bg-purple-50' : 'text-brand-600 bg-brand-50'
+                                    return (
+                                      <div key={dok.id} className="flex items-center justify-between px-4 py-2 hover:bg-brand-50/50">
+                                        <div className="flex items-center gap-2 min-w-0">
+                                          <span className={`px-2 py-0.5 text-[10px] font-semibold rounded shrink-0 ${color}`}>{dok.dokumenttype || 'Dokument'}</span>
+                                          <span className="text-xs text-brand-700 truncate">{dok.dokumentnavn}</span>
+                                        </div>
+                                        {(dok.direkteUrl || dok.url) && (
+                                          <a href={dok.direkteUrl || dok.url} target="_blank" rel="noopener noreferrer"
+                                            className="flex items-center gap-1 px-2 py-1 text-[11px] font-medium text-tomtly-accent hover:bg-forest-50 rounded transition-colors shrink-0 ml-2">
+                                            <ExternalLink className="w-3 h-3" />
+                                            {isBest ? 'Last ned PDF' : 'Åpne'}
+                                          </a>
+                                        )}
+                                      </div>
+                                    )
+                                  })}
+                                </div>
+                              </div>
+                            )
+                          })()}
+
+                          {/* Dispensasjoner fra arealplaner.no for denne planen */}
+                          {(() => {
+                            const matchingAP = arealplaner.find((ap: any) => ap.planId === tolkning.planId)
+                            const disps = matchingAP?.dispensasjoner || []
+                            if (disps.length === 0) return null
+                            return (
+                              <div className="bg-amber-50/50 border border-amber-200 rounded-lg overflow-hidden">
+                                <div className="px-4 py-2 bg-amber-50 border-b border-amber-200">
+                                  <h5 className="text-xs font-semibold text-amber-800">{disps.length} dispensasjon{disps.length !== 1 ? 'er' : ''}</h5>
+                                </div>
+                                <div className="divide-y divide-amber-100">
+                                  {disps.map((disp: any) => {
+                                    const vedtakColor = disp.vedtak === 'Avslått' ? 'bg-red-100 text-red-800'
+                                      : disp.vedtak === 'Innvilget' || disp.vedtak === 'Godkjent' ? 'bg-green-100 text-green-800'
+                                      : 'bg-brand-100 text-brand-700'
+                                    return (
+                                      <div key={disp.id} className="px-4 py-2.5">
+                                        <div className="flex items-start justify-between gap-2">
+                                          <p className="text-xs text-brand-700 leading-relaxed flex-1">{disp.beskrivelse}</p>
+                                          {disp.vedtak && <span className={`px-2 py-0.5 text-[10px] font-semibold rounded shrink-0 ${vedtakColor}`}>{disp.vedtak}</span>}
+                                        </div>
+                                        <div className="flex flex-wrap items-center gap-3 mt-1 text-[10px] text-brand-400">
+                                          {disp.vedtaksdato && <span>{new Date(disp.vedtaksdato).toLocaleDateString('nb-NO')}</span>}
+                                          {disp.sak && <span>Sak {disp.sak.sakAar}/{disp.sak.sakSeknr}</span>}
+                                          {disp.dokumenter?.filter((d: any) => d.tilgang === 'Alle').map((dok: any) => (
+                                            <a key={dok.id} href={dok.direkteUrl || dok.url} target="_blank" rel="noopener noreferrer"
+                                              className="text-amber-700 underline flex items-center gap-1">
+                                              <ExternalLink className="w-2.5 h-2.5" />Vedtak
+                                            </a>
+                                          ))}
+                                        </div>
+                                      </div>
+                                    )
+                                  })}
+                                </div>
+                              </div>
+                            )
+                          })()}
                         </div>
                       )}
                     </div>
@@ -1010,19 +1106,52 @@ export default function PrototypePage() {
 
                         {/* Dispensasjoner */}
                         {dispensasjoner.length > 0 && (
-                          <div className="border-t border-brand-200 bg-amber-50/50 px-4 py-3">
-                            <h4 className="text-xs font-semibold text-amber-800 uppercase tracking-wide mb-2">
+                          <div className="border-t border-brand-200 bg-amber-50/50 px-4 py-4">
+                            <h4 className="text-xs font-semibold text-amber-800 uppercase tracking-wide mb-3">
                               {dispensasjoner.length} dispensasjon{dispensasjoner.length !== 1 ? 'er' : ''} fra denne planen
                             </h4>
-                            <div className="space-y-2">
-                              {dispensasjoner.map((disp: any) => (
-                                <div key={disp.id} className="bg-white rounded-lg p-3 border border-amber-200 text-xs">
-                                  <p className="text-brand-700 leading-relaxed">{disp.beskrivelse}</p>
-                                  {disp.vedtaksdato && (
-                                    <p className="text-brand-400 mt-1">Vedtatt: {new Date(disp.vedtaksdato).toLocaleDateString('nb-NO')}</p>
-                                  )}
-                                </div>
-                              ))}
+                            <div className="space-y-3">
+                              {dispensasjoner.map((disp: any) => {
+                                const vedtakColor = disp.vedtak === 'Avslått' ? 'bg-red-100 text-red-800'
+                                  : disp.vedtak === 'Innvilget' || disp.vedtak === 'Godkjent' ? 'bg-green-100 text-green-800'
+                                  : 'bg-brand-100 text-brand-700'
+                                return (
+                                  <div key={disp.id} className="bg-white rounded-lg border border-amber-200 overflow-hidden">
+                                    <div className="p-3">
+                                      <div className="flex items-start justify-between gap-2 mb-1">
+                                        <p className="text-xs text-brand-700 leading-relaxed flex-1">{disp.beskrivelse}</p>
+                                        {disp.vedtak && (
+                                          <span className={`px-2 py-0.5 text-[10px] font-semibold rounded shrink-0 ${vedtakColor}`}>
+                                            {disp.vedtak}
+                                          </span>
+                                        )}
+                                      </div>
+                                      <div className="flex flex-wrap items-center gap-3 mt-2 text-[10px] text-brand-400">
+                                        {disp.vedtaksdato && <span>Vedtatt: {new Date(disp.vedtaksdato).toLocaleDateString('nb-NO')}</span>}
+                                        {disp.dispensasjonType && <span>{disp.dispensasjonType}</span>}
+                                        {disp.sak && <span>Sak: {disp.sak.sakAar}/{disp.sak.sakSeknr}</span>}
+                                      </div>
+                                    </div>
+                                    {/* Vedtaksdokumenter */}
+                                    {disp.dokumenter?.length > 0 && (
+                                      <div className="border-t border-amber-100 px-3 py-2 bg-amber-50/50">
+                                        {disp.dokumenter.filter((d: any) => d.tilgang === 'Alle').map((dok: any) => (
+                                          <a
+                                            key={dok.id}
+                                            href={dok.direkteUrl || dok.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-2 text-[11px] text-amber-800 hover:text-amber-900 hover:underline py-0.5"
+                                          >
+                                            <ExternalLink className="w-3 h-3 shrink-0" />
+                                            <span className="truncate">{dok.dokumentnavn}</span>
+                                          </a>
+                                        ))}
+                                      </div>
+                                    )}
+                                  </div>
+                                )
+                              })}
                             </div>
                           </div>
                         )}
