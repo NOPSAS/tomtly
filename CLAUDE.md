@@ -69,7 +69,7 @@ TOMTLY er IKKE et meglerfirma. TOMTLY er en analyseplattform og markedsføringsk
 **Forsikringsklausul:** Ved oppsigelse av markedsføringspakken gjelder markedsføringsgebyret (2%) fortsatt dersom eiendommen selges innen 3 måneder etter oppsigelsesdato.
 
 **Andre produkter:**
-- **Fradeling:** 3% av ny tomts verdi
+- **Fradeling:** 5% av ny tomts verdi (0 kr fra Tomtly ved avslag – kunde betaler kun kommunale gebyrer)
 - **Husleverandør-abo:** 10 000–20 000 kr/mnd
 - **Bank lead-fee:** 4 900 kr per innvilget byggelån
 

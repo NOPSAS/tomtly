@@ -162,7 +162,7 @@ function Eksempelregning() {
                   <span className="font-semibold text-tomtly-dark">1 500 000 kr</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-forest-700">Tomtly tar 3%</span>
+                  <span className="text-forest-700">Tomtly tar 5%</span>
                   <span className="text-tomtly-dark">45 000 kr</span>
                 </div>
                 <div className="flex justify-between pt-3 border-t border-forest-300">
@@ -181,7 +181,7 @@ function Eksempelregning() {
                     <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                     <div>
                       <p className="font-semibold text-green-800 text-sm">Kommunen godkjenner fradelingen</p>
-                      <p className="text-sm text-green-700 mt-1">Tomten selges via vår Eiendomsekspert. Du betaler 3% av salgsprisen. Ferdig.</p>
+                      <p className="text-sm text-green-700 mt-1">Tomten selges via vår Eiendomsekspert. Du betaler 5% av salgsprisen. Ferdig.</p>
                     </div>
                   </div>
                 </div>
@@ -190,7 +190,7 @@ function Eksempelregning() {
                     <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
                     <div>
                       <p className="font-semibold text-blue-800 text-sm">Kommunen avslår søknaden</p>
-                      <p className="text-sm text-blue-700 mt-1">Du betaler ingenting. Null risiko for deg.</p>
+                      <p className="text-sm text-blue-700 mt-1">Du betaler kun kommunale saksbehandlingsgebyrer. Tomtly tar ingen betaling ved avslag.</p>
                     </div>
                   </div>
                 </div>
@@ -199,7 +199,7 @@ function Eksempelregning() {
                     <CheckCircle2 className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
                     <div>
                       <p className="font-semibold text-amber-800 text-sm">Godkjent, men du ombestemmer deg</p>
-                      <p className="text-sm text-amber-700 mt-1">Du betaler 3% av takst likevel – fordi arbeidet er utført. Men i praksis: tomten vil selges, den må eventuelt bare ned i pris.</p>
+                      <p className="text-sm text-amber-700 mt-1">Du betaler 5% av takst likevel – fordi arbeidet er utført. Men i praksis: tomten vil selges, den må eventuelt bare ned i pris.</p>
                     </div>
                   </div>
                 </div>
@@ -232,7 +232,7 @@ function Priser() {
           <div className="bg-white rounded-2xl p-7 border-2 border-tomtly-accent relative">
             <p className="text-sm font-medium text-brand-500 mb-2">Steg 2: Fradeling og salg</p>
             <p className="text-4xl font-bold text-tomtly-dark mb-1">0 kr</p>
-            <p className="text-sm text-tomtly-accent font-semibold mb-4">+ 3% av den nye tomtens verdi</p>
+            <p className="text-sm text-tomtly-accent font-semibold mb-4">+ 5% av den nye tomtens verdi</p>
             <ul className="space-y-2 mb-6">
               {[
                 'Søknad, tegning og oppmåling – kostnadsfritt for deg',
@@ -251,17 +251,17 @@ function Priser() {
             <div className="space-y-3">
               <div className="bg-green-50 rounded-lg p-3 border border-green-200">
                 <p className="text-xs text-green-800">
-                  <strong>Kommunen godkjenner:</strong> Tomten selges. Du betaler 3% av salgsprisen.
+                  <strong>Kommunen godkjenner:</strong> Tomten selges. Du betaler 5% av salgsprisen.
                 </p>
               </div>
               <div className="bg-blue-50 rounded-lg p-3 border border-blue-200">
                 <p className="text-xs text-blue-800">
-                  <strong>Kommunen avslår:</strong> Du betaler ingenting. Null risiko.
+                  <strong>Kommunen avslår:</strong> Du betaler kun kommunale saksbehandlingsgebyrer. Tomtly tar ingen betaling.
                 </p>
               </div>
               <div className="bg-amber-50 rounded-lg p-3 border border-amber-200">
                 <p className="text-xs text-amber-800">
-                  <strong>Godkjent, men du ombestemmer deg:</strong> Du betaler 3% av takst likevel – arbeidet er utført.
+                  <strong>Godkjent, men du ombestemmer deg:</strong> Du betaler 5% av takst likevel – arbeidet er utført.
                 </p>
               </div>
             </div>

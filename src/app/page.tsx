@@ -30,7 +30,7 @@ export default function Forside() {
       <Kostnadssammenligning />
       <HvaViGjorBedre />
       <VerdivurderingLead />
-      <StatistikkOgTrust />
+      <FradelingReklame />
       <TomteSokLead />
       <FAQSection />
       <JuridiskDisclaimer />
@@ -75,32 +75,36 @@ function HeroSection() {
             og verdivurdering – klar til salg.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 flex-wrap">
-            <Link
-              href="/selger/onboarding"
-              className="inline-flex items-center justify-center gap-2 px-7 py-4 bg-tomtly-accent text-white font-semibold rounded-lg hover:bg-forest-700 transition-colors text-lg"
-            >
-              Legg ut din tomt
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-            <Link
-              href="/tomteanalyse"
-              className="inline-flex items-center justify-center gap-2 px-7 py-4 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-medium rounded-lg hover:bg-white/20 transition-colors"
-            >
-              Gratis tomteanalyse
-            </Link>
-            <a
-              href="#verdivurdering"
-              className="inline-flex items-center justify-center gap-2 px-7 py-4 border border-brand-600 text-brand-300 font-medium rounded-lg hover:bg-brand-900 transition-colors"
-            >
-              Hva er tomten din verdt?
-            </a>
-            <Link
-              href="/tomter"
-              className="inline-flex items-center justify-center gap-2 px-7 py-4 border border-brand-600 text-brand-300 font-medium rounded-lg hover:bg-brand-900 transition-colors"
-            >
-              Se tomter til salgs
-            </Link>
+          <div className="space-y-3 max-w-lg">
+            <div className="flex gap-3">
+              <Link
+                href="/selger/onboarding"
+                className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-4 bg-tomtly-accent text-white font-semibold rounded-lg hover:bg-forest-700 transition-colors"
+              >
+                Legg ut din tomt
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/tomteanalyse"
+                className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-medium rounded-lg hover:bg-white/20 transition-colors"
+              >
+                Gratis tomteanalyse
+              </Link>
+            </div>
+            <div className="flex gap-3">
+              <a
+                href="#verdivurdering"
+                className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 border border-brand-600 text-brand-300 text-sm font-medium rounded-lg hover:bg-brand-900 transition-colors"
+              >
+                Hva er tomten din verdt?
+              </a>
+              <Link
+                href="/tomter"
+                className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 border border-brand-600 text-brand-300 text-sm font-medium rounded-lg hover:bg-brand-900 transition-colors"
+              >
+                Se tomter til salgs
+              </Link>
+            </div>
           </div>
 
           {/* Stats */}
@@ -537,52 +541,83 @@ function HvaViGjorBedre() {
 
 // ---- Statistikk og trust ----
 
-function StatistikkOgTrust() {
-  const stats = [
-    {
-      ikon: Database,
-      verdi: '1 000+',
-      label: 'Tomter analysert',
-    },
-    {
-      ikon: Sparkles,
-      verdi: '70+',
-      label: 'Datasett per tomt',
-    },
-    {
-      ikon: Brain,
-      verdi: 'Fageksperter',
-      label: 'Arkitekter og rådgivere',
-    },
-    {
-      ikon: Shield,
-      verdi: 'Autorisert',
-      label: 'Oppgjør via Propr',
-    },
-  ]
-
+function FradelingReklame() {
   return (
-    <section className="bg-tomtly-dark py-20 lg:py-28">
+    <section className="bg-forest-50 py-16 lg:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="font-display text-3xl lg:text-4xl font-bold text-white mb-4">
-            Tall du kan stole på
-          </h2>
-          <p className="text-brand-400 max-w-lg mx-auto">
-            Vi kombinerer offentlige data, teknologi og fagkompetanse.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {stats.map((s) => (
-            <div key={s.label} className="text-center">
-              <div className="w-14 h-14 bg-white/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <s.ikon className="w-7 h-7 text-green-400" />
+        <div className="bg-white rounded-2xl border border-tomtly-accent/20 p-8 md:p-12 shadow-sm">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div>
+              <span className="inline-block bg-tomtly-accent/10 text-tomtly-accent text-xs font-semibold px-3 py-1 rounded-full mb-4">
+                Fradeling av tomt
+              </span>
+              <h2 className="font-display text-2xl lg:text-3xl font-bold text-tomtly-dark mb-4">
+                Har du en stor tomt? Du kan sitte på skjulte millioner.
+              </h2>
+              <p className="text-brand-600 leading-relaxed mb-6">
+                Mange norske eiendommer har mer tomt enn de trenger. Vi vurderer om din eiendom egner seg for fradeling,
+                håndterer hele prosessen og selger den nye tomten.
+              </p>
+              <div className="space-y-3 mb-8">
+                <div className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-tomtly-accent mt-0.5 shrink-0" />
+                  <div>
+                    <p className="text-sm font-semibold text-tomtly-dark">Gratis vurdering</p>
+                    <p className="text-xs text-brand-500">Vi sjekker om eiendommen din egner seg for fradeling. Uforpliktende.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-tomtly-accent mt-0.5 shrink-0" />
+                  <div>
+                    <p className="text-sm font-semibold text-tomtly-dark">Du betaler kun ved suksess</p>
+                    <p className="text-xs text-brand-500">5% av den nye tomtens verdi – kun ved godkjent fradeling og salg. Kommunale saksbehandlingsgebyrer betales av deg uansett utfall.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-tomtly-accent mt-0.5 shrink-0" />
+                  <div>
+                    <p className="text-sm font-semibold text-tomtly-dark">Vi håndterer alt</p>
+                    <p className="text-xs text-brand-500">Reguleringssjekk, søknad til kommunen, oppmåling, mulighetsstudie og salg av den nye tomten.</p>
+                  </div>
+                </div>
               </div>
-              <p className="text-2xl lg:text-3xl font-bold text-white mb-1">{s.verdi}</p>
-              <p className="text-sm text-brand-400">{s.label}</p>
+              <Link
+                href="/fradeling"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-tomtly-accent text-white font-medium rounded-lg hover:bg-forest-700 transition-colors"
+              >
+                Les mer om fradeling
+                <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
-          ))}
+            <div className="bg-forest-50 rounded-xl p-6 border border-forest-200">
+              <h3 className="font-display text-lg font-bold text-tomtly-dark mb-4">Eksempel: Fradeling av 600 m²</h3>
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between py-2 border-b border-forest-200">
+                  <span className="text-brand-600">Estimert verdi ny tomt</span>
+                  <span className="font-semibold text-tomtly-dark">2 000 000 kr</span>
+                </div>
+                <div className="flex justify-between py-2 border-b border-forest-200">
+                  <span className="text-brand-600">Kommunale gebyrer (betales av deg)</span>
+                  <span className="font-semibold text-tomtly-dark">30 000–60 000 kr</span>
+                </div>
+                <div className="flex justify-between py-2 border-b border-forest-200">
+                  <span className="text-brand-600">Tomtly-gebyr (5% ved salg)</span>
+                  <span className="font-semibold text-tomtly-dark">100 000 kr</span>
+                </div>
+                <div className="flex justify-between py-2 border-b border-forest-200">
+                  <span className="text-brand-600">Oppgjør via Propr</span>
+                  <span className="font-semibold text-tomtly-dark">9 990 kr</span>
+                </div>
+                <div className="flex justify-between py-3 bg-tomtly-accent/5 rounded-lg px-3 -mx-3">
+                  <span className="font-bold text-tomtly-dark">Du sitter igjen med</span>
+                  <span className="font-bold text-tomtly-accent text-lg">~1 830 000 kr</span>
+                </div>
+              </div>
+              <p className="text-[10px] text-brand-400 mt-3">
+                Ved avslag betaler du kun kommunale saksbehandlingsgebyrer. Tomtly tar ingen betaling ved avslag.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </section>

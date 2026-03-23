@@ -25,14 +25,10 @@ interface RevenueRow {
 }
 
 interface ScenarioInputs {
-  analysepakker: number
-  analyseSynlighet: number
-  premiumSynlighet: number
-  megleranalyser: number
+  kunAnalyse: number
+  analysePlusMarkedsforing: number
   fradelinger: number
-  addons: number
   bankleads: number
-  entreprenorAbonnenter: number
   husleverandorAbonnenter: number
 }
 
@@ -40,36 +36,24 @@ type Scenario = 'konservativt' | 'realistisk' | 'optimistisk'
 
 const SCENARIOS: Record<Scenario, ScenarioInputs> = {
   konservativt: {
-    analysepakker: 5,
-    analyseSynlighet: 3,
-    premiumSynlighet: 1,
-    megleranalyser: 3,
+    kunAnalyse: 3,
+    analysePlusMarkedsforing: 5,
     fradelinger: 0,
-    addons: 1,
     bankleads: 2,
-    entreprenorAbonnenter: 1,
     husleverandorAbonnenter: 0,
   },
   realistisk: {
-    analysepakker: 10,
-    analyseSynlighet: 10,
-    premiumSynlighet: 5,
-    megleranalyser: 10,
+    kunAnalyse: 6,
+    analysePlusMarkedsforing: 9,
     fradelinger: 2,
-    addons: 5,
     bankleads: 5,
-    entreprenorAbonnenter: 3,
     husleverandorAbonnenter: 2,
   },
   optimistisk: {
-    analysepakker: 20,
-    analyseSynlighet: 25,
-    premiumSynlighet: 15,
-    megleranalyser: 25,
+    kunAnalyse: 10,
+    analysePlusMarkedsforing: 20,
     fradelinger: 5,
-    addons: 15,
-    bankleads: 15,
-    entreprenorAbonnenter: 10,
+    bankleads: 10,
     husleverandorAbonnenter: 5,
   },
 }
@@ -80,7 +64,7 @@ const PER_KUNDE_DATA: RevenueRow[] = [
   { kilde: 'Tomteanalyse (kun analyse)', inntekt: 9900, kostnad: 4000, margin: 5900, note: 'Engangsbetaling, ingen provisjon' },
   { kilde: 'Analyse + Markedsføring (forskudd)', inntekt: 4990, kostnad: 4000, margin: 990, note: 'Lav oppstart, 2% ved salg' },
   { kilde: 'Markedsføringsgebyr 2% (ved salg, snitt 2 MNOK)', inntekt: 40000, kostnad: 2000, margin: 38000, note: '2% av oppnådd salgspris' },
-  { kilde: 'Fradeling (3% av ny tomts verdi)', inntekt: 45000, kostnad: 10000, margin: 35000, note: '3% av ny tomts verdi (snitt 1,5 MNOK). 0 kr hvis kommunen avslår.' },
+  { kilde: 'Fradeling (5% av ny tomts verdi)', inntekt: 75000, kostnad: 10000, margin: 65000, note: '5% av ny tomts verdi (snitt 1,5 MNOK). 0 kr ved avslag – kunde betaler kun kommunale gebyrer.' },
   { kilde: 'Husleverandør-abo (snitt)', inntekt: 15000, kostnad: 0, margin: 15000, note: 'Basis 10k, Partner 20k/mnd' },
   { kilde: 'Bank lead-fee', inntekt: 4900, kostnad: 0, margin: 4900, note: 'Per innvilget byggelån' },
   { kilde: 'Propr-fee per salg', inntekt: 2000, kostnad: 0, margin: 2000, note: 'Propr tar 9 990 kr/oppgjør, vi får 2 000 kr per kunde' },
@@ -161,33 +145,27 @@ export default function InntektPage() {
   const timerPerTomt = 3.5
   const rows = [
     {
-      label: 'Tomteeier fastpris (4 990)',
-      antall: inputs.analysepakker,
+      label: 'Tomteanalyse (9 900 kr)',
+      antall: inputs.kunAnalyse,
+      inntektPer: 9900,
+      timerPer: timerPerTomt,
+    },
+    {
+      label: 'Analyse + Markedsføring (4 990 kr forskudd)',
+      antall: inputs.analysePlusMarkedsforing,
       inntektPer: 4990,
       timerPer: timerPerTomt,
     },
     {
-      label: 'Provisjon 2,5 % (65% = 32 500)',
-      antall: inputs.analyseSynlighet,
-      inntektPer: 32500,
-      timerPer: timerPerTomt + 1,
+      label: 'Markedsføringsgebyr 2% (snitt 2 MNOK)',
+      antall: inputs.analysePlusMarkedsforing,
+      inntektPer: 40000,
+      timerPer: 2,
     },
     {
-      label: 'Megler Premium (4 900)',
-      antall: inputs.premiumSynlighet,
-      inntektPer: 4900,
-      timerPer: timerPerTomt + 2,
-    },
-    {
-      label: 'Megler Standard (gratis)',
-      antall: inputs.megleranalyser,
-      inntektPer: 0,
-      timerPer: 0.5,
-    },
-    {
-      label: 'Fradelinger (3% av ny tomt)',
+      label: 'Fradelinger (5% av ny tomt)',
       antall: inputs.fradelinger,
-      inntektPer: 45000,
+      inntektPer: 75000,
       timerPer: 15,
     },
     {
@@ -197,32 +175,26 @@ export default function InntektPage() {
       timerPer: 10,
     },
     {
-      label: 'Bank lead-fees',
-      antall: inputs.bankleads,
-      inntektPer: 4900,
-      timerPer: 0.5,
-    },
-    {
-      label: 'Entreprenør-abonnenter',
-      antall: inputs.entreprenorAbonnenter,
-      inntektPer: 14900 / 12,
-      timerPer: 0,
-    },
-    {
       label: 'Husleverandør-abonnenter',
       antall: inputs.husleverandorAbonnenter,
       inntektPer: 15000,
       timerPer: 1,
     },
     {
+      label: 'Bank lead-fee',
+      antall: inputs.bankleads,
+      inntektPer: 4900,
+      timerPer: 0.5,
+    },
+    {
       label: 'Propr-fee (per salg)',
-      antall: inputs.analyseSynlighet,
+      antall: inputs.analysePlusMarkedsforing,
       inntektPer: 2000,
       timerPer: 0,
     },
     {
       label: 'Fotograf (50% av salg)',
-      antall: Math.round(inputs.analyseSynlighet / 2),
+      antall: Math.round(inputs.analysePlusMarkedsforing / 2),
       inntektPer: 1000,
       timerPer: 0.5,
     },
@@ -350,14 +322,10 @@ export default function InntektPage() {
           {/* Inputs */}
           <div className="space-y-3">
             <h3 className="font-display font-bold text-tomtly-dark">Månedlige volumer</h3>
-            <NumberInput label="Tomteeier (4 990 kr)" value={inputs.analysepakker} onChange={v => updateInput('analysepakker', v)} icon={Calculator} />
-            <NumberInput label="Provisjon-salg (2,5 %)" value={inputs.analyseSynlighet} onChange={v => updateInput('analyseSynlighet', v)} icon={TrendingUp} />
-            <NumberInput label="Megler Premium (4 900)" value={inputs.premiumSynlighet} onChange={v => updateInput('premiumSynlighet', v)} icon={TrendingUp} />
-            <NumberInput label="Megler Standard (gratis)" value={inputs.megleranalyser} onChange={v => updateInput('megleranalyser', v)} icon={Users} />
+            <NumberInput label="Tomteanalyse (9 900 kr)" value={inputs.kunAnalyse} onChange={v => updateInput('kunAnalyse', v)} icon={Calculator} />
+            <NumberInput label="Analyse + Markedsføring" value={inputs.analysePlusMarkedsforing} onChange={v => updateInput('analysePlusMarkedsforing', v)} icon={TrendingUp} />
             <NumberInput label="Fradelinger" value={inputs.fradelinger} onChange={v => updateInput('fradelinger', v)} icon={Home} />
-            <NumberInput label="Addons (tegning/søknad)" value={inputs.addons} onChange={v => updateInput('addons', v)} icon={Hammer} />
             <NumberInput label="Bank lead-fees" value={inputs.bankleads} onChange={v => updateInput('bankleads', v)} icon={Banknote} />
-            <NumberInput label="Entreprenør-abonnenter" value={inputs.entreprenorAbonnenter} onChange={v => updateInput('entreprenorAbonnenter', v)} icon={DollarSign} />
             <NumberInput label="Husleverandør-abonnenter" value={inputs.husleverandorAbonnenter} onChange={v => updateInput('husleverandorAbonnenter', v)} icon={DollarSign} />
           </div>
 
