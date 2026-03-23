@@ -24,6 +24,7 @@ export default function Forside() {
     <>
       <HeroSection />
       <HvordanDetFungerer />
+      <FremhevedeTomter />
       <VelgPakke />
       <Kostnadssammenligning />
       <HvaViGjorBedre />
@@ -125,7 +126,7 @@ function HvordanDetFungerer() {
       ikon: Brain,
       tittel: 'Vi analyserer',
       beskrivelse:
-        'KI og fagfolk analyserer reguleringsplan, topografi, solforhold og byggemuligheter.',
+        'Våre fageksperter – arkitekter og eiendomsrådgivere – analyserer reguleringsplan, topografi og byggemuligheter.',
     },
     {
       nummer: '03',
@@ -176,6 +177,95 @@ function HvordanDetFungerer() {
   )
 }
 
+// ---- Fremhevede tomter ----
+
+function FremhevedeTomter() {
+  const tomter = [
+    {
+      href: '/tomter/bjornemyrveien-20',
+      bilde: '/tomter/bjornemyrveien-shared/oversiktsbilde.jpg',
+      adresse: 'Bjørnemyrveien 20',
+      sted: 'Nesodden',
+      areal: '724 m²',
+      pris: '3 000 000 kr',
+      husmodeller: 4,
+      type: 'Flat tomt',
+    },
+    {
+      href: '/tomter/bjornemyrveien-22',
+      bilde: '/tomter/bjornemyrveien-shared/render-parsell-c.jpg',
+      adresse: 'Bjørnemyrveien 22',
+      sted: 'Nesodden',
+      areal: '613 m²',
+      pris: '3 000 000 kr',
+      husmodeller: 4,
+      type: 'Skråtomt',
+    },
+    {
+      href: '/tomter/alvaern-67',
+      bilde: '/tomter/alvaern-67/oversikt.jpg',
+      adresse: 'Gamle Alværnvei 67',
+      sted: 'Nesodden',
+      areal: '1 015 m²',
+      pris: '4 900 000 kr',
+      husmodeller: 3,
+      type: 'Skråtomt med sjøutsikt',
+    },
+  ]
+
+  return (
+    <section className="bg-white py-16 lg:py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-3">
+            Tomter med analyse
+          </h2>
+          <p className="text-brand-600 max-w-lg mx-auto">
+            Se eksempler på hvordan Tomtly presenterer tomter med husmodeller, byggekalkyle og verdivurdering.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {tomter.map((tomt) => (
+            <Link
+              key={tomt.href}
+              href={tomt.href}
+              className="group bg-white border border-brand-200 rounded-2xl overflow-hidden hover:border-tomtly-accent/40 hover:shadow-lg transition-all"
+            >
+              <div className="aspect-[16/10] relative overflow-hidden bg-brand-100">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={tomt.bilde}
+                  alt={tomt.adresse}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute top-3 left-3">
+                  <span className="bg-tomtly-accent text-white text-[10px] font-semibold px-2.5 py-1 rounded-full">
+                    {tomt.husmodeller} husmodeller
+                  </span>
+                </div>
+              </div>
+              <div className="p-5">
+                <h3 className="font-semibold text-tomtly-dark mb-1">{tomt.adresse}</h3>
+                <p className="text-sm text-brand-500 mb-3">{tomt.sted} · {tomt.type}</p>
+                <div className="flex items-center justify-between">
+                  <div className="flex gap-4 text-xs text-brand-500">
+                    <span>{tomt.areal}</span>
+                    <span className="font-semibold text-tomtly-dark">{tomt.pris}</span>
+                  </div>
+                  <span className="text-xs text-tomtly-accent font-medium group-hover:underline flex items-center gap-1">
+                    Se analyse <ArrowRight className="w-3 h-3" />
+                  </span>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 // ---- Velg pakke ----
 
 function VelgPakke() {
@@ -202,7 +292,7 @@ function VelgPakke() {
             <p className="text-sm text-brand-500 mb-5">Engangspris – du selger selv</p>
             <ul className="space-y-2 mb-6">
               {[
-                'KI-analysert reguleringsplan',
+                'Reguleringsanalyse fra fageksperter',
                 'Byggemuligheter og begrensninger',
                 'Husmodeller tilpasset tomten',
                 '3D-visualisering',
@@ -285,7 +375,7 @@ function Kostnadssammenligning() {
             Hva koster det egentlig?
           </h2>
           <p className="text-brand-600 max-w-2xl mx-auto">
-            Sammenlign kostnadene ved tradisjonell megler med TOMTLY.
+            Sammenlign kostnadene ved tradisjonell megler med Tomtly.
           </p>
         </div>
 
@@ -295,8 +385,8 @@ function Kostnadssammenligning() {
               <tr className="border-b-2 border-brand-300">
                 <th className="text-left py-3 pr-4 font-semibold text-tomtly-dark">Salgssum</th>
                 <th className="text-center py-3 px-4 font-semibold text-red-600">Tradisjonell megler</th>
-                <th className="text-center py-3 px-4 font-semibold text-tomtly-accent">TOMTLY Analyse</th>
-                <th className="text-center py-3 px-4 font-semibold text-tomtly-accent">TOMTLY Analyse + Markedsføring</th>
+                <th className="text-center py-3 px-4 font-semibold text-tomtly-accent">Tomtly Analyse</th>
+                <th className="text-center py-3 px-4 font-semibold text-tomtly-accent">Tomtly Analyse + Markedsføring</th>
               </tr>
             </thead>
             <tbody>
@@ -304,8 +394,8 @@ function Kostnadssammenligning() {
               <tr className="border-b border-brand-200">
                 <td className="py-4 pr-4 font-semibold text-tomtly-dark">2 000 000 kr</td>
                 <td className="py-4 px-4 text-center">
-                  <div className="font-mono font-semibold text-red-600">~120 000 kr</div>
-                  <div className="text-xs text-brand-400 mt-1">Provisjon 3,6 % + tillegg</div>
+                  <div className="font-mono font-semibold text-red-600">50 000–72 000 kr</div>
+                  <div className="text-xs text-brand-400 mt-1">Provisjon 2,5–3,6 %</div>
                 </td>
                 <td className="py-4 px-4 text-center">
                   <div className="font-mono font-semibold text-tomtly-dark">19 890 kr</div>
@@ -320,8 +410,8 @@ function Kostnadssammenligning() {
               <tr className="border-b border-brand-200">
                 <td className="py-4 pr-4 font-semibold text-tomtly-dark">3 000 000 kr</td>
                 <td className="py-4 px-4 text-center">
-                  <div className="font-mono font-semibold text-red-600">~150 000 kr</div>
-                  <div className="text-xs text-brand-400 mt-1">Provisjon 3,6 % + tillegg</div>
+                  <div className="font-mono font-semibold text-red-600">75 000–108 000 kr</div>
+                  <div className="text-xs text-brand-400 mt-1">Provisjon 2,5–3,6 %</div>
                 </td>
                 <td className="py-4 px-4 text-center">
                   <div className="font-mono font-semibold text-tomtly-dark">19 890 kr</div>
@@ -339,12 +429,12 @@ function Kostnadssammenligning() {
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
             <div className="bg-white rounded-xl border border-green-200 p-4 text-center">
               <p className="text-xs text-brand-500 mb-1">Spar med Analyse (3 MNOK tomt)</p>
-              <p className="text-2xl font-bold text-green-700">130 110 kr</p>
+              <p className="text-2xl font-bold text-green-700">55 000–88 000 kr</p>
               <p className="text-xs text-brand-400 mt-1">vs. tradisjonell megler</p>
             </div>
             <div className="bg-white rounded-xl border border-green-200 p-4 text-center">
               <p className="text-xs text-brand-500 mb-1">Spar med Analyse + Markedsføring (3 MNOK)</p>
-              <p className="text-2xl font-bold text-green-700">75 020 kr</p>
+              <p className="text-2xl font-bold text-green-700">0–33 000 kr</p>
               <p className="text-xs text-brand-400 mt-1">vs. tradisjonell megler</p>
             </div>
           </div>
@@ -360,9 +450,9 @@ function HvaViGjorBedre() {
   const fordeler = [
     {
       ikon: Brain,
-      tittel: 'KI-analysert reguleringsplan',
+      tittel: 'Reguleringsanalyse fra fageksperter',
       beskrivelse:
-        'Vår KI leser og tolker reguleringsplaner, bestemmelser og kommunale vedtak. Du får en forståelig oppsummering av hva som kan bygges.',
+        'Arkitekter og eiendomsrådgivere tolker reguleringsplaner, bestemmelser og kommunale vedtak. Du får en forståelig oppsummering av hva som kan bygges.',
     },
     {
       ikon: Home,
@@ -436,8 +526,8 @@ function StatistikkOgTrust() {
     },
     {
       ikon: Brain,
-      verdi: 'KI-tolkning',
-      label: 'Av reguleringsplaner',
+      verdi: 'Fageksperter',
+      label: 'Arkitekter og rådgivere',
     },
     {
       ikon: Shield,
@@ -454,7 +544,7 @@ function StatistikkOgTrust() {
             Tall du kan stole på
           </h2>
           <p className="text-brand-400 max-w-lg mx-auto">
-            Vi kombinerer offentlige data, KI-analyse og fagkompetanse.
+            Vi kombinerer offentlige data, teknologi og fagkompetanse.
           </p>
         </div>
 
@@ -484,7 +574,7 @@ function FAQSection() {
     },
     {
       q: 'Trenger jeg megler for å selge tomten?',
-      a: 'Nei. Du kan selge tomt privat i Norge. TOMTLY gir deg profesjonelle verktøy for analyse og markedsføring, og Propr håndterer det juridiske oppgjøret trygt via Norsk eiendomsoppgjør AS.',
+      a: 'Nei. Du kan selge tomt privat i Norge. Tomtly gir deg profesjonelle verktøy for analyse og markedsføring, og Propr håndterer det juridiske oppgjøret trygt via Norsk eiendomsoppgjør AS.',
     },
     {
       q: 'Hva betyr «2 % ved salg»?',
@@ -504,11 +594,11 @@ function FAQSection() {
     },
     {
       q: 'Hva slags data bruker dere?',
-      a: 'Vi henter data fra over 70 offentlige og private kilder, inkludert matrikkel, reguleringsplaner, grunnforhold, kommunale vedtak, solanalyse og markedsdata. KI-modellen vår tolker og sammenstiller alt.',
+      a: 'Vi henter data fra over 70 offentlige og private kilder, inkludert matrikkel, reguleringsplaner, grunnforhold og markedsdata. Våre fageksperter tolker og sammenstiller alt til en komplett analyse.',
     },
     {
       q: 'Er Tomtly et meglerforetak?',
-      a: 'Nei. TOMTLY er en analyseplattform og markedsføringskanal for tomtesalg. Vi er ikke et eiendomsmeglingsforetak. Markedsføringsgebyret er betaling for markedsføringstjenester, ikke meglerprovisjoner. Oppgjør håndteres av Propr via Norsk eiendomsoppgjør AS.',
+      a: 'Nei. Tomtly er en analyseplattform og markedsføringskanal for tomtesalg. Vi er ikke et eiendomsmeglingsforetak. Markedsføringsgebyret er betaling for markedsføringstjenester, ikke meglerprovisjoner. Oppgjør håndteres av Propr via Norsk eiendomsoppgjør AS.',
     },
   ]
 
@@ -557,9 +647,9 @@ function JuridiskDisclaimer() {
             <div>
               <h3 className="font-semibold text-tomtly-dark mb-2">Juridisk informasjon</h3>
               <p className="text-sm text-brand-600 leading-relaxed">
-                TOMTLY er ikke et eiendomsmeglingsforetak og driver ikke eiendomsmegling.
-                TOMTLY tilbyr analyse- og markedsføringstjenester for tomteeiere som ønsker å selge selv.
-                Markedsføringsgebyret er betaling for TOMTLYs markedsføringstjeneste og er ikke meglerprovisjoner.
+                Tomtly er ikke et eiendomsmeglingsforetak og driver ikke eiendomsmegling.
+                Tomtly tilbyr analyse- og markedsføringstjenester for tomteeiere som ønsker å selge selv.
+                Markedsføringsgebyret er betaling for Tomtlys markedsføringstjeneste og er ikke meglerprovisjoner.
                 Tomteeier er selv ansvarlig for salget av sin eiendom.
                 Kontrakt og oppgjør håndteres av{' '}
                 <a href="https://propr.no" target="_blank" rel="noopener noreferrer" className="underline hover:text-brand-800">Propr.no</a>{' '}

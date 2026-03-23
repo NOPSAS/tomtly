@@ -63,7 +63,7 @@ function HeroSection() {
           </h1>
 
           <p className="text-lg text-brand-400 leading-relaxed mb-10 max-w-xl">
-            TOMTLY er en analyseplattform som gir deg alt du trenger for å
+            Tomtly er en analyseplattform som gir deg alt du trenger for å
             selge tomten selv: reguleringsanalyse, husmodeller,
             3D-visualisering, byggekalkyle og verdivurdering. Du bestemmer
             – vi leverer verktøyene.

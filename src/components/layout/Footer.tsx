@@ -62,7 +62,7 @@ export function Footer() {
         {/* Juridisk disclaimer */}
         <div className="border-t border-brand-800 mt-12 pt-6">
           <p className="text-[10px] text-brand-600 leading-relaxed max-w-3xl">
-            TOMTLY er ikke et eiendomsmeglingsforetak og driver ikke eiendomsmegling. TOMTLY tilbyr analyse- og markedsføringstjenester for tomteeiere som ønsker å selge selv. Markedsføringsgebyret er betaling for TOMTLYs markedsføringstjeneste og er ikke meglerprovisjoner. Tomteeier er selv ansvarlig for salget av sin eiendom. Kontrakt og oppgjør håndteres av{' '}
+            Tomtly er ikke et eiendomsmeglingsforetak og driver ikke eiendomsmegling. Tomtly tilbyr analyse- og markedsføringstjenester for tomteeiere som ønsker å selge selv. Markedsføringsgebyret er betaling for Tomtlys markedsføringstjeneste og er ikke meglerprovisjoner. Tomteeier er selv ansvarlig for salget av sin eiendom. Kontrakt og oppgjør håndteres av{' '}
             <a href="https://propr.no" target="_blank" rel="noopener noreferrer" className="underline hover:text-brand-400">Propr.no</a> via autorisert oppgjørsselskap (Norsk eiendomsoppgjør AS).
           </p>
         </div>
