@@ -18,7 +18,6 @@ import {
   X,
   Check,
   Search,
-  Skull,
   Gavel,
   Hammer,
 } from 'lucide-react'
@@ -33,10 +32,14 @@ interface FinnTomt {
   adresse: string | null
   kommune: string | null
   fylke: string | null
-  tomtestørrelse_m2: number | null
+  tomtestorrelse_m2: number | null
   prisantydning: number | null
   publiseringsdato: string | null
+  megler_navn: string | null
   megler_firma: string | null
+  megler_telefon: string | null
+  megler_epost: string | null
+  reguleringsinfo: string | null
   thumbnail_url: string | null
   status: string | null
   dager_paa_finn: number | null
@@ -44,7 +47,7 @@ interface FinnTomt {
   flagg: string[] | null
   status_historikk: Array<{ status: string; dato: string }> | null
   sist_oppdatert: string | null
-  created_at: string
+  opprettet: string
 }
 
 interface DagligOppsummering {
@@ -58,7 +61,7 @@ interface DagligOppsummering {
 }
 
 type Status = 'ny' | 'kontaktet' | 'interessert' | 'kunde' | 'avslått'
-type TabType = 'alle' | 'prioritert' | 'oppsummering' | 'dodsbo' | 'tvangssalg' | 'rivning'
+type TabType = 'alle' | 'prioritert' | 'oppsummering' | 'tvangssalg' | 'rivning'
 type DagerFilter = 'alle' | '30' | '60' | '90' | '120'
 
 const STATUS_OPTIONS: Status[] = ['ny', 'kontaktet', 'interessert', 'kunde', 'avslått']
@@ -76,7 +79,7 @@ const RIVNING_KEYWORDS = ['rivning', 'totalrenovering', 'kondemnabel', 'tomtever
 // ─── Pitch templates ─────────────────────────────────────────────────────────
 
 function ownerPitch(tomt: FinnTomt): string {
-  const størrelse = tomt.tomtestørrelse_m2 ? `${tomt.tomtestørrelse_m2.toLocaleString('nb-NO')}` : '[størrelse]'
+  const størrelse = tomt.tomtestorrelse_m2 ? `${tomt.tomtestorrelse_m2.toLocaleString('nb-NO')}` : '[størrelse]'
   const kommune = tomt.kommune || '[kommune]'
   return `Hei!
 
@@ -101,7 +104,7 @@ Tomtly.no | hey@nops.no | +47 40603908`
 
 function meglerPitch(tomt: FinnTomt): string {
   const kommune = tomt.kommune || '[kommune]'
-  const størrelse = tomt.tomtestørrelse_m2 ? `${tomt.tomtestørrelse_m2.toLocaleString('nb-NO')} m²` : '[størrelse] m²'
+  const størrelse = tomt.tomtestorrelse_m2 ? `${tomt.tomtestorrelse_m2.toLocaleString('nb-NO')} m²` : '[størrelse] m²'
   const pris = tomt.prisantydning ? `${tomt.prisantydning.toLocaleString('nb-NO')} kr` : '[pris] kr'
   return `Hei!
 
@@ -120,7 +123,7 @@ Tomtly.no | hey@nops.no | +47 40603908`
 
 function rivningPitch(tomt: FinnTomt): string {
   const kommune = tomt.kommune || '[kommune]'
-  const størrelse = tomt.tomtestørrelse_m2 ? `${tomt.tomtestørrelse_m2.toLocaleString('nb-NO')} m²` : '[størrelse] m²'
+  const størrelse = tomt.tomtestorrelse_m2 ? `${tomt.tomtestorrelse_m2.toLocaleString('nb-NO')} m²` : '[størrelse] m²'
   return `Hei!
 
 Jeg ser at eiendommen i ${kommune} (${størrelse}) kan ha potensiale som utviklingstomt. Mange slike eiendommer selges under reell verdi fordi kjøpere ikke ser mulighetene.
@@ -234,12 +237,39 @@ function DetailPanel({
             <InfoItem label="Type" value={tomt.type === 'tomt' ? 'Tomt' : 'Fritidstomt'} />
             <InfoItem label="Kommune" value={tomt.kommune || '–'} />
             <InfoItem label="Fylke" value={tomt.fylke || '–'} />
-            <InfoItem label="Størrelse" value={tomt.tomtestørrelse_m2 ? `${tomt.tomtestørrelse_m2.toLocaleString('nb-NO')} m²` : '–'} />
+            <InfoItem label="Størrelse" value={tomt.tomtestorrelse_m2 ? `${tomt.tomtestorrelse_m2.toLocaleString('nb-NO')} m²` : '–'} />
             <InfoItem label="Prisantydning" value={tomt.prisantydning ? `${tomt.prisantydning.toLocaleString('nb-NO')} kr` : '–'} />
             <InfoItem label="Dager på FINN" value={tomt.dager_paa_finn != null ? String(tomt.dager_paa_finn) : '–'} />
-            <InfoItem label="Megler" value={tomt.megler_firma || '–'} />
+            <InfoItem label="Regulering" value={tomt.reguleringsinfo || '–'} />
             <InfoItem label="Publisert" value={tomt.publiseringsdato || '–'} />
             <InfoItem label="Sist oppdatert" value={tomt.sist_oppdatert ? new Date(tomt.sist_oppdatert).toLocaleDateString('nb-NO') : '–'} />
+          </div>
+
+          {/* Contact info */}
+          <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+            <h3 className="text-xs font-semibold text-blue-800 uppercase tracking-wide mb-3">Kontaktinformasjon</h3>
+            <div className="grid grid-cols-2 gap-3 text-sm">
+              <div>
+                <p className="text-[10px] text-blue-500">Kontaktperson</p>
+                <p className="font-medium text-blue-900">{tomt.megler_navn || '–'}</p>
+              </div>
+              <div>
+                <p className="text-[10px] text-blue-500">Firma</p>
+                <p className="font-medium text-blue-900">{tomt.megler_firma || '–'}</p>
+              </div>
+              <div>
+                <p className="text-[10px] text-blue-500">Telefon</p>
+                {tomt.megler_telefon ? (
+                  <a href={`tel:${tomt.megler_telefon.replace(/\s/g, '')}`} className="font-medium text-blue-700 hover:underline">{tomt.megler_telefon}</a>
+                ) : <p className="text-blue-400">–</p>}
+              </div>
+              <div>
+                <p className="text-[10px] text-blue-500">E-post</p>
+                {tomt.megler_epost ? (
+                  <a href={`mailto:${tomt.megler_epost}`} className="font-medium text-blue-700 hover:underline text-xs break-all">{tomt.megler_epost}</a>
+                ) : <p className="text-blue-400">–</p>}
+              </div>
+            </div>
           </div>
 
           {/* Thumbnail */}
@@ -361,12 +391,20 @@ function DetailPanel({
               Åpne på FINN
             </a>
             <a
-              href={`mailto:?subject=${emailSubject}&body=${emailBody}`}
+              href={`mailto:${tomt.megler_epost || ''}?subject=${emailSubject}&body=${emailBody}`}
               className="flex items-center gap-2 px-4 py-2 bg-brand-700 text-white rounded-lg text-sm font-medium hover:bg-brand-800 transition-colors"
             >
               <Mail className="w-4 h-4" />
-              Send e-post
+              {tomt.megler_epost ? `Send til ${tomt.megler_navn || tomt.megler_epost}` : 'Lag e-post'}
             </a>
+            {tomt.megler_telefon && (
+              <a
+                href={`tel:${tomt.megler_telefon.replace(/\s/g, '')}`}
+                className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors"
+              >
+                Ring {tomt.megler_navn || 'kontakt'}
+              </a>
+            )}
           </div>
         </div>
       </div>
@@ -390,7 +428,6 @@ export default function FinnPipelinePage() {
   const [oppsummeringer, setOppsummeringer] = useState<DagligOppsummering[]>([])
   const [loading, setLoading] = useState(true)
   const [scraping, setScraping] = useState(false)
-  const [scrapingDodsbo, setScrapingDodsbo] = useState(false)
   const [scrapeResult, setScrapeResult] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<TabType>('alle')
   const [selectedTomt, setSelectedTomt] = useState<FinnTomt | null>(null)
@@ -441,27 +478,6 @@ export default function FinnPipelinePage() {
     setScraping(false)
   }
 
-  const handleScrapeDodsbo = async () => {
-    setScrapingDodsbo(true)
-    setScrapeResult(null)
-    try {
-      const res = await fetch('/api/admin/scrape-dodsbo', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-      })
-      const data = await res.json()
-      if (data.success) {
-        setScrapeResult(`Dødsbo: ${data.nye || 0} nye funnet`)
-        fetchData()
-      } else {
-        setScrapeResult(`Feil: ${data.error}`)
-      }
-    } catch {
-      setScrapeResult('Nettverksfeil under dødsbo-scraping')
-    }
-    setScrapingDodsbo(false)
-  }
-
   const handleStatusChange = async (id: string, newStatus: Status) => {
     const tomt = tomter.find(t => t.id === id)
     if (!tomt) return
@@ -493,10 +509,9 @@ export default function FinnPipelinePage() {
   const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000)
 
   const totalAktive = tomter.length
-  const nyeSiste24t = tomter.filter(t => new Date(t.created_at) > yesterday).length
+  const nyeSiste24t = tomter.filter(t => new Date(t.opprettet) > yesterday).length
   const over60dager = tomter.filter(t => (t.dager_paa_finn || 0) >= 60).length
   const tvangssalgCount = tomter.filter(t => t.flagg?.includes('tvangssalg')).length
-  const dodsboCount = tomter.filter(t => t.flagg?.includes('dødsbo')).length
 
   // Apply filters
   const applyFilters = (list: FinnTomt[]) => {
@@ -515,10 +530,6 @@ export default function FinnPipelinePage() {
     tomter.filter(t => (t.dager_paa_finn || 0) >= 60)
   ).sort((a, b) => (b.dager_paa_finn || 0) - (a.dager_paa_finn || 0))
 
-  const dodsboTomter = applyFilters(
-    tomter.filter(t => t.flagg?.includes('dødsbo'))
-  )
-
   const tvangssalgTomter = applyFilters(
     tomter.filter(t => t.flagg?.includes('tvangssalg'))
   )
@@ -531,7 +542,7 @@ export default function FinnPipelinePage() {
       if (hasKeyword) return true
       if (t.flagg?.some(f => RIVNING_KEYWORDS.some(kw => f.toLowerCase().includes(kw)))) return true
       // Low price heuristic: price below 500k for a large plot (>500m2)
-      if (t.prisantydning && t.tomtestørrelse_m2 && t.prisantydning < 500000 && t.tomtestørrelse_m2 > 500) return true
+      if (t.prisantydning && t.tomtestorrelse_m2 && t.prisantydning < 500000 && t.tomtestorrelse_m2 > 500) return true
       return false
     })
   )
@@ -557,14 +568,6 @@ export default function FinnPipelinePage() {
               <span className="text-xs bg-white/10 px-3 py-1.5 rounded-lg">{scrapeResult}</span>
             )}
             <button
-              onClick={handleScrapeDodsbo}
-              disabled={scrapingDodsbo}
-              className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 disabled:opacity-50 transition-colors"
-            >
-              <Skull className={`w-4 h-4 ${scrapingDodsbo ? 'animate-pulse' : ''}`} />
-              {scrapingDodsbo ? 'Scraper...' : 'Kjør dødsbo-scraper'}
-            </button>
-            <button
               onClick={handleScrape}
               disabled={scraping}
               className="flex items-center gap-2 px-4 py-2 bg-[#06bffc] text-white rounded-lg text-sm font-medium hover:bg-[#05a8de] disabled:opacity-50 transition-colors"
@@ -583,7 +586,6 @@ export default function FinnPipelinePage() {
           <StatCard icon={TrendingUp} label="Nye siste 24t" value={nyeSiste24t} />
           <StatCard icon={Clock} label="60+ dager" value={over60dager} accent={over60dager > 0} />
           <StatCard icon={Gavel} label="Tvangssalg" value={tvangssalgCount} accent={tvangssalgCount > 0} />
-          <StatCard icon={Skull} label="Dødsbo" value={dodsboCount} accent={dodsboCount > 0} />
         </div>
 
         {/* Filter bar */}
@@ -661,7 +663,6 @@ export default function FinnPipelinePage() {
           {([
             { key: 'alle' as TabType, label: `Alle tomter (${filteredTomter.length})` },
             { key: 'prioritert' as TabType, label: `60+ dager (${prioritertTomter.length})` },
-            { key: 'dodsbo' as TabType, label: `Dødsbo (${dodsboTomter.length})` },
             { key: 'tvangssalg' as TabType, label: `Tvangssalg (${tvangssalgTomter.length})` },
             { key: 'rivning' as TabType, label: `Rivningsobjekter (${rivningTomter.length})` },
             { key: 'oppsummering' as TabType, label: 'Daglig oppsummering' },
@@ -713,54 +714,6 @@ export default function FinnPipelinePage() {
                     />
                   </div>
                 )}
-              </div>
-            )}
-
-            {/* Dødsbo tab - REAL DATA from finn_tomter where flagg contains 'dødsbo' */}
-            {activeTab === 'dodsbo' && (
-              <div className="space-y-4">
-                <div className="bg-purple-50 border border-purple-200 rounded-xl p-4">
-                  <p className="text-sm text-purple-800">
-                    <strong>Dødsbo-tomter:</strong> Filtrert fra finn_tomter der flagg inneholder &quot;dødsbo&quot;.
-                    Kjør dødsbo-scraperen for å oppdatere data.
-                  </p>
-                </div>
-
-                {dodsboTomter.length === 0 ? (
-                  <div className="bg-white rounded-xl border border-brand-200 p-12 text-center">
-                    <Skull className="w-8 h-8 text-brand-300 mx-auto mb-3" />
-                    <p className="text-brand-500 mb-2">Ingen dødsbo-tomter funnet</p>
-                    <p className="text-xs text-brand-400">Kjør dødsbo-scraperen for å finne eiendommer i dødsbo</p>
-                  </div>
-                ) : (
-                  <TomterTable
-                    tomter={dodsboTomter}
-                    onSelect={setSelectedTomt}
-                    onStatusChange={handleStatusChange}
-                  />
-                )}
-
-                {/* Sensitive pitch template */}
-                <div className="bg-white rounded-xl border border-brand-200 p-6">
-                  <h3 className="font-semibold text-tomtly-dark mb-3">Pitch-mal for dødsbo (sensitiv tone)</h3>
-                  <div className="bg-brand-50 rounded-lg p-4 border border-brand-100">
-                    <div className="flex justify-end mb-2">
-                      <CopyButton text={`Hei,\n\nVi forstår at dette er en vanskelig tid, og vi ønsker å tilby vår hjelp dersom familien vurderer å selge eiendommen eller tomten.\n\nTomtly.no hjelper med profesjonelle mulighetsstudier som viser hva som kan bygges på en tomt, noe som kan bidra til en raskere og bedre salgsprosess.\n\nVi er tilgjengelige dersom dere ønsker en uforpliktende samtale.\n\nMed vennlig hilsen\nTomtly-teamet\ntomtly.no | hey@nops.no | +47 40603908`} />
-                    </div>
-                    <pre className="text-xs text-brand-700 whitespace-pre-wrap font-sans leading-relaxed">{`Hei,
-
-Vi forstår at dette er en vanskelig tid, og vi ønsker å tilby vår hjelp dersom familien vurderer å selge eiendommen eller tomten.
-
-Tomtly.no hjelper med profesjonelle mulighetsstudier som viser hva som kan bygges på en tomt, noe som kan bidra til en raskere og bedre salgsprosess.
-
-Vi er tilgjengelige dersom dere ønsker en uforpliktende samtale.
-
-Med vennlig hilsen
-Tomtly-teamet
-tomtly.no | hey@nops.no | +47 40603908`}</pre>
-                  </div>
-                  <p className="text-xs text-amber-600 mt-2">Viktig: Bruk alltid en respektfull og sensitiv tone ved kontakt med dødsbo.</p>
-                </div>
               </div>
             )}
 
@@ -1009,7 +962,7 @@ function TomterTable({
 
                   {/* Størrelse */}
                   <td className="px-4 py-3 text-right text-brand-600">
-                    {tomt.tomtestørrelse_m2 ? `${tomt.tomtestørrelse_m2.toLocaleString('nb-NO')} m²` : '–'}
+                    {tomt.tomtestorrelse_m2 ? `${tomt.tomtestorrelse_m2.toLocaleString('nb-NO')} m²` : '–'}
                   </td>
 
                   {/* Pris */}
