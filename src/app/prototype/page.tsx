@@ -792,21 +792,24 @@ function PrototypeContent() {
           setDispAnalyse({ totalt, godkjent, avslatt, godkjentProsent: totalt > 0 ? Math.round((godkjent / totalt) * 100) : 0, kategorier })
         }
 
-        // Analyser bestemmelser-PDFer med Claude (async, non-blocking)
+        // KI-analyser kun reguleringsbestemmelser (kommuneplan har statisk oppsummering)
         const bestemmelseDocs: { url: string; planNavn: string; planType: string }[] = []
         for (const ap of result) {
+          const pType = typeof ap.planType === 'string' ? ap.planType : ap.planType?.beskrivelse || ''
+          const isKommune = pType.toLowerCase().includes('kommune')
+          // Skip kommuneplaner - de har forhåndsgenerert oppsummering
+          if (isKommune && getKommuneplanSammendrag(knr)) continue
+
           const docs = ap.dokumenter || []
           const bestemmelser = docs.filter((d: ArealplanerDok) =>
             d.dokumenttypeId === 5 || d.dokumenttype === 'Bestemmelser' || d.dokumentnavn?.toLowerCase().includes('bestemmelse')
           )
           for (const dok of bestemmelser) {
             if (dok.direkteUrl) {
-              const pType = typeof ap.planType === 'string' ? ap.planType : ap.planType?.beskrivelse || ''
-              const isKommune = pType.toLowerCase().includes('kommune')
               bestemmelseDocs.push({
                 url: dok.direkteUrl,
                 planNavn: ap.planNavn || ap.planId,
-                planType: isKommune ? 'kommune' : 'regulering',
+                planType: 'regulering',
               })
             }
           }
@@ -1401,7 +1404,12 @@ function PrototypeContent() {
                   Plananalyse ({plans.length} {plans.length === 1 ? 'plan' : 'planer'})
                 </h2>
 
-                {planTolkninger.map((tolkning) => {
+                {planTolkninger.filter(t => {
+                  // Skip kommuneplaner som allerede har statisk oppsummering
+                  const isKommune = t.plantype?.toLowerCase().includes('kommune')
+                  const hasStaticSummary = valgtAdresse && getKommuneplanSammendrag(valgtAdresse.kommunenummer)
+                  return !(isKommune && hasStaticSummary)
+                }).map((tolkning) => {
                   const isExpanded = expandedPlans.has(tolkning.planId)
                   const hasTolkning = !!tolkning.output
                   return (
