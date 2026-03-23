@@ -27,10 +27,8 @@ interface Adresse {
   kommunenavn: string
   kommunenummer: string
   representasjonspunkt: { lat: number; lon: number }
-  matrikkelnummeradresse?: {
-    gardsnummer?: number
-    bruksnummer?: number
-  }
+  gardsnummer?: number
+  bruksnummer?: number
   postnummer?: string
   poststed?: string
 }
@@ -357,8 +355,8 @@ export default function PrototypePage() {
 
     const { lat, lon } = adr.representasjonspunkt
     const knr = adr.kommunenummer
-    const gnr = adr.matrikkelnummeradresse?.gardsnummer
-    const bnr = adr.matrikkelnummeradresse?.bruksnummer
+    const gnr = adr.gardsnummer
+    const bnr = adr.bruksnummer
 
     const stepsList: Step[] = [
       { label: 'Adresse valgt', status: 'done' },
@@ -678,8 +676,8 @@ export default function PrototypePage() {
 
   // ─── Render ─────────────────────────────────────────────────────────
 
-  const gnr = valgtAdresse?.matrikkelnummeradresse?.gardsnummer
-  const bnr = valgtAdresse?.matrikkelnummeradresse?.bruksnummer
+  const gnr = valgtAdresse?.gardsnummer
+  const bnr = valgtAdresse?.bruksnummer
 
   return (
     <div className="min-h-screen bg-tomtly-light">
