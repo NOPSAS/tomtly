@@ -45,6 +45,8 @@ interface PlanRegisterItem {
   plannavn?: string
   plantype?: string
   planstatus?: string
+  kommunenummer?: string
+  raw?: any
   [key: string]: unknown
 }
 
@@ -104,6 +106,7 @@ interface DOKDataset {
   status?: string
   dekning?: string
   metadata?: string
+  lastOppdatert?: string
   [key: string]: unknown
 }
 
@@ -233,20 +236,27 @@ function categorizeDOK(datasets: DOKDataset[]): DOKCategory[] {
 
 function calculateScore(dokDatasets: DOKDataset[], plans: PlanRegisterItem[]): number {
   let score = 10
-  const allText = dokDatasets.map(d => `${d.tittel || ''} ${d.status || ''} ${d.dekning || ''}`).join(' ').toLowerCase()
 
-  if (['flom', 'skred', 'kvikkleire', 'ras', 'stormflo', 'erosjon'].some(k => allText.includes(k) && allText.includes('dekket')))
-    score -= 1.5
-  if (['forurens', 'forurenset'].some(k => allText.includes(k)))
-    score -= 1.5
-  if (['kulturmin', 'kulturmiljø', 'fredet'].some(k => allText.includes(k) && allText.includes('dekket')))
-    score -= 1
-  if (['verne', 'verneområde', 'naturreservat'].some(k => allText.includes(k) && allText.includes('dekket')))
-    score -= 2
-  if (['jordvern', 'jordbruk'].some(k => allText.includes(k) && allText.includes('dekket')))
-    score -= 1.5
-  if (plans.length === 0)
-    score -= 1
+  for (const d of dokDatasets) {
+    const name = (d.tittel || '').toLowerCase()
+    const status = (d.status || d.dekning || '').toLowerCase()
+    const hasFunn = status.includes('med funn') || status.includes('dekket')
+
+    if (!hasFunn) continue
+
+    if (['flom', 'skred', 'kvikkleire', 'ras', 'stormflo', 'erosjon'].some(k => name.includes(k)))
+      score -= 1.5
+    else if (['forurens', 'grunn'].some(k => name.includes(k)))
+      score -= 1.5
+    else if (['kulturmin', 'kulturmiljø', 'fredet'].some(k => name.includes(k)))
+      score -= 1
+    else if (['verne', 'naturreservat'].some(k => name.includes(k)))
+      score -= 2
+    else if (['jordvern', 'jordbruk', 'fulldyrka'].some(k => name.includes(k)))
+      score -= 1.5
+  }
+
+  if (plans.length === 0) score -= 1
 
   return clamp(Math.round(score * 10) / 10, 1, 10)
 }
@@ -415,40 +425,61 @@ export default function PrototypePage() {
       })(),
     ])
 
-    // Process teig
+    // Process teig – Kartverket returns FeatureCollection
     let teigData: TeigResult | null = null
     if (teigRes.status === 'fulfilled') {
       const data = teigRes.value
-      const teiger = Array.isArray(data) ? data.length : (data?.teiger?.length || 0)
+      const features = data?.features || (Array.isArray(data) ? data : [])
+      const teiger = features.length
+      const firstProps = features[0]?.properties
       teigData = {
         teiger,
-        noyaktighetsklasse: data?.noyaktighetsklasse || data?.[0]?.noyaktighetsklasse,
+        noyaktighetsklasse: firstProps?.nøyaktighetsklasseteig || firstProps?.noyaktighetsklasse || firstProps?.noyaktighetsklasseteig,
         raw: data,
       }
       setTeigResult(teigData)
-      updateStep(1, { status: 'done', label: 'Eiendomsdata hentet' })
+      updateStep(1, { status: 'done', label: `Eiendom: ${teiger} teig(er)` })
     } else {
       updateStep(1, { status: 'error', label: 'Eiendomsdata feilet', detail: teigRes.reason?.message })
     }
 
-    // Process plans
+    // Process plans – Planslurpen returns { plan: [...] }
     let planList: PlanRegisterItem[] = []
     if (planRes.status === 'fulfilled') {
       const data = planRes.value
-      planList = Array.isArray(data) ? data : (data?.planer || data?.planregister || [])
+      // Planslurpen bruker "plan" som nøkkel
+      const rawPlans = data?.plan || data?.planer || data?.planregister || (Array.isArray(data) ? data : [])
+      // Map til felles format – Planslurpen bruker nasjonalArealplanId
+      planList = rawPlans.map((p: any) => ({
+        planId: p.nasjonalArealplanId?.planidentifikasjon || p.planId || p.planidentifikasjon || '',
+        plannavn: p.plannavn || p.planNavn || 'Ukjent plan',
+        plantype: p.plantype?.kodebeskrivelse || p.plantype?.beskrivelse || p.planType || '',
+        planstatus: p.planstatus?.kodebeskrivelse || p.planstatus?.beskrivelse || p.planStatus || '',
+        kommunenummer: p.nasjonalArealplanId?.kommunenummer || knr,
+        raw: p,
+      }))
       setPlans(planList)
       updateStep(2, { status: 'done', label: `${planList.length} planer funnet` })
     } else {
       updateStep(2, { status: 'error', label: 'Planregister feilet', detail: planRes.reason?.message })
     }
 
-    // Process DOK
+    // Process DOK – Kartverket returns { properties: { coverages: [...] } }
     let dokList: DOKDataset[] = []
     if (dokRes.status === 'fulfilled') {
       const data = dokRes.value
-      dokList = data?.datasets || data?.results || (Array.isArray(data) ? data : [])
+      // DOK API returns coverages inside properties
+      const coverages = data?.properties?.coverages || data?.datasets || data?.results || (Array.isArray(data) ? data : [])
+      dokList = coverages.map((c: any) => ({
+        tittel: c.layerName || c.tittel || c.title || 'Ukjent datasett',
+        tema: c.theme || c.tema || '',
+        status: c.coverageStatus || c.status || '',
+        dekning: c.coverageStatus || c.dekning || '',
+        metadata: c.metadataUrl || c.metadata || '',
+        lastOppdatert: c.lastUpdated || '',
+      }))
       setDokDatasets(dokList)
-      updateStep(3, { status: 'done', label: `DOK: ${dokList.length} datasett` })
+      updateStep(3, { status: 'done', label: `DOK: ${dokList.length} datasett sjekket` })
     } else {
       updateStep(3, { status: 'error', label: 'DOK-analyse feilet', detail: dokRes.reason?.message })
     }
