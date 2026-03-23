@@ -84,7 +84,7 @@ const OPENGOV_KOMMUNER = [
 
 async function scrapeOpenGov(): Promise<DelesakeResult[]> {
   const results: DelesakeResult[] = []
-  const searchTerms = ['fradeling', 'deling av eiendom', 'arealoverføring']
+  const searchTerms = ['fradeling', 'deling av eiendom', 'arealoverføring', 'opprettelse av grunneiendom']
 
   for (const kommune of OPENGOV_KOMMUNER) {
     for (const term of searchTerms) {
