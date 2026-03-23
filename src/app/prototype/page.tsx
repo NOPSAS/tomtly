@@ -655,6 +655,39 @@ export default function PrototypePage() {
         const totalDocs = result.reduce((s, p) => s + (p.dokumenter?.length || 0), 0)
         const totalDisps = result.reduce((s, p) => s + ((p as any).dispensasjoner?.length || 0), 0)
         updateStep(6, { status: 'done', label: `${result.length} planer, ${totalDocs} dok, ${totalDisps} disp.` })
+
+        // Bygg dispensasjonsanalyse fra ferske data
+        const allDispsFromResult: any[] = []
+        for (const ap of result) {
+          if (ap.dispensasjoner?.length) allDispsFromResult.push(...ap.dispensasjoner)
+        }
+        if (allDispsFromResult.length > 0) {
+          const godkjent = allDispsFromResult.filter(d => d.vedtak === 'Godkjent' || d.vedtak === 'Innvilget' || d.vedtak === 'Godkjent midlertidig').length
+          const avslatt = allDispsFromResult.filter(d => d.vedtak === 'Avslått').length
+          const totalt = allDispsFromResult.length
+          const katMap2: Record<string, { godkjent: number; avslatt: number }> = {}
+          for (const d of allDispsFromResult) {
+            const besk = (d.beskrivelse || '').toLowerCase()
+            let kat = 'Annet'
+            if (besk.includes('tilbygg') || besk.includes('utbygging') || besk.includes('påbygg')) kat = 'Tilbygg/påbygg'
+            else if (besk.includes('bruksendring')) kat = 'Bruksendring'
+            else if (besk.includes('fasadeendring') || besk.includes('fasade')) kat = 'Fasadeendring'
+            else if (besk.includes('fradeling') || besk.includes('deling')) kat = 'Fradeling'
+            else if (besk.includes('høyde') || besk.includes('gesims') || besk.includes('møne')) kat = 'Høyde/etasjer'
+            else if (besk.includes('bya') || besk.includes('utnyttelse') || besk.includes('bebygd')) kat = 'Utnyttelsesgrad'
+            else if (besk.includes('garasje') || besk.includes('carport') || besk.includes('bod')) kat = 'Garasje/bod'
+            else if (besk.includes('planformål') || besk.includes('arealformål')) kat = 'Planformål'
+            if (!katMap2[kat]) katMap2[kat] = { godkjent: 0, avslatt: 0 }
+            if (d.vedtak === 'Godkjent' || d.vedtak === 'Innvilget' || d.vedtak === 'Godkjent midlertidig') katMap2[kat].godkjent++
+            else if (d.vedtak === 'Avslått') katMap2[kat].avslatt++
+          }
+          const kategorier = Object.entries(katMap2).map(([kategori, stats]) => {
+            const total = stats.godkjent + stats.avslatt
+            const pct = total > 0 ? Math.round((stats.godkjent / total) * 100) : 0
+            return { kategori, godkjent: stats.godkjent, avslatt: stats.avslatt, sannsynlighet: pct >= 75 ? 'Høy' as const : pct >= 40 ? 'Middels' as const : 'Lav' as const }
+          }).sort((a, b) => (b.godkjent + b.avslatt) - (a.godkjent + a.avslatt))
+          setDispAnalyse({ totalt, godkjent, avslatt, godkjentProsent: totalt > 0 ? Math.round((godkjent / totalt) * 100) : 0, kategorier })
+        }
       } else {
         updateStep(6, { status: 'error', label: kunde ? 'Mangler gnr/bnr' : 'Kommune ikke i arealplaner.no' })
       }
@@ -751,55 +784,6 @@ export default function PrototypePage() {
         byaProsent, gesimshoydeM, monehoydeM, maksEtasjer,
       })
 
-      // ─── Dispensasjonsanalyse ───────────────────────────────────────
-      const allDisps: any[] = []
-      for (const ap of arealplaner.filter(a => a.dispensasjoner?.length)) {
-        allDisps.push(...(ap.dispensasjoner || []))
-      }
-      // Also check the standalone arealplaner result
-      if (allDisps.length > 0) {
-        const godkjent = allDisps.filter(d => d.vedtak === 'Godkjent' || d.vedtak === 'Innvilget').length
-        const avslatt = allDisps.filter(d => d.vedtak === 'Avslått').length
-        const totalt = allDisps.length
-
-        // Kategoriser dispensasjonene
-        const katMap: Record<string, { godkjent: number; avslatt: number }> = {}
-        for (const d of allDisps) {
-          const besk = (d.beskrivelse || '').toLowerCase()
-          let kat = 'Annet'
-          if (besk.includes('tilbygg') || besk.includes('utbygging') || besk.includes('påbygg')) kat = 'Tilbygg/påbygg'
-          else if (besk.includes('bruksendring')) kat = 'Bruksendring'
-          else if (besk.includes('fasadeendring') || besk.includes('fasade')) kat = 'Fasadeendring'
-          else if (besk.includes('fradeling') || besk.includes('deling')) kat = 'Fradeling'
-          else if (besk.includes('høyde') || besk.includes('gesims') || besk.includes('møne')) kat = 'Høyde/etasjer'
-          else if (besk.includes('bya') || besk.includes('utnyttelse') || besk.includes('bebygd')) kat = 'Utnyttelsesgrad'
-          else if (besk.includes('garasje') || besk.includes('carport') || besk.includes('bod')) kat = 'Garasje/bod'
-          else if (besk.includes('planformål') || besk.includes('arealformål')) kat = 'Planformål'
-
-          if (!katMap[kat]) katMap[kat] = { godkjent: 0, avslatt: 0 }
-          if (d.vedtak === 'Godkjent' || d.vedtak === 'Innvilget') katMap[kat].godkjent++
-          else if (d.vedtak === 'Avslått') katMap[kat].avslatt++
-        }
-
-        const kategorier = Object.entries(katMap).map(([kategori, stats]) => {
-          const total = stats.godkjent + stats.avslatt
-          const pct = total > 0 ? Math.round((stats.godkjent / total) * 100) : 0
-          return {
-            kategori,
-            godkjent: stats.godkjent,
-            avslatt: stats.avslatt,
-            sannsynlighet: pct >= 75 ? 'Høy' : pct >= 40 ? 'Middels' : 'Lav',
-          }
-        }).sort((a, b) => (b.godkjent + b.avslatt) - (a.godkjent + a.avslatt))
-
-        setDispAnalyse({
-          totalt,
-          godkjent,
-          avslatt,
-          godkjentProsent: totalt > 0 ? Math.round((godkjent / totalt) * 100) : 0,
-          kategorier,
-        })
-      }
     }
 
     setAnalysing(false)
@@ -1335,55 +1319,10 @@ export default function PrototypePage() {
                           })}
                         </div>
 
-                        {/* Dispensasjoner */}
+                        {/* Dispensasjoner (collapsible) */}
                         {dispensasjoner.length > 0 && (
-                          <div className="border-t border-brand-200 bg-amber-50/50 px-4 py-4">
-                            <h4 className="text-xs font-semibold text-amber-800 uppercase tracking-wide mb-3">
-                              {dispensasjoner.length} dispensasjon{dispensasjoner.length !== 1 ? 'er' : ''} fra denne planen
-                            </h4>
-                            <div className="space-y-3">
-                              {dispensasjoner.map((disp: any) => {
-                                const vedtakColor = disp.vedtak === 'Avslått' ? 'bg-red-100 text-red-800'
-                                  : disp.vedtak === 'Innvilget' || disp.vedtak === 'Godkjent' ? 'bg-green-100 text-green-800'
-                                  : 'bg-brand-100 text-brand-700'
-                                return (
-                                  <div key={disp.id} className="bg-white rounded-lg border border-amber-200 overflow-hidden">
-                                    <div className="p-3">
-                                      <div className="flex items-start justify-between gap-2 mb-1">
-                                        <p className="text-xs text-brand-700 leading-relaxed flex-1">{disp.beskrivelse}</p>
-                                        {disp.vedtak && (
-                                          <span className={`px-2 py-0.5 text-[10px] font-semibold rounded shrink-0 ${vedtakColor}`}>
-                                            {disp.vedtak}
-                                          </span>
-                                        )}
-                                      </div>
-                                      <div className="flex flex-wrap items-center gap-3 mt-2 text-[10px] text-brand-400">
-                                        {disp.vedtaksdato && <span>Vedtatt: {new Date(disp.vedtaksdato).toLocaleDateString('nb-NO')}</span>}
-                                        {disp.dispensasjonType && <span>{disp.dispensasjonType}</span>}
-                                        {disp.sak && <span>Sak: {disp.sak.sakAar}/{disp.sak.sakSeknr}</span>}
-                                      </div>
-                                    </div>
-                                    {/* Vedtaksdokumenter */}
-                                    {disp.dokumenter?.length > 0 && (
-                                      <div className="border-t border-amber-100 px-3 py-2 bg-amber-50/50">
-                                        {disp.dokumenter.filter((d: any) => d.tilgang === 'Alle').map((dok: any) => (
-                                          <a
-                                            key={dok.id}
-                                            href={dok.direkteUrl || dok.url}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="flex items-center gap-2 text-[11px] text-amber-800 hover:text-amber-900 hover:underline py-0.5"
-                                          >
-                                            <ExternalLink className="w-3 h-3 shrink-0" />
-                                            <span className="truncate">{dok.dokumentnavn}</span>
-                                          </a>
-                                        ))}
-                                      </div>
-                                    )}
-                                  </div>
-                                )
-                              })}
-                            </div>
+                          <div className="border-t border-brand-200">
+                            <DispensasjonerCollapsible planId={plan.planId} arealplaner={[{ ...plan, planId: plan.planId, id: plan.id, planNavn: plan.planNavn, dokumenter: plan.dokumenter, dispensasjoner } as ArealplanerPlan]} />
                           </div>
                         )}
                       </div>
@@ -1447,23 +1386,39 @@ export default function PrototypePage() {
                   </div>
 
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    {riskResults.map(risk => (
-                      <div key={risk.label} className={`rounded-xl p-4 border ${
-                        risk.hasFunn
-                          ? 'bg-red-50 border-red-200'
-                          : risk.isKartlagt
-                          ? 'bg-green-50 border-green-200'
-                          : 'bg-brand-50 border-brand-200'
-                      }`}>
-                        <div className="text-2xl mb-1">{risk.icon}</div>
-                        <p className="text-sm font-semibold text-tomtly-dark">{risk.label}</p>
-                        <p className={`text-xs font-medium mt-1 ${
-                          risk.hasFunn ? 'text-red-700' : risk.isKartlagt ? 'text-green-700' : 'text-brand-500'
+                    {riskResults.map(risk => {
+                      // Build description of findings
+                      const funnDatasets = risk.matches.filter(m => (m.status || '').toLowerCase().includes('med funn'))
+                      const funnDesc = funnDatasets.map(m => {
+                        const name = (m.tittel || '').replace(/^Dekning\s*/i, '')
+                        const status = m.status || ''
+                        return `${name}: ${status}`
+                      })
+                      return (
+                        <div key={risk.label} className={`rounded-xl p-4 border ${
+                          risk.hasFunn
+                            ? 'bg-red-50 border-red-200'
+                            : risk.isKartlagt
+                            ? 'bg-green-50 border-green-200'
+                            : 'bg-brand-50 border-brand-200'
                         }`}>
-                          {risk.hasFunn ? 'Funn registrert' : risk.isKartlagt ? 'Ingen fare' : 'Ikke kartlagt'}
-                        </p>
-                      </div>
-                    ))}
+                          <div className="text-2xl mb-1">{risk.icon}</div>
+                          <p className="text-sm font-semibold text-tomtly-dark">{risk.label}</p>
+                          {risk.hasFunn ? (
+                            <div className="mt-1">
+                              {funnDesc.slice(0, 2).map((desc, i) => (
+                                <p key={i} className="text-[10px] text-red-700 leading-tight">{desc}</p>
+                              ))}
+                              {funnDesc.length > 2 && <p className="text-[10px] text-red-500">+{funnDesc.length - 2} flere</p>}
+                            </div>
+                          ) : (
+                            <p className={`text-xs font-medium mt-1 ${risk.isKartlagt ? 'text-green-700' : 'text-brand-500'}`}>
+                              {risk.isKartlagt ? 'Ingen fare' : 'Ikke kartlagt'}
+                            </p>
+                          )}
+                        </div>
+                      )
+                    })}
                   </div>
                 </div>
 
