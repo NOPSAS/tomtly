@@ -1,10 +1,11 @@
 'use client'
 
-import { useState, useRef, useCallback, useEffect } from 'react'
+import { useState, useRef, useCallback, useEffect, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import {
   MapPin, Search, CheckCircle2, Loader2, AlertTriangle,
   ChevronDown, ChevronUp, Layers, FileText, Shield, Info,
-  TreePine, Building2, Gauge, Database, ExternalLink
+  TreePine, Building2, Gauge, Database, ExternalLink, Share2, Link2, Check
 } from 'lucide-react'
 
 // ─── Constants ──────────────────────────────────────────────────────────────
@@ -324,12 +325,15 @@ function parseAR5GML(text: string): AR5Result {
 
 // ─── Main Page ──────────────────────────────────────────────────────────────
 
-export default function PrototypePage() {
+function PrototypeContent() {
+  const searchParams = useSearchParams()
   const [query, setQuery] = useState('')
   const [suggestions, setSuggestions] = useState<Adresse[]>([])
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [valgtAdresse, setValgtAdresse] = useState<Adresse | null>(null)
   const [analysing, setAnalysing] = useState(false)
+  const [linkCopied, setLinkCopied] = useState(false)
+  const autoStarted = useRef(false)
 
   // Results
   const [teigResult, setTeigResult] = useState<TeigResult | null>(null)
@@ -350,6 +354,45 @@ export default function PrototypePage() {
   const [expandedDOK, setExpandedDOK] = useState<Set<string>>(new Set())
 
   const inputRef = useRef<HTMLInputElement>(null)
+
+  // ─── Auto-start from URL params ──────────────────────────────────────
+  useEffect(() => {
+    if (autoStarted.current) return
+    const knr = searchParams.get('knr')
+    const gnr = searchParams.get('gnr')
+    const bnr = searchParams.get('bnr')
+    if (knr && gnr && bnr) {
+      autoStarted.current = true
+      // Look up address by gnr/bnr
+      fetch(`https://ws.geonorge.no/adresser/v1/sok?kommunenummer=${knr}&gardsnummer=${gnr}&bruksnummer=${bnr}&treffPerSide=1`)
+        .then(r => r.json())
+        .then(data => {
+          if (data.adresser?.length > 0) {
+            runAnalysis(data.adresser[0])
+          }
+        })
+        .catch(() => {})
+    }
+  }, [searchParams]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ─── Share link ─────────────────────────────────────────────────────
+  function getShareUrl() {
+    if (!valgtAdresse) return ''
+    const base = typeof window !== 'undefined' ? window.location.origin : ''
+    const gnr = valgtAdresse.gardsnummer
+    const bnr = valgtAdresse.bruksnummer
+    return `${base}/prototype?knr=${valgtAdresse.kommunenummer}&gnr=${gnr}&bnr=${bnr}`
+  }
+
+  async function copyShareLink() {
+    const url = getShareUrl()
+    if (!url) return
+    try {
+      await navigator.clipboard.writeText(url)
+      setLinkCopied(true)
+      setTimeout(() => setLinkCopied(false), 2000)
+    } catch {}
+  }
 
   // ─── Address search ─────────────────────────────────────────────────────
 
@@ -387,6 +430,13 @@ export default function PrototypePage() {
     setQuery(adr.adressetekst)
     setShowSuggestions(false)
     setAnalysing(true)
+    setLinkCopied(false)
+
+    // Update URL for sharing (without triggering navigation)
+    if (adr.gardsnummer && adr.bruksnummer) {
+      const url = `/prototype?knr=${adr.kommunenummer}&gnr=${adr.gardsnummer}&bnr=${adr.bruksnummer}`
+      window.history.replaceState({}, '', url)
+    }
     setTeigResult(null)
     setPlans([])
     setPlanTolkninger([])
@@ -992,10 +1042,23 @@ export default function PrototypePage() {
 
             {/* 4a: Eiendomsheader */}
             <div className="bg-white rounded-xl border border-brand-100 p-6 shadow-sm">
-              <h2 className="font-display text-xl font-bold text-tomtly-dark mb-4 flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-tomtly-accent" />
-                {valgtAdresse.adressetekst}, {valgtAdresse.postnummer} {valgtAdresse.poststed}
-              </h2>
+              <div className="flex items-start justify-between mb-4">
+                <h2 className="font-display text-xl font-bold text-tomtly-dark flex items-center gap-2">
+                  <MapPin className="w-5 h-5 text-tomtly-accent" />
+                  {valgtAdresse.adressetekst}, {valgtAdresse.postnummer} {valgtAdresse.poststed}
+                </h2>
+                <button
+                  onClick={copyShareLink}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors shrink-0 ${
+                    linkCopied
+                      ? 'bg-green-100 text-green-800'
+                      : 'bg-brand-100 text-brand-600 hover:bg-brand-200'
+                  }`}
+                >
+                  {linkCopied ? <Check className="w-3.5 h-3.5" /> : <Link2 className="w-3.5 h-3.5" />}
+                  {linkCopied ? 'Kopiert!' : 'Del analyse'}
+                </button>
+              </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                 <InfoBox label="Kommune" value={`${valgtAdresse.kommunenavn} (${valgtAdresse.kommunenummer})`} />
                 <InfoBox label="Eiendom" value={gnr && bnr ? `gnr. ${gnr} / bnr. ${bnr}` : 'Ikke tilgjengelig'} />
@@ -1843,5 +1906,15 @@ function DispensasjonerCollapsible({ planId, arealplaner }: { planId: string; ar
         </button>
       )}
     </div>
+  )
+}
+
+// ─── Page wrapper with Suspense ─────────────────────────────────────────────
+
+export default function PrototypePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-tomtly-light flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-brand-300" /></div>}>
+      <PrototypeContent />
+    </Suspense>
   )
 }
