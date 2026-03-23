@@ -217,7 +217,7 @@ export default function DelesakerPage() {
       const res = await fetch('/api/admin/scrape-delesaker', { method: 'POST' })
       const data = await res.json()
       if (data.success) {
-        setScraperResult(`Søkte ${data.sokeord} termer, fant ${data.funnet} treff, lagret ${data.lagret} nye`)
+        setScraperResult(`Søkte ${data.sokeord} termer, fant ${data.funnet} treff, lagret ${data.lagret} nye${data.duplikater_hoppet_over ? `, ${data.duplikater_hoppet_over} duplikater` : ''}`)
         fetchData()
       } else {
         setScraperResult(`Feil: ${data.error || 'Ukjent feil'}`)
