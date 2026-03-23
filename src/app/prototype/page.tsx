@@ -134,6 +134,17 @@ interface EiendomsAnalyse {
   antallBruksenheter: number
   plansammendrag: string | null
   byaProsent: number | null
+  gesimshoydeM: number | null
+  monehoydeM: number | null
+  maksEtasjer: number | null
+}
+
+interface DispensasjonAnalyse {
+  totalt: number
+  godkjent: number
+  avslatt: number
+  godkjentProsent: number
+  kategorier: { kategori: string; godkjent: number; avslatt: number; sannsynlighet: string }[]
 }
 
 interface ArealplanerDok {
@@ -315,6 +326,7 @@ export default function PrototypePage() {
   const [tomteScore, setTomteScore] = useState<number | null>(null)
   const [arealplaner, setArealplaner] = useState<ArealplanerPlan[]>([])
   const [eiendomsAnalyse, setEiendomsAnalyse] = useState<EiendomsAnalyse | null>(null)
+  const [dispAnalyse, setDispAnalyse] = useState<DispensasjonAnalyse | null>(null)
   const [steps, setSteps] = useState<Step[]>([])
 
   // Expandable sections
@@ -369,6 +381,7 @@ export default function PrototypePage() {
     setExpandedDOK(new Set())
     setArealplaner([])
     setEiendomsAnalyse(null)
+    setDispAnalyse(null)
 
     const { lat, lon } = adr.representasjonspunkt
     const knr = adr.kommunenummer
@@ -699,19 +712,48 @@ export default function PrototypePage() {
       // Antall bruksenheter fra adresse-API
       const antallBruksenheter = adr.bruksenhetsnummer?.length || 1
 
-      // BYA fra reguleringsbestemmelser (hvis KI-tolket)
+      // Ekstraher reguleringsdata fra KI-tolkning (ny Planslurpen-struktur)
       let byaProsent: number | null = null
+      let gesimshoydeM: number | null = null
+      let monehoydeM: number | null = null
+      let maksEtasjer: number | null = null
+
       for (const t of tolkninger) {
-        if (t.output?.felter) {
-          for (const felt of t.output.felter) {
-            for (const uf of (felt.underfelter || [])) {
-              for (const p of (uf.parametre || [])) {
-                const navn = (p.navn || '').toLowerCase()
-                if (navn.includes('bya') || navn.includes('utnyttelsesgrad') || navn.includes('bebygd areal')) {
-                  const val = parseFloat(String(p.verdi))
-                  if (!isNaN(val) && val > 0 && val <= 100) byaProsent = val
-                }
-              }
+        // Ny struktur: output.bestemmelser[] med høyder[], utnyttingsgrad[] etc.
+        const rawBest = t.output?.bestemmelser || t.output?.felter || []
+        const bestemmelser = Array.isArray(rawBest) ? rawBest : []
+        for (const b of bestemmelser) {
+          // Høyder
+          for (const h of (b.høyder || [])) {
+            const type = (h.typeHøyde || h.navn || '').toLowerCase()
+            const verdi = parseFloat(String(h.regulertHøyde || h.verdi))
+            if (isNaN(verdi)) continue
+            if (type.includes('gesims')) gesimshoydeM = verdi
+            else if (type.includes('møne')) monehoydeM = verdi
+            else if (!gesimshoydeM) gesimshoydeM = verdi
+          }
+          // Utnyttingsgrad / BYA
+          for (const u of (b.utnyttingsgrad || [])) {
+            const val = parseFloat(String(u.utnyttingsgrad || u.verdi))
+            if (!isNaN(val) && val > 0 && val <= 100) byaProsent = val
+          }
+          // Etasjer
+          if (b.antallBoenheter?.length) {
+            for (const ae of b.antallBoenheter) {
+              const val = parseInt(String(ae.antall || ae.verdi))
+              if (!isNaN(val) && val > 0 && val < 20) maksEtasjer = val
+            }
+          }
+          // Også søk i underfelter/parametre (gammel struktur)
+          for (const uf of (b.underfelter || [])) {
+            for (const p of (uf.parametre || [])) {
+              const navn = (p.navn || '').toLowerCase()
+              const val = parseFloat(String(p.verdi))
+              if (isNaN(val)) continue
+              if (navn.includes('bya') || navn.includes('utnyttelse')) { if (val > 0 && val <= 100) byaProsent = val }
+              else if (navn.includes('gesims')) gesimshoydeM = val
+              else if (navn.includes('møne')) monehoydeM = val
+              else if (navn.includes('etasj') && val > 0 && val < 20) maksEtasjer = val
             }
           }
         }
@@ -736,8 +778,58 @@ export default function PrototypePage() {
         arealM2,
         antallBruksenheter: antallBruksenheter as number,
         plansammendrag,
-        byaProsent,
+        byaProsent, gesimshoydeM, monehoydeM, maksEtasjer,
       })
+
+      // ─── Dispensasjonsanalyse ───────────────────────────────────────
+      const allDisps: any[] = []
+      for (const ap of arealplaner.filter(a => a.dispensasjoner?.length)) {
+        allDisps.push(...(ap.dispensasjoner || []))
+      }
+      // Also check the standalone arealplaner result
+      if (allDisps.length > 0) {
+        const godkjent = allDisps.filter(d => d.vedtak === 'Godkjent' || d.vedtak === 'Innvilget').length
+        const avslatt = allDisps.filter(d => d.vedtak === 'Avslått').length
+        const totalt = allDisps.length
+
+        // Kategoriser dispensasjonene
+        const katMap: Record<string, { godkjent: number; avslatt: number }> = {}
+        for (const d of allDisps) {
+          const besk = (d.beskrivelse || '').toLowerCase()
+          let kat = 'Annet'
+          if (besk.includes('tilbygg') || besk.includes('utbygging') || besk.includes('påbygg')) kat = 'Tilbygg/påbygg'
+          else if (besk.includes('bruksendring')) kat = 'Bruksendring'
+          else if (besk.includes('fasadeendring') || besk.includes('fasade')) kat = 'Fasadeendring'
+          else if (besk.includes('fradeling') || besk.includes('deling')) kat = 'Fradeling'
+          else if (besk.includes('høyde') || besk.includes('gesims') || besk.includes('møne')) kat = 'Høyde/etasjer'
+          else if (besk.includes('bya') || besk.includes('utnyttelse') || besk.includes('bebygd')) kat = 'Utnyttelsesgrad'
+          else if (besk.includes('garasje') || besk.includes('carport') || besk.includes('bod')) kat = 'Garasje/bod'
+          else if (besk.includes('planformål') || besk.includes('arealformål')) kat = 'Planformål'
+
+          if (!katMap[kat]) katMap[kat] = { godkjent: 0, avslatt: 0 }
+          if (d.vedtak === 'Godkjent' || d.vedtak === 'Innvilget') katMap[kat].godkjent++
+          else if (d.vedtak === 'Avslått') katMap[kat].avslatt++
+        }
+
+        const kategorier = Object.entries(katMap).map(([kategori, stats]) => {
+          const total = stats.godkjent + stats.avslatt
+          const pct = total > 0 ? Math.round((stats.godkjent / total) * 100) : 0
+          return {
+            kategori,
+            godkjent: stats.godkjent,
+            avslatt: stats.avslatt,
+            sannsynlighet: pct >= 75 ? 'Høy' : pct >= 40 ? 'Middels' : 'Lav',
+          }
+        }).sort((a, b) => (b.godkjent + b.avslatt) - (a.godkjent + a.avslatt))
+
+        setDispAnalyse({
+          totalt,
+          godkjent,
+          avslatt,
+          godkjentProsent: totalt > 0 ? Math.round((godkjent / totalt) * 100) : 0,
+          kategorier,
+        })
+      }
     }
 
     setAnalysing(false)
@@ -910,9 +1002,27 @@ export default function PrototypePage() {
                   </div>
                   {eiendomsAnalyse.byaProsent && (
                     <div className="bg-forest-50 rounded-xl p-4 border border-forest-200">
-                      <p className="text-[10px] text-forest-600 uppercase tracking-wide">%-BYA (regulert)</p>
+                      <p className="text-[10px] text-forest-600 uppercase tracking-wide">%-BYA</p>
                       <p className="text-sm font-bold text-tomtly-accent mt-1">{eiendomsAnalyse.byaProsent}%</p>
-                      <p className="text-xs text-forest-600">= {Math.round(eiendomsAnalyse.arealM2 * eiendomsAnalyse.byaProsent / 100)} m² bebygd</p>
+                      <p className="text-xs text-forest-600">= {Math.round(eiendomsAnalyse.arealM2 * eiendomsAnalyse.byaProsent / 100)} m²</p>
+                    </div>
+                  )}
+                  {eiendomsAnalyse.gesimshoydeM && (
+                    <div className="bg-forest-50 rounded-xl p-4 border border-forest-200">
+                      <p className="text-[10px] text-forest-600 uppercase tracking-wide">Gesimshøyde</p>
+                      <p className="text-sm font-bold text-tomtly-accent mt-1">{eiendomsAnalyse.gesimshoydeM} m</p>
+                    </div>
+                  )}
+                  {eiendomsAnalyse.monehoydeM && (
+                    <div className="bg-forest-50 rounded-xl p-4 border border-forest-200">
+                      <p className="text-[10px] text-forest-600 uppercase tracking-wide">Mønehøyde</p>
+                      <p className="text-sm font-bold text-tomtly-accent mt-1">{eiendomsAnalyse.monehoydeM} m</p>
+                    </div>
+                  )}
+                  {eiendomsAnalyse.maksEtasjer && (
+                    <div className="bg-forest-50 rounded-xl p-4 border border-forest-200">
+                      <p className="text-[10px] text-forest-600 uppercase tracking-wide">Maks etasjer</p>
+                      <p className="text-sm font-bold text-tomtly-accent mt-1">{eiendomsAnalyse.maksEtasjer}</p>
                     </div>
                   )}
                 </div>
@@ -920,6 +1030,71 @@ export default function PrototypePage() {
                   <div className="mt-4 bg-forest-50 border border-forest-200 rounded-xl p-4">
                     <p className="text-[10px] text-forest-600 uppercase tracking-wide mb-1">Gjeldende planer</p>
                     <p className="text-sm text-brand-700">{eiendomsAnalyse.plansammendrag}</p>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Dispensasjonsanalyse */}
+            {dispAnalyse && (
+              <div className="bg-white rounded-2xl border border-brand-100 p-6 md:p-8 shadow-sm">
+                <h2 className="font-display text-lg font-bold text-tomtly-dark mb-2 flex items-center gap-2">
+                  <Gauge className="w-5 h-5 text-tomtly-accent" />
+                  Dispensasjonsanalyse
+                </h2>
+                <p className="text-xs text-brand-500 mb-5">
+                  Basert på {dispAnalyse.totalt} historiske dispensasjoner fra gjeldende planer
+                </p>
+
+                {/* Summary stats */}
+                <div className="grid grid-cols-3 gap-3 mb-6">
+                  <div className="bg-green-50 rounded-xl p-4 border border-green-200 text-center">
+                    <p className="text-2xl font-bold text-green-700">{dispAnalyse.godkjent}</p>
+                    <p className="text-xs text-green-600">Godkjent</p>
+                  </div>
+                  <div className="bg-red-50 rounded-xl p-4 border border-red-200 text-center">
+                    <p className="text-2xl font-bold text-red-700">{dispAnalyse.avslatt}</p>
+                    <p className="text-xs text-red-600">Avslått</p>
+                  </div>
+                  <div className="bg-brand-50 rounded-xl p-4 border border-brand-200 text-center">
+                    <p className="text-2xl font-bold text-tomtly-dark">{dispAnalyse.godkjentProsent}%</p>
+                    <p className="text-xs text-brand-500">Godkjenningsrate</p>
+                  </div>
+                </div>
+
+                {/* Category breakdown */}
+                {dispAnalyse.kategorier.length > 0 && (
+                  <div>
+                    <h3 className="text-xs font-semibold text-brand-600 uppercase tracking-wide mb-3">Sannsynlighet per type</h3>
+                    <div className="space-y-2">
+                      {dispAnalyse.kategorier.map(kat => {
+                        const total = kat.godkjent + kat.avslatt
+                        const pct = total > 0 ? Math.round((kat.godkjent / total) * 100) : 0
+                        const barColor = kat.sannsynlighet === 'Høy' ? 'bg-green-500' : kat.sannsynlighet === 'Middels' ? 'bg-amber-500' : 'bg-red-500'
+                        const badgeColor = kat.sannsynlighet === 'Høy' ? 'bg-green-100 text-green-800' : kat.sannsynlighet === 'Middels' ? 'bg-amber-100 text-amber-800' : 'bg-red-100 text-red-800'
+
+                        return (
+                          <div key={kat.kategori} className="bg-brand-50 rounded-lg p-3 border border-brand-100">
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm font-medium text-tomtly-dark">{kat.kategori}</span>
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs text-brand-500">{kat.godkjent}G / {kat.avslatt}A</span>
+                                <span className={`px-2 py-0.5 text-[10px] font-semibold rounded ${badgeColor}`}>
+                                  {kat.sannsynlighet}
+                                </span>
+                              </div>
+                            </div>
+                            <div className="w-full bg-brand-200 rounded-full h-1.5">
+                              <div className={`h-1.5 rounded-full ${barColor}`} style={{ width: `${pct}%` }} />
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                    <p className="text-[10px] text-brand-400 mt-3">
+                      Sannsynlighet er basert på historiske vedtak i samme plan. Høy = 75%+ godkjent, Middels = 40-74%, Lav = under 40%.
+                      Dette er en indikasjon, ikke en garanti.
+                    </p>
                   </div>
                 )}
               </div>
