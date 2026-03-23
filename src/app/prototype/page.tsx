@@ -29,6 +29,7 @@ interface Adresse {
   representasjonspunkt: { lat: number; lon: number }
   gardsnummer?: number
   bruksnummer?: number
+  bruksenhetsnummer?: string[]
   postnummer?: string
   poststed?: string
 }
@@ -119,7 +120,20 @@ interface AR5Result {
 interface TeigResult {
   teiger: number
   noyaktighetsklasse?: string
+  arealM2?: number
   raw?: unknown
+}
+
+interface EiendomsAnalyse {
+  kommune: string
+  kommunenummer: string
+  gnr: number
+  bnr: number
+  koordinater: { lat: number; lon: number }
+  arealM2: number
+  antallBruksenheter: number
+  plansammendrag: string | null
+  byaProsent: number | null
 }
 
 interface ArealplanerDok {
@@ -300,6 +314,7 @@ export default function PrototypePage() {
   const [ar5, setAr5] = useState<AR5Result | null>(null)
   const [tomteScore, setTomteScore] = useState<number | null>(null)
   const [arealplaner, setArealplaner] = useState<ArealplanerPlan[]>([])
+  const [eiendomsAnalyse, setEiendomsAnalyse] = useState<EiendomsAnalyse | null>(null)
   const [steps, setSteps] = useState<Step[]>([])
 
   // Expandable sections
@@ -353,6 +368,7 @@ export default function PrototypePage() {
     setExpandedPlans(new Set())
     setExpandedDOK(new Set())
     setArealplaner([])
+    setEiendomsAnalyse(null)
 
     const { lat, lon } = adr.representasjonspunkt
     const knr = adr.kommunenummer
@@ -664,6 +680,66 @@ export default function PrototypePage() {
       updateStep(7, { status: 'error', label: 'Arealplaner.no feilet', detail: msg })
     }
 
+    // ─── Bygg eiendomsanalyse ─────────────────────────────────────────
+    if (gnr && bnr) {
+      // Beregn areal fra teigpolygon (Shoelace-formel, UTM-koordinater)
+      let arealM2 = 0
+      if (teigRes.status === 'fulfilled') {
+        const features = teigRes.value?.features || []
+        const teigCoords = features[0]?.geometry?.coordinates?.[0]
+        if (teigCoords && teigCoords.length > 2) {
+          let sum = 0
+          for (let i = 0; i < teigCoords.length - 1; i++) {
+            sum += teigCoords[i][0] * teigCoords[i + 1][1] - teigCoords[i + 1][0] * teigCoords[i][1]
+          }
+          arealM2 = Math.round(Math.abs(sum / 2))
+        }
+      }
+
+      // Antall bruksenheter fra adresse-API
+      const antallBruksenheter = adr.bruksenhetsnummer?.length || 1
+
+      // BYA fra reguleringsbestemmelser (hvis KI-tolket)
+      let byaProsent: number | null = null
+      for (const t of tolkninger) {
+        if (t.output?.felter) {
+          for (const felt of t.output.felter) {
+            for (const uf of (felt.underfelter || [])) {
+              for (const p of (uf.parametre || [])) {
+                const navn = (p.navn || '').toLowerCase()
+                if (navn.includes('bya') || navn.includes('utnyttelsesgrad') || navn.includes('bebygd areal')) {
+                  const val = parseFloat(String(p.verdi))
+                  if (!isNaN(val) && val > 0 && val <= 100) byaProsent = val
+                }
+              }
+            }
+          }
+        }
+      }
+
+      // Plansammendrag
+      let plansammendrag: string | null = null
+      if (planList.length > 0) {
+        const regPlan = planList.find(p => !p.plantype?.toLowerCase().includes('kommune'))
+        const komPlan = planList.find(p => p.plantype?.toLowerCase().includes('kommune'))
+        const parts: string[] = []
+        if (regPlan) parts.push(`Reguleringsplan: ${regPlan.plannavn} (${regPlan.plantype})`)
+        if (komPlan) parts.push(`Kommuneplan: ${komPlan.plannavn}`)
+        if (parts.length > 0) plansammendrag = parts.join('. ')
+      }
+
+      setEiendomsAnalyse({
+        kommune: adr.kommunenavn,
+        kommunenummer: knr,
+        gnr, bnr,
+        koordinater: { lat, lon },
+        arealM2,
+        antallBruksenheter: antallBruksenheter as number,
+        plansammendrag,
+        byaProsent,
+      })
+    }
+
     setAnalysing(false)
   }
 
@@ -802,6 +878,52 @@ export default function PrototypePage() {
                 <InfoBox label="Koordinater" value={`${valgtAdresse.representasjonspunkt.lat.toFixed(5)}, ${valgtAdresse.representasjonspunkt.lon.toFixed(5)}`} />
               </div>
             </div>
+
+            {/* Eiendomsanalyse */}
+            {eiendomsAnalyse && (
+              <div className="bg-white rounded-2xl border border-brand-100 p-6 md:p-8 shadow-sm">
+                <h2 className="font-display text-lg font-bold text-tomtly-dark mb-5 flex items-center gap-2">
+                  <Building2 className="w-5 h-5 text-tomtly-accent" />
+                  Eiendomsanalyse
+                </h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  <div className="bg-brand-50 rounded-xl p-4 border border-brand-100">
+                    <p className="text-[10px] text-brand-500 uppercase tracking-wide">Kommune</p>
+                    <p className="text-sm font-bold text-tomtly-dark mt-1">{eiendomsAnalyse.kommune}</p>
+                    <p className="text-xs text-brand-400">{eiendomsAnalyse.kommunenummer}</p>
+                  </div>
+                  <div className="bg-brand-50 rounded-xl p-4 border border-brand-100">
+                    <p className="text-[10px] text-brand-500 uppercase tracking-wide">Eiendom</p>
+                    <p className="text-sm font-bold text-tomtly-dark mt-1">gnr. {eiendomsAnalyse.gnr} / bnr. {eiendomsAnalyse.bnr}</p>
+                  </div>
+                  <div className="bg-brand-50 rounded-xl p-4 border border-brand-100">
+                    <p className="text-[10px] text-brand-500 uppercase tracking-wide">Tomtestørrelse</p>
+                    <p className="text-sm font-bold text-tomtly-dark mt-1">{eiendomsAnalyse.arealM2.toLocaleString('nb-NO')} m²</p>
+                  </div>
+                  <div className="bg-brand-50 rounded-xl p-4 border border-brand-100">
+                    <p className="text-[10px] text-brand-500 uppercase tracking-wide">Bruksenheter</p>
+                    <p className="text-sm font-bold text-tomtly-dark mt-1">{eiendomsAnalyse.antallBruksenheter}</p>
+                  </div>
+                  <div className="bg-brand-50 rounded-xl p-4 border border-brand-100">
+                    <p className="text-[10px] text-brand-500 uppercase tracking-wide">Koordinater</p>
+                    <p className="text-xs font-mono text-tomtly-dark mt-1">{eiendomsAnalyse.koordinater.lat.toFixed(5)}, {eiendomsAnalyse.koordinater.lon.toFixed(5)}</p>
+                  </div>
+                  {eiendomsAnalyse.byaProsent && (
+                    <div className="bg-forest-50 rounded-xl p-4 border border-forest-200">
+                      <p className="text-[10px] text-forest-600 uppercase tracking-wide">%-BYA (regulert)</p>
+                      <p className="text-sm font-bold text-tomtly-accent mt-1">{eiendomsAnalyse.byaProsent}%</p>
+                      <p className="text-xs text-forest-600">= {Math.round(eiendomsAnalyse.arealM2 * eiendomsAnalyse.byaProsent / 100)} m² bebygd</p>
+                    </div>
+                  )}
+                </div>
+                {eiendomsAnalyse.plansammendrag && (
+                  <div className="mt-4 bg-forest-50 border border-forest-200 rounded-xl p-4">
+                    <p className="text-[10px] text-forest-600 uppercase tracking-wide mb-1">Gjeldende planer</p>
+                    <p className="text-sm text-brand-700">{eiendomsAnalyse.plansammendrag}</p>
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* 4b: Plananalyse */}
             {(plans.length > 0 || planTolkninger.length > 0) && (
@@ -981,43 +1103,7 @@ export default function PrototypePage() {
                           })()}
 
                           {/* Dispensasjoner fra arealplaner.no for denne planen */}
-                          {(() => {
-                            const matchingAP = arealplaner.find((ap: any) => ap.planId === tolkning.planId)
-                            const disps = matchingAP?.dispensasjoner || []
-                            if (disps.length === 0) return null
-                            return (
-                              <div className="bg-amber-50/50 border border-amber-200 rounded-lg overflow-hidden">
-                                <div className="px-4 py-2 bg-amber-50 border-b border-amber-200">
-                                  <h5 className="text-xs font-semibold text-amber-800">{disps.length} dispensasjon{disps.length !== 1 ? 'er' : ''}</h5>
-                                </div>
-                                <div className="divide-y divide-amber-100">
-                                  {disps.map((disp: any) => {
-                                    const vedtakColor = disp.vedtak === 'Avslått' ? 'bg-red-100 text-red-800'
-                                      : disp.vedtak === 'Innvilget' || disp.vedtak === 'Godkjent' ? 'bg-green-100 text-green-800'
-                                      : 'bg-brand-100 text-brand-700'
-                                    return (
-                                      <div key={disp.id} className="px-4 py-2.5">
-                                        <div className="flex items-start justify-between gap-2">
-                                          <p className="text-xs text-brand-700 leading-relaxed flex-1">{disp.beskrivelse}</p>
-                                          {disp.vedtak && <span className={`px-2 py-0.5 text-[10px] font-semibold rounded shrink-0 ${vedtakColor}`}>{disp.vedtak}</span>}
-                                        </div>
-                                        <div className="flex flex-wrap items-center gap-3 mt-1 text-[10px] text-brand-400">
-                                          {disp.vedtaksdato && <span>{new Date(disp.vedtaksdato).toLocaleDateString('nb-NO')}</span>}
-                                          {disp.sak && <span>Sak {disp.sak.sakAar}/{disp.sak.sakSeknr}</span>}
-                                          {disp.dokumenter?.filter((d: any) => d.tilgang === 'Alle').map((dok: any) => (
-                                            <a key={dok.id} href={dok.direkteUrl || dok.url} target="_blank" rel="noopener noreferrer"
-                                              className="text-amber-700 underline flex items-center gap-1">
-                                              <ExternalLink className="w-2.5 h-2.5" />Vedtak
-                                            </a>
-                                          ))}
-                                        </div>
-                                      </div>
-                                    )
-                                  })}
-                                </div>
-                              </div>
-                            )
-                          })()}
+                          <DispensasjonerCollapsible planId={tolkning.planId} arealplaner={arealplaner} />
                         </div>
                       )}
                     </div>
@@ -1356,6 +1442,70 @@ function InfoBox({ label, value }: { label: string; value: string }) {
     <div>
       <p className="text-[10px] text-brand-500 uppercase tracking-wide mb-0.5">{label}</p>
       <p className="text-sm font-medium text-tomtly-dark break-words">{value}</p>
+    </div>
+  )
+}
+
+// ─── Collapsible dispensasjoner ─────────────────────────────────────────────
+
+function DispensasjonerCollapsible({ planId, arealplaner }: { planId: string; arealplaner: ArealplanerPlan[] }) {
+  const [showAll, setShowAll] = useState(false)
+  const matchingAP = arealplaner.find((ap) => ap.planId === planId)
+  const allDisps = matchingAP?.dispensasjoner || []
+  if (allDisps.length === 0) return null
+
+  // Sort by date descending (newest first)
+  const sorted = [...allDisps].sort((a: any, b: any) =>
+    new Date(b.vedtaksdato || 0).getTime() - new Date(a.vedtaksdato || 0).getTime()
+  )
+  const visible = showAll ? sorted : sorted.slice(0, 5)
+  const hidden = sorted.length - 5
+
+  return (
+    <div className="bg-amber-50/50 border border-amber-200 rounded-lg overflow-hidden">
+      <div className="px-4 py-2 bg-amber-50 border-b border-amber-200 flex items-center justify-between">
+        <h5 className="text-xs font-semibold text-amber-800">
+          {allDisps.length} dispensasjon{allDisps.length !== 1 ? 'er' : ''}
+        </h5>
+        {allDisps.length > 5 && (
+          <span className="text-[10px] text-amber-600">
+            {showAll ? 'Viser alle' : `Viser 5 nyeste av ${allDisps.length}`}
+          </span>
+        )}
+      </div>
+      <div className="divide-y divide-amber-100">
+        {visible.map((disp: any) => {
+          const vedtakColor = disp.vedtak === 'Avslått' ? 'bg-red-100 text-red-800'
+            : disp.vedtak === 'Innvilget' || disp.vedtak === 'Godkjent' ? 'bg-green-100 text-green-800'
+            : 'bg-brand-100 text-brand-700'
+          return (
+            <div key={disp.id} className="px-4 py-2.5">
+              <div className="flex items-start justify-between gap-2">
+                <p className="text-xs text-brand-700 leading-relaxed flex-1">{disp.beskrivelse}</p>
+                {disp.vedtak && <span className={`px-2 py-0.5 text-[10px] font-semibold rounded shrink-0 ${vedtakColor}`}>{disp.vedtak}</span>}
+              </div>
+              <div className="flex flex-wrap items-center gap-3 mt-1 text-[10px] text-brand-400">
+                {disp.vedtaksdato && <span>{new Date(disp.vedtaksdato).toLocaleDateString('nb-NO')}</span>}
+                {disp.sak && <span>Sak {disp.sak.sakAar}/{disp.sak.sakSeknr}</span>}
+                {disp.dokumenter?.filter((d: any) => d.tilgang === 'Alle').map((dok: any) => (
+                  <a key={dok.id} href={dok.direkteUrl || dok.url} target="_blank" rel="noopener noreferrer"
+                    className="text-amber-700 underline flex items-center gap-1">
+                    <ExternalLink className="w-2.5 h-2.5" />Vedtak
+                  </a>
+                ))}
+              </div>
+            </div>
+          )
+        })}
+      </div>
+      {hidden > 0 && (
+        <button
+          onClick={() => setShowAll(!showAll)}
+          className="w-full px-4 py-2 text-xs font-medium text-amber-700 bg-amber-50 border-t border-amber-200 hover:bg-amber-100 transition-colors"
+        >
+          {showAll ? 'Vis færre' : `Se ${hidden} eldre dispensasjoner`}
+        </button>
+      )}
     </div>
   )
 }
