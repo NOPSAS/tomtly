@@ -1,7 +1,9 @@
 'use client'
 
-import { useState, useRef, useCallback, useEffect, Suspense } from 'react'
+import { useState, useRef, useCallback, useEffect, Suspense, lazy } from 'react'
 import { useSearchParams } from 'next/navigation'
+
+const Terreng3DLazy = lazy(() => import('@/components/Terreng3D').then(m => ({ default: m.Terreng3D })))
 import {
   MapPin, Search, CheckCircle2, Loader2, AlertTriangle,
   ChevronDown, ChevronUp, Layers, FileText, Shield, Info,
@@ -347,6 +349,10 @@ function PrototypeContent() {
   const [dispAnalyse, setDispAnalyse] = useState<DispensasjonAnalyse | null>(null)
   const [bestemmelseAnalyser, setBestemmelseAnalyser] = useState<BestemmelseAnalyse[]>([])
   const [analyseringBestemmelser, setAnalyseringBestemmelser] = useState(false)
+  const [fkbKart, setFkbKart] = useState<string | null>(null)
+  const [terrengData, setTerrengData] = useState<any>(null)
+  const [kartTab, setKartTab] = useState<'2d' | '3d'>('2d')
+  const [kartLoading, setKartLoading] = useState(false)
   const [steps, setSteps] = useState<Step[]>([])
 
   // Expandable sections
@@ -450,6 +456,10 @@ function PrototypeContent() {
     setDispAnalyse(null)
     setBestemmelseAnalyser([])
     setAnalyseringBestemmelser(false)
+    setFkbKart(null)
+    setTerrengData(null)
+    setKartTab('2d')
+    setKartLoading(false)
 
     const { lat, lon } = adr.representasjonspunkt
     const knr = adr.kommunenummer
@@ -644,6 +654,45 @@ function PrototypeContent() {
       updateStep(5, { status: 'done', label: `${tolkedCount}/${planList.length} planer tolket` })
     } else {
       updateStep(5, { status: 'done', label: 'Ingen planer å tolke' })
+    }
+
+    // ─── Kart og terreng (non-blocking, runs in background) ──────
+    if (utmCoords && teigRes.status === 'fulfilled') {
+      setKartLoading(true)
+      const features = teigRes.value?.features || []
+      const coords = features[0]?.geometry?.coordinates?.[0] || []
+      // Calculate bbox from teig + 50m margin
+      let tMinX = Infinity, tMinY = Infinity, tMaxX = -Infinity, tMaxY = -Infinity
+      for (const c of coords) {
+        tMinX = Math.min(tMinX, c[0]); tMinY = Math.min(tMinY, c[1])
+        tMaxX = Math.max(tMaxX, c[0]); tMaxY = Math.max(tMaxY, c[1])
+      }
+      if (tMinX < Infinity) {
+        const margin = 50
+        const kartBbox = [tMinX - margin, tMinY - margin, tMaxX + margin, tMaxY + margin]
+
+        // Fetch 2D map and 3D terrain in parallel (non-blocking)
+        Promise.allSettled([
+          fetch('/api/tomtekart', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: 'fkb', bbox: kartBbox.join(',') }),
+          }).then(r => r.ok ? r.json() : null),
+          fetch('/api/tomtekart', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: 'terreng', bbox: kartBbox, opplosning: 5 }),
+          }).then(r => r.ok ? r.json() : null),
+        ]).then(([fkbRes, terrengRes]) => {
+          if (fkbRes.status === 'fulfilled' && fkbRes.value?.image) {
+            setFkbKart(fkbRes.value.image)
+          }
+          if (terrengRes.status === 'fulfilled' && terrengRes.value?.success) {
+            setTerrengData(terrengRes.value)
+          }
+          setKartLoading(false)
+        })
+      }
     }
 
     // Arealplaner.no – hent dokumenter + dispensasjoner for denne eiendommen
@@ -1066,6 +1115,70 @@ function PrototypeContent() {
                 <InfoBox label="Koordinater" value={`${valgtAdresse.representasjonspunkt.lat.toFixed(5)}, ${valgtAdresse.representasjonspunkt.lon.toFixed(5)}`} />
               </div>
             </div>
+
+            {/* Tomtekart og terreng */}
+            {(fkbKart || terrengData || kartLoading) && (
+              <div className="bg-white rounded-2xl border border-brand-100 p-6 md:p-8 shadow-sm">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="font-display text-lg font-bold text-tomtly-dark flex items-center gap-2">
+                    <Layers className="w-5 h-5 text-tomtly-accent" />
+                    Tomtekart og terreng
+                  </h2>
+                  <div className="flex gap-1 bg-brand-100 rounded-lg p-0.5">
+                    <button
+                      onClick={() => setKartTab('2d')}
+                      className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${kartTab === '2d' ? 'bg-white text-tomtly-dark shadow-sm' : 'text-brand-500'}`}
+                    >
+                      2D Kart
+                    </button>
+                    <button
+                      onClick={() => setKartTab('3d')}
+                      disabled={!terrengData}
+                      className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${kartTab === '3d' ? 'bg-white text-tomtly-dark shadow-sm' : 'text-brand-500'} disabled:opacity-40`}
+                    >
+                      3D Terreng
+                    </button>
+                  </div>
+                </div>
+
+                {kartTab === '2d' && (
+                  <>
+                    {fkbKart ? (
+                      <div className="relative">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={fkbKart} alt="FKB tomtekart" className="w-full rounded-lg border border-brand-200" />
+                        <p className="text-[10px] text-brand-400 mt-2">Kart: Kartverket FKB (bygninger, veier, høydekurver, natur). Rød linje = eiendomsgrense.</p>
+                      </div>
+                    ) : kartLoading ? (
+                      <div className="aspect-square bg-brand-50 rounded-lg flex items-center justify-center">
+                        <div className="text-center">
+                          <div className="w-6 h-6 border-2 border-tomtly-accent border-t-transparent rounded-full animate-spin mx-auto mb-2" />
+                          <p className="text-xs text-brand-500">Henter kart fra Kartverket...</p>
+                        </div>
+                      </div>
+                    ) : null}
+                  </>
+                )}
+
+                {kartTab === '3d' && terrengData && (
+                  <Suspense fallback={<div className="aspect-[16/10] bg-brand-50 rounded-lg flex items-center justify-center"><p className="text-xs text-brand-500">Laster 3D...</p></div>}>
+                    <Terreng3DLazy
+                      terrengData={terrengData}
+                      teigCoords={(teigResult?.raw as any)?.features?.[0]?.geometry?.coordinates?.[0]}
+                    />
+                  </Suspense>
+                )}
+
+                {/* Legend */}
+                <div className="mt-3 flex flex-wrap gap-3 text-[10px] text-brand-500">
+                  <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 bg-[#8B7355] rounded-sm" /> Bygninger</span>
+                  <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 bg-white border border-brand-300 rounded-sm" /> Veier</span>
+                  <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 bg-[#C4A35A] rounded-sm" /> Høydekurver</span>
+                  <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 bg-blue-400 rounded-sm" /> Vann</span>
+                  <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 bg-green-600 rounded-sm" /> Natur</span>
+                </div>
+              </div>
+            )}
 
             {/* Eiendomsanalyse */}
             {eiendomsAnalyse && (
