@@ -14,6 +14,7 @@ import {
   MapPin,
 } from 'lucide-react'
 import { TomteSokLead } from '@/components/TomteSokLead'
+import { VerdivurderingLead } from '@/components/VerdivurderingLead'
 
 // ============================================================
 // FORSIDE – Tomtly (2025)
@@ -28,8 +29,9 @@ export default function Forside() {
       <VelgPakke />
       <Kostnadssammenligning />
       <HvaViGjorBedre />
-      <TomteSokLead />
+      <VerdivurderingLead />
       <StatistikkOgTrust />
+      <TomteSokLead />
       <FAQSection />
       <JuridiskDisclaimer />
       <CTASection />
