@@ -1,28 +1,48 @@
 import Link from 'next/link'
 import {
-  MapPin,
-  BarChart3,
-  TrendingUp,
-  CheckCircle2,
   ArrowRight,
   Home,
+  CheckCircle2,
+  FileSearch,
+  Box,
+  CuboidIcon,
+  Calculator,
+  BadgeDollarSign,
+  Database,
+  Star,
   FileText,
-  Ruler,
-  ChevronDown,
+  ClipboardList,
+  BarChart3,
+  Megaphone,
+  Eye,
+  Gavel,
+  Handshake,
+  FileCheck,
+  PenLine,
+  BookOpen,
+  ListChecks,
+  Bell,
+  LayoutDashboard,
+  Scale,
 } from 'lucide-react'
 
 export default function ForTomteeiereePage() {
   return (
     <>
       <HeroSection />
-      <HvordanDetFungerer />
-      <HvaFaarDu />
-      <Prismodell />
+      <VelgPakke />
+      <HvaErInkludert />
+      <SlikSelgerDuSelv />
+      <Priseksempler />
+      <VerktoyOgMaler />
       <FAQ />
+      <JuridiskDisclaimer />
       <CTASection />
     </>
   )
 }
+
+/* ─── Hero ─────────────────────────────────────────────────────────── */
 
 function HeroSection() {
   return (
@@ -37,13 +57,16 @@ function HeroSection() {
           </div>
 
           <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1] mb-6">
-            Se potensialet i tomten
+            Selg tomten din
             <br />
-            <span className="text-green-400">– vi gjør resten</span>
+            <span className="text-green-400">– uten megler</span>
           </h1>
 
           <p className="text-lg text-brand-400 leading-relaxed mb-10 max-w-xl">
-            Komplett tomtanalyse, profesjonell markedsføring og salg. 4 990 kr – resten tar vi ved salg.
+            TOMTLY er en analyseplattform som gir deg alt du trenger for å
+            selge tomten selv: reguleringsanalyse, husmodeller,
+            3D-visualisering, byggekalkyle og verdivurdering. Du bestemmer
+            – vi leverer verktøyene.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
@@ -51,14 +74,14 @@ function HeroSection() {
               href="/selger/onboarding"
               className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-tomtly-accent text-white font-medium rounded-lg hover:bg-forest-700 transition-colors"
             >
-              Bestill tomtanalyse
+              Bestill tomteanalyse
               <ArrowRight className="w-4 h-4" />
             </Link>
             <a
-              href="#hvordan"
+              href="#pakker"
               className="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-brand-600 text-brand-300 font-medium rounded-lg hover:bg-brand-900 transition-colors"
             >
-              Slik fungerer det
+              Se pakker og priser
             </a>
           </div>
         </div>
@@ -67,144 +90,85 @@ function HeroSection() {
   )
 }
 
-function HvordanDetFungerer() {
-  const steg = [
-    {
-      nummer: '01',
-      ikon: MapPin,
-      tittel: 'Oppgi adressen',
-      beskrivelse:
-        'Legg inn adressen til tomten din. Vi henter reguleringsplan, matrikkeldata og kart automatisk.',
-    },
-    {
-      nummer: '02',
-      ikon: BarChart3,
-      tittel: 'Vi analyserer',
-      beskrivelse:
-        'Vårt arkitekt- og eiendomsteam analyserer regulering, topografi og marked. Du får en komplett mulighetsstudie.',
-    },
-    {
-      nummer: '03',
-      ikon: FileText,
-      tittel: 'Publisering og markedsføring',
-      beskrivelse:
-        'Tomten presenteres som et utviklingsprosjekt på Tomtly med profesjonelle visualiseringer og byggekalkyle.',
-    },
-    {
-      nummer: '04',
-      ikon: TrendingUp,
-      tittel: 'Salg via vår megler',
-      beskrivelse:
-        'Vår fagansvarlige megler håndterer kjøperdialog, visning og salg. Du lener deg tilbake. Oppgjør via Propr.',
-    },
-  ]
+/* ─── VelgPakke ────────────────────────────────────────────────────── */
 
+function VelgPakke() {
   return (
-    <section id="hvordan" className="bg-tomtly-warm py-20 lg:py-28">
+    <section id="pakker" className="bg-white py-20 lg:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-4">
-            Slik fungerer det
+            Velg pakke
           </h2>
-          <p className="text-brand-600 max-w-lg mx-auto">
-            Fra tom tomt til ferdig byggeprosjekt på under en uke.
+          <p className="text-brand-600 max-w-2xl mx-auto">
+            To pakker, ingen skjulte kostnader. Oppgjør håndteres trygt av Propr.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steg.map((s) => (
-            <div key={s.nummer} className="relative">
-              <div className="text-5xl font-display font-bold text-brand-200 mb-4">
-                {s.nummer}
-              </div>
-              <div className="w-10 h-10 bg-tomtly-accent/10 rounded-lg flex items-center justify-center mb-3">
-                <s.ikon className="w-5 h-5 text-tomtly-accent" />
-              </div>
-              <h3 className="font-semibold text-tomtly-dark mb-2">{s.tittel}</h3>
-              <p className="text-sm text-brand-600 leading-relaxed">
-                {s.beskrivelse}
-              </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          {/* Tomteanalyse */}
+          <div className="border-2 border-brand-200 rounded-2xl p-7">
+            <div className="text-sm font-medium text-brand-500 mb-2">
+              Tomteanalyse
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function HvaFaarDu() {
-  const leveranser = [
-    'Profesjonell mulighetsstudie fra vårt arkitektteam',
-    'Husmodeller tilpasset tomten med 3D-visualiseringer',
-    'Detaljert byggekalkyle for hvert alternativ',
-    'Verdivurdering basert på sammenlignbare salg',
-    'Reguleringsanalyse med utnyttelsesgrad og begrensninger',
-    'Tidsplan for byggeprosjektet',
-    'Publisering på Tomtly med bilder og dokumenter',
-    'Tomtescore – en samlet vurdering av tomtens potensial',
-  ]
-
-  return (
-    <section className="bg-white py-20 lg:py-28">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-4">
-            Hva du far
-          </h2>
-          <p className="text-brand-600 max-w-lg mx-auto">
-            En komplett pakke som gjør tomten din attraktiv for kjøpere.
-          </p>
-        </div>
-
-        <div className="max-w-2xl mx-auto">
-          <div className="bg-brand-50 rounded-xl border border-brand-200 p-8">
-            <ul className="space-y-3">
-              {leveranser.map((l) => (
-                <li key={l} className="flex items-start gap-3 text-brand-700">
-                  <CheckCircle2 className="w-5 h-5 text-tomtly-accent flex-shrink-0 mt-0.5" />
-                  <span className="text-sm">{l}</span>
+            <div className="flex items-baseline gap-2 mb-1">
+              <span className="text-4xl font-bold text-tomtly-dark">9 900</span>
+              <span className="text-brand-500">kr</span>
+            </div>
+            <p className="text-sm text-brand-500 mb-5">
+              Fastpris – du selger selv
+            </p>
+            <ul className="space-y-2 mb-6">
+              {[
+                'Reguleringsanalyse (KI-tolkning)',
+                'Husmodeller tilpasset tomten',
+                '3D-visualisering',
+                'Byggekalkyle og verdivurdering',
+                'DOK-analyse (70+ datasett)',
+                'Tomtescore og tomterapport (PDF)',
+                'Publisering på Tomtly.no',
+              ].map((f) => (
+                <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
+                  <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
+                  {f}
                 </li>
               ))}
             </ul>
+            <Link
+              href="/selger/onboarding"
+              className="block w-full text-center px-4 py-3 border-2 border-tomtly-accent text-tomtly-accent font-medium rounded-lg hover:bg-forest-50 transition-colors"
+            >
+              Bestill analyse
+            </Link>
+            <p className="text-xs text-brand-400 text-center mt-3">
+              Oppgjør via Propr (9 990 kr) tilkommer ved salg
+            </p>
           </div>
-        </div>
-      </div>
-    </section>
-  )
-}
 
-function Prismodell() {
-  return (
-    <section className="bg-brand-50 py-20 lg:py-28">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-4">
-            Enkel og rettferdig pris
-          </h2>
-        </div>
-
-        <div className="max-w-xl mx-auto">
-          {/* Tomteeier-pakke */}
-          <div className="bg-white border-2 border-tomtly-accent rounded-2xl p-8 relative">
+          {/* Analyse + Markedsføring */}
+          <div className="border-2 border-tomtly-accent rounded-2xl p-7 relative">
             <div className="absolute -top-3 right-6 px-3 py-1 bg-tomtly-accent text-white text-xs font-semibold rounded-full">
-              Alt inkludert
+              Mest populær
             </div>
-            <div className="text-sm font-medium text-brand-500 mb-2">Tomteeier</div>
+            <div className="text-sm font-medium text-brand-500 mb-2">
+              Analyse + Markedsføring
+            </div>
             <div className="flex items-baseline gap-2 mb-1">
               <span className="text-4xl font-bold text-tomtly-dark">4 990</span>
               <span className="text-brand-500">kr</span>
-              <span className="text-brand-400 text-sm">+ 2,5 % ved salg</span>
+              <span className="text-brand-400 text-sm">+ 2 % ved salg</span>
             </div>
-            <p className="text-sm text-brand-500 mb-5">Komplett analyse, markedsføring og salg via megler</p>
+            <p className="text-sm text-brand-500 mb-5">
+              Vi markedsfører og hjelper deg hele veien
+            </p>
             <ul className="space-y-2 mb-6">
               {[
-                'Tomtanalyse og mulighetsstudie fra arkitektteam',
-                'Husmodeller tilpasset tomten',
-                'Byggekalkyle og verdivurdering',
-                'Visualiseringer og profesjonell presentasjon',
-                'Publisering og markedsføring på Tomtly',
-                'Salg via vår fagansvarlige megler',
-                'Oppgjør via Propr',
+                'Alt i analysepakken',
+                'Markedsføring mot aktive kjøpere',
+                'Salgsdashboard med interessenter',
+                'Visningsguide og sjekklister',
+                'Budskjema og akseptbrev',
+                '2 % kun ved gjennomført salg',
               ].map((f) => (
                 <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
                   <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
@@ -218,116 +182,396 @@ function Prismodell() {
             >
               Kom i gang
             </Link>
+            <p className="text-xs text-brand-400 text-center mt-3">
+              Oppgjør via Propr (9 990 kr) tilkommer ved salg
+            </p>
           </div>
+        </div>
+      </div>
+    </section>
+  )
+}
 
-          {/* Eksempelberegning */}
-          <div className="mt-6 bg-white rounded-xl border border-brand-200 p-6">
-            <h3 className="font-semibold text-tomtly-dark mb-3 text-center">Eksempel: Tomt solgt for 2 MNOK</h3>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between py-1 border-b border-brand-100">
-                <span className="text-brand-600">Fastpris (analyse + markedsføring)</span>
-                <span className="font-medium text-tomtly-dark">4 990 kr</span>
+/* ─── Hva er inkludert ─────────────────────────────────────────────── */
+
+function HvaErInkludert() {
+  const leveranser = [
+    {
+      ikon: FileSearch,
+      tittel: 'Reguleringsanalyse',
+      beskrivelse:
+        'KI-tolkning av gjeldende reguleringsplan – utnyttelsesgrad, byggehøyde, formål og begrensninger oppsummert for deg.',
+    },
+    {
+      ikon: Home,
+      tittel: 'Husmodeller',
+      beskrivelse:
+        'Ferdighusleverandørenes modeller tilpasset tomtens regulering, størrelse og orientering.',
+    },
+    {
+      ikon: CuboidIcon,
+      tittel: '3D-visualisering',
+      beskrivelse:
+        'Se hvordan husmodellene ser ut på tomten med terreng, nabobebyggelse og omgivelser i 3D.',
+    },
+    {
+      ikon: Calculator,
+      tittel: 'Byggekalkyle',
+      beskrivelse:
+        'Detaljert kostnadsestimat for hvert husmodellalternativ, inkludert grunnarbeid og tilkobling.',
+    },
+    {
+      ikon: BadgeDollarSign,
+      tittel: 'Verdivurdering',
+      beskrivelse:
+        'Estimert markedsverdi basert på sammenlignbare salg i området, tomtens egenskaper og regulering.',
+    },
+    {
+      ikon: Database,
+      tittel: 'DOK-analyse (70+ datasett)',
+      beskrivelse:
+        'Det offentlige kartgrunnlaget – flom, kvikkleire, radon, støy, kulturminner og 70 andre datasett analysert.',
+    },
+    {
+      ikon: Star,
+      tittel: 'Tomtescore',
+      beskrivelse:
+        'En samlet vurdering av tomtens potensial basert på beliggenhet, regulering, grunnforhold og marked.',
+    },
+    {
+      ikon: FileText,
+      tittel: 'Tomterapport (PDF)',
+      beskrivelse:
+        'Alt samlet i en profesjonell PDF-rapport du kan dele med interessenter, bank eller megler.',
+    },
+  ]
+
+  return (
+    <section className="bg-tomtly-warm py-20 lg:py-28">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-4">
+            Hva er inkludert
+          </h2>
+          <p className="text-brand-600 max-w-lg mx-auto">
+            Hver tomteanalyse inneholder åtte detaljerte leveranser.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {leveranser.map((l) => (
+            <div
+              key={l.tittel}
+              className="bg-white rounded-xl border border-brand-200 p-6"
+            >
+              <div className="w-10 h-10 bg-tomtly-accent/10 rounded-lg flex items-center justify-center mb-4">
+                <l.ikon className="w-5 h-5 text-tomtly-accent" />
               </div>
-              <div className="flex justify-between py-1 border-b border-brand-100">
-                <span className="text-brand-600">Provisjon ved salg (2,5 % av 2 MNOK)</span>
-                <span className="font-medium text-tomtly-dark">50 000 kr</span>
-              </div>
-              <div className="flex justify-between py-2 bg-green-50 rounded-lg px-3 -mx-3">
-                <span className="font-semibold text-green-800">Total kostnad</span>
-                <span className="font-bold text-green-800">54 990 kr</span>
-              </div>
+              <h3 className="font-semibold text-tomtly-dark mb-2">
+                {l.tittel}
+              </h3>
+              <p className="text-sm text-brand-600 leading-relaxed">
+                {l.beskrivelse}
+              </p>
             </div>
-          </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
 
-          {/* Detaljert sammenligning – ekte tall */}
-          <div className="mt-8 bg-white rounded-xl border border-brand-200 p-6">
-            <h3 className="font-display text-xl font-bold text-tomtly-dark mb-2 text-center">Ekte sammenligning: Tomt til 3 MNOK</h3>
-            <p className="text-xs text-brand-500 text-center mb-6">Basert på faktiske meglerpriser fra et reelt oppdrag</p>
+/* ─── Slik selger du selv (7 steg) ─────────────────────────────────── */
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Tradisjonell megler */}
-              <div className="bg-red-50 rounded-xl p-5 border border-red-200">
-                <h4 className="font-semibold text-red-700 mb-4">Tradisjonell megler</h4>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between"><span className="text-red-600">Provisjon (1,7% av 3 MNOK)</span><span className="font-semibold">51 000 kr</span></div>
-                  <div className="flex justify-between"><span className="text-red-600">Markedsavtale grunnpakke tomt</span><span>18 200 kr</span></div>
-                  <div className="flex justify-between"><span className="text-red-600">Oppgjørshonorar</span><span>6 900 kr</span></div>
-                  <div className="flex justify-between"><span className="text-red-600">Tilretteleggingsgebyr</span><span>15 900 kr</span></div>
-                  <div className="flex justify-between"><span className="text-red-600">Visningshonorar (2 visninger)</span><span>3 750 kr</span></div>
-                  <div className="flex justify-between"><span className="text-red-600">Grunnbok/tinglyste bestemmelser</span><span>290 kr</span></div>
-                  <div className="flex justify-between"><span className="text-red-600">Tinglysingsgebyr</span><span>545 kr</span></div>
-                  <div className="flex justify-between"><span className="text-red-600">Informasjon fra kommune</span><span>5 000 kr</span></div>
-                  <div className="flex justify-between"><span className="text-red-600">Eiendomsregister + e-signering</span><span>2 000 kr</span></div>
-                  <div className="flex justify-between pt-3 border-t border-red-300 font-bold text-red-800 text-base">
-                    <span>Total kostnad</span><span>103 585 kr</span>
+function SlikSelgerDuSelv() {
+  const steg = [
+    {
+      nummer: 1,
+      ikon: ClipboardList,
+      tittel: 'Bestill analyse',
+      beskrivelse:
+        'Oppgi adressen til tomten din. Vi henter matrikkeldata, reguleringsplan og kart automatisk.',
+    },
+    {
+      nummer: 2,
+      ikon: FileText,
+      tittel: 'Les tomterapporten',
+      beskrivelse:
+        'Du mottar en komplett rapport med reguleringsanalyse, husmodeller, kalkyle og verdivurdering.',
+    },
+    {
+      nummer: 3,
+      ikon: Megaphone,
+      tittel: 'Markedsføring starter',
+      beskrivelse:
+        'Tomten publiseres på Tomtly med profesjonelle visualiseringer og tiltrekker kvalifiserte kjøpere.',
+    },
+    {
+      nummer: 4,
+      ikon: BarChart3,
+      tittel: 'Følg interessen i dashboard',
+      beskrivelse:
+        'Se hvem som ser på tomten, hvem som har vist interesse og hvem som ønsker visning.',
+    },
+    {
+      nummer: 5,
+      ikon: Eye,
+      tittel: 'Gjennomfør visning',
+      beskrivelse:
+        'Bruk vår visningsguide og sjekkliste. Du møter interessentene og viser tomten selv.',
+    },
+    {
+      nummer: 6,
+      ikon: Gavel,
+      tittel: 'Motta og vurder bud',
+      beskrivelse:
+        'Budskjema og akseptbrev er klart i dashboardet. Du vurderer budene og aksepterer det beste.',
+    },
+    {
+      nummer: 7,
+      ikon: Handshake,
+      tittel: 'Start oppgjør via Propr',
+      beskrivelse:
+        'Propr håndterer kontrakt, tinglysing og pengeoverføring – trygt og juridisk korrekt.',
+    },
+  ]
+
+  return (
+    <section className="bg-white py-20 lg:py-28">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-4">
+            Slik selger du selv
+          </h2>
+          <p className="text-brand-600 max-w-lg mx-auto">
+            Syv steg fra analyse til oppgjør. Du har kontrollen hele veien.
+          </p>
+        </div>
+
+        <div className="max-w-3xl mx-auto">
+          <div className="relative">
+            {/* Vertical line */}
+            <div className="absolute left-5 top-0 bottom-0 w-px bg-brand-200 hidden sm:block" />
+
+            <div className="space-y-8">
+              {steg.map((s) => (
+                <div key={s.nummer} className="flex gap-5 relative">
+                  <div className="flex-shrink-0 w-10 h-10 bg-tomtly-accent rounded-full flex items-center justify-center relative z-10">
+                    <s.ikon className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="pt-1">
+                    <div className="text-xs font-semibold text-tomtly-accent mb-1">
+                      Steg {s.nummer}
+                    </div>
+                    <h3 className="font-semibold text-tomtly-dark mb-1">
+                      {s.tittel}
+                    </h3>
+                    <p className="text-sm text-brand-600 leading-relaxed">
+                      {s.beskrivelse}
+                    </p>
                   </div>
                 </div>
-                <div className="mt-4 pt-3 border-t border-red-200">
-                  <p className="text-xs text-red-600">Du får: Salgsgjennomføring. Tomten presenteres som en gresslette på FINN. Ingen analyse, ingen husmodeller, ingen kalkyle.</p>
-                </div>
-              </div>
-
-              {/* Tomtly */}
-              <div className="bg-forest-50 rounded-xl p-5 border-2 border-tomtly-accent">
-                <h4 className="font-semibold text-tomtly-dark mb-4">Tomtly</h4>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between"><span className="text-forest-700">Tomtanalyse (fastpris)</span><span className="font-semibold">4 990 kr</span></div>
-                  <div className="flex justify-between"><span className="text-forest-700">Provisjon (2,5% av 3 MNOK)</span><span>75 000 kr</span></div>
-                  <div className="flex justify-between"><span className="text-forest-700">Oppgjør via Propr</span><span>9 990 kr</span></div>
-                  <div className="flex justify-between"><span className="text-forest-700">Grunnbok/tinglyste bestemmelser</span><span>290 kr</span></div>
-                  <div className="flex justify-between"><span className="text-forest-700">Tinglysingsgebyr</span><span>545 kr</span></div>
-                  <div className="flex justify-between pt-3 border-t border-forest-300 font-bold text-tomtly-dark text-base">
-                    <span>Total kostnad</span><span>90 815 kr</span>
-                  </div>
-                </div>
-                <div className="mt-4 pt-3 border-t border-forest-200">
-                  <p className="text-xs text-forest-700">Du får: Komplett mulighetsstudie fra arkitekt, husmodeller fra ferdighusleverandører, 3D-visualisering, byggekalkyle, verdivurdering, markedsføring mot aktive kjøpere, salg via autorisert meglerpartner, oppgjør via Propr.</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Oppsummering */}
-            <div className="bg-green-50 rounded-xl p-5 border border-green-200 mt-6 text-center">
-              <p className="text-green-800 font-semibold text-lg mb-1">Du sparer 12 770 kr med Tomtly</p>
-              <p className="text-sm text-green-700">Og får ti ganger mer – analyse, husmodeller, kalkyle, markedsføring og salg. Samme prosess, lavere pris, langt bedre presentasjon.</p>
+              ))}
             </div>
           </div>
         </div>
+      </div>
+    </section>
+  )
+}
 
-        <p className="text-xs text-brand-400 text-center mt-8">
-          Tomtly har autorisert meglerpartner og bistår med salg. Oppgjør via Propr.
+/* ─── Priseksempler ────────────────────────────────────────────────── */
+
+function Priseksempler() {
+  const eksempler = [
+    { pris: '1,5 MNOK', analyse: '9 900', markedsforing: '34 890', megler: '63 585' },
+    { pris: '2 MNOK', analyse: '9 900', markedsforing: '44 890', megler: '78 585' },
+    { pris: '3 MNOK', analyse: '9 900', markedsforing: '64 890', megler: '103 585' },
+    { pris: '4 MNOK', analyse: '9 900', markedsforing: '84 890', megler: '133 585' },
+  ]
+
+  return (
+    <section className="bg-brand-50 py-20 lg:py-28">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-4">
+            Priseksempler
+          </h2>
+          <p className="text-brand-600 max-w-2xl mx-auto">
+            Se hva det koster å selge tomten med Tomtly sammenlignet med tradisjonell megler.
+            Alle beløp inkluderer oppgjør via Propr (9 990 kr).
+          </p>
+        </div>
+
+        <div className="max-w-4xl mx-auto overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b-2 border-brand-300">
+                <th className="text-left py-3 px-4 font-semibold text-tomtly-dark">
+                  Salgssum
+                </th>
+                <th className="text-right py-3 px-4 font-semibold text-tomtly-dark">
+                  Tomteanalyse
+                  <span className="block text-xs font-normal text-brand-400">
+                    9 900 kr fast
+                  </span>
+                </th>
+                <th className="text-right py-3 px-4 font-semibold text-tomtly-accent">
+                  Analyse + Markedsføring
+                  <span className="block text-xs font-normal text-brand-400">
+                    4 990 kr + 2 %
+                  </span>
+                </th>
+                <th className="text-right py-3 px-4 font-semibold text-red-600">
+                  Trad. megler
+                  <span className="block text-xs font-normal text-red-400">
+                    ~1,7 % + gebyrer
+                  </span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {eksempler.map((e) => (
+                <tr key={e.pris} className="border-b border-brand-200">
+                  <td className="py-3 px-4 font-medium text-tomtly-dark">
+                    {e.pris}
+                  </td>
+                  <td className="py-3 px-4 text-right text-brand-700">
+                    {e.analyse} kr
+                  </td>
+                  <td className="py-3 px-4 text-right font-semibold text-tomtly-accent">
+                    {e.markedsforing} kr
+                  </td>
+                  <td className="py-3 px-4 text-right text-red-600">
+                    {e.megler} kr
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <p className="text-xs text-brand-400 text-center mt-6 max-w-2xl mx-auto">
+          Tomteanalyse-kolonnen viser fastpris (9 900 kr) + Propr-oppgjør (9 990 kr) uten provisjon
+          da du selger selv. Analyse + Markedsføring inkluderer fastpris (4 990 kr) + 2 % provisjon + Propr-oppgjør.
+          Tradisjonell megler er basert på et reelt meglertilbud med 1,7 % provisjon, tilrettelegging, markedspakke
+          og gebyrer.
         </p>
       </div>
     </section>
   )
 }
 
+/* ─── Verktøy og maler ─────────────────────────────────────────────── */
+
+function VerktoyOgMaler() {
+  const verktoy = [
+    {
+      ikon: PenLine,
+      tittel: 'Budskjema',
+      beskrivelse: 'Standardisert skjema kjøpere fyller ut for å legge inn bud.',
+    },
+    {
+      ikon: FileCheck,
+      tittel: 'Akseptbrev',
+      beskrivelse: 'Ferdig mal for å akseptere bud – juridisk korrekt formulering.',
+    },
+    {
+      ikon: BookOpen,
+      tittel: 'Visningsguide',
+      beskrivelse: 'Steg-for-steg guide for gjennomføring av tomtevisning.',
+    },
+    {
+      ikon: ListChecks,
+      tittel: 'Sjekkliste',
+      beskrivelse: 'Komplett sjekkliste for hele salgsprosessen fra A til Å.',
+    },
+    {
+      ikon: Bell,
+      tittel: 'Interessentvarsling',
+      beskrivelse: 'Automatisk varsling når noen viser interesse for tomten din.',
+    },
+    {
+      ikon: LayoutDashboard,
+      tittel: 'Salgsdashboard',
+      beskrivelse: 'Oversikt over visninger, interessenter, bud og status i sanntid.',
+    },
+  ]
+
+  return (
+    <section className="bg-white py-20 lg:py-28">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-4">
+            Verktøy og maler
+          </h2>
+          <p className="text-brand-600 max-w-lg mx-auto">
+            Alt du trenger for å gjennomføre salget profesjonelt – inkludert i
+            Analyse + Markedsføring-pakken.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          {verktoy.map((v) => (
+            <div
+              key={v.tittel}
+              className="flex items-start gap-4 bg-brand-50 rounded-xl border border-brand-200 p-5"
+            >
+              <div className="w-9 h-9 bg-tomtly-accent/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                <v.ikon className="w-4.5 h-4.5 text-tomtly-accent" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-tomtly-dark mb-1 text-sm">
+                  {v.tittel}
+                </h3>
+                <p className="text-xs text-brand-600 leading-relaxed">
+                  {v.beskrivelse}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ─── FAQ ──────────────────────────────────────────────────────────── */
+
 function FAQ() {
   const sporsmal = [
     {
-      q: 'Hvor lang tid tar det å få tomtanalysen?',
-      a: 'Vi leverer en komplett mulighetsstudie innen 3-5 virkedager etter at du har sendt inn tomten din.',
+      q: 'Hvor lang tid tar det å få tomteanalysen?',
+      a: 'Vi leverer en komplett tomterapport innen 3-5 virkedager etter at du har sendt inn tomten din.',
     },
     {
       q: 'Hva om tomten min ikke kan bebygges?',
       a: 'Vi analyserer reguleringsplanen før vi starter. Hvis tomten ikke kan bebygges, får du beskjed umiddelbart og betaler ingenting.',
     },
     {
-      q: 'Hva er inkludert i prisen?',
-      a: 'For 4 990 kr får du komplett tomtanalyse, mulighetsstudie, husmodeller, byggekalkyle, visualiseringer, publisering og markedsføring. Ved salg betaler du 2,5 % provisjon. Oppgjør håndteres trygt av Propr.',
+      q: 'Hva er forskjellen på de to pakkene?',
+      a: 'Tomteanalyse (9 900 kr) gir deg rapporten og publisering – du selger selv. Analyse + Markedsføring (4 990 kr + 2 %) gir deg i tillegg aktiv markedsføring, salgsdashboard, verktøy og maler for hele salgsprosessen.',
     },
     {
-      q: 'Kan jeg bruke analysen til å markedsføre på FINN eller via megler?',
-      a: 'Ja, absolutt. Analysen er din, og du står fritt til å bruke den som underlag hvor du vil – på FINN, via megler, eller privat.',
+      q: 'Kan jeg bruke analysen til å selge via FINN eller megler?',
+      a: 'Ja, absolutt. Analysen og rapporten er din, og du står fritt til å bruke den som underlag hvor du vil – på FINN, via megler, eller privat.',
     },
     {
-      q: 'Hvem gjennomfører salget?',
-      a: 'Selve salget gjennomføres av en autorisert eiendomsmegler vi samarbeider med. Tomtly står for analyse, markedsføring og kvalifisering av kjøpere.',
+      q: 'Hvem håndterer oppgjøret?',
+      a: 'Oppgjøret håndteres av Propr, en digital oppgjørstjeneste som tar seg av kontrakt, tinglysing og pengeoverføring. Kostnad: 9 990 kr.',
+    },
+    {
+      q: 'Trenger jeg megler for å selge tomt?',
+      a: 'Nei. I Norge kan du selge eiendom privat. Tomtly gir deg verktøyene og dokumentasjonen du trenger for å gjøre det profesjonelt og trygt. Oppgjør sikres via Propr.',
+    },
+    {
+      q: 'Hva er tomtescore?',
+      a: 'Tomtescore er vår samlede vurdering av tomtens potensial basert på beliggenhet, regulering, grunnforhold, solforhold og markedssituasjon. Scoren hjelper kjøpere å sammenligne tomter.',
     },
   ]
 
   return (
-    <section className="bg-white py-20 lg:py-28">
+    <section className="bg-tomtly-warm py-20 lg:py-28">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-4">
@@ -337,7 +581,10 @@ function FAQ() {
 
         <div className="space-y-4">
           {sporsmal.map((s) => (
-            <div key={s.q} className="bg-brand-50 rounded-xl border border-brand-200 p-6">
+            <div
+              key={s.q}
+              className="bg-white rounded-xl border border-brand-200 p-6"
+            >
               <h3 className="font-semibold text-tomtly-dark mb-2">{s.q}</h3>
               <p className="text-sm text-brand-600 leading-relaxed">{s.a}</p>
             </div>
@@ -348,23 +595,64 @@ function FAQ() {
   )
 }
 
+/* ─── Juridisk disclaimer ──────────────────────────────────────────── */
+
+function JuridiskDisclaimer() {
+  return (
+    <section className="bg-brand-50 py-12">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex gap-4 items-start bg-white rounded-xl border border-brand-200 p-6">
+          <div className="w-9 h-9 bg-brand-100 rounded-lg flex items-center justify-center flex-shrink-0">
+            <Scale className="w-5 h-5 text-brand-500" />
+          </div>
+          <div>
+            <h3 className="font-semibold text-tomtly-dark mb-2 text-sm">
+              Juridisk informasjon
+            </h3>
+            <p className="text-xs text-brand-500 leading-relaxed">
+              Tomtly er en analyseplattform og markedsplass for tomter, levert av
+              NOPS AS (org.nr 933 819 086). Tomtly driver ikke eiendomsmegling.
+              Verdivurderinger er estimater basert på offentlige data og
+              sammenlignbare salg, og utgjør ikke en formell takst. Selger er selv
+              ansvarlig for opplysningsplikten etter avhendingslova. Oppgjør ved
+              salg gjennomføres av Propr, en uavhengig digital oppgjørstjeneste som
+              sikrer trygg overføring av eiendom og penger. Tomtly anbefaler at
+              selger setter seg inn i sine rettigheter og plikter, og ved behov
+              konsulterer advokat.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ─── CTA ──────────────────────────────────────────────────────────── */
+
 function CTASection() {
   return (
     <section className="bg-tomtly-dark py-20 lg:py-28">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="font-display text-3xl lg:text-4xl font-bold text-white mb-4">
-          Klar til å synliggjøre tomten din?
+          Start din tomteanalyse i dag
         </h2>
         <p className="text-brand-400 mb-8 max-w-lg mx-auto">
-          Det tar under 5 minutter å registrere tomten din. Vi analyserer og publiserer.
+          Det tar under 5 minutter å registrere tomten. Du får en komplett
+          rapport med alt du trenger for å selge – uten megler.
         </p>
         <Link
           href="/selger/onboarding"
           className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-tomtly-accent text-white font-medium rounded-lg hover:bg-forest-700 transition-colors"
         >
-          Bestill tomtanalyse
+          Bestill tomteanalyse
           <ArrowRight className="w-4 h-4" />
         </Link>
+        <p className="text-xs text-brand-500 mt-6">
+          Spørsmål? Kontakt oss på{' '}
+          <a href="mailto:hey@nops.no" className="text-brand-300 underline">
+            hey@nops.no
+          </a>
+        </p>
       </div>
     </section>
   )

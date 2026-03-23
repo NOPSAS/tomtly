@@ -113,7 +113,7 @@ export function Header() {
               href="/selger/onboarding"
               className="px-4 py-2 text-sm font-medium text-tomtly-accent border border-tomtly-accent rounded-lg hover:bg-forest-50 transition-colors"
             >
-              Legg ut tomt
+              Selg din tomt
             </Link>
             <Link
               href="/megler/onboarding"

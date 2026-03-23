@@ -77,16 +77,12 @@ const SCENARIOS: Record<Scenario, ScenarioInputs> = {
 // ─── Revenue data ────────────────────────────────────────────────────────────
 
 const PER_KUNDE_DATA: RevenueRow[] = [
-  { kilde: 'Tomteeier fastpris (4 990)', inntekt: 4990, kostnad: 4000, margin: 990, note: 'Analyse + markedsføring' },
-  { kilde: 'Provisjon ved salg (65% av 2,5 % av snitt 2 MNOK)', inntekt: 32500, kostnad: 0, margin: 32500, note: '65% av 2,5% provisjon (35% til meglerpartner)' },
-  { kilde: 'Megler Standard (gratis)', inntekt: 0, kostnad: 0, margin: 0, note: 'Gratis publisering – kjøpere kontakter megler' },
-  { kilde: 'Megler Premium (4 900)', inntekt: 4900, kostnad: 4000, margin: 900, note: 'Full analyse + synlighet' },
+  { kilde: 'Tomteanalyse (kun analyse)', inntekt: 9900, kostnad: 4000, margin: 5900, note: 'Engangsbetaling, ingen provisjon' },
+  { kilde: 'Analyse + Markedsføring (forskudd)', inntekt: 4990, kostnad: 4000, margin: 990, note: 'Lav oppstart, 2% ved salg' },
+  { kilde: 'Markedsføringsgebyr 2% (ved salg, snitt 2 MNOK)', inntekt: 40000, kostnad: 2000, margin: 38000, note: '2% av oppnådd salgspris' },
   { kilde: 'Fradeling (3% av ny tomts verdi)', inntekt: 45000, kostnad: 10000, margin: 35000, note: '3% av ny tomts verdi (snitt 1,5 MNOK). 0 kr hvis kommunen avslår.' },
-  { kilde: 'Addons (tegning, søknad) – via Konsepthus', inntekt: 0, kostnad: 0, margin: 0, note: 'Utføres av Konsepthus/Tegnebua, ikke Tomtly-inntekt' },
-  { kilde: 'Entreprenørpåslag', inntekt: 14900, kostnad: 0, margin: 14900, note: 'Årsavgift' },
-  { kilde: 'Bank lead-fee', inntekt: 4900, kostnad: 0, margin: 4900, note: '' },
-  { kilde: 'Prosjektfinansiering (Kameo/Oblinor)', inntekt: 9900, kostnad: 0, margin: 9900, note: 'Lead-fee 4 900–14 900 kr per innvilget lån' },
   { kilde: 'Husleverandør-abo (snitt)', inntekt: 15000, kostnad: 0, margin: 15000, note: 'Basis 10k, Partner 20k/mnd' },
+  { kilde: 'Bank lead-fee', inntekt: 4900, kostnad: 0, margin: 4900, note: 'Per innvilget byggelån' },
   { kilde: 'Propr-fee per salg', inntekt: 2000, kostnad: 0, margin: 2000, note: 'Propr tar 9 990 kr/oppgjør, vi får 2 000 kr per kunde' },
   { kilde: 'Fotograf (drone + foto)', inntekt: 5500, kostnad: 4500, margin: 1000, note: '5 500 kr til kunde, 4 500 kr til fotograf' },
 ]
