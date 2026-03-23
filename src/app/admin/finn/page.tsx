@@ -444,7 +444,7 @@ export default function FinnPipelinePage() {
   const fetchData = useCallback(async () => {
     setLoading(true)
     const [tomterRes, oppsumRes] = await Promise.all([
-      supabase.from('finn_tomter').select('*').order('created_at', { ascending: false }),
+      supabase.from('finn_tomter').select('*').order('opprettet', { ascending: false }),
       supabase.from('finn_daglig_oppsummering').select('*').order('dato', { ascending: false }).limit(30),
     ])
     setTomter(tomterRes.data || [])

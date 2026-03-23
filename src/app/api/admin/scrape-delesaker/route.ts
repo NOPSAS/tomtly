@@ -69,7 +69,7 @@ async function scrapeEinnsyn(): Promise<DelesakeResult[]> {
         })
       }
     } catch {}
-    await new Promise(r => setTimeout(r, 500))
+    await new Promise(r => setTimeout(r, 200))
   }
 
   return results
@@ -132,7 +132,7 @@ async function scrapeOpenGov(): Promise<DelesakeResult[]> {
           })
         }
       } catch {}
-      await new Promise(r => setTimeout(r, 800))
+      await new Promise(r => setTimeout(r, 300))
     }
   }
 
@@ -201,7 +201,7 @@ async function scrape360Postjournal(): Promise<DelesakeResult[]> {
         })
       }
     } catch {}
-    await new Promise(r => setTimeout(r, 800))
+    await new Promise(r => setTimeout(r, 300))
   }
 
   return results

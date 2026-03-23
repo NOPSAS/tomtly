@@ -13,15 +13,15 @@ const HEADERS = {
 
 function buildPages() {
   const pages: { url: string; type: string }[] = []
-  // Boligtomter side 1-15, eldste først, pris > 1M
-  for (let i = 1; i <= 15; i++) {
+  // Boligtomter side 1-3, eldste først, pris > 1M (keep fast for Vercel)
+  for (let i = 1; i <= 3; i++) {
     pages.push({
       url: `https://www.finn.no/realestate/plots/search.html?page=${i}&sort=PUBLISHED_ASC&price_from=1000000`,
       type: 'tomt',
     })
   }
-  // Fritidstomter side 1-10, eldste først, pris > 1M
-  for (let i = 1; i <= 10; i++) {
+  // Fritidstomter side 1-2
+  for (let i = 1; i <= 2; i++) {
     pages.push({
       url: `https://www.finn.no/realestate/leisureplots/search.html?page=${i}&sort=PUBLISHED_ASC&price_from=1000000`,
       type: 'fritidstomt',
@@ -183,7 +183,7 @@ async function handler(request?: NextRequest) {
   if (request) {
     try { body = await request.json() } catch {}
   }
-  const maxDetails = body.maxAds || 50
+  const maxDetails = body.maxAds || 10
 
   const PAGES = buildPages()
   const allKoder = new Map<string, string>()
@@ -191,7 +191,7 @@ async function handler(request?: NextRequest) {
 
   // Phase 1: Collect finn codes from search pages
   for (const page of PAGES) {
-    await new Promise(r => setTimeout(r, 800))
+    await new Promise(r => setTimeout(r, 300))
     const koder = await extractFinnKoder(page.url)
     koder.forEach(k => { if (!allKoder.has(k)) allKoder.set(k, page.type) })
   }
@@ -229,7 +229,7 @@ async function handler(request?: NextRequest) {
 
     if (detailsFetched >= maxDetails) continue
 
-    await new Promise(r => setTimeout(r, 1200))
+    await new Promise(r => setTimeout(r, 500))
     const details = await scrapeAdDetails(finnKode, type)
     detailsFetched++
 
