@@ -70,9 +70,9 @@ function HeroSection() {
           </h1>
 
           <p className="text-lg text-brand-300 leading-relaxed mb-10 max-w-xl">
-            Vi analyserer reguleringsplan, byggemuligheter og markedsverdi.
-            Du får en komplett tomtepakke med husmodeller, 3D-visualisering
-            og verdivurdering – klar til salg.
+            Tomtly er en helt ny måte å presentere tomter på. Vi gir både selger og kjøper
+            full oversikt over tomtens muligheter og utfordringer – med husmodeller,
+            3D-visualisering, reguleringsanalyse og verdivurdering.
           </p>
 
           <div className="space-y-3 max-w-lg">
