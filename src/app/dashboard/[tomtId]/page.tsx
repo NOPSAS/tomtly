@@ -1523,7 +1523,7 @@ export default function SelgerDashboard() {
                   {/* Insurance clause */}
                   <div className="mt-4 pt-4 border-t border-forest-200">
                     <p className="text-xs text-brand-500 leading-relaxed">
-                      Ved oppsigelse av markedsføringspakken gjelder markedsføringsgebyret (2%) fortsatt dersom eiendommen selges innen 3 måneder etter oppsigelsesdato.
+                      Ved oppsigelse av markedsføringspakken gjelder tilretteleggingsgebyret (2%) fortsatt dersom eiendommen selges innen 3 måneder etter oppsigelsesdato.
                     </p>
                   </div>
                 </div>

@@ -63,7 +63,7 @@ const SCENARIOS: Record<Scenario, ScenarioInputs> = {
 const PER_KUNDE_DATA: RevenueRow[] = [
   { kilde: 'Tomteanalyse (kun analyse)', inntekt: 9900, kostnad: 4000, margin: 5900, note: 'Engangsbetaling, ingen provisjon' },
   { kilde: 'Analyse + Markedsføring (forskudd)', inntekt: 4990, kostnad: 4000, margin: 990, note: 'Lav oppstart, 2% ved salg' },
-  { kilde: 'Markedsføringsgebyr 2% (ved salg, snitt 2 MNOK)', inntekt: 40000, kostnad: 2000, margin: 38000, note: '2% av oppnådd salgspris' },
+  { kilde: 'Tilretteleggingsgebyr 2% (ved salg, snitt 2 MNOK)', inntekt: 40000, kostnad: 2000, margin: 38000, note: '2% av oppnådd salgspris' },
   { kilde: 'Fradeling (5% av ny tomts verdi)', inntekt: 75000, kostnad: 10000, margin: 65000, note: '5% av ny tomts verdi (snitt 1,5 MNOK). 0 kr ved avslag – kunde betaler kun kommunale gebyrer.' },
   { kilde: 'Husleverandør-abo (snitt)', inntekt: 15000, kostnad: 0, margin: 15000, note: 'Basis 10k, Partner 20k/mnd' },
   { kilde: 'Bank lead-fee', inntekt: 4900, kostnad: 0, margin: 4900, note: 'Per innvilget byggelån' },
@@ -157,7 +157,7 @@ export default function InntektPage() {
       timerPer: timerPerTomt,
     },
     {
-      label: 'Markedsføringsgebyr 2% (snitt 2 MNOK)',
+      label: 'Tilretteleggingsgebyr 2% (snitt 2 MNOK)',
       antall: inputs.analysePlusMarkedsforing,
       inntektPer: 40000,
       timerPer: 2,

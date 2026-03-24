@@ -315,6 +315,7 @@ function VelgPakke() {
                 'Husmodeller tilpasset tomten',
                 '3D-visualisering',
                 'Verdivurdering og markedsdata',
+                'Risikovurdering (grunnforhold, flom, skred m.m.)',
                 'Publisering på Tomtly.no',
               ].map((f) => (
                 <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
@@ -340,16 +341,18 @@ function VelgPakke() {
             <div className="flex items-baseline gap-2 mb-1">
               <span className="text-4xl font-bold text-tomtly-dark">4 990</span>
               <span className="text-brand-500">kr</span>
-              <span className="text-brand-400 text-sm">+ 2 % ved salg</span>
+              <span className="text-brand-400 text-sm">+ 2 % tilretteleggingsgebyr ved salg</span>
             </div>
-            <p className="text-sm text-brand-500 mb-5">Lav oppstart. Markedsføringsgebyr kun ved salg.</p>
+            <p className="text-sm text-brand-500 mb-5">Lav oppstart. Tilretteleggingsgebyret betales kun ved gjennomført salg.</p>
             <ul className="space-y-2 mb-6">
               {[
                 'Alt i Tomteanalyse-pakken',
                 'Profesjonell tomtepresentasjon',
                 'Aktiv annonsering mot kvalifiserte kjøpere',
                 'Egen salgsdashboard med sanntidsoversikt',
-                'Budmal og visningsguide',
+                'Personlig Eiendomsekspert',
+                'Budmal, visningsguide og salgsverktøy',
+                'Interessenthåndtering og faglig støtte',
                 'Synlighet i inntil 12 måneder',
                 '2 % kun ved gjennomført salg',
               ].map((f) => (
@@ -470,7 +473,7 @@ function Kostnadssammenligning() {
               <div className="space-y-0 text-sm mb-4">
                 {[
                   { post: 'Analyse (oppstart)', belop: '4 990' },
-                  { post: 'Markedsføringsgebyr (2%)', belop: '60 000' },
+                  { post: 'Tilretteleggingsgebyr (2%)', belop: '60 000' },
                   { post: 'Oppgjør via Propr', belop: '9 990' },
                 ].map((r, i) => (
                   <div key={r.post} className={`flex justify-between py-2 ${i > 0 ? 'border-t border-brand-100' : ''}`}>
@@ -676,7 +679,7 @@ function FAQSection() {
     },
     {
       q: 'Hva betyr «2 % ved salg»?',
-      a: 'Velger du Analyse + Markedsføring betaler du 4 990 kr ved bestilling, og 2 % av salgssummen kun dersom tomten faktisk blir solgt. Selges ikke tomten, betaler du ingen provisjon.',
+      a: 'Velger du Analyse + Markedsføring betaler du 4 990 kr ved bestilling, og 2 % tilretteleggingsgebyr av salgssummen kun dersom tomten faktisk blir solgt. Gebyret dekker profesjonell annonsering, salgsdashboard, personlig Eiendomsekspert, interessenthåndtering, salgsverktøy og faglig støtte gjennom hele salgsprosessen. Selges ikke tomten, betaler du ikke 2 %.',
     },
     {
       q: 'Hvem håndterer oppgjøret?',
@@ -696,7 +699,7 @@ function FAQSection() {
     },
     {
       q: 'Er Tomtly et meglerforetak?',
-      a: 'Nei. Tomtly er en analyseplattform og markedsføringskanal for tomtesalg. Vi er ikke et eiendomsmeglingsforetak. Markedsføringsgebyret er betaling for markedsføringstjenester, ikke meglerprovisjoner. Oppgjør håndteres av Propr via Norsk eiendomsoppgjør AS.',
+      a: 'Nei. Tomtly er en analyseplattform og markedsføringskanal for tomtesalg. Vi er ikke et eiendomsmeglingsforetak. Tilretteleggingsgebyret er betaling for Tomtlys tjenester og er ikke meglerprovisjoner. Oppgjør håndteres av Propr via Norsk eiendomsoppgjør AS.',
     },
   ]
 
@@ -747,7 +750,7 @@ function JuridiskDisclaimer() {
               <p className="text-sm text-brand-600 leading-relaxed">
                 Tomtly er ikke et eiendomsmeglingsforetak og driver ikke eiendomsmegling.
                 Tomtly tilbyr analyse- og markedsføringstjenester for tomteeiere som ønsker å selge selv.
-                Markedsføringsgebyret er betaling for Tomtlys markedsføringstjeneste og er ikke meglerprovisjoner.
+                Tilretteleggingsgebyret er betaling for Tomtlys tjenester og er ikke meglerprovisjoner.
                 Tomteeier er selv ansvarlig for salget av sin eiendom.
                 Kontrakt og oppgjør håndteres av{' '}
                 <a href="https://propr.no" target="_blank" rel="noopener noreferrer" className="underline hover:text-brand-800">Propr.no</a>{' '}

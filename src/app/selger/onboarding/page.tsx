@@ -305,7 +305,7 @@ function Steg2Prismodell() {
           <p className="text-sm text-brand-500 mb-3">Alt i analysepakken + profesjonell annonsering, salgsdashboard, interessenthåndtering og Eiendomsekspert-støtte i inntil 12 måneder.</p>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-bold text-tomtly-dark">4 990 kr</span>
-            <span className="text-sm text-brand-400">+ 2 % markedsføringsgebyr ved salg</span>
+            <span className="text-sm text-brand-400">+ 2 % tilretteleggingsgebyr ved salg</span>
           </div>
           <p className="text-[10px] text-brand-400 mt-1">2% forfaller kun ved gjennomført salg. Ingen salg = ingen ekstra kostnad.</p>
         </button>
@@ -322,7 +322,7 @@ function Steg2Prismodell() {
       {/* Forsikringsklausul */}
       {valgtPakke === 'markedsforing' && (
         <p className="text-[10px] text-brand-400 mt-3">
-          Ved oppsigelse av markedsføringspakken gjelder markedsføringsgebyret (2%) fortsatt dersom eiendommen selges innen 3 måneder etter oppsigelsesdato.
+          Ved oppsigelse av markedsføringspakken gjelder tilretteleggingsgebyret (2%) fortsatt dersom eiendommen selges innen 3 måneder etter oppsigelsesdato.
         </p>
       )}
     </div>
