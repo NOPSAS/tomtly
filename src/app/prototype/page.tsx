@@ -531,19 +531,12 @@ function PrototypeContent() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         return res.json()
       })(),
-      // DOK-analyse
+      // DOK-analyse (via server-side proxy for pålitelighet)
       (async () => {
-        const url = KARTVERKET_DOK
-        const body = {
-          inputs: {
-            datasets: [],
-            geometry: { type: 'Point', coordinates: [lon, lat] }
-          }
-        }
-        const res = await fetchWithTimeout(url, {
+        const res = await fetch('/api/dok-analyse', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body)
+          body: JSON.stringify({ lat, lon })
         })
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         return res.json()
@@ -596,14 +589,14 @@ function PrototypeContent() {
       updateStep(2, { status: 'error', label: 'Planregister feilet', detail: planRes.reason?.message })
     }
 
-    // Process DOK – Kartverket returns { properties: { coverages: [...] } }
+    // Process DOK – server returns pre-categorized data
     let dokList: DOKDataset[] = []
     if (dokRes.status === 'fulfilled') {
       const data = dokRes.value
-      // DOK API returns coverages inside properties
-      const coverages = data?.properties?.coverages || data?.datasets || data?.results || (Array.isArray(data) ? data : [])
+      // Server-side proxy returns coverages + risikoer
+      const coverages = data?.coverages || data?.properties?.coverages || []
       dokList = coverages.map((c: any) => ({
-        tittel: c.layerName || c.tittel || c.title || 'Ukjent datasett',
+        tittel: c.layerName || c.tittel || 'Ukjent datasett',
         tema: c.theme || c.tema || '',
         status: c.coverageStatus || c.status || '',
         dekning: c.coverageStatus || c.dekning || '',
@@ -611,7 +604,9 @@ function PrototypeContent() {
         lastOppdatert: c.lastUpdated || '',
       }))
       setDokDatasets(dokList)
-      updateStep(3, { status: 'done', label: `DOK: ${dokList.length} datasett sjekket` })
+      const totalt = data?.totaltDatasett || dokList.length
+      const funn = data?.oppsummering?.funnCount || 0
+      updateStep(3, { status: 'done', label: `DOK: ${totalt} datasett, ${funn} funn` })
     } else {
       updateStep(3, { status: 'error', label: 'DOK-analyse feilet', detail: dokRes.reason?.message })
     }
