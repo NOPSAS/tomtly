@@ -40,12 +40,12 @@ export async function POST(request: NextRequest) {
 Analyser denne ${planType === 'kommune' ? 'kommuneplanbestemmelsen' : 'reguleringsbestemmelsen'} (${planNavn || 'ukjent plan'}).
 
 VIKTIG:
-- Fokuser BARE på bestemmelsene for BOLIGBEBYGGELSE (frittliggende småhusbebyggelse, konsentrert småhusbebyggelse, eller generelle boligbestemmelser).
-- %-BYA betyr prosent bebygd areal av tomten (typisk 20-30% for småhus). Det er IKKE det samme som BRA.
-- Gesimshøyde er høyde til overkant av yttervegg (typisk 6-9 meter for småhus).
-- Mønehøyde er høyde til toppen av taket (typisk 8-10 meter for småhus).
-- MUA = minste uteoppholdsareal per boenhet (i m² eller som % av BRA).
-- Oppgi tall UTEN enhet i JSON (bare tallet). Skriv enheten i beskrivelse-feltet.
+- Ta ALLTID utgangspunkt i bestemmelsene for FRITTLIGGENDE BOLIGBEBYGGELSE / FRITTLIGGENDE SMÅHUSBEBYGGELSE. Det er denne kategorien som er relevant.
+- Hvis planen har ulike felt (B1, B2, BF1, BK1 osv.), bruk den som gjelder FRITTLIGGENDE bolig.
+- %-BYA = prosent bebygd areal av tomten (typisk 20-30% for småhus). IKKE det samme som BRA.
+- Gesimshøyde = høyde til overkant yttervegg (typisk 6-9m). Mønehøyde = taktop (typisk 8-10m).
+- MUA = minste uteoppholdsareal per boenhet (m² eller % av BRA).
+- Oppgi tall UTEN enhet i JSON. Enhet i beskrivelse.
 
 Returner et JSON-objekt:
 
