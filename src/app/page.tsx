@@ -804,7 +804,7 @@ function Kundehistorier() {
                   <p className="text-[10px] text-brand-500">Salgspris</p>
                 </div>
                 <div>
-                  <p className="text-xl font-bold text-tomtly-dark">2 274</p>
+                  <p className="text-xl font-bold text-tomtly-dark">1 374</p>
                   <p className="text-[10px] text-brand-500">m² tomt</p>
                 </div>
                 <div>

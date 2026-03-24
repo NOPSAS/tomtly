@@ -10,7 +10,7 @@ import { formatNOK, formatM2 } from '@/lib/utils'
 // ============================================================
 
 const TOMTER = [
-  { id: 'alvaern-65', adresse: 'Gamle Alværnvei 65', poststed: 'Alværn', kommune: 'Nesodden', areal_m2: 2274, pris: 3200000, type: 'Eneboligtomt', bilde: '/tomter/alvaern-65/render-cam-02.jpg', solgt: true },
+  { id: 'alvaern-65', adresse: 'Gamle Alværnvei 65', poststed: 'Alværn', kommune: 'Nesodden', areal_m2: 1374, pris: 3200000, type: 'Eneboligtomt', bilde: '/tomter/alvaern-65/render-cam-02.jpg', solgt: true },
   { id: 'bjornemyrveien-20', adresse: 'Bjørnemyrveien 20', poststed: 'Bjørnemyr', kommune: 'Nesodden', areal_m2: 605, pris: 3000000, type: 'Eneboligtomt', bilde: '/tomter/bjornemyrveien-shared/render-parsell-b.jpg' },
   { id: 'bjornemyrveien-22', adresse: 'Bjørnemyrveien 22', poststed: 'Bjørnemyr', kommune: 'Nesodden', areal_m2: 613, pris: 3000000, type: 'Eneboligtomt', bilde: '/tomter/bjornemyrveien-shared/render-parsell-c.jpg' },
   { id: 'alvaern-67', adresse: 'Gamle Alværnvei 67', poststed: 'Alværn', kommune: 'Nesodden', areal_m2: 900, pris: 3200000, type: 'Eneboligtomt', bilde: '/tomter/alvaern-shared/alvaern-render-aerial-1-DvVXdDku.jpg' },

@@ -10,7 +10,7 @@ import Link from 'next/link'
 
 // ============================================================
 // GAMLE ALVÆRNVEI 65 – Alværn, Nesodden
-// 2 274 m² tomt – SOLGT via tomtly + Propr
+// 1 374 m² tomt – SOLGT via tomtly + Propr
 // Husmodell: Wide fra ABChus, BRA 207.9 m², pulttak
 // Selger: Kjetil Halvorsen
 // ============================================================
@@ -21,7 +21,7 @@ const TOMT = {
   adresse: 'Gamle Alværnvei 65',
   poststed: 'Alværn',
   kommune: 'Nesodden',
-  areal_m2: 2274,
+  areal_m2: 1374,
   gnr: 30, bnr: 45,
   senterpunkt: { lat: 59.8153, lng: 10.6192 },
 
@@ -186,7 +186,7 @@ export default function Alvaern65() {
                 <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4">
                   {[
                     { label: 'Salgspris', value: '3 200 000 kr' },
-                    { label: 'Tomteareal', value: '2 274 m²' },
+                    { label: 'Tomteareal', value: '1 374 m²' },
                     { label: 'Tid til salg', value: '~9 uker' },
                     { label: 'Oppgjør', value: 'Propr' },
                   ].map((s) => (
@@ -522,7 +522,7 @@ export default function Alvaern65() {
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <p className="text-xs text-brand-500">Tomt</p>
-                      <p className="font-semibold text-tomtly-dark">2 274 m²</p>
+                      <p className="font-semibold text-tomtly-dark">1 374 m²</p>
                     </div>
                     <div>
                       <p className="text-xs text-brand-500">Gnr/bnr</p>

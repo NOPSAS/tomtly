@@ -2,10 +2,10 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Gamle Alværnvei 65 – SOLGT via tomtly | Tomtly',
-  description: '2 274 m² tomt på Alværn, Nesodden. Solgt for 3 200 000 kr via tomtly + Propr. Wide fra ABChus, BRA 207.9 m².',
+  description: '1 374 m² tomt på Alværn, Nesodden. Solgt for 3 200 000 kr via tomtly + Propr. Wide fra ABChus, BRA 207.9 m².',
   openGraph: {
     title: 'Gamle Alværnvei 65 – SOLGT via tomtly',
-    description: 'Solgt for 3,2 MNOK. 2 274 m² tomt på Nesodden med Wide fra ABChus. Les kundehistorien.',
+    description: 'Solgt for 3,2 MNOK. 1 374 m² tomt på Nesodden med Wide fra ABChus. Les kundehistorien.',
     images: ['/tomter/alvaern-65/hero.jpg'],
   },
 }
@@ -17,7 +17,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         "@context": "https://schema.org",
         "@type": "RealEstateListing",
         "name": "Tomt: Gamle Alværnvei 65 (SOLGT)",
-        "description": "2 274 m² eneboligtomt på Alværn, Nesodden. Solgt via tomtly + Propr.",
+        "description": "1 374 m² eneboligtomt på Alværn, Nesodden. Solgt via tomtly + Propr.",
         "address": {
           "@type": "PostalAddress",
           "streetAddress": "Gamle Alværnvei 65",
@@ -32,7 +32,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         },
         "lotSize": {
           "@type": "QuantitativeValue",
-          "value": 2274,
+          "value": 1374,
           "unitCode": "MTK"
         },
         "offers": {
