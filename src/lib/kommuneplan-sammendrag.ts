@@ -456,6 +456,290 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
     ],
   },
 
+  // ── Stor-Oslo og Viken ──
+
+  '3022': {
+    kommunenummer: '3022',
+    kommunenavn: 'Frogn',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-09-20',
+    sammendrag: 'Frogn (Drøbak) prioriterer utvikling i Drøbak sentrum og Seiersten. Bevaring av trehusbyen er sentralt. Sjønære områder har strenge byggeforbud.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7 m' },
+      { label: 'Maks mønehøyde', verdi: '9 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+    ],
+    viktigeBestemmelser: [
+      'Drøbak trehusby: Strenge bevaringskrav',
+      'Byggegrense mot sjø: 100 meter',
+      'Fradeling mulig i etablerte boligområder',
+    ],
+  },
+
+  '3034': {
+    kommunenummer: '3034',
+    kommunenavn: 'Nes',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-06-19',
+    sammendrag: 'Nes (Årnes) er en landbrukskommune med vekst rundt Årnes sentrum. Sterkt jordvern. Nye boligfelt planlegges nær togstasjonen.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Jordvern på Romerike – fulldyrka jord beskyttes',
+      'Fortetting ved Årnes stasjon',
+      'LNF: Strenge regler for spredt bebyggelse',
+    ],
+  },
+
+  '3036': {
+    kommunenummer: '3036',
+    kommunenavn: 'Nannestad',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-10-16',
+    sammendrag: 'Nannestad vokser pga. nærhet til Gardermoen. Utvikling konsentreres i Nannestad sentrum og Maura. Støysoner fra flyplassen begrenser boligbygging i nord.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '8 m' },
+      { label: 'Maks etasjer', verdi: '2–3' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Gardermoen støysone begrenser boligbygging',
+      'Fortetting i Nannestad sentrum og Maura',
+      'Jordvern på Romerike',
+    ],
+  },
+
+  '3028': {
+    kommunenummer: '3028',
+    kommunenavn: 'Enebakk',
+    planNavn: 'Kommuneplanens arealdel 2019–2031',
+    planId: 'KPA2019',
+    iKraft: '2019-11-18',
+    sammendrag: 'Enebakk er en landlig kommune nær Oslo med populære boligområder. Flateby og Ytre Enebakk har størst utvikling. Marka begrenser vekst.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Marka-grensen begrenser utbygging',
+      'Flateby: Største utviklingsområde',
+      'Krav om overvannshåndtering',
+    ],
+  },
+
+  '3040': {
+    kommunenummer: '3040',
+    kommunenavn: 'Aurskog-Høland',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-06-19',
+    sammendrag: 'Aurskog-Høland har rimelige tomter og nærhet til Oslo via E18. Bjørkelangen er kommunesenteret. Populær for de som ønsker mer tomt for pengene.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Rimelige tomtepriser – attraktivt for førstegangskjøpere',
+      'Bjørkelangen sentrum: Fortettingsområde',
+      'Skog og friluft: Store friluftsområder bevares',
+    ],
+  },
+
+  // ── Vestfold ──
+
+  '3110': {
+    kommunenummer: '3110',
+    kommunenavn: 'Holmestrand',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-09-18',
+    sammendrag: 'Holmestrand (inkl. Sande og Hof) utvikler sentrum ved fjorden. Vestfoldbanen gir god forbindelse. Sande har rimelige tomtemuligheter.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (4 i sentrum)' },
+      { label: 'Parkering', verdi: '1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Holmestrand sentrum: Kystby-utvikling',
+      'Sande: Rimelige tomter med tog-tilgang',
+      'Strandsone: 100 meter byggeforbud',
+    ],
+  },
+
+  // ── Buskerud ──
+
+  '3007': {
+    kommunenummer: '3007',
+    kommunenavn: 'Ringerike',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-10-16',
+    sammendrag: 'Ringerike (Hønefoss) forbereder seg på Ringeriksbanen. Stor utvikling planlegges. Hønefoss sentrum og Sundvollen er fokusområder.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (6 i sentrum)' },
+      { label: 'Parkering', verdi: '1–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Ringeriksbanen: Store utviklingsarealer',
+      'Flom langs Storelva og Begna',
+      'Jordvern på Ringeriksletta',
+    ],
+  },
+
+  '3038': {
+    kommunenummer: '3038',
+    kommunenavn: 'Hole',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-06-19',
+    sammendrag: 'Hole (Sundvollen/Vik) vil få stor utvikling med Ringeriksbanen. Stasjon på Sundvollen planlegges. Tyrifjorden gir attraktiv beliggenhet.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Ringeriksbanen: Stasjon på Sundvollen',
+      'Tyrifjorden: Attraktiv beliggenhet ved vannet',
+      'Krokskogen: Markagrense i vest',
+    ],
+  },
+
+  // ── Vestland ──
+
+  '4601': {
+    kommunenummer: '4601',
+    kommunenavn: 'Bergen',
+    planNavn: 'Kommuneplanens arealdel 2018–2030',
+    planId: 'KPA2018',
+    iKraft: '2019-06-19',
+    sammendrag: 'Bergen fortetter langs bybanen og i sentrum. Småhusområder i Fana, Åsane og Ytrebygda har moderate begrensninger. Byfjellene og strandsonen er vernet.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–30%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m (småhus)' },
+      { label: 'Maks etasjer', verdi: '2 (småhus), 4–8 (fortetting)' },
+      { label: 'Parkering', verdi: '0,5–1,5 plasser (avh. av bybane-nærhet)' },
+      { label: 'MUA (uteopphold)', verdi: 'Min. 25–50 m² per boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Fortetting langs bybane-traseen prioriteres',
+      'Småhusplaner i Fana, Ytrebygda og Åsane',
+      'Byfjellene: Ingen utbygging',
+      'Strandsone: 100 meter byggeforbud',
+      'Krav om bybane-nærhet for høy utnyttelse',
+      'Klimatilpasning: Krav om overvannshåndtering',
+    ],
+  },
+
+  // ── Rogaland ──
+
+  '1103': {
+    kommunenummer: '1103',
+    kommunenavn: 'Stavanger',
+    planNavn: 'Kommuneplanens arealdel 2023–2040',
+    planId: 'KPA2023',
+    iKraft: '2023-11-20',
+    sammendrag: 'Stavanger fortetter i sentrum og langs bussvei-traseen. Hundvåg, Storhaug og Hillevåg er utviklingsområder. Jåttå og Forus har næringsutvikling.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25% (småhus)' },
+      { label: 'Maks gesimshøyde', verdi: '8–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (småhus), 3–6 (fortetting)' },
+      { label: 'Parkering', verdi: '0,5–1,2 plasser (avh. av kollektiv)' },
+    ],
+    viktigeBestemmelser: [
+      'Bussvei-traseen: Fortetting prioriteres',
+      'Trehusbyen: Strenge bevaringskrav i sentrum',
+      'Jåttå/Forus: Næringsutvikling, ikke bolig',
+      'Hundvåg og Storhaug: Transformasjonsområder',
+    ],
+  },
+
+  '1127': {
+    kommunenummer: '1127',
+    kommunenavn: 'Sandnes',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-06-19',
+    sammendrag: 'Sandnes er Norges raskest voksende by. Store utbyggingsområder i Ganddal, Lura og Sandved. Jordvern på Jæren begrenser nye felt.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '8–10 m' },
+      { label: 'Maks etasjer', verdi: '2–3 (bolig), 4–8 (sentrum)' },
+      { label: 'Parkering', verdi: '1–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Jæren: Sterkt jordvern begrenser nye boligfelt',
+      'Ganddal og Lura: Store utviklingsarealer',
+      'Bybåndet Stavanger-Sandnes: Høy utnyttelse',
+      'Krav om klimatilpasning',
+    ],
+  },
+
+  // ── Trøndelag ──
+
+  '5001': {
+    kommunenummer: '5001',
+    kommunenavn: 'Trondheim',
+    planNavn: 'Kommuneplanens arealdel 2022–2034',
+    planId: 'KPA2022',
+    iKraft: '2022-12-15',
+    sammendrag: 'Trondheim fortetter langs metrobussen og i Midtbyen. Byåsen, Tiller og Heimdal har villaområder. Bymarka er strengt vernet. Kvikkleire er utbredt.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25% (småhus)' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (småhus), 3–6 (fortetting)' },
+      { label: 'Parkering', verdi: '0,5–1,5 plasser (avh. av metrobuss)' },
+      { label: 'MUA (uteopphold)', verdi: 'Min. 30–50 m² per boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Metrobuss: Fortetting langs traseen',
+      'Bymarka: Ingen utbygging',
+      'Kvikkleire: Omfattende krav til grunnundersøkelser',
+      'Nidelva: Flomfare og byggerestriksjon',
+      'Midtbyen: Høy utnyttelse med bevaringshensyn',
+    ],
+  },
+
+  // ── Nord-Norge ──
+
+  '5401': {
+    kommunenummer: '5401',
+    kommunenavn: 'Tromsø',
+    planNavn: 'Kommuneplanens arealdel 2020–2032',
+    planId: 'KPA2020',
+    iKraft: '2020-09-23',
+    sammendrag: 'Tromsø er Nord-Norges største by. Utvikling på Tromsøya og fastlandet (Kvaløysletta, Tromsdalen). Arktisk klima gir spesielle byggekrav.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–5 (sentrum)' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Tromsøya: Fortetting i sentrum',
+      'Kvaløysletta og Tromsdalen: Boligutvikling',
+      'Skredfare: Krav om geoteknisk vurdering mange steder',
+      'Arktisk klima: Spesielle krav til isolasjon og snølast',
+    ],
+  },
+
 }
 
 export function getKommuneplanSammendrag(kommunenummer: string): KommuneplanSammendrag | null {
