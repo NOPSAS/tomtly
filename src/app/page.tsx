@@ -158,7 +158,7 @@ function HvordanDetFungerer() {
       ikon: CheckCircle2,
       tittel: 'Du selger – vi støtter deg',
       beskrivelse:
-        'Interesserte kontakter deg direkte. Du håndterer visning og bud med våre maler. Vår Eiendomsekspert hjelper deg hele veien. Oppgjør via Propr.',
+        'Du og vårt eiendomsteam samarbeider tett. Interesserte kontakter deg direkte, og du håndterer visning og bud med våre maler og verktøy. Vår Eiendomsekspert støtter deg hele veien. Oppgjør via Propr.',
     },
   ]
 
@@ -618,7 +618,7 @@ function FradelingReklame() {
                   <CheckCircle2 className="w-5 h-5 text-tomtly-accent mt-0.5 shrink-0" />
                   <div>
                     <p className="text-sm font-semibold text-tomtly-dark">Vi håndterer alt</p>
-                    <p className="text-xs text-brand-500">Reguleringssjekk, søknad til kommunen, oppmåling, mulighetsstudie og salg av den nye tomten.</p>
+                    <p className="text-xs text-brand-500">Reguleringssjekk, søknad til kommunen, oppmåling, mulighetsstudie – og vi tilrettelegger for salg av tomten for deg.</p>
                   </div>
                 </div>
               </div>
