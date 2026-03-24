@@ -1784,10 +1784,43 @@ function PrototypeContent() {
 
               return (
               <div className="space-y-4">
-                <h2 className="font-display text-lg font-bold text-tomtly-dark flex items-center gap-2">
-                  <Shield className="w-5 h-5 text-tomtly-accent" />
-                  DOK-analyse ({dokDatasets.length} datasett sjekket)
-                </h2>
+                <div className="flex items-center justify-between">
+                  <h2 className="font-display text-lg font-bold text-tomtly-dark flex items-center gap-2">
+                    <Shield className="w-5 h-5 text-tomtly-accent" />
+                    DOK-analyse ({dokDatasets.length} datasett)
+                  </h2>
+                  {valgtAdresse && (
+                    <button
+                      onClick={async () => {
+                        const res = await fetch('/api/dok-rapport', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                            lat: valgtAdresse.representasjonspunkt.lat,
+                            lon: valgtAdresse.representasjonspunkt.lon,
+                            adresse: valgtAdresse.adressetekst,
+                            kommune: valgtAdresse.kommunenavn,
+                            gnr: valgtAdresse.gardsnummer,
+                            bnr: valgtAdresse.bruksnummer,
+                          }),
+                        })
+                        if (res.ok) {
+                          const blob = await res.blob()
+                          const url = URL.createObjectURL(blob)
+                          const a = document.createElement('a')
+                          a.href = url
+                          a.download = `DOK-analyse-${valgtAdresse.gardsnummer}-${valgtAdresse.bruksnummer}.pdf`
+                          a.click()
+                          URL.revokeObjectURL(url)
+                        }
+                      }}
+                      className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-tomtly-accent bg-forest-50 border border-tomtly-accent/20 rounded-lg hover:bg-forest-100 transition-colors"
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                      Last ned PDF
+                    </button>
+                  )}
+                </div>
 
                 {/* Key risks visual summary */}
                 <div className="bg-white rounded-2xl border border-brand-100 p-6 shadow-sm">
