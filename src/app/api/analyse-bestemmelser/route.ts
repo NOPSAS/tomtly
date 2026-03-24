@@ -37,7 +37,20 @@ export async function POST(request: NextRequest) {
 
     const prompt = `Du er en ekspert på norske reguleringsbestemmelser og plan- og bygningsloven.
 
-Analyser denne ${planType === 'kommune' ? 'kommuneplanbestemmelsen' : 'reguleringsbestemmelsen'} (${planNavn || 'ukjent plan'}) og returner et JSON-objekt med følgende struktur:
+Analyser denne ${planType === 'kommune' ? 'kommuneplanbestemmelsen' : 'reguleringsbestemmelsen'} (${planNavn || 'ukjent plan'}).
+
+VIKTIG: Fokuser på bestemmelsene som gjelder for BOLIGBEBYGGELSE. Se etter seksjoner om:
+- "Bolig" eller "Boligbebyggelse"
+- "Frittliggende småhusbebyggelse"
+- "Konsentrert småhusbebyggelse"
+- Utnyttelsesgrad (%-BYA, %-BRA, %-TU)
+- Byggehøyder (gesims, møne)
+- Antall etasjer
+- Byggegrenser og avstand
+
+Hvis dokumentet har ulike bestemmelser for frittliggende vs konsentrert småhusbebyggelse, oppgi begge.
+
+Returner et JSON-objekt med følgende struktur:
 
 {
   "planNavn": "navnet på planen",

@@ -148,6 +148,78 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
       'Kulturminner langs Drammenselva skal bevares',
     ],
   },
+
+  '3019': {
+    kommunenummer: '3019',
+    kommunenavn: 'Vestby',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-11-20',
+    sammendrag: 'Vestby kommune legger opp til boligvekst i Vestby sentrum og Son. Spredt bebyggelse i LNF-områder har strenge begrensninger. Kommunen har stor etterspørsel etter tomter nær togstasjonen. Bevaring av kulturlandskap og strandsone er sentralt.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '8 m' },
+      { label: 'Maks mønehøyde', verdi: '9,5 m' },
+      { label: 'Maks etasjer', verdi: '2 (3 i sentrum)' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+      { label: 'Uteoppholdsareal', verdi: 'Min. 50 m² per boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Fortetting i Vestby sentrum og Son prioriteres',
+      'Byggegrense mot sjø: 100 meter i 100-metersbeltet',
+      'LNF-områder: Spredt boligbebyggelse med strenge vilkår',
+      'Krav om overvannshåndtering for alle nye tiltak',
+      'Kulturlandskap og jordvern har høy prioritet',
+      'Nærhet til togstasjon gir lavere parkeringskrav',
+      'Støykrav for boliger langs E6 og jernbane',
+    ],
+  },
+
+  '0301': {
+    kommunenummer: '0301',
+    kommunenavn: 'Oslo',
+    planNavn: 'Kommuneplan 2015 – Oslo mot 2030',
+    planId: 'KP2015',
+    iKraft: '2015-09-23',
+    sammendrag: 'Oslos kommuneplan legger opp til fortetting langs T-bane og trikkelinjer, med vern av småhusområder gjennom Småhusplanen (S-4220). Indre by har høy utnyttelse, ytre by har lavere. Marka-grensen er absolutt.',
+    nokkeltall: [
+      { label: 'Maks BYA småhus', verdi: '16–24% (S-4220)' },
+      { label: 'Maks gesimshøyde småhus', verdi: '8 m' },
+      { label: 'Maks etasjer småhus', verdi: '2' },
+      { label: 'Parkering indre by', verdi: '0,2–0,5 plasser/boenhet' },
+      { label: 'Parkering ytre by', verdi: '0,8–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Småhusplanen (S-4220) gjelder i store deler av ytre by',
+      'Fortetting krever normalt reguleringsplan',
+      'Markagrensen: Ingen utbygging i marka',
+      'Fjordbyplanen: Høy utnyttelse langs havnefronten',
+      'Krav om universell utforming i alle nye prosjekter',
+      'Støysoner langs Ring 3 og E6 har strenge krav',
+    ],
+  },
+
+  '3218': {
+    kommunenummer: '3218',
+    kommunenavn: 'Ås',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-06-15',
+    sammendrag: 'Ås kommune fortetter rundt Ås sentrum og NMBU-campus. Landbruksområder har sterkt jordvern. Mindre tettstedsområder som Vinterbro og Nordby har begrenset utvikling.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (4 i sentrum)' },
+      { label: 'Parkering', verdi: '1–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Sterkt jordvern – fulldyrka jord skal ikke bygges ned',
+      'Fortetting ved Ås stasjon prioriteres',
+      'NMBU-campus: Eget utviklingsområde',
+      'Krav om klimatilpasning og overvannshåndtering',
+    ],
+  },
+
 }
 
 export function getKommuneplanSammendrag(kommunenummer: string): KommuneplanSammendrag | null {

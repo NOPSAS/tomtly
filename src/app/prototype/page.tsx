@@ -1936,6 +1936,9 @@ function PrototypeContent() {
               </div>
             )}
 
+            {/* Mangler info? */}
+            <ManglerInfoBoks adresse={valgtAdresse?.adressetekst || ''} epost={leadEpost} />
+
             {/* 4f: Datakilder footer */}
             <div className="bg-forest-50 rounded-xl border border-forest-200 p-6">
               <div className="flex items-start gap-3">
@@ -2094,6 +2097,46 @@ function TomteKartSection({ lat, lon, adresse, teigCoordsLatLon }: {
         <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-rose-600" /> Adresse</span>
         <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm border border-rose-600 bg-rose-600/10" /> Eiendomsgrense</span>
         <span className="ml-auto">Kartverket topografisk kart</span>
+      </div>
+    </div>
+  )
+}
+
+function ManglerInfoBoks({ adresse, epost }: { adresse: string; epost: string }) {
+  const [sendt, setSendt] = useState(false)
+  if (sendt) {
+    return (
+      <div className="bg-green-50 border border-green-200 rounded-xl p-5 text-center">
+        <CheckCircle2 className="w-6 h-6 text-green-600 mx-auto mb-2" />
+        <p className="text-sm text-green-800 font-medium">Takk! Vi ser på dette og tar kontakt.</p>
+      </div>
+    )
+  }
+  return (
+    <div className="bg-amber-50 border border-amber-200 rounded-xl p-5">
+      <div className="flex items-start gap-3">
+        <AlertTriangle className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
+        <div className="flex-1">
+          <h3 className="font-semibold text-amber-800 text-sm mb-1">Fikk du ikke informasjonen du trengte?</h3>
+          <p className="text-xs text-amber-700 mb-3">Noen eiendommer mangler data i offentlige registre. Trykk under, så ordner vi en manuell gjennomgang.</p>
+          <button
+            onClick={async () => {
+              await fetch('/api/henvendelse', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  type: 'mangler-info',
+                  epost: epost || '',
+                  ekstra: { adresse, melding: 'Bruker rapporterte manglende info i tomteanalysen' },
+                }),
+              }).catch(() => {})
+              setSendt(true)
+            }}
+            className="px-4 py-2 bg-amber-600 text-white text-sm font-medium rounded-lg hover:bg-amber-700 transition-colors"
+          >
+            Be om manuell gjennomgang
+          </button>
+        </div>
       </div>
     </div>
   )
