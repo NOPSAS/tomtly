@@ -199,6 +199,32 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
     ],
   },
 
+  '3221': {
+    kommunenummer: '3221',
+    kommunenavn: 'Nittedal',
+    planNavn: 'Kommuneplanens arealdel 2021–2032',
+    planId: 'KPA2021',
+    iKraft: '2021-09-13',
+    sammendrag: 'Nittedal kommune legger opp til vekst rundt Rotnes/Hagan og Hakadal stasjon. Marka-grensen begrenser utbygging i nord og vest. Kommunen har etterspurte boligområder nær Oslo med god kollektivforbindelse via tog.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks mønehøyde', verdi: '9 m' },
+      { label: 'Maks etasjer', verdi: '2 (3 i sentrum)' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+      { label: 'Uteoppholdsareal', verdi: 'Min. 50 m² per boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Fortetting rundt Rotnes/Hagan og Hakadal stasjon prioriteres',
+      'Markagrensen: Ingen utbygging i marka',
+      'Krav om overvannshåndtering for alle nye tiltak',
+      'LNF-områder: Spredt bebyggelse med strenge vilkår',
+      'Støykrav langs E6 og jernbane',
+      'Bevaring av kulturlandskap i Hakadal',
+      'Fradeling kan tillates i etablerte boligområder med god infrastruktur',
+    ],
+  },
+
   '3218': {
     kommunenummer: '3218',
     kommunenavn: 'Ås',
