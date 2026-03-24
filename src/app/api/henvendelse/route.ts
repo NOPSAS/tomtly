@@ -13,16 +13,36 @@ export async function POST(request: NextRequest) {
     const melding = body.melding || ''
     const ekstra = body.ekstra || {}
 
-    // Lagre i Supabase (always, even without email)
+    // Lagre i Supabase med dedup (ignorer duplikater innen 30 sek)
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
     const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    let isDuplicate = false
     if (supabaseUrl && supabaseKey && !supabaseUrl.includes('placeholder')) {
       try {
         const supabase = createClient(supabaseUrl, supabaseKey)
-        await supabase.from('henvendelser').insert({
-          type, navn, email, telefon, melding,
-          ekstra: Object.keys(ekstra).length > 0 ? ekstra : null,
-        })
+
+        // Dedup: sjekk om identisk henvendelse ble sendt siste 30 sek
+        if (email) {
+          const thirtySecsAgo = new Date(Date.now() - 30000).toISOString()
+          const { data: existing } = await supabase
+            .from('henvendelser')
+            .select('id')
+            .eq('type', type)
+            .eq('email', email)
+            .gte('created_at', thirtySecsAgo)
+            .limit(1)
+          if (existing && existing.length > 0) {
+            isDuplicate = true
+            console.log(`[Henvendelse] Duplikat ignorert: ${type} fra ${email}`)
+          }
+        }
+
+        if (!isDuplicate) {
+          await supabase.from('henvendelser').insert({
+            type, navn, email, telefon, melding,
+            ekstra: Object.keys(ekstra).length > 0 ? ekstra : null,
+          })
+        }
       } catch (dbErr) {
         console.error('Supabase insert error:', dbErr)
       }
@@ -30,7 +50,7 @@ export async function POST(request: NextRequest) {
 
     console.log(`[Henvendelse] ${type} fra ${navn || 'ukjent'} (${email || 'ingen epost'})`)
 
-    if (process.env.RESEND_API_KEY && email) {
+    if (process.env.RESEND_API_KEY && email && !isDuplicate) {
       const ekstraFields = Object.entries(ekstra)
         .map(([k, v]) => `<tr><td style="padding:8px 12px;font-weight:600;color:#374151;">${k}</td><td style="padding:8px 12px;color:#4b5563;">${typeof v === 'object' ? JSON.stringify(v) : v}</td></tr>`)
         .join('')
