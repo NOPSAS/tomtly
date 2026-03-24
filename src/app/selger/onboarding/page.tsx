@@ -302,7 +302,7 @@ function Steg2Prismodell() {
               {valgtPakke === 'markedsforing' && <div className="w-2.5 h-2.5 rounded-full bg-tomtly-accent" />}
             </div>
           </div>
-          <p className="text-sm text-brand-500 mb-3">Alt i analysepakken + profesjonell annonsering, salgsdashboard, interessenthåndtering og Eiendomsekspert-støtte i inntil 12 måneder.</p>
+          <p className="text-sm text-brand-500 mb-3">Alt i analysepakken + profesjonell annonsering, salgsdashboard, faglig oppfølging og Tomtekonsulent-støtte i inntil 12 måneder.</p>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-bold text-tomtly-dark">4 990 kr</span>
             <span className="text-sm text-brand-400">+ 2 % tilretteleggingsgebyr ved salg</span>

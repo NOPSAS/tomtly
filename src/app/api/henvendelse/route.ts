@@ -114,14 +114,14 @@ export async function POST(request: NextRequest) {
             </p>
             <p style="color:#4b5563;font-size:14px;line-height:1.6;">
               Vi har mottatt din forespørsel om <strong>${typeLabel}</strong>.
-              En av våre eiendomseksperter vil gjennomgå forespørselen din og ta kontakt innen <strong>1 virkedag</strong>.
+              En av våre tomtekonsulenter vil gjennomgå forespørselen din og ta kontakt innen <strong>1 virkedag</strong>.
             </p>
             ${ekstra.adresse ? `<p style="color:#4b5563;font-size:14px;"><strong>Adresse:</strong> ${ekstra.adresse}</p>` : ''}
             <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:16px;margin:20px 0;">
               <p style="color:#166534;font-size:14px;margin:0;font-weight:600;">Hva skjer nå?</p>
               <ul style="color:#15803d;font-size:13px;margin:8px 0 0;padding-left:20px;">
                 <li>Vi gjennomgår forespørselen din</li>
-                <li>En eiendomsekspert tar kontakt innen 1 virkedag</li>
+                <li>En tomtekonsulent tar kontakt innen 1 virkedag</li>
                 <li>Du mottar en komplett analyse og vurdering</li>
               </ul>
             </div>

@@ -68,7 +68,7 @@ export function VerdivurderingLead() {
             </h2>
             <p className="text-brand-300 leading-relaxed mb-6">
               Få en profesjonell verdivurdering av tomten din – helt gratis og uforpliktende.
-              Vår eiendomsekspert vurderer regulering, beliggenhet, marked og utbyggingspotensial.
+              Vår tomtekonsulent vurderer regulering, beliggenhet, marked og utbyggingspotensial.
             </p>
             <div className="space-y-3">
               {[

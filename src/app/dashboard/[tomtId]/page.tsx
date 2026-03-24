@@ -103,13 +103,13 @@ const CASES: Record<string, TomtCase> = {
       tomtescore: { tall: '8.4/10', endring: 'Over gjennomsnittet på Nesodden', trend: 'up' },
     },
     interessenter: [
-      { id: 1, navn: 'Martin Olsen', type: 'Privatperson', dato: '2026-03-23', status: 'ny', telefon: '912 34 567', epost: 'martin.olsen@gmail.com', notat: 'Ønsker å bygge enebolig, familie med 2 barn.', foreslattSvar: 'Hei Martin! Takk for din interesse for tomten på Bjørnemyrveien 20. Vi har en detaljert tomterapport som viser regulering, grunnforhold og solforhold. Ønsker du å motta denne, eller vil du booke en visning? Vi har ledig lørdag 29. mars. Vennlig hilsen, Tomtly Eiendomsekspert' },
-      { id: 2, navn: 'Kari Nordby', type: 'Privatperson', dato: '2026-03-22', status: 'visning_avtalt', telefon: '934 56 789', epost: 'kari.nordby@outlook.com', notat: 'Visning avtalt lørdag 29. mars kl. 12:00.', foreslattSvar: 'Hei Kari! Flott at du kommer på visning lørdag 29. mars kl. 12:00. Vi har klargjort tomterapport og mulighetsstudie som du kan se gjennom i forkant. Trenger du veibeskrivelse? Vennlig hilsen, Tomtly Eiendomsekspert' },
-      { id: 3, navn: 'Erik Johansen', type: 'Utbygger', dato: '2026-03-20', status: 'kontaktet', telefon: '901 23 456', epost: 'erik@johansen-bygg.no', notat: 'Interessert i fradeling og utvikling av to enheter.', foreslattSvar: 'Hei Erik! Takk for henvendelsen. Tomten på Bjørnemyrveien 20 har 605 m2 og er regulert til boligformål. Tomterapporten vår inkluderer vurdering av fradelingspotensial. Ønsker du en visning med gjennomgang av muligheter? Vennlig hilsen, Tomtly Eiendomsekspert' },
-      { id: 4, navn: 'OBOS Boligutvikling', type: 'Selskap', dato: '2026-03-16', status: 'kontaktet', telefon: '22 86 55 00', epost: 'tomter@obos.no', notat: 'Forespørsel om utviklingspotensial, ønsker mulighetsstudie.', foreslattSvar: 'Hei, takk for forespørselen fra OBOS. Vi har utarbeidet en fullstendig tomterapport med mulighetsstudie for Bjørnemyrveien 20. Tomten er på 605 m2 med regulering til boligformål. Vi kan sende over rapporten og avtale et møte for gjennomgang. Vennlig hilsen, Tomtly Eiendomsekspert' },
-      { id: 5, navn: 'Familien Hansen', type: 'Privatperson', dato: '2026-03-18', status: 'bud_mottatt', telefon: '976 54 321', epost: 'hansen.fam@gmail.com', notat: 'Har gitt muntlig bud på 2 700 000 kr. Avventer skriftlig.', foreslattSvar: 'Hei! Takk for budet på Bjørnemyrveien 20. For å gå videre trenger vi et skriftlig bud via budskjema. Du finner dette i dokumentene på tomteprofilen. Har du spørsmål om prosessen? Vennlig hilsen, Tomtly Eiendomsekspert' },
-      { id: 6, navn: 'Lise Berger', type: 'Privatperson', dato: '2026-03-21', status: 'ny', telefon: '917 88 432', epost: 'lise.berger@hotmail.com', notat: 'Ønsker info om byggemuligheter og nærhet til skole.', foreslattSvar: 'Hei Lise! Takk for din interesse for tomten på Bjørnemyrveien 20. Tomterapporten vår dekker byggemuligheter, regulering og nærområdet inkludert skoler. Nærmeste barneskole er Bjornemyr skole, ca. 800 m unna. Ønsker du å booke en visning? Vennlig hilsen, Tomtly Eiendomsekspert' },
-      { id: 7, navn: 'Bygghus Nord AS', type: 'Selskap', dato: '2026-03-19', status: 'kontaktet', telefon: '22 44 55 66', epost: 'post@bygghus-nord.no', notat: 'Ferdighusleverandor – ønsker å vurdere tomten for sine kunder.', foreslattSvar: 'Hei! Takk for henvendelsen fra Bygghus Nord. Tomten på Bjørnemyrveien 20 har gode byggeforhold og er regulert til småhusbebyggelse. Vi kan sende over tomterapporten med reguleringskart og grunnforhold. Vennlig hilsen, Tomtly Eiendomsekspert' },
+      { id: 1, navn: 'Martin Olsen', type: 'Privatperson', dato: '2026-03-23', status: 'ny', telefon: '912 34 567', epost: 'martin.olsen@gmail.com', notat: 'Ønsker å bygge enebolig, familie med 2 barn.', foreslattSvar: 'Hei Martin! Takk for din interesse for tomten på Bjørnemyrveien 20. Vi har en detaljert tomterapport som viser regulering, grunnforhold og solforhold. Ønsker du å motta denne, eller vil du booke en visning? Vi har ledig lørdag 29. mars. Vennlig hilsen, Tomtly Tomtekonsulent' },
+      { id: 2, navn: 'Kari Nordby', type: 'Privatperson', dato: '2026-03-22', status: 'visning_avtalt', telefon: '934 56 789', epost: 'kari.nordby@outlook.com', notat: 'Visning avtalt lørdag 29. mars kl. 12:00.', foreslattSvar: 'Hei Kari! Flott at du kommer på visning lørdag 29. mars kl. 12:00. Vi har klargjort tomterapport og mulighetsstudie som du kan se gjennom i forkant. Trenger du veibeskrivelse? Vennlig hilsen, Tomtly Tomtekonsulent' },
+      { id: 3, navn: 'Erik Johansen', type: 'Utbygger', dato: '2026-03-20', status: 'kontaktet', telefon: '901 23 456', epost: 'erik@johansen-bygg.no', notat: 'Interessert i fradeling og utvikling av to enheter.', foreslattSvar: 'Hei Erik! Takk for henvendelsen. Tomten på Bjørnemyrveien 20 har 605 m2 og er regulert til boligformål. Tomterapporten vår inkluderer vurdering av fradelingspotensial. Ønsker du en visning med gjennomgang av muligheter? Vennlig hilsen, Tomtly Tomtekonsulent' },
+      { id: 4, navn: 'OBOS Boligutvikling', type: 'Selskap', dato: '2026-03-16', status: 'kontaktet', telefon: '22 86 55 00', epost: 'tomter@obos.no', notat: 'Forespørsel om utviklingspotensial, ønsker mulighetsstudie.', foreslattSvar: 'Hei, takk for forespørselen fra OBOS. Vi har utarbeidet en fullstendig tomterapport med mulighetsstudie for Bjørnemyrveien 20. Tomten er på 605 m2 med regulering til boligformål. Vi kan sende over rapporten og avtale et møte for gjennomgang. Vennlig hilsen, Tomtly Tomtekonsulent' },
+      { id: 5, navn: 'Familien Hansen', type: 'Privatperson', dato: '2026-03-18', status: 'bud_mottatt', telefon: '976 54 321', epost: 'hansen.fam@gmail.com', notat: 'Har gitt muntlig bud på 2 700 000 kr. Avventer skriftlig.', foreslattSvar: 'Hei! Takk for budet på Bjørnemyrveien 20. For å gå videre trenger vi et skriftlig bud via budskjema. Du finner dette i dokumentene på tomteprofilen. Har du spørsmål om prosessen? Vennlig hilsen, Tomtly Tomtekonsulent' },
+      { id: 6, navn: 'Lise Berger', type: 'Privatperson', dato: '2026-03-21', status: 'ny', telefon: '917 88 432', epost: 'lise.berger@hotmail.com', notat: 'Ønsker info om byggemuligheter og nærhet til skole.', foreslattSvar: 'Hei Lise! Takk for din interesse for tomten på Bjørnemyrveien 20. Tomterapporten vår dekker byggemuligheter, regulering og nærområdet inkludert skoler. Nærmeste barneskole er Bjornemyr skole, ca. 800 m unna. Ønsker du å booke en visning? Vennlig hilsen, Tomtly Tomtekonsulent' },
+      { id: 7, navn: 'Bygghus Nord AS', type: 'Selskap', dato: '2026-03-19', status: 'kontaktet', telefon: '22 44 55 66', epost: 'post@bygghus-nord.no', notat: 'Ferdighusleverandor – ønsker å vurdere tomten for sine kunder.', foreslattSvar: 'Hei! Takk for henvendelsen fra Bygghus Nord. Tomten på Bjørnemyrveien 20 har gode byggeforhold og er regulert til småhusbebyggelse. Vi kan sende over tomterapporten med reguleringskart og grunnforhold. Vennlig hilsen, Tomtly Tomtekonsulent' },
     ],
     aktiviteter: [
       { id: 1, type: 'interessent', icon: '🔔', tid: '1 time siden', tekst: 'Ny interessent: Martin Olsen har registrert interesse for tomten.', harHandling: true },
@@ -202,8 +202,8 @@ const CASES: Record<string, TomtCase> = {
       { adresse: 'Skogsveien 12, Nesodden', areal: 1050, pris: 3850000, dato: 'Okt 2025' },
       { adresse: 'Kirkeveien 22, Nesodden', areal: 740, pris: 2450000, dato: 'Sep 2025' },
     ],
-    pakkeBeskrivelse: 'Fullstendig tomteanalyse og aktiv markedsføring via Tomtly. Inkluderer tomterapport, annonsering, interessenthåndtering og Eiendomsekspert-støtte.',
-    pakkeFeatures: ['Tomterapport', 'Mulighetsstudie', 'Profesjonelle bilder', 'Annonsering', 'Eiendomsekspert-støtte', 'Oppgjør via Propr'],
+    pakkeBeskrivelse: 'Fullstendig tomteanalyse og aktiv markedsføring via Tomtly. Inkluderer tomterapport, annonsering, faglig oppfølging og Tomtekonsulent-støtte.',
+    pakkeFeatures: ['Tomterapport', 'Mulighetsstudie', 'Profesjonelle bilder', 'Annonsering', 'Tomtekonsulent-støtte', 'Oppgjør via Propr'],
     pakkePris: '4 990 kr',
     pakkeProvisjon: '+ 2,5 % ved salg',
     tomtepresentasjonLink: '/tomter/bjornemyrveien-20',
@@ -233,11 +233,11 @@ const CASES: Record<string, TomtCase> = {
       tomtescore: { tall: '7.8/10', endring: 'Over gjennomsnittet på Nesodden', trend: 'up' },
     },
     interessenter: [
-      { id: 1, navn: 'Anders Vik', type: 'Privatperson', dato: '2026-03-22', status: 'ny', telefon: '922 11 334', epost: 'anders.vik@gmail.com', notat: 'Barnefamilie som ønsker å bygge på Nesodden.', foreslattSvar: 'Hei Anders! Takk for din interesse for tomten på Bjørnemyrveien 2. Vi har en detaljert tomterapport som dekker regulering, grunnforhold og byggemuligheter. Ønsker du å motta denne, eller booke en visning? Vennlig hilsen, Tomtly Eiendomsekspert' },
-      { id: 2, navn: 'Silje Tangen', type: 'Privatperson', dato: '2026-03-21', status: 'kontaktet', telefon: '948 77 221', epost: 'silje.tangen@outlook.com', notat: 'Sporsmal om solforhold og utsikt.', foreslattSvar: 'Hei Silje! Tomten på Bjørnemyrveien 2 har gode solforhold og delvis sjøutsikt. Tomterapporten vår inneholder detaljert solanalyse og terrengkart. Ønsker du å komme på visning? Vennlig hilsen, Tomtly Eiendomsekspert' },
-      { id: 3, navn: 'Rune Brekke', type: 'Utbygger', dato: '2026-03-19', status: 'kontaktet', telefon: '905 66 789', epost: 'rune@brekke-bygg.no', notat: 'Vurderer tomten sammen med nr. 20 for prosjekt.', foreslattSvar: 'Hei Rune! Takk for interessen for Bjørnemyrveien 2. Vi ser at du også vurderer nabotomten. Vi kan sende tomterapport for begge eiendommene og avtale et møte for å diskutere utviklingspotensial. Vennlig hilsen, Tomtly Eiendomsekspert' },
-      { id: 4, navn: 'Mona Kristiansen', type: 'Privatperson', dato: '2026-03-18', status: 'visning_avtalt', telefon: '913 44 556', epost: 'mona.k@gmail.com', notat: 'Visning avtalt søndag 30. mars kl. 13:00.', foreslattSvar: 'Hei Mona! Vi gleder oss til visningen søndag 30. mars kl. 13:00. Vi har klargjort tomterapport som du gjerne kan se gjennom på forhånd. Gi beskjed om du har spørsmål! Vennlig hilsen, Tomtly Eiendomsekspert' },
-      { id: 5, navn: 'Tor Helgesen', type: 'Privatperson', dato: '2026-03-17', status: 'ny', telefon: '976 22 111', epost: 'tor.helgesen@yahoo.no', notat: 'Ønsker å vite mer om kommunale avgifter og tilknytning.', foreslattSvar: 'Hei Tor! Takk for din interesse. Kommunale avgifter for Bjørnemyrveien 2 er estimert til ca. 11 800 kr/år. Tomten har offentlig vann og avlop. Alt dette er dekket i tomterapporten. Ønsker du visning? Vennlig hilsen, Tomtly Eiendomsekspert' },
+      { id: 1, navn: 'Anders Vik', type: 'Privatperson', dato: '2026-03-22', status: 'ny', telefon: '922 11 334', epost: 'anders.vik@gmail.com', notat: 'Barnefamilie som ønsker å bygge på Nesodden.', foreslattSvar: 'Hei Anders! Takk for din interesse for tomten på Bjørnemyrveien 2. Vi har en detaljert tomterapport som dekker regulering, grunnforhold og byggemuligheter. Ønsker du å motta denne, eller booke en visning? Vennlig hilsen, Tomtly Tomtekonsulent' },
+      { id: 2, navn: 'Silje Tangen', type: 'Privatperson', dato: '2026-03-21', status: 'kontaktet', telefon: '948 77 221', epost: 'silje.tangen@outlook.com', notat: 'Sporsmal om solforhold og utsikt.', foreslattSvar: 'Hei Silje! Tomten på Bjørnemyrveien 2 har gode solforhold og delvis sjøutsikt. Tomterapporten vår inneholder detaljert solanalyse og terrengkart. Ønsker du å komme på visning? Vennlig hilsen, Tomtly Tomtekonsulent' },
+      { id: 3, navn: 'Rune Brekke', type: 'Utbygger', dato: '2026-03-19', status: 'kontaktet', telefon: '905 66 789', epost: 'rune@brekke-bygg.no', notat: 'Vurderer tomten sammen med nr. 20 for prosjekt.', foreslattSvar: 'Hei Rune! Takk for interessen for Bjørnemyrveien 2. Vi ser at du også vurderer nabotomten. Vi kan sende tomterapport for begge eiendommene og avtale et møte for å diskutere utviklingspotensial. Vennlig hilsen, Tomtly Tomtekonsulent' },
+      { id: 4, navn: 'Mona Kristiansen', type: 'Privatperson', dato: '2026-03-18', status: 'visning_avtalt', telefon: '913 44 556', epost: 'mona.k@gmail.com', notat: 'Visning avtalt søndag 30. mars kl. 13:00.', foreslattSvar: 'Hei Mona! Vi gleder oss til visningen søndag 30. mars kl. 13:00. Vi har klargjort tomterapport som du gjerne kan se gjennom på forhånd. Gi beskjed om du har spørsmål! Vennlig hilsen, Tomtly Tomtekonsulent' },
+      { id: 5, navn: 'Tor Helgesen', type: 'Privatperson', dato: '2026-03-17', status: 'ny', telefon: '976 22 111', epost: 'tor.helgesen@yahoo.no', notat: 'Ønsker å vite mer om kommunale avgifter og tilknytning.', foreslattSvar: 'Hei Tor! Takk for din interesse. Kommunale avgifter for Bjørnemyrveien 2 er estimert til ca. 11 800 kr/år. Tomten har offentlig vann og avlop. Alt dette er dekket i tomterapporten. Ønsker du visning? Vennlig hilsen, Tomtly Tomtekonsulent' },
     ],
     aktiviteter: [
       { id: 1, type: 'interessent', icon: '🔔', tid: '4 timer siden', tekst: 'Ny interessent: Anders Vik har registrert interesse for tomten.', harHandling: true },
@@ -325,8 +325,8 @@ const CASES: Record<string, TomtCase> = {
       { adresse: 'Skogsveien 12, Nesodden', areal: 1050, pris: 3850000, dato: 'Okt 2025' },
       { adresse: 'Kirkeveien 22, Nesodden', areal: 740, pris: 2450000, dato: 'Sep 2025' },
     ],
-    pakkeBeskrivelse: 'Fullstendig tomteanalyse og aktiv markedsføring via Tomtly. Inkluderer tomterapport, annonsering, interessenthåndtering og Eiendomsekspert-støtte.',
-    pakkeFeatures: ['Tomterapport', 'Mulighetsstudie', 'Profesjonelle bilder', 'Annonsering', 'Eiendomsekspert-støtte', 'Oppgjør via Propr'],
+    pakkeBeskrivelse: 'Fullstendig tomteanalyse og aktiv markedsføring via Tomtly. Inkluderer tomterapport, annonsering, faglig oppfølging og Tomtekonsulent-støtte.',
+    pakkeFeatures: ['Tomterapport', 'Mulighetsstudie', 'Profesjonelle bilder', 'Annonsering', 'Tomtekonsulent-støtte', 'Oppgjør via Propr'],
     pakkePris: '4 990 kr',
     pakkeProvisjon: '+ 2,5 % ved salg',
     tomtepresentasjonLink: '/tomter/bjornemyrveien-22',
@@ -435,9 +435,9 @@ const CASES: Record<string, TomtCase> = {
       tomtescore: { tall: '8.2/10', endring: 'Over gjennomsnittet', trend: 'up' },
     },
     interessenter: [
-      { id: 1, navn: 'Martin Olsen', type: 'Privatperson', dato: '2026-03-23', status: 'ny', telefon: '912 34 567', epost: 'martin.olsen@gmail.com', notat: 'Ønsker å bygge enebolig, familie med 2 barn.', foreslattSvar: 'Hei Martin! Takk for din interesse. Vi har en detaljert tomterapport klar. Ønsker du å booke en visning? Vennlig hilsen, Tomtly Eiendomsekspert' },
-      { id: 2, navn: 'Kari Nordby', type: 'Privatperson', dato: '2026-03-22', status: 'visning_avtalt', telefon: '934 56 789', epost: 'kari.nordby@outlook.com', notat: 'Visning avtalt lørdag 29. mars kl. 12:00.', foreslattSvar: 'Hei Kari! Flott at du kommer på visning. Vi har klargjort tomterapport og mulighetsstudie. Vennlig hilsen, Tomtly Eiendomsekspert' },
-      { id: 3, navn: 'Erik Johansen', type: 'Utbygger', dato: '2026-03-20', status: 'kontaktet', telefon: '901 23 456', epost: 'erik@johansen-bygg.no', notat: 'Interessert i fradeling og utvikling av to enheter.', foreslattSvar: 'Hei Erik! Tomterapporten vår inkluderer vurdering av fradelingspotensial. Ønsker du en visning? Vennlig hilsen, Tomtly Eiendomsekspert' },
+      { id: 1, navn: 'Martin Olsen', type: 'Privatperson', dato: '2026-03-23', status: 'ny', telefon: '912 34 567', epost: 'martin.olsen@gmail.com', notat: 'Ønsker å bygge enebolig, familie med 2 barn.', foreslattSvar: 'Hei Martin! Takk for din interesse. Vi har en detaljert tomterapport klar. Ønsker du å booke en visning? Vennlig hilsen, Tomtly Tomtekonsulent' },
+      { id: 2, navn: 'Kari Nordby', type: 'Privatperson', dato: '2026-03-22', status: 'visning_avtalt', telefon: '934 56 789', epost: 'kari.nordby@outlook.com', notat: 'Visning avtalt lørdag 29. mars kl. 12:00.', foreslattSvar: 'Hei Kari! Flott at du kommer på visning. Vi har klargjort tomterapport og mulighetsstudie. Vennlig hilsen, Tomtly Tomtekonsulent' },
+      { id: 3, navn: 'Erik Johansen', type: 'Utbygger', dato: '2026-03-20', status: 'kontaktet', telefon: '901 23 456', epost: 'erik@johansen-bygg.no', notat: 'Interessert i fradeling og utvikling av to enheter.', foreslattSvar: 'Hei Erik! Tomterapporten vår inkluderer vurdering av fradelingspotensial. Ønsker du en visning? Vennlig hilsen, Tomtly Tomtekonsulent' },
     ],
     aktiviteter: [
       { id: 1, type: 'interessent', icon: '🔔', tid: '2 timer siden', tekst: 'Ny interessent: Martin Olsen har registrert interesse.', harHandling: true },
@@ -508,8 +508,8 @@ const CASES: Record<string, TomtCase> = {
       { adresse: 'Eksempelveien 5', areal: 780, pris: 2600000, dato: 'Jan 2026' },
       { adresse: 'Demogate 12', areal: 920, pris: 3100000, dato: 'Des 2025' },
     ],
-    pakkeBeskrivelse: 'Komplett analyse, markedsføring og salg via autorisert Eiendomsekspert. Inkluderer tomterapport, annonsering og interessenthåndtering.',
-    pakkeFeatures: ['Tomterapport', 'Mulighetsstudie', 'Profesjonelle bilder', 'Annonsering', 'Eiendomsekspert-støtte', 'Oppgjør via Propr'],
+    pakkeBeskrivelse: 'Komplett analyse, markedsføring og salg via autorisert Tomtekonsulent. Inkluderer tomterapport, annonsering og faglig oppfølging.',
+    pakkeFeatures: ['Tomterapport', 'Mulighetsstudie', 'Profesjonelle bilder', 'Annonsering', 'Tomtekonsulent-støtte', 'Oppgjør via Propr'],
     pakkePris: '4 990 kr',
     pakkeProvisjon: '+ 2,5 % ved salg',
     tomtepresentasjonLink: '#',
@@ -556,8 +556,8 @@ const TIPS = [
 
 const TOMTER_SIDEBAR = [
   { id: 'bjornemyrveien-20', label: 'Bjørnemyrveien 20' },
-  { id: 'bjornemyrveien-22', label: 'Bjørnemyrveien 2' },
-  { id: 'alvaern-67', label: 'Alværnvei 7' },
+  { id: 'bjornemyrveien-22', label: 'Bjørnemyrveien 22' },
+  { id: 'alvaern-67', label: 'Gamle Alværnvei 67' },
 ]
 
 type NavSection = 'oversikt' | 'interessenter' | 'statistikk' | 'dokumenter' | 'innstillinger'
@@ -645,7 +645,7 @@ export default function SelgerDashboard() {
     { label: shareKopiert ? 'Kopiert!' : 'Del tomteprofil', ikon: shareKopiert ? '✅' : '🔗', beskrivelse: shareKopiert ? `https://${data.shareUrl}` : 'Kopier lenke til tomtens profil på Tomtly.no', onClick: handleShare },
     { label: 'Inviter til visning', ikon: '📅', beskrivelse: 'Send visningsinvitasjon til interessenter', onClick: () => setActiveNav('interessenter') },
     { label: 'Last opp dokument', ikon: '📎', beskrivelse: 'Legg til nytt dokument i dokumentarkivet', onClick: () => setActiveNav('dokumenter') },
-    { label: 'Kontakt Eiendomsekspert', ikon: '🏠', beskrivelse: 'Send melding til din Eiendomsekspert hos Tomtly', onClick: () => setShowKontaktPanel(true) },
+    { label: 'Kontakt Tomtekonsulent', ikon: '🏠', beskrivelse: 'Send melding til din Tomtekonsulent hos Tomtly', onClick: () => setShowKontaktPanel(true) },
   ]
 
   // ─── Render ─────────────────────────────────────────────────────────────────
@@ -802,19 +802,19 @@ export default function SelgerDashboard() {
         )
       })()}
 
-      {/* ── Kontakt Eiendomsekspert Panel ──────────────────────────────────── */}
+      {/* ── Kontakt Tomtekonsulent Panel ──────────────────────────────────── */}
       {showKontaktPanel && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-display font-bold text-tomtly-dark">Kontakt Eiendomsekspert</h3>
+              <h3 className="text-lg font-display font-bold text-tomtly-dark">Kontakt Tomtekonsulent</h3>
               <button onClick={() => setShowKontaktPanel(false)} className="text-brand-400 hover:text-tomtly-dark text-xl">&times;</button>
             </div>
             <div className="flex items-center gap-4 mb-4 pb-4 border-b border-brand-100">
               <div className="w-12 h-12 rounded-full bg-forest-100 flex items-center justify-center text-lg">🏠</div>
               <div>
                 <p className="text-sm font-semibold text-tomtly-dark">Jakob Bjøndal</p>
-                <p className="text-xs text-brand-400">Eiendomsekspert</p>
+                <p className="text-xs text-brand-400">Tomtekonsulent</p>
               </div>
             </div>
             <div className="space-y-2 mb-4">
@@ -1586,7 +1586,7 @@ export default function SelgerDashboard() {
                       <p className="text-sm font-semibold text-tomtly-dark mb-0.5">La Tomtly håndtere forespørsler</p>
                       <p className="text-xs text-brand-400">
                         {tomtlyHaandterer
-                          ? 'Tomtly Eiendomsekspert svarer på vegne av deg'
+                          ? 'Tomtly Tomtekonsulent svarer på vegne av deg'
                           : 'Du håndterer forespørsler selv'}
                       </p>
                     </div>
@@ -1608,7 +1608,7 @@ export default function SelgerDashboard() {
                   {tomtlyHaandterer && (
                     <div className="mt-3 pt-3 border-t border-brand-100">
                       <p className="text-xs text-green-700 bg-green-50 border border-green-200 rounded-lg px-3 py-2">
-                        Tomtly Eiendomsekspert vil svare på alle nye forespørsler innen 2 timer. Du kan se alle svar i aktivitetsloggen.
+                        Tomtly Tomtekonsulent vil svare på alle nye forespørsler innen 2 timer. Du kan se alle svar i aktivitetsloggen.
                       </p>
                     </div>
                   )}

@@ -25,6 +25,7 @@ export default function Forside() {
     <>
       <HeroSection />
       <HvordanDetFungerer />
+      <ArbeidsDeling />
       <FremhevedeTomter />
       <VelgPakke />
       <Kostnadssammenligning />
@@ -158,7 +159,7 @@ function HvordanDetFungerer() {
       ikon: CheckCircle2,
       tittel: 'Du selger – vi støtter deg',
       beskrivelse:
-        'Du og vårt eiendomsteam samarbeider tett. Interesserte kontakter deg direkte, og du håndterer visning og bud med våre maler og verktøy. Vår Eiendomsekspert støtter deg hele veien. Oppgjør via Propr.',
+        'Vi svarer på faglige spørsmål om regulering, bygging og kostnader. Du håndterer visning og bud med våre maler. Propr tar oppgjøret.',
     },
   ]
 
@@ -190,6 +191,108 @@ function HvordanDetFungerer() {
             </div>
           ))}
         </div>
+      </div>
+    </section>
+  )
+}
+
+// ---- Arbeidsdeling ----
+
+function ArbeidsDeling() {
+  return (
+    <section className="bg-white py-16 lg:py-20">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="font-display text-2xl lg:text-3xl font-bold text-tomtly-dark mb-3">
+            Trygg arbeidsdeling – du har full kontroll
+          </h2>
+          <p className="text-brand-600 max-w-lg mx-auto text-sm">
+            Tomtly er ikke en mellommann. Vi er din faglige rådgiver.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          {/* Tomtly */}
+          <div className="bg-forest-50 rounded-2xl border border-forest-200 p-6">
+            <div className="w-10 h-10 bg-tomtly-accent rounded-lg flex items-center justify-center mb-4">
+              <span className="text-white text-lg font-bold">T</span>
+            </div>
+            <h3 className="font-semibold text-tomtly-dark mb-3">Tomtly gjør</h3>
+            <ul className="space-y-2 text-sm text-brand-700">
+              {[
+                'Reguleringsanalyse',
+                'Husmodeller og 3D-visualisering',
+                'Byggekalkyle og verdivurdering',
+                'DOK-analyse (70+ datasett)',
+                'Markedsføring og annonsering',
+                'Faglige svar om regulering og kostnader',
+                'Kobler deg med banker for byggelån',
+              ].map(t => (
+                <li key={t} className="flex items-start gap-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-tomtly-accent mt-0.5 shrink-0" />
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Du */}
+          <div className="bg-brand-50 rounded-2xl border border-brand-200 p-6">
+            <div className="w-10 h-10 bg-tomtly-dark rounded-lg flex items-center justify-center mb-4">
+              <span className="text-white text-lg">👤</span>
+            </div>
+            <h3 className="font-semibold text-tomtly-dark mb-3">Du gjør</h3>
+            <ul className="space-y-2 text-sm text-brand-700">
+              {[
+                'Gjennomfører visning av tomten',
+                'Mottar og vurderer bud',
+                'Bestemmer salgspris',
+                'Aksepterer eller avslår bud',
+              ].map(t => (
+                <li key={t} className="flex items-start gap-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-tomtly-dark mt-0.5 shrink-0" />
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Propr */}
+          <div className="bg-blue-50 rounded-2xl border border-blue-200 p-6">
+            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
+              <span className="text-white text-lg font-bold">P</span>
+            </div>
+            <h3 className="font-semibold text-tomtly-dark mb-3">Propr gjør</h3>
+            <ul className="space-y-2 text-sm text-brand-700">
+              {[
+                'Utarbeider kjøpekontrakt (jurist)',
+                'Tinglysing av eierskifte',
+                'Økonomisk oppgjør',
+                'Support gjennom oppgjøret',
+              ].map(t => (
+                <li key={t} className="flex items-start gap-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 mt-0.5 shrink-0" />
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Flow diagram */}
+        <div className="flex items-center justify-center gap-2 text-sm font-medium text-brand-500 flex-wrap">
+          <span className="px-3 py-1.5 bg-forest-100 text-tomtly-accent rounded-lg">Tomtly → Analyse og markedsføring</span>
+          <span className="text-brand-300">→</span>
+          <span className="px-3 py-1.5 bg-brand-100 text-tomtly-dark rounded-lg">Du → Visning og bud</span>
+          <span className="text-brand-300">→</span>
+          <span className="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-lg">Propr → Kontrakt og oppgjør</span>
+          <span className="text-brand-300">→</span>
+          <span className="px-3 py-1.5 bg-green-100 text-green-700 rounded-lg font-bold">✅ Solgt</span>
+        </div>
+
+        <p className="text-xs text-brand-400 text-center mt-6">
+          Tomtly er ikke involvert i bud, pris eller forhandling. Vi er din faglige rådgiver – ikke en mellommann.
+        </p>
       </div>
     </section>
   )
@@ -350,9 +453,9 @@ function VelgPakke() {
                 'Profesjonell tomtepresentasjon',
                 'Aktiv annonsering mot kvalifiserte kjøpere',
                 'Egen salgsdashboard med sanntidsoversikt',
-                'Personlig Eiendomsekspert',
+                'Personlig Tomtekonsulent',
                 'Budmal, visningsguide og salgsverktøy',
-                'Interessenthåndtering og faglig støtte',
+                'Faglig rådgivning om regulering og kostnader',
                 'Synlighet i inntil 12 måneder',
                 '2 % kun ved gjennomført salg',
               ].map((f) => (
@@ -481,7 +584,7 @@ function Kostnadssammenligning() {
                     <span className="font-mono text-xs text-brand-700 tabular-nums">{r.belop}</span>
                   </div>
                 ))}
-                {['Alt i analysepakken', 'Salgsdashboard', 'Eiendomsekspert-støtte', 'Annonsering i 12 mnd'].map(f => (
+                {['Alt i analysepakken', 'Salgsdashboard', 'Tomtekonsulent-støtte', 'Annonsering i 12 mnd'].map(f => (
                   <div key={f} className="flex justify-between py-1.5 text-green-700">
                     <span>{f}</span>
                     <span className="text-xs font-semibold">✓ Inkludert</span>
@@ -492,7 +595,7 @@ function Kostnadssammenligning() {
                 <span>Totalt</span>
                 <span className="font-mono text-lg">74 980 kr</span>
               </div>
-              <p className="text-[10px] text-brand-400 mt-2">Tilsvarende pris som megler – men du får husmodeller, 3D, salgsdashboard og eiendomsekspert i tillegg</p>
+              <p className="text-[10px] text-brand-400 mt-2">Tilsvarende pris som megler – men du får husmodeller, 3D, salgsdashboard og tomtekonsulent i tillegg</p>
             </div>
           </div>
 
@@ -679,7 +782,7 @@ function FAQSection() {
     },
     {
       q: 'Hva betyr «2 % ved salg»?',
-      a: 'Velger du Analyse + Markedsføring betaler du 4 990 kr ved bestilling, og 2 % tilretteleggingsgebyr av salgssummen kun dersom tomten faktisk blir solgt. Gebyret dekker profesjonell annonsering, salgsdashboard, personlig Eiendomsekspert, interessenthåndtering, salgsverktøy og faglig støtte gjennom hele salgsprosessen. Selges ikke tomten, betaler du ikke 2 %.',
+      a: 'Velger du Analyse + Markedsføring betaler du 4 990 kr ved bestilling, og 2 % tilretteleggingsgebyr av salgssummen kun dersom tomten faktisk blir solgt. Gebyret dekker profesjonell annonsering, salgsdashboard, personlig Tomtekonsulent, faglig oppfølging, salgsverktøy og faglig rådgivning om regulering, byggemuligheter og kostnader. Selges ikke tomten, betaler du ikke 2 %.',
     },
     {
       q: 'Hvem håndterer oppgjøret?',

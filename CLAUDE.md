@@ -63,7 +63,7 @@ TOMTLY er IKKE et meglerfirma. TOMTLY er en analyseplattform og markedsføringsk
 
 **Hovedprodukter:**
 - **Tomteanalyse:** 9 900 kr engangspris (analyse, husmodeller, 3D, verdivurdering, tomterapport)
-- **Analyse + Markedsføring:** 4 990 kr + 2% tilretteleggingsgebyr ved salg (alt i analyse + annonsering, salgsdashboard, personlig Eiendomsekspert, salgsverktøy, faglig støtte, interessenthåndtering)
+- **Analyse + Markedsføring:** 4 990 kr + 2% tilretteleggingsgebyr ved salg (alt i analyse + annonsering, salgsdashboard, personlig Tomtekonsulent, salgsverktøy, faglig støtte, faglig oppfølging)
 - **Oppgjør via Propr:** fra 9 990 kr (betales separat til Propr, ikke til Tomtly)
 
 **Forsikringsklausul:** Ved oppsigelse av markedsføringspakken gjelder tilretteleggingsgebyret (2%) fortsatt dersom eiendommen selges innen 3 måneder etter oppsigelsesdato.
@@ -73,7 +73,7 @@ TOMTLY er IKKE et meglerfirma. TOMTLY er en analyseplattform og markedsføringsk
 - **Husleverandør-abo:** 10 000–20 000 kr/mnd
 - **Bank lead-fee:** 4 900 kr per innvilget byggelån
 
-**Terminologi:** Bruk "Eiendomsekspert" (ikke "megler") om Tomtly-teamet. "Tradisjonell megler" kun ved sammenligning. "på Nesodden" (ikke "i Nesodden").
+**Terminologi:** Bruk "Tomtekonsulent" (ikke "megler") om Tomtly-teamet. "Tradisjonell megler" kun ved sammenligning. "på Nesodden" (ikke "i Nesodden").
 
 **TOMTLY er ikke et eiendomsmeglingsforetak. Tomteeier selger selv med Tomtly sine verktøy. Oppgjør håndteres av Propr via Norsk eiendomsoppgjør AS.**
 

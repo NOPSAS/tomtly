@@ -83,7 +83,7 @@ function StegForSteg() {
       nummer: '04',
       ikon: Banknote,
       tittel: 'Salg gjennomføres',
-      beskrivelse: 'Tomten publiseres og markedsføres på Tomtly. Vår Eiendomsekspert håndterer salget. Oppgjør via Propr.',
+      beskrivelse: 'Tomten publiseres og markedsføres på Tomtly. Vår Tomtekonsulent håndterer salget. Oppgjør via Propr.',
     },
   ]
 
@@ -181,7 +181,7 @@ function Eksempelregning() {
                     <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                     <div>
                       <p className="font-semibold text-green-800 text-sm">Kommunen godkjenner fradelingen</p>
-                      <p className="text-sm text-green-700 mt-1">Tomten selges via vår Eiendomsekspert. Du betaler 5% av salgsprisen. Ferdig.</p>
+                      <p className="text-sm text-green-700 mt-1">Tomten selges via vår Tomtekonsulent. Du betaler 5% av salgsprisen. Ferdig.</p>
                     </div>
                   </div>
                 </div>
@@ -239,7 +239,7 @@ function Priser() {
                 'Nabovarsel og oppfølging mot kommunen',
                 'Mulighetsstudie med husmodeller og kalkyle',
                 'Publisering og markedsføring via Tomtly',
-                'Salg via vår Eiendomsekspert',
+                'Salg via vår Tomtekonsulent',
                 'Oppgjør via Propr',
               ].map((f) => (
                 <li key={f} className="flex items-start gap-2 text-sm text-brand-600">

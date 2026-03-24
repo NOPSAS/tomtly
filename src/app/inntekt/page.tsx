@@ -439,42 +439,38 @@ function Forretningsmodell() {
       <div className="space-y-4">
         <FlowMarker text="TOMTEEIER HAR EN TOMT" />
 
-        <FlowStep nummer="1" tittel="Tomtanalyse + salg" ikon="📐" inntekt="4 990 kr + 65% av 2,5%" beskrivelse="Vi lager mulighetsstudie med husmodeller og byggekalkyle. Markedsfører og selger via meglerpartner (65/35-split på provisjon)." />
-        <FlowStep nummer="2" tittel="Ferdighusleverandør" ikon="🏠" inntekt="Månedlig abonnement" beskrivelse="Husmodeller vises i analysen. Leverandøren som betaler mest i abo får mest eksponering. Velger kjøper deres hus = direkte salg." />
-        <FlowStep nummer="3" tittel="Entreprenør" ikon="🔧" inntekt="14 900 kr/år" beskrivelse="Vi innhenter tilbud fra samarbeidsentreprenører. Gir oss kontroll på kostnader og gir entreprenøren kunder." />
+        <FlowStep nummer="1" tittel="Tomteanalyse (kun analyse)" ikon="📐" inntekt="9 900 kr" beskrivelse="Komplett analyse: reguleringssjekk, husmodeller, 3D, verdivurdering, DOK-analyse, tomterapport. Kunde selger selv." />
+        <FlowStep nummer="2" tittel="Analyse + Markedsføring" ikon="📣" inntekt="4 990 kr + 2% tilrettelegging" beskrivelse="Alt i analysepakken + annonsering, salgsdashboard, faglig støtte fra Tomtly-teamet, interessentoppfølging i inntil 12 mnd." />
+        <FlowStep nummer="3" tittel="Fradeling" ikon="✂️" inntekt="5% av ny tomts verdi" beskrivelse="Vurdering, reguleringssjekk, søknad, oppmåling og tilrettelegging for salg. Kunde betaler kun kommunale gebyrer ved avslag." />
 
         <FlowMarker text="TOMTEN SELGES" highlight />
 
-        <FlowStep nummer="4" tittel="Bank" ikon="🏦" inntekt="4 900 kr per innvilget lån" beskrivelse="Kjøper trenger byggelån. Vi presenterer totalkostnad banken kan vurdere. Banken får kvalifisert kunde." />
-        <FlowStep nummer="5" tittel="Prosjektfinansiering" ikon="💰" inntekt="4 900–14 900 kr lead-fee" beskrivelse="Vi kobler utviklere og kjøpere med alternative finansieringspartnere (Kameo/Oblinor). Lead-fee per innvilget lån." />
-        <FlowStep nummer="6" tittel="Propr (oppgjør)" ikon="🤝" inntekt="2 500 kr formidlingsgebyr" beskrivelse="Oppgjør håndteres av Propr. Vi får formidlingsgebyr for å sende dem kunden." />
-        <FlowStep nummer="7" tittel="Tegnebua (tegning og søknad)" ikon="✏️" inntekt="Fastpris til arkitektavdeling" beskrivelse="Kjøper trenger byggesøknad og tegninger. Tegnebua gir fastpris – inntekt til arkitektavdelingen." />
-        <FlowStep nummer="8" tittel="Hussalg" ikon="🔑" inntekt="Inkludert i leverandør-abo" beskrivelse="Kjøper velger husmodell fra analysen. Ferdighusleverandøren får et salg direkte fra plattformen." />
+        <FlowStep nummer="4" tittel="Propr (oppgjør)" ikon="🤝" inntekt="~2 000 kr formidlingsgebyr" beskrivelse="Oppgjør håndteres av Propr (9 990 kr til kunde). Vi får formidlingsgebyr per kunde." />
+        <FlowStep nummer="5" tittel="Bank lead-fee" ikon="🏦" inntekt="4 900 kr per lån" beskrivelse="Kjøper trenger byggelån. Vi presenterer totalkostnad banken kan vurdere." />
+        <FlowStep nummer="6" tittel="Husleverandør" ikon="🏠" inntekt="10 000–20 000 kr/mnd" beskrivelse="Husmodeller vises i analysen. Leverandør betaler abonnement for eksponering." />
 
-        <FlowMarker text="KJØPER BYGGER DRØMMEHUSET" />
+        <FlowMarker text="KJØPER BYGGER" />
       </div>
 
       {/* Eksempel */}
       <div>
         <h3 className="font-display text-2xl font-bold text-tomtly-dark mb-2 text-center">Hva én tomt genererer</h3>
-        <p className="text-brand-500 text-center mb-6">Eksempel: Tomt i Bærum, 650 m², solgt for 2 500 000 kr</p>
+        <p className="text-brand-500 text-center mb-6">Eksempel: Tomt solgt for 2 000 000 kr (Analyse + Markedsføring)</p>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-          <InntektBoks label="Tomtanalyse + salg" belop={37490} farge="bg-tomtly-accent" tekstFarge="text-white" stor />
-          <InntektBoks label="Tegnebua" belop={25000} farge="bg-earth-400" tekstFarge="text-white" />
-          <InntektBoks label="Bank lead-fee" belop={4900} farge="bg-blue-500" tekstFarge="text-white" />
-          <InntektBoks label="Propr formidling" belop={2500} farge="bg-brand-600" tekstFarge="text-white" />
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
+          <InntektBoks label="Analyse (forskudd)" belop={4990} farge="bg-tomtly-accent" tekstFarge="text-white" />
+          <InntektBoks label="Tilrettelegging (2%)" belop={40000} farge="bg-tomtly-accent" tekstFarge="text-white" stor />
+          <InntektBoks label="Propr-fee" belop={2000} farge="bg-brand-600" tekstFarge="text-white" />
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-          <InntektBoks label="Prosjektfin." belop={5000} farge="bg-yellow-600" tekstFarge="text-white" />
-          <InntektBoks label="Huslev. abo" belop={3000} farge="bg-forest-500" tekstFarge="text-white" />
-          <InntektBoks label="Entreprenør" belop={2000} farge="bg-amber-500" tekstFarge="text-white" />
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
+          <InntektBoks label="Bank lead-fee" belop={4900} farge="bg-blue-500" tekstFarge="text-white" />
+          <InntektBoks label="Huslev. abo (andel)" belop={3000} farge="bg-forest-500" tekstFarge="text-white" />
           <InntektBoks label="Fotograf" belop={1000} farge="bg-purple-500" tekstFarge="text-white" />
         </div>
 
         <div className="bg-tomtly-dark rounded-2xl p-8 text-center">
-          <p className="text-sm text-brand-400 mb-1">Total inntekt per tomt</p>
-          <p className="text-5xl font-bold text-tomtly-gold">~75 000 kr</p>
+          <p className="text-sm text-brand-400 mb-1">Total inntekt per tomt (Analyse + Markedsføring)</p>
+          <p className="text-5xl font-bold text-tomtly-gold">~56 000 kr</p>
           <p className="text-sm text-brand-400 mt-2">Arbeidsinnsats: 10–15 timer</p>
         </div>
       </div>
@@ -484,15 +480,12 @@ function Forretningsmodell() {
         <h3 className="font-display text-2xl font-bold text-tomtly-dark mb-6 text-center">Hvem betaler hva</h3>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {[
-            { segment: 'Tomteeier', pris: '4 990 kr + 2,5%', ikon: '🏡' },
-            { segment: 'Megler Standard', pris: 'Gratis', ikon: '👔' },
-            { segment: 'Megler Premium', pris: '4 900 kr', ikon: '⭐' },
-            { segment: 'Utvikler', pris: 'Fra 4 900 kr/tomt', ikon: '🏗️' },
-            { segment: 'Husleverandør', pris: 'Mnd-abonnement', ikon: '🏠' },
-            { segment: 'Entreprenør', pris: '14 900 kr/år', ikon: '🔧' },
+            { segment: 'Tomteeier (kun analyse)', pris: '9 900 kr', ikon: '📊' },
+            { segment: 'Tomteeier (analyse + markedsføring)', pris: '4 990 kr + 2%', ikon: '🏡' },
+            { segment: 'Fradeling', pris: '5% av ny tomts verdi', ikon: '✂️' },
+            { segment: 'Husleverandør', pris: '10–20 000 kr/mnd', ikon: '🏠' },
             { segment: 'Bank', pris: '4 900 kr/innvilget lån', ikon: '🏦' },
-            { segment: 'Propr', pris: 'Formidlingsgebyr', ikon: '🤝' },
-            { segment: 'Kjøper (Tegnebua)', pris: 'Fastpris tegning', ikon: '✏️' },
+            { segment: 'Propr', pris: '~2 000 kr formidling', ikon: '🤝' },
           ].map((s) => (
             <div key={s.segment} className="bg-white rounded-xl border border-brand-200 p-4 text-center">
               <p className="text-2xl mb-2">{s.ikon}</p>
