@@ -776,40 +776,61 @@ function FradelingReklame() {
 // ---- Kundehistorier ----
 
 function Kundehistorier() {
-  const kundehistorier = [
-    { id: 1, ikon: '🏠', tekst: 'Din historie kan være neste.' },
-    { id: 2, ikon: '🏠', tekst: 'Din historie kan være neste.' },
-    { id: 3, ikon: '🏠', tekst: 'Din historie kan være neste.' },
-  ]
-
   return (
     <section className="bg-brand-50 py-16 lg:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-3">
-            Tomteeiere som har solgt med tomtly
+            Solgt via tomtly
           </h2>
-          <p className="text-brand-600 max-w-lg mx-auto">
-            Ekte historier fra tomteeiere som har brukt tomtly til å selge tomten sin.
-          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {kundehistorier.map((k) => (
-            <div
-              key={k.id}
-              className="bg-white border border-brand-200 rounded-2xl p-8 text-center flex flex-col items-center justify-center"
-            >
-              <span className="text-4xl mb-4">{k.ikon}</span>
-              <p className="text-brand-500 mb-6">{k.tekst}</p>
-              <Link
-                href="/selger/onboarding"
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-tomtly-accent hover:underline"
-              >
-                Selg din tomt <ArrowRight className="w-4 h-4" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {/* Ekte kundehistorie */}
+          <div className="bg-white border border-brand-200 rounded-2xl p-8 md:col-span-2">
+            <div className="flex flex-col md:flex-row gap-8 items-start">
+              <div className="flex-1">
+                <p className="text-lg text-brand-700 leading-relaxed mb-4 italic">
+                  &ldquo;tomtly har gjort det betraktelig mye enklere å vise tomtene og mulighetsrommet
+                  for tomten, slik at en kjøper får svar på alle de faglige og kostnadsmessige
+                  spørsmålene de måtte ha i prosessen.&rdquo;
+                </p>
+                <p className="font-semibold text-tomtly-dark">Kjetil Halvorsen</p>
+                <p className="text-sm text-brand-500">Selger, Gamle Alværnvei 65 på Nesodden</p>
+              </div>
+              <div className="grid grid-cols-3 gap-4 text-center shrink-0">
+                <div>
+                  <p className="text-xl font-bold text-tomtly-dark">3,2M</p>
+                  <p className="text-[10px] text-brand-500">Salgspris</p>
+                </div>
+                <div>
+                  <p className="text-xl font-bold text-tomtly-dark">2 274</p>
+                  <p className="text-[10px] text-brand-500">m² tomt</p>
+                </div>
+                <div>
+                  <p className="text-xl font-bold text-green-700">Solgt</p>
+                  <p className="text-[10px] text-brand-500">Uten megler</p>
+                </div>
+              </div>
+            </div>
+            <div className="mt-4 pt-4 border-t border-brand-100">
+              <Link href="/tomter/alvaern-65" className="text-sm text-tomtly-accent font-medium hover:underline flex items-center gap-1">
+                Se hele casen <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
-          ))}
+          </div>
+
+          {/* CTA */}
+          <div className="bg-tomtly-dark rounded-2xl p-8 text-center md:col-span-2">
+            <p className="text-white font-display text-xl font-bold mb-2">Din tomt kan være neste</p>
+            <p className="text-brand-400 text-sm mb-5">Slik Kjetil solgte sin tomt – uten tradisjonell megler</p>
+            <Link
+              href="/selger/onboarding"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-tomtly-accent text-white font-medium rounded-lg hover:bg-forest-700 transition-colors"
+            >
+              Legg ut din tomt <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
       </div>
     </section>
