@@ -154,12 +154,12 @@ const TOMT = {
   nabolag: {
     beskrivelse: 'Alværn på Nesodden. Fantastisk fjordutsikt (+81 moh), etablert boligområde med naturskjønne omgivelser. Kort vei til Tangen brygge og båt til Oslo.',
     punkter: [
-      { kategori: 'Kollektivtransport', navn: 'Buss til Tangen/Oslo', avstand_m: 300, gangminutter: 4 },
-      { kategori: 'Kollektivtransport', navn: 'Tangen brygge (båt til Oslo)', avstand_m: 2000, gangminutter: 25 },
-      { kategori: 'Skole', navn: 'Alværn ungdomsskole', avstand_m: 800, gangminutter: 10 },
-      { kategori: 'Dagligvare', navn: 'Dagligvare Nesoddtangen', avstand_m: 1500, gangminutter: 18 },
+      { kategori: 'Kollektivtransport', navn: 'Buss til Tangen/Oslo', avstand_m: 300, gangminutter: 1 },
+      { kategori: 'Kollektivtransport', navn: 'Tangen brygge (båt til Oslo)', avstand_m: 2000, gangminutter: 3 },
+      { kategori: 'Skole', navn: 'Alværn ungdomsskole', avstand_m: 800, gangminutter: 2 },
+      { kategori: 'Dagligvare', navn: 'Dagligvare Nesoddtangen', avstand_m: 1500, gangminutter: 3 },
       { kategori: 'Park/friområde', navn: 'Skog og turområder', avstand_m: 50, gangminutter: 1 },
-      { kategori: 'Badeplass', navn: 'Fjorden / badeplass', avstand_m: 1200, gangminutter: 15 },
+      { kategori: 'Badeplass', navn: 'Fjorden / badeplass', avstand_m: 1200, gangminutter: 2 },
     ],
   },
 

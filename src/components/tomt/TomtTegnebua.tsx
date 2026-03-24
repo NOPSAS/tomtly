@@ -109,13 +109,13 @@ export function TomtTegnebua({
 
           {/* CTA */}
           <div className="mt-6 flex flex-col sm:flex-row gap-3">
-            <button className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-tomtly-accent text-white font-medium rounded-lg hover:bg-forest-700 transition-colors">
+            <a href="https://tegnebua.no/kontakt" target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-tomtly-accent text-white font-medium rounded-lg hover:bg-forest-700 transition-colors">
               Bestill endelig tilbud
               <ArrowRight className="w-4 h-4" />
-            </button>
-            <button className="flex-1 flex items-center justify-center gap-2 px-4 py-3 border border-brand-200 text-brand-700 font-medium rounded-lg hover:bg-brand-50 transition-colors">
+            </a>
+            <a href="https://tegnebua.no/kontakt" target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-2 px-4 py-3 border border-brand-200 text-brand-700 font-medium rounded-lg hover:bg-brand-50 transition-colors">
               Snakk med Tegnebua først
-            </button>
+            </a>
           </div>
 
           <p className="text-[10px] text-brand-400 text-center mt-3">

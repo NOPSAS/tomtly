@@ -165,10 +165,10 @@ const TOMT = {
   nabolag: {
     beskrivelse: 'Etablert boligområde på Bjørnemyr, omgitt av skog og natur. Kort vei til sjøen. Barnevennlig. Ca. 30 min til Oslo med buss/båt.',
     punkter: [
-      { kategori: 'Kollektivtransport', navn: 'Buss til Tangen/Oslo', avstand_m: 380, gangminutter: 5 },
-      { kategori: 'Skole', navn: 'Bjørnemyr skole', avstand_m: 580, gangminutter: 7 },
-      { kategori: 'Barnehage', navn: 'Bjørnemyr barnehage', avstand_m: 330, gangminutter: 4 },
-      { kategori: 'Dagligvare', navn: 'Dagligvare Bjørnemyr', avstand_m: 480, gangminutter: 6 },
+      { kategori: 'Kollektivtransport', navn: 'Buss til Tangen/Oslo', avstand_m: 380, gangminutter: 1 },
+      { kategori: 'Skole', navn: 'Bjørnemyr skole', avstand_m: 580, gangminutter: 1 },
+      { kategori: 'Barnehage', navn: 'Bjørnemyr barnehage', avstand_m: 330, gangminutter: 1 },
+      { kategori: 'Dagligvare', navn: 'Dagligvare Bjørnemyr', avstand_m: 480, gangminutter: 1 },
       { kategori: 'Park/friområde', navn: 'Skog og turområder', avstand_m: 80, gangminutter: 1 },
     ],
   },

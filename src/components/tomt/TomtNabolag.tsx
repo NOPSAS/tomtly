@@ -41,7 +41,7 @@ const KATEGORI_IKON: Record<string, typeof MapPin> = {
 }
 
 export function TomtNabolag({ punkter, nabolag_beskrivelse }: Props) {
-  // Grupper etter gangavstand
+  // Grupper etter kjøreavstand
   const innen5min = punkter.filter((p) => p.gangminutter <= 5)
   const innen10min = punkter.filter((p) => p.gangminutter > 5 && p.gangminutter <= 10)
   const over10min = punkter.filter((p) => p.gangminutter > 10)
@@ -60,7 +60,7 @@ export function TomtNabolag({ punkter, nabolag_beskrivelse }: Props) {
           <div>
             <h3 className="text-sm font-semibold text-forest-700 mb-3 flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-green-500" />
-              Innen 5 minutters gange
+              Innen 5 min med bil
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {innen5min.map((p) => (
@@ -74,7 +74,7 @@ export function TomtNabolag({ punkter, nabolag_beskrivelse }: Props) {
           <div>
             <h3 className="text-sm font-semibold text-amber-700 mb-3 flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-amber-500" />
-              5–10 minutters gange
+              5–10 min med bil
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {innen10min.map((p) => (
@@ -88,7 +88,7 @@ export function TomtNabolag({ punkter, nabolag_beskrivelse }: Props) {
           <div>
             <h3 className="text-sm font-semibold text-brand-500 mb-3 flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-brand-400" />
-              Over 10 minutters gange
+              Over 10 min med bil
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {over10min.map((p) => (
