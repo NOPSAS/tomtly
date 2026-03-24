@@ -124,7 +124,7 @@ const CASES: Record<string, TomtCase> = {
       { id: 10, type: 'visning', icon: '👁️', tid: '5 dager siden', tekst: 'Visning gjennomført med familien Hansen – positiv tilbakemelding.', harHandling: false },
       { id: 11, type: 'interessent', icon: '🔔', tid: '6 dager siden', tekst: 'Familien Hansen ga muntlig bud på 2 700 000 kr.', harHandling: true },
       { id: 12, type: 'kampanje', icon: '📣', tid: '1 uke siden', tekst: 'E-postkampanje sendt til 342 registrerte tomtekjøpere på Nesodden.', harHandling: false },
-      { id: 13, type: 'system', icon: '✅', tid: '1 uke siden', tekst: 'Tomten ble publisert på Tomtly.no med fullstendig profil.', harHandling: false },
+      { id: 13, type: 'system', icon: '✅', tid: '1 uke siden', tekst: 'Tomten ble publisert på tomtly.no med fullstendig profil.', harHandling: false },
       { id: 14, type: 'interessent', icon: '🔔', tid: '1 uke siden', tekst: 'OBOS Boligutvikling sendte forespørsel om tomtens utviklingspotensial.', harHandling: true },
       { id: 15, type: 'rapport', icon: '📈', tid: '8 dager siden', tekst: 'Tomtescore beregnet: 8.4/10 – god beliggenhet og regulering på Nesodden.', harHandling: false },
     ],
@@ -164,14 +164,14 @@ const CASES: Record<string, TomtCase> = {
       { dag: '23. mar', visninger: 15 },
     ],
     trafikkkilder: [
-      { kilde: 'Tomtly.no – direkte', prosent: 36, visninger: 112 },
+      { kilde: 'tomtly.no – direkte', prosent: 36, visninger: 112 },
       { kilde: 'Google søk', prosent: 22, visninger: 69 },
       { kilde: 'Facebook-annonse', prosent: 20, visninger: 62 },
       { kilde: 'E-postkampanje', prosent: 14, visninger: 44 },
       { kilde: 'Annet / delt lenke', prosent: 8, visninger: 25 },
     ],
     markedsføring: [
-      { kanal: 'Tomtly.no', status: 'Publisert', detalj: '312 visninger totalt', ikon: '🌐', farge: 'bg-forest-50 border-forest-200' },
+      { kanal: 'tomtly.no', status: 'Publisert', detalj: '312 visninger totalt', ikon: '🌐', farge: 'bg-forest-50 border-forest-200' },
       { kanal: 'Annonsering', status: 'Aktiv kampanje', detalj: '14 800 rekkevidde · 218 klikk', ikon: '📣', farge: 'bg-blue-50 border-blue-200' },
       { kanal: 'E-postliste', status: 'Sendt', detalj: 'Sendt til 342 registrerte kjopere på Nesodden', ikon: '📧', farge: 'bg-purple-50 border-purple-200' },
     ],
@@ -186,7 +186,7 @@ const CASES: Record<string, TomtCase> = {
     fremdrift: [
       { steg: 'Tomt registrert', status: 'done' },
       { steg: 'Tomterapport ferdigstilt', status: 'done' },
-      { steg: 'Publisert på Tomtly.no', status: 'done' },
+      { steg: 'Publisert på tomtly.no', status: 'done' },
       { steg: 'Annonsekampanje startet', status: 'done' },
       { steg: 'Motta visningsforespørsler', status: 'current' },
       { steg: 'Gjennomfør visninger', status: 'future' },
@@ -202,7 +202,7 @@ const CASES: Record<string, TomtCase> = {
       { adresse: 'Skogsveien 12, Nesodden', areal: 1050, pris: 3850000, dato: 'Okt 2025' },
       { adresse: 'Kirkeveien 22, Nesodden', areal: 740, pris: 2450000, dato: 'Sep 2025' },
     ],
-    pakkeBeskrivelse: 'Fullstendig tomteanalyse og aktiv markedsføring via Tomtly. Inkluderer tomterapport, annonsering, faglig oppfølging og Tomtekonsulent-støtte.',
+    pakkeBeskrivelse: 'Fullstendig tomteanalyse og aktiv markedsføring via tomtly. Inkluderer tomterapport, annonsering, faglig oppfølging og Tomtekonsulent-støtte.',
     pakkeFeatures: ['Tomterapport', 'Mulighetsstudie', 'Profesjonelle bilder', 'Annonsering', 'Tomtekonsulent-støtte', 'Oppgjør via Propr'],
     pakkePris: '4 990 kr',
     pakkeProvisjon: '+ 2,5 % ved salg',
@@ -250,7 +250,7 @@ const CASES: Record<string, TomtCase> = {
       { id: 8, type: 'rapport', icon: '📈', tid: '5 dager siden', tekst: 'Ukentlig rapport: 82 visninger, 2 nye interessenter.', harHandling: false },
       { id: 9, type: 'interessent', icon: '🔔', tid: '6 dager siden', tekst: 'Tor Helgesen ønsker info om kommunale avgifter.', harHandling: true },
       { id: 10, type: 'kampanje', icon: '📣', tid: '1 uke siden', tekst: 'E-postkampanje sendt til 342 registrerte tomtekjøpere på Nesodden.', harHandling: false },
-      { id: 11, type: 'system', icon: '✅', tid: '1 uke siden', tekst: 'Tomten ble publisert på Tomtly.no.', harHandling: false },
+      { id: 11, type: 'system', icon: '✅', tid: '1 uke siden', tekst: 'Tomten ble publisert på tomtly.no.', harHandling: false },
       { id: 12, type: 'rapport', icon: '📈', tid: '8 dager siden', tekst: 'Tomtescore beregnet: 7.8/10 – god beliggenhet på Nesodden.', harHandling: false },
     ],
     tomtDetaljer: {
@@ -288,14 +288,14 @@ const CASES: Record<string, TomtCase> = {
       { dag: '23. mar', visninger: 13 },
     ],
     trafikkkilder: [
-      { kilde: 'Tomtly.no – direkte', prosent: 35, visninger: 100 },
+      { kilde: 'tomtly.no – direkte', prosent: 35, visninger: 100 },
       { kilde: 'Google søk', prosent: 23, visninger: 66 },
       { kilde: 'Facebook-annonse', prosent: 21, visninger: 60 },
       { kilde: 'E-postkampanje', prosent: 13, visninger: 37 },
       { kilde: 'Annet / delt lenke', prosent: 8, visninger: 24 },
     ],
     markedsføring: [
-      { kanal: 'Tomtly.no', status: 'Publisert', detalj: '287 visninger totalt', ikon: '🌐', farge: 'bg-forest-50 border-forest-200' },
+      { kanal: 'tomtly.no', status: 'Publisert', detalj: '287 visninger totalt', ikon: '🌐', farge: 'bg-forest-50 border-forest-200' },
       { kanal: 'Annonsering', status: 'Aktiv kampanje', detalj: '12 200 rekkevidde · 194 klikk', ikon: '📣', farge: 'bg-blue-50 border-blue-200' },
       { kanal: 'E-postliste', status: 'Sendt', detalj: 'Sendt til 342 registrerte kjopere på Nesodden', ikon: '📧', farge: 'bg-purple-50 border-purple-200' },
     ],
@@ -309,7 +309,7 @@ const CASES: Record<string, TomtCase> = {
     fremdrift: [
       { steg: 'Tomt registrert', status: 'done' },
       { steg: 'Tomterapport ferdigstilt', status: 'done' },
-      { steg: 'Publisert på Tomtly.no', status: 'done' },
+      { steg: 'Publisert på tomtly.no', status: 'done' },
       { steg: 'Annonsekampanje startet', status: 'done' },
       { steg: 'Motta visningsforespørsler', status: 'current' },
       { steg: 'Gjennomfør visninger', status: 'future' },
@@ -325,7 +325,7 @@ const CASES: Record<string, TomtCase> = {
       { adresse: 'Skogsveien 12, Nesodden', areal: 1050, pris: 3850000, dato: 'Okt 2025' },
       { adresse: 'Kirkeveien 22, Nesodden', areal: 740, pris: 2450000, dato: 'Sep 2025' },
     ],
-    pakkeBeskrivelse: 'Fullstendig tomteanalyse og aktiv markedsføring via Tomtly. Inkluderer tomterapport, annonsering, faglig oppfølging og Tomtekonsulent-støtte.',
+    pakkeBeskrivelse: 'Fullstendig tomteanalyse og aktiv markedsføring via tomtly. Inkluderer tomterapport, annonsering, faglig oppfølging og Tomtekonsulent-støtte.',
     pakkeFeatures: ['Tomterapport', 'Mulighetsstudie', 'Profesjonelle bilder', 'Annonsering', 'Tomtekonsulent-støtte', 'Oppgjør via Propr'],
     pakkePris: '4 990 kr',
     pakkeProvisjon: '+ 2,5 % ved salg',
@@ -359,7 +359,7 @@ const CASES: Record<string, TomtCase> = {
     aktiviteter: [
       { id: 1, type: 'rapport', icon: '📈', tid: '2 dager siden', tekst: 'Tomtescore beregnet: 7.2/10 – godt potensial på Nesodden.', harHandling: false },
       { id: 2, type: 'system', icon: '✅', tid: '3 dager siden', tekst: 'Tomterapport ferdigstilt for Gamle Alværnvei 7.', harHandling: false },
-      { id: 3, type: 'system', icon: '✅', tid: '5 dager siden', tekst: 'Tomt registrert i Tomtly – analyse startet.', harHandling: false },
+      { id: 3, type: 'system', icon: '✅', tid: '5 dager siden', tekst: 'Tomt registrert i tomtly – analyse startet.', harHandling: false },
     ],
     tomtDetaljer: {
       regulering: 'Boligbebyggelse – frittliggende småhusbebyggelse',
@@ -389,7 +389,7 @@ const CASES: Record<string, TomtCase> = {
     fremdrift: [
       { steg: 'Tomt registrert', status: 'done' },
       { steg: 'Tomterapport ferdigstilt', status: 'done' },
-      { steg: 'Publisert på Tomtly.no', status: 'future' },
+      { steg: 'Publisert på tomtly.no', status: 'future' },
       { steg: 'Annonsekampanje startet', status: 'future' },
       { steg: 'Motta visningsforespørsler', status: 'future' },
       { steg: 'Gjennomfør visninger', status: 'future' },
@@ -476,14 +476,14 @@ const CASES: Record<string, TomtCase> = {
       { dag: '23. mar', visninger: 12 },
     ],
     trafikkkilder: [
-      { kilde: 'Tomtly.no – direkte', prosent: 38, visninger: 94 },
+      { kilde: 'tomtly.no – direkte', prosent: 38, visninger: 94 },
       { kilde: 'Google søk', prosent: 24, visninger: 59 },
       { kilde: 'Facebook-annonse', prosent: 18, visninger: 44 },
       { kilde: 'E-postkampanje', prosent: 12, visninger: 30 },
       { kilde: 'Annet / delt lenke', prosent: 8, visninger: 20 },
     ],
     markedsføring: [
-      { kanal: 'Tomtly.no', status: 'Publisert', detalj: '247 visninger totalt', ikon: '🌐', farge: 'bg-forest-50 border-forest-200' },
+      { kanal: 'tomtly.no', status: 'Publisert', detalj: '247 visninger totalt', ikon: '🌐', farge: 'bg-forest-50 border-forest-200' },
       { kanal: 'Annonsering', status: 'Aktiv kampanje', detalj: '12 400 rekkevidde · 186 klikk', ikon: '📣', farge: 'bg-blue-50 border-blue-200' },
       { kanal: 'E-postliste', status: 'Sendt', detalj: 'Sendt til 342 registrerte kjopere', ikon: '📧', farge: 'bg-purple-50 border-purple-200' },
     ],
@@ -495,7 +495,7 @@ const CASES: Record<string, TomtCase> = {
     fremdrift: [
       { steg: 'Tomt registrert', status: 'done' },
       { steg: 'Tomterapport ferdigstilt', status: 'done' },
-      { steg: 'Publisert på Tomtly.no', status: 'done' },
+      { steg: 'Publisert på tomtly.no', status: 'done' },
       { steg: 'Annonsekampanje startet', status: 'done' },
       { steg: 'Motta visningsforespørsler', status: 'current' },
       { steg: 'Gjennomfør visninger', status: 'future' },
@@ -645,10 +645,10 @@ export default function SelgerDashboard() {
   }
 
   const QUICK_ACTIONS = [
-    { label: shareKopiert ? 'Kopiert!' : 'Del tomteprofil', ikon: shareKopiert ? '✅' : '🔗', beskrivelse: shareKopiert ? `https://${data.shareUrl}` : 'Kopier lenke til tomtens profil på Tomtly.no', onClick: handleShare },
+    { label: shareKopiert ? 'Kopiert!' : 'Del tomteprofil', ikon: shareKopiert ? '✅' : '🔗', beskrivelse: shareKopiert ? `https://${data.shareUrl}` : 'Kopier lenke til tomtens profil på tomtly.no', onClick: handleShare },
     { label: 'Inviter til visning', ikon: '📅', beskrivelse: 'Send visningsinvitasjon til interessenter', onClick: () => setActiveNav('interessenter') },
     { label: 'Last opp dokument', ikon: '📎', beskrivelse: 'Legg til nytt dokument i dokumentarkivet', onClick: () => setActiveNav('dokumenter') },
-    { label: 'Kontakt Tomtekonsulent', ikon: '🏠', beskrivelse: 'Send melding til din Tomtekonsulent hos Tomtly', onClick: () => setShowKontaktPanel(true) },
+    { label: 'Kontakt Tomtekonsulent', ikon: '🏠', beskrivelse: 'Send melding til din Tomtekonsulent hos tomtly', onClick: () => setShowKontaktPanel(true) },
   ]
 
   // ─── Render ─────────────────────────────────────────────────────────────────
@@ -1356,7 +1356,7 @@ export default function SelgerDashboard() {
                     <div className="mt-4 pt-4 border-t border-brand-100">
                       <p className="text-xs text-brand-400">
                         Totalt {data.metrics.visninger.tall} visninger fra {data.trafikkkilder.length} kilder.
-                        Hovedkilden er direkte trafikk til Tomtly.no.
+                        Hovedkilden er direkte trafikk til tomtly.no.
                       </p>
                     </div>
                   </div>
@@ -1419,7 +1419,7 @@ export default function SelgerDashboard() {
                       <h3 className="text-sm font-semibold text-tomtly-dark">Annonsetekst for FINN</h3>
                       <button
                         onClick={() => {
-                          const tekst = `${data.adresse} – ${data.areal} m² tomt til salgs\n\nAttraktiv tomt ${data.adresse.includes('Nesodden') ? 'på Nesodden' : 'i ' + data.adresse.split(',').pop()?.trim()} med godkjent regulering og gode byggemuligheter. Tomten er analysert av Tomtly med husmodeller og byggekalkyle.\n\nNøkkelinfo:\n• Tomteareal: ${data.areal} m²\n• Regulert til: ${data.tomtDetaljer.regulering}\n• Utnyttelsesgrad: ${data.tomtDetaljer.utnyttelsesgrad}\n• Pris: ${data.tomtDetaljer.prisantydning}\n\nSe komplett tomteanalyse med husmodeller og byggekalkyle: https://tomtly.no/tomter/${data.id}\n\nOppgjør håndteres av Propr via Norsk eiendomsoppgjør AS.\nKontakt selger direkte for visning.`
+                          const tekst = `${data.adresse} – ${data.areal} m² tomt til salgs\n\nAttraktiv tomt ${data.adresse.includes('Nesodden') ? 'på Nesodden' : 'i ' + data.adresse.split(',').pop()?.trim()} med godkjent regulering og gode byggemuligheter. Tomten er analysert av tomtly med husmodeller og byggekalkyle.\n\nNøkkelinfo:\n• Tomteareal: ${data.areal} m²\n• Regulert til: ${data.tomtDetaljer.regulering}\n• Utnyttelsesgrad: ${data.tomtDetaljer.utnyttelsesgrad}\n• Pris: ${data.tomtDetaljer.prisantydning}\n\nSe komplett tomteanalyse med husmodeller og byggekalkyle: https://tomtly.no/tomter/${data.id}\n\nOppgjør håndteres av Propr via Norsk eiendomsoppgjør AS.\nKontakt selger direkte for visning.`
                           navigator.clipboard.writeText(tekst).then(() => {
                             setFinnTekstKopiert(true)
                             setTimeout(() => setFinnTekstKopiert(false), 2000)
@@ -1434,7 +1434,7 @@ export default function SelgerDashboard() {
                       readOnly
                       rows={14}
                       className="w-full font-mono text-xs bg-brand-50 border border-brand-200 rounded-lg p-4 text-brand-700 resize-none"
-                      value={`${data.adresse} – ${data.areal} m² tomt til salgs\n\nAttraktiv tomt ${data.adresse.includes('Nesodden') ? 'på Nesodden' : 'i ' + data.adresse.split(',').pop()?.trim()} med godkjent regulering og gode byggemuligheter. Tomten er analysert av Tomtly med husmodeller og byggekalkyle.\n\nNøkkelinfo:\n• Tomteareal: ${data.areal} m²\n• Regulert til: ${data.tomtDetaljer.regulering}\n• Utnyttelsesgrad: ${data.tomtDetaljer.utnyttelsesgrad}\n• Pris: ${data.tomtDetaljer.prisantydning}\n\nSe komplett tomteanalyse med husmodeller og byggekalkyle: https://tomtly.no/tomter/${data.id}\n\nOppgjør håndteres av Propr via Norsk eiendomsoppgjør AS.\nKontakt selger direkte for visning.`}
+                      value={`${data.adresse} – ${data.areal} m² tomt til salgs\n\nAttraktiv tomt ${data.adresse.includes('Nesodden') ? 'på Nesodden' : 'i ' + data.adresse.split(',').pop()?.trim()} med godkjent regulering og gode byggemuligheter. Tomten er analysert av tomtly med husmodeller og byggekalkyle.\n\nNøkkelinfo:\n• Tomteareal: ${data.areal} m²\n• Regulert til: ${data.tomtDetaljer.regulering}\n• Utnyttelsesgrad: ${data.tomtDetaljer.utnyttelsesgrad}\n• Pris: ${data.tomtDetaljer.prisantydning}\n\nSe komplett tomteanalyse med husmodeller og byggekalkyle: https://tomtly.no/tomter/${data.id}\n\nOppgjør håndteres av Propr via Norsk eiendomsoppgjør AS.\nKontakt selger direkte for visning.`}
                     />
                   </div>
 

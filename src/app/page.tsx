@@ -72,7 +72,7 @@ function HeroSection() {
           </h1>
 
           <p className="text-lg text-brand-300 leading-relaxed mb-10 max-w-xl">
-            Tomtly er en helt ny måte å presentere tomter på. Vi gir både selger og kjøper
+            tomtly er en helt ny måte å presentere tomter på. Vi gir både selger og kjøper
             full oversikt over tomtens muligheter og utfordringer – med husmodeller,
             3D-visualisering, reguleringsanalyse og verdivurdering.
           </p>
@@ -206,7 +206,7 @@ function ArbeidsDeling() {
             Trygg arbeidsdeling – du har full kontroll
           </h2>
           <p className="text-brand-600 max-w-lg mx-auto text-sm">
-            Tomtly er ikke en mellommann. Vi er din faglige rådgiver.
+            tomtly er ikke en mellommann. Vi er din faglige rådgiver.
           </p>
         </div>
 
@@ -216,7 +216,7 @@ function ArbeidsDeling() {
             <div className="w-10 h-10 bg-tomtly-accent rounded-lg flex items-center justify-center mb-4">
               <span className="text-white text-lg font-bold">T</span>
             </div>
-            <h3 className="font-semibold text-tomtly-dark mb-3">Tomtly gjør</h3>
+            <h3 className="font-semibold text-tomtly-dark mb-3">tomtly gjør</h3>
             <ul className="space-y-2 text-sm text-brand-700">
               {[
                 'Reguleringsanalyse',
@@ -290,7 +290,7 @@ function ArbeidsDeling() {
         </div>
 
         <p className="text-xs text-brand-400 text-center mt-6">
-          Tomtly er ikke involvert i bud, pris eller forhandling. Vi er din faglige rådgiver – ikke en mellommann.
+          tomtly er ikke involvert i bud, pris eller forhandling. Vi er din faglige rådgiver – ikke en mellommann.
         </p>
       </div>
     </section>
@@ -341,7 +341,7 @@ function FremhevedeTomter() {
             Tomter med analyse
           </h2>
           <p className="text-brand-600 max-w-lg mx-auto">
-            Se eksempler på hvordan Tomtly presenterer tomter med husmodeller, byggekalkyle og verdivurdering.
+            Se eksempler på hvordan tomtly presenterer tomter med husmodeller, byggekalkyle og verdivurdering.
           </p>
         </div>
 
@@ -382,7 +382,7 @@ function FremhevedeTomter() {
               <div className="flex items-center justify-end gap-1.5 px-5 py-3 border-t border-brand-100 mt-3">
                 <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://tomtly.no' + tomt.href)}`} target="_blank" rel="noopener noreferrer" className="w-7 h-7 flex items-center justify-center rounded-md bg-brand-50 hover:bg-brand-100 text-brand-500 hover:text-brand-700 transition-colors text-xs" title="Del på Facebook">f</a>
                 <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://tomtly.no' + tomt.href)}`} target="_blank" rel="noopener noreferrer" className="w-7 h-7 flex items-center justify-center rounded-md bg-brand-50 hover:bg-brand-100 text-brand-500 hover:text-brand-700 transition-colors text-xs font-semibold" title="Del på LinkedIn">in</a>
-                <a href={`mailto:?subject=${encodeURIComponent(tomt.adresse + ' – tomt til salgs')}&body=${encodeURIComponent('Se denne tomten på Tomtly: https://tomtly.no' + tomt.href)}`} className="w-7 h-7 flex items-center justify-center rounded-md bg-brand-50 hover:bg-brand-100 text-brand-500 hover:text-brand-700 transition-colors text-xs" title="Del via e-post">✉</a>
+                <a href={`mailto:?subject=${encodeURIComponent(tomt.adresse + ' – tomt til salgs')}&body=${encodeURIComponent('Se denne tomten på tomtly: https://tomtly.no' + tomt.href)}`} className="w-7 h-7 flex items-center justify-center rounded-md bg-brand-50 hover:bg-brand-100 text-brand-500 hover:text-brand-700 transition-colors text-xs" title="Del via e-post">✉</a>
               </div>
             </div>
           ))}
@@ -424,7 +424,7 @@ function VelgPakke() {
                 '3D-visualisering',
                 'Verdivurdering og markedsdata',
                 'Risikovurdering (grunnforhold, flom, skred m.m.)',
-                'Publisering på Tomtly.no',
+                'Publisering på tomtly.no',
               ].map((f) => (
                 <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
                   <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
@@ -504,7 +504,7 @@ function Kostnadssammenligning() {
             Hva koster det egentlig?
           </h2>
           <p className="text-brand-600 max-w-2xl mx-auto">
-            Sammenlign kostnadene ved tradisjonell megler med Tomtly.
+            Sammenlign kostnadene ved tradisjonell megler med tomtly.
           </p>
         </div>
 
@@ -542,9 +542,9 @@ function Kostnadssammenligning() {
               </div>
             </div>
 
-            {/* Tomtly Analyse */}
+            {/* tomtly Analyse */}
             <div className="bg-white rounded-2xl border-2 border-brand-200 p-6">
-              <h4 className="font-semibold text-tomtly-dark mb-1">Tomtly Tomteanalyse</h4>
+              <h4 className="font-semibold text-tomtly-dark mb-1">tomtly Tomteanalyse</h4>
               <p className="text-xs text-brand-400 mb-4">Du selger selv med profesjonell rapport</p>
               <div className="space-y-0 text-sm mb-4">
                 {[
@@ -573,10 +573,10 @@ function Kostnadssammenligning() {
               </div>
             </div>
 
-            {/* Tomtly Analyse + Markedsføring */}
+            {/* tomtly Analyse + Markedsføring */}
             <div className="bg-white rounded-2xl border-2 border-tomtly-accent p-6 relative">
               <div className="absolute -top-3 right-4 px-2.5 py-0.5 bg-tomtly-accent text-white text-[10px] font-semibold rounded-full">Mest populær</div>
-              <h4 className="font-semibold text-tomtly-accent mb-1">Tomtly Analyse + Markedsføring</h4>
+              <h4 className="font-semibold text-tomtly-accent mb-1">tomtly Analyse + Markedsføring</h4>
               <p className="text-xs text-brand-400 mb-4">Vi håndterer alt – du følger med i dashboardet</p>
               <div className="space-y-0 text-sm mb-4">
                 {[
@@ -750,7 +750,7 @@ function FradelingReklame() {
                   <span className="font-semibold text-tomtly-dark">30 000–60 000 kr</span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-forest-200">
-                  <span className="text-brand-600">Tomtly-gebyr (5% ved salg)</span>
+                  <span className="text-brand-600">tomtly-gebyr (5% ved salg)</span>
                   <span className="font-semibold text-tomtly-dark">100 000 kr</span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-forest-200">
@@ -763,7 +763,7 @@ function FradelingReklame() {
                 </div>
               </div>
               <p className="text-[10px] text-brand-400 mt-3">
-                Ved avslag betaler du kun kommunale saksbehandlingsgebyrer. Tomtly tar ingen betaling ved avslag.
+                Ved avslag betaler du kun kommunale saksbehandlingsgebyrer. tomtly tar ingen betaling ved avslag.
               </p>
             </div>
           </div>
@@ -787,10 +787,10 @@ function Kundehistorier() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-3">
-            Tomteeiere som har solgt med Tomtly
+            Tomteeiere som har solgt med tomtly
           </h2>
           <p className="text-brand-600 max-w-lg mx-auto">
-            Ekte historier fra tomteeiere som har brukt Tomtly til å selge tomten sin.
+            Ekte historier fra tomteeiere som har brukt tomtly til å selge tomten sin.
           </p>
         </div>
 
@@ -826,7 +826,7 @@ function FAQSection() {
     },
     {
       q: 'Trenger jeg megler for å selge tomten?',
-      a: 'Nei. Du kan selge tomt privat i Norge. Tomtly gir deg profesjonelle verktøy for analyse og markedsføring, og Propr håndterer det juridiske oppgjøret trygt via Norsk eiendomsoppgjør AS.',
+      a: 'Nei. Du kan selge tomt privat i Norge. tomtly gir deg profesjonelle verktøy for analyse og markedsføring, og Propr håndterer det juridiske oppgjøret trygt via Norsk eiendomsoppgjør AS.',
     },
     {
       q: 'Hva betyr «2 % ved salg»?',
@@ -842,15 +842,15 @@ function FAQSection() {
     },
     {
       q: 'Kan jeg bruke analysen til å selge via egen megler?',
-      a: 'Ja. Tomteanalyse-pakken gir deg en komplett rapport du fritt kan bruke – enten du selger selv, via Tomtly eller via din egen megler.',
+      a: 'Ja. Tomteanalyse-pakken gir deg en komplett rapport du fritt kan bruke – enten du selger selv, via tomtly eller via din egen megler.',
     },
     {
       q: 'Hva slags data bruker dere?',
       a: 'Vi henter data fra over 70 offentlige og private kilder, inkludert matrikkel, reguleringsplaner, grunnforhold og markedsdata. Våre fageksperter tolker og sammenstiller alt til en komplett analyse.',
     },
     {
-      q: 'Er Tomtly et meglerforetak?',
-      a: 'Nei. Tomtly er en analyseplattform og markedsføringskanal for tomtesalg. Vi er ikke et eiendomsmeglingsforetak. Tilretteleggingsgebyret er betaling for Tomtlys tjenester og er ikke meglerprovisjoner. Oppgjør håndteres av Propr via Norsk eiendomsoppgjør AS.',
+      q: 'Er tomtly et meglerforetak?',
+      a: 'Nei. tomtly er en analyseplattform og markedsføringskanal for tomtesalg. Vi er ikke et eiendomsmeglingsforetak. Tilretteleggingsgebyret er betaling for tomtlys tjenester og er ikke meglerprovisjoner. Oppgjør håndteres av Propr via Norsk eiendomsoppgjør AS.',
     },
   ]
 
@@ -899,9 +899,9 @@ function JuridiskDisclaimer() {
             <div>
               <h3 className="font-semibold text-tomtly-dark mb-2">Juridisk informasjon</h3>
               <p className="text-sm text-brand-600 leading-relaxed">
-                Tomtly er ikke et eiendomsmeglingsforetak og driver ikke eiendomsmegling.
-                Tomtly tilbyr analyse- og markedsføringstjenester for tomteeiere som ønsker å selge selv.
-                Tilretteleggingsgebyret er betaling for Tomtlys tjenester og er ikke meglerprovisjoner.
+                tomtly er ikke et eiendomsmeglingsforetak og driver ikke eiendomsmegling.
+                tomtly tilbyr analyse- og markedsføringstjenester for tomteeiere som ønsker å selge selv.
+                Tilretteleggingsgebyret er betaling for tomtlys tjenester og er ikke meglerprovisjoner.
                 Tomteeier er selv ansvarlig for salget av sin eiendom.
                 Kontrakt og oppgjør håndteres av{' '}
                 <a href="https://propr.no" target="_blank" rel="noopener noreferrer" className="underline hover:text-brand-800">Propr.no</a>{' '}

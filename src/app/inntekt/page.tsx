@@ -169,7 +169,7 @@ export default function InntektPage() {
       timerPer: 15,
     },
     {
-      label: 'Addons (via Konsepthus – ikke Tomtly-inntekt)',
+      label: 'Addons (via Konsepthus – ikke tomtly-inntekt)',
       antall: 0,
       inntektPer: 0,
       timerPer: 10,
@@ -215,7 +215,7 @@ export default function InntektPage() {
         <div className="max-w-7xl mx-auto flex items-center gap-4">
           <Link href="/" className="p-1 hover:bg-white/10 rounded-lg transition-colors">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.svg" alt="Tomtly" className="h-7 invert" />
+            <img src="/logo.svg" alt="tomtly" className="h-7 invert" />
           </Link>
           <div>
             <h1 className="font-display text-lg font-bold">Tomtly – Inntektsmodell</h1>
@@ -440,7 +440,7 @@ function Forretningsmodell() {
         <FlowMarker text="TOMTEEIER HAR EN TOMT" />
 
         <FlowStep nummer="1" tittel="Tomteanalyse (kun analyse)" ikon="📐" inntekt="9 900 kr" beskrivelse="Komplett analyse: reguleringssjekk, husmodeller, 3D, verdivurdering, DOK-analyse, tomterapport. Kunde selger selv." />
-        <FlowStep nummer="2" tittel="Analyse + Markedsføring" ikon="📣" inntekt="4 990 kr + 2% tilrettelegging" beskrivelse="Alt i analysepakken + annonsering, salgsdashboard, faglig støtte fra Tomtly-teamet, interessentoppfølging i inntil 12 mnd." />
+        <FlowStep nummer="2" tittel="Analyse + Markedsføring" ikon="📣" inntekt="4 990 kr + 2% tilrettelegging" beskrivelse="Alt i analysepakken + annonsering, salgsdashboard, faglig støtte fra tomtly-teamet, interessentoppfølging i inntil 12 mnd." />
         <FlowStep nummer="3" tittel="Fradeling" ikon="✂️" inntekt="5% av ny tomts verdi" beskrivelse="Vurdering, reguleringssjekk, søknad, oppmåling og tilrettelegging for salg. Kunde betaler kun kommunale gebyrer ved avslag." />
 
         <FlowMarker text="TOMTEN SELGES" highlight />

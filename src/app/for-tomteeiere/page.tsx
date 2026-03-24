@@ -63,7 +63,7 @@ function HeroSection() {
           </h1>
 
           <p className="text-lg text-brand-400 leading-relaxed mb-10 max-w-xl">
-            Tomtly er en analyseplattform som gir deg alt du trenger for å
+            tomtly er en analyseplattform som gir deg alt du trenger for å
             selge tomten selv: reguleringsanalyse, husmodeller,
             3D-visualisering, byggekalkyle og verdivurdering. Du bestemmer
             – vi leverer verktøyene.
@@ -126,7 +126,7 @@ function VelgPakke() {
                 'Byggekalkyle og verdivurdering',
                 'DOK-analyse (70+ datasett)',
                 'Tomterapport (PDF)',
-                'Publisering på Tomtly.no',
+                'Publisering på tomtly.no',
               ].map((f) => (
                 <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
                   <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
@@ -301,7 +301,7 @@ function SlikSelgerDuSelv() {
       ikon: Megaphone,
       tittel: 'Markedsføring starter',
       beskrivelse:
-        'Tomten publiseres på Tomtly med profesjonelle visualiseringer og tiltrekker kvalifiserte kjøpere.',
+        'Tomten publiseres på tomtly med profesjonelle visualiseringer og tiltrekker kvalifiserte kjøpere.',
     },
     {
       nummer: 4,
@@ -395,7 +395,7 @@ function Priseksempler() {
             Priseksempler
           </h2>
           <p className="text-brand-600 max-w-2xl mx-auto">
-            Se hva det koster å selge tomten med Tomtly sammenlignet med tradisjonell megler.
+            Se hva det koster å selge tomten med tomtly sammenlignet med tradisjonell megler.
             Alle beløp inkluderer oppgjør via Propr (9 990 kr).
           </p>
         </div>
@@ -607,7 +607,7 @@ function JuridiskDisclaimer() {
               Juridisk informasjon
             </h3>
             <p className="text-xs text-brand-500 leading-relaxed">
-              Tomtly er en analyseplattform og markedsplass for tomter, levert av
+              tomtly er en analyseplattform og markedsplass for tomter, levert av
               NOPS AS (org.nr 933 819 086). Tomtly driver ikke eiendomsmegling.
               Verdivurderinger er estimater basert på offentlige data og
               sammenlignbare salg, og utgjør ikke en formell takst. Selger er selv

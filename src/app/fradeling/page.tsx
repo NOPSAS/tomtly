@@ -83,7 +83,7 @@ function StegForSteg() {
       nummer: '04',
       ikon: Banknote,
       tittel: 'Salg gjennomføres',
-      beskrivelse: 'Tomten publiseres og markedsføres på Tomtly. Vår Tomtekonsulent håndterer salget. Oppgjør via Propr.',
+      beskrivelse: 'Tomten publiseres og markedsføres på tomtly. Vår Tomtekonsulent håndterer salget. Oppgjør via Propr.',
     },
   ]
 
@@ -92,7 +92,7 @@ function StegForSteg() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-4">
-            Slik fungerer fradeling med Tomtly
+            Slik fungerer fradeling med tomtly
           </h2>
           <p className="text-brand-600 max-w-lg mx-auto">
             Fra uutnyttet hage til penger på konto – uten risiko for deg.
@@ -238,7 +238,7 @@ function Priser() {
                 'Søknad, tegning og oppmåling – kostnadsfritt for deg',
                 'Nabovarsel og oppfølging mot kommunen',
                 'Mulighetsstudie med husmodeller og kalkyle',
-                'Publisering og markedsføring via Tomtly',
+                'Publisering og markedsføring via tomtly',
                 'Salg via vår Tomtekonsulent',
                 'Oppgjør via Propr',
               ].map((f) => (

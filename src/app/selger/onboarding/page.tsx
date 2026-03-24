@@ -372,7 +372,7 @@ function Steg3Bekreftelse() {
             'Arkitektteamet vurderer mulighetene',
             'Vi matcher husmodeller og innhenter priser',
             'Du mottar ferdig analyse med husmodeller og kostnadsoverslag',
-            'Tomten publiseres på Tomtly',
+            'Tomten publiseres på tomtly',
           ].map((steg, idx) => (
             <li key={idx} className="flex items-start gap-3 text-sm text-brand-700">
               <span className="w-5 h-5 bg-tomtly-accent text-white rounded-full flex items-center justify-center flex-shrink-0 text-xs">

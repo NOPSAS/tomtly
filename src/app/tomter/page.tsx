@@ -10,6 +10,7 @@ import { formatNOK, formatM2 } from '@/lib/utils'
 // ============================================================
 
 const TOMTER = [
+  { id: 'alvaern-65', adresse: 'Gamle Alværnvei 65', poststed: 'Alværn', kommune: 'Nesodden', areal_m2: 2274, pris: 3200000, type: 'Eneboligtomt', bilde: '/tomter/alvaern-65/render-cam-02.jpg', solgt: true },
   { id: 'bjornemyrveien-20', adresse: 'Bjørnemyrveien 20', poststed: 'Bjørnemyr', kommune: 'Nesodden', areal_m2: 605, pris: 3000000, type: 'Eneboligtomt', bilde: '/tomter/bjornemyrveien-shared/render-parsell-b.jpg' },
   { id: 'bjornemyrveien-22', adresse: 'Bjørnemyrveien 22', poststed: 'Bjørnemyr', kommune: 'Nesodden', areal_m2: 613, pris: 3000000, type: 'Eneboligtomt', bilde: '/tomter/bjornemyrveien-shared/render-parsell-c.jpg' },
   { id: 'alvaern-67', adresse: 'Gamle Alværnvei 67', poststed: 'Alværn', kommune: 'Nesodden', areal_m2: 900, pris: 3200000, type: 'Eneboligtomt', bilde: '/tomter/alvaern-shared/alvaern-render-aerial-1-DvVXdDku.jpg' },
@@ -143,10 +144,15 @@ export default function TomtListeSide() {
                 href={`/tomter/${t.id}`}
                 className="group bg-white border border-brand-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300"
               >
-                <div className="aspect-[4/3] bg-brand-100 relative">
+                <div className={`aspect-[4/3] bg-brand-100 relative ${(t as any).solgt ? 'opacity-80' : ''}`}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={t.bilde} alt={t.adresse} className="absolute inset-0 w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                  {(t as any).solgt && (
+                    <div className="absolute top-3 right-3 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full -rotate-6 shadow-lg">
+                      SOLGT
+                    </div>
+                  )}
                   <div className="absolute bottom-3 left-3">
                     <span className="px-2 py-1 bg-white/90 backdrop-blur-sm rounded text-xs font-medium text-brand-800">
                       {t.type}
