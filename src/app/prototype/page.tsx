@@ -342,6 +342,7 @@ function PrototypeContent() {
   const [analysing, setAnalysing] = useState(false)
   const [linkCopied, setLinkCopied] = useState(false)
   const autoStarted = useRef(false)
+  const leadSentRef = useRef(false)
 
   // Results
   const [teigResult, setTeigResult] = useState<TeigResult | null>(null)
@@ -370,12 +371,16 @@ function PrototypeContent() {
   // ─── Auto-start from URL params ──────────────────────────────────────
   useEffect(() => {
     if (autoStarted.current) return
+    // ?intern=true skips lead gate for internal Tomtly use
+    if (searchParams.get('intern') === 'true') {
+      setLeadCaptured(true)
+    }
     const knr = searchParams.get('knr')
     const gnr = searchParams.get('gnr')
     const bnr = searchParams.get('bnr')
     if (knr && gnr && bnr) {
       autoStarted.current = true
-      setLeadCaptured(true) // Skip lead gate for shared links
+      setLeadCaptured(true)
       // Look up address by gnr/bnr
       fetch(`https://ws.geonorge.no/adresser/v1/sok?kommunenummer=${knr}&gardsnummer=${gnr}&bruksnummer=${bnr}&treffPerSide=1`)
         .then(r => r.json())
@@ -451,8 +456,9 @@ function PrototypeContent() {
       window.history.replaceState({}, '', url)
     }
 
-    // Save lead + analysis request
-    if (leadEpost) {
+    // Save lead + analysis request (only once per session)
+    if (leadEpost && !leadSentRef.current) {
+      leadSentRef.current = true
       fetch('/api/henvendelse', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
