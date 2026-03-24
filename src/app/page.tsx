@@ -33,6 +33,7 @@ export default function Forside() {
       <VerdivurderingLead />
       <FradelingReklame />
       <TomteSokLead />
+      <Kundehistorier />
       <FAQSection />
       <JuridiskDisclaimer />
       <CTASection />
@@ -76,32 +77,30 @@ function HeroSection() {
             3D-visualisering, reguleringsanalyse og verdivurdering.
           </p>
 
-          <div className="space-y-3 max-w-lg">
-            <div className="flex gap-3">
+          <div className="max-w-lg">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <Link
                 href="/selger/onboarding"
-                className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-4 bg-tomtly-accent text-white font-semibold rounded-lg hover:bg-forest-700 transition-colors"
+                className="inline-flex items-center justify-center gap-2 px-6 py-4 bg-tomtly-accent text-white font-semibold rounded-lg hover:bg-forest-700 transition-colors"
               >
                 Legg ut din tomt
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 href="/tomteanalyse"
-                className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-medium rounded-lg hover:bg-white/20 transition-colors"
+                className="inline-flex items-center justify-center gap-2 px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-medium rounded-lg hover:bg-white/20 transition-colors"
               >
                 Gratis tomteanalyse
               </Link>
-            </div>
-            <div className="flex gap-3">
               <a
                 href="#verdivurdering"
-                className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 border border-brand-600 text-brand-300 text-sm font-medium rounded-lg hover:bg-brand-900 transition-colors"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-brand-600 text-brand-300 text-sm font-medium rounded-lg hover:bg-brand-900 transition-colors"
               >
                 Hva er tomten din verdt?
               </a>
               <Link
                 href="/tomter"
-                className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 border border-brand-600 text-brand-300 text-sm font-medium rounded-lg hover:bg-brand-900 transition-colors"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-brand-600 text-brand-300 text-sm font-medium rounded-lg hover:bg-brand-900 transition-colors"
               >
                 Se tomter til salgs
               </Link>
@@ -348,38 +347,44 @@ function FremhevedeTomter() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {tomter.map((tomt) => (
-            <Link
+            <div
               key={tomt.href}
-              href={tomt.href}
               className="group bg-white border border-brand-200 rounded-2xl overflow-hidden hover:border-tomtly-accent/40 hover:shadow-lg transition-all"
             >
-              <div className="aspect-[16/10] relative overflow-hidden bg-brand-100">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={tomt.bilde}
-                  alt={tomt.adresse}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute top-3 left-3">
-                  <span className="bg-tomtly-accent text-white text-[10px] font-semibold px-2.5 py-1 rounded-full">
-                    {tomt.husmodeller} husmodeller
-                  </span>
-                </div>
-              </div>
-              <div className="p-5">
-                <h3 className="font-semibold text-tomtly-dark mb-1">{tomt.adresse}</h3>
-                <p className="text-sm text-brand-500 mb-3">{tomt.sted} · {tomt.type}</p>
-                <div className="flex items-center justify-between">
-                  <div className="flex gap-4 text-xs text-brand-500">
-                    <span>{tomt.areal}</span>
-                    <span className="font-semibold text-tomtly-dark">{tomt.pris}</span>
+              <Link href={tomt.href}>
+                <div className="aspect-[16/10] relative overflow-hidden bg-brand-100">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={tomt.bilde}
+                    alt={tomt.adresse}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute top-3 left-3">
+                    <span className="bg-tomtly-accent text-white text-[10px] font-semibold px-2.5 py-1 rounded-full">
+                      {tomt.husmodeller} husmodeller
+                    </span>
                   </div>
-                  <span className="text-xs text-tomtly-accent font-medium group-hover:underline flex items-center gap-1">
-                    Se analyse <ArrowRight className="w-3 h-3" />
-                  </span>
                 </div>
+                <div className="p-5 pb-0">
+                  <h3 className="font-semibold text-tomtly-dark mb-1">{tomt.adresse}</h3>
+                  <p className="text-sm text-brand-500 mb-3">{tomt.sted} · {tomt.type}</p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex gap-4 text-xs text-brand-500">
+                      <span>{tomt.areal}</span>
+                      <span className="font-semibold text-tomtly-dark">{tomt.pris}</span>
+                    </div>
+                    <span className="text-xs text-tomtly-accent font-medium group-hover:underline flex items-center gap-1">
+                      Se analyse <ArrowRight className="w-3 h-3" />
+                    </span>
+                  </div>
+                </div>
+              </Link>
+              <div className="flex items-center justify-end gap-1.5 px-5 py-3 border-t border-brand-100 mt-3">
+                <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://tomtly.no' + tomt.href)}`} target="_blank" rel="noopener noreferrer" className="w-7 h-7 flex items-center justify-center rounded-md bg-brand-50 hover:bg-brand-100 text-brand-500 hover:text-brand-700 transition-colors text-xs" title="Del på Facebook">f</a>
+                <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://tomtly.no' + tomt.href)}`} target="_blank" rel="noopener noreferrer" className="w-7 h-7 flex items-center justify-center rounded-md bg-brand-50 hover:bg-brand-100 text-brand-500 hover:text-brand-700 transition-colors text-xs font-semibold" title="Del på LinkedIn">in</a>
+                <a href={`mailto:?subject=${encodeURIComponent(tomt.adresse + ' – tomt til salgs')}&body=${encodeURIComponent('Se denne tomten på Tomtly: https://tomtly.no' + tomt.href)}`} className="w-7 h-7 flex items-center justify-center rounded-md bg-brand-50 hover:bg-brand-100 text-brand-500 hover:text-brand-700 transition-colors text-xs" title="Del via e-post">✉</a>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </div>
@@ -762,6 +767,49 @@ function FradelingReklame() {
               </p>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ---- Kundehistorier ----
+
+function Kundehistorier() {
+  const kundehistorier = [
+    { id: 1, ikon: '🏠', tekst: 'Din historie kan være neste.' },
+    { id: 2, ikon: '🏠', tekst: 'Din historie kan være neste.' },
+    { id: 3, ikon: '🏠', tekst: 'Din historie kan være neste.' },
+  ]
+
+  return (
+    <section className="bg-brand-50 py-16 lg:py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-3">
+            Tomteeiere som har solgt med Tomtly
+          </h2>
+          <p className="text-brand-600 max-w-lg mx-auto">
+            Ekte historier fra tomteeiere som har brukt Tomtly til å selge tomten sin.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {kundehistorier.map((k) => (
+            <div
+              key={k.id}
+              className="bg-white border border-brand-200 rounded-2xl p-8 text-center flex flex-col items-center justify-center"
+            >
+              <span className="text-4xl mb-4">{k.ikon}</span>
+              <p className="text-brand-500 mb-6">{k.tekst}</p>
+              <Link
+                href="/selger/onboarding"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-tomtly-accent hover:underline"
+              >
+                Selg din tomt <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          ))}
         </div>
       </div>
     </section>

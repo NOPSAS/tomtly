@@ -11,5 +11,17 @@ export const metadata: Metadata = {
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "RealEstateListing",
+        "name": "Tomt: Bjørnemyrveien 20",
+        "address": { "@type": "PostalAddress", "streetAddress": "Bjørnemyrveien 20", "addressLocality": "Nesodden", "postalCode": "1459", "addressCountry": "NO" },
+        "geo": { "@type": "GeoCoordinates", "latitude": 59.8346, "longitude": 10.6419 },
+        "lotSize": { "@type": "QuantitativeValue", "value": 605, "unitCode": "MTK" }
+      }) }} />
+      {children}
+    </>
+  )
 }

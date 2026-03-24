@@ -363,6 +363,7 @@ function PrototypeContent() {
   const [fkbKart, setFkbKart] = useState<string | null>(null)
   const [kartBbox, setKartBbox] = useState<number[] | null>(null)
   const [kartLoading, setKartLoading] = useState(false)
+  const [kommuneInnsyn, setKommuneInnsyn] = useState<any>(null)
   const kartCanvasRef = useRef<HTMLCanvasElement>(null)
   const [steps, setSteps] = useState<Step[]>([])
 
@@ -986,6 +987,14 @@ function PrototypeContent() {
 
     }
 
+    // Kommune byggesak-innsyn (non-blocking)
+    if (gnr && bnr) {
+      fetch("/api/kommune-innsyn", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ kommunenummer: knr, gnr, bnr, adresse: adr.adressetekst }),
+      }).then(r => r.ok ? r.json() : null).then(d => { if (d) setKommuneInnsyn(d) }).catch(() => {})
+    }
     setAnalysing(false)
   }
 
@@ -1158,17 +1167,38 @@ function PrototypeContent() {
                   <MapPin className="w-5 h-5 text-tomtly-accent" />
                   {valgtAdresse.adressetekst}, {valgtAdresse.postnummer} {valgtAdresse.poststed}
                 </h2>
-                <button
-                  onClick={copyShareLink}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors shrink-0 ${
-                    linkCopied
-                      ? 'bg-green-100 text-green-800'
-                      : 'bg-brand-100 text-brand-600 hover:bg-brand-200'
-                  }`}
-                >
-                  {linkCopied ? <Check className="w-3.5 h-3.5" /> : <Link2 className="w-3.5 h-3.5" />}
-                  {linkCopied ? 'Kopiert!' : 'Del analyse'}
-                </button>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <button
+                    onClick={copyShareLink}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                      linkCopied
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-brand-100 text-brand-600 hover:bg-brand-200'
+                    }`}
+                  >
+                    {linkCopied ? <Check className="w-3.5 h-3.5" /> : <Link2 className="w-3.5 h-3.5" />}
+                    {linkCopied ? 'Kopiert!' : 'Del analyse'}
+                  </button>
+                  <a
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareUrl())}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center w-8 h-8 rounded-lg bg-brand-100 text-brand-600 hover:bg-brand-200 transition-colors text-xs font-medium"
+                    title="Del på Facebook"
+                  >f</a>
+                  <a
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(getShareUrl())}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center w-8 h-8 rounded-lg bg-brand-100 text-brand-600 hover:bg-brand-200 transition-colors text-xs font-semibold"
+                    title="Del på LinkedIn"
+                  >in</a>
+                  <a
+                    href={`mailto:?subject=${encodeURIComponent('Tomteanalyse – ' + (valgtAdresse?.adressetekst || ''))}&body=${encodeURIComponent('Se tomteanalysen: ' + getShareUrl())}`}
+                    className="flex items-center justify-center w-8 h-8 rounded-lg bg-brand-100 text-brand-600 hover:bg-brand-200 transition-colors text-xs"
+                    title="Del via e-post"
+                  >✉</a>
+                </div>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                 <InfoBox label="Kommune" value={`${valgtAdresse.kommunenavn} (${valgtAdresse.kommunenummer})`} />
@@ -1759,6 +1789,36 @@ function PrototypeContent() {
               </div>
             )}
 
+            {/* Kommune byggesak-innsyn */}
+            {kommuneInnsyn && kommuneInnsyn.kilder?.length > 0 && (
+              <div className="bg-white rounded-2xl border border-brand-100 p-6 shadow-sm">
+                <h2 className="font-display text-lg font-bold text-tomtly-dark mb-4 flex items-center gap-2">
+                  <Building2 className="w-5 h-5 text-tomtly-accent" />
+                  Kommune byggesak-innsyn
+                </h2>
+                <div className="space-y-3">
+                  {kommuneInnsyn.kilder.map((kilde: any, i: number) => (
+                    <div key={i} className="border border-brand-200 rounded-lg p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <div>
+                          <p className="text-sm font-semibold text-tomtly-dark">{kilde.kommune} – {kilde.system}</p>
+                          {kilde.saker?.length > 0 && <p className="text-xs text-brand-500">{kilde.saker.length} saker funnet</p>}
+                        </div>
+                        <a href={kilde.sokeUrl || kilde.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-tomtly-accent bg-forest-50 rounded-lg hover:bg-forest-100 transition-colors"><ExternalLink className="w-3 h-3" />Åpne innsyn</a>
+                      </div>
+                      {kilde.saker?.length > 0 && (
+                        <div className="space-y-1 mt-2">
+                          {kilde.saker.slice(0, 5).map((sak: any, si: number) => (
+                            <div key={si} className="bg-brand-50 rounded px-3 py-1.5 text-xs text-brand-700">{sak.saksnr && <span className="font-mono mr-2">{sak.saksnr}</span>}{sak.tittel}</div>
+                          ))}
+                        </div>
+                      )}
+                      {kilde.saker?.length === 0 && kilde.tilgjengelig && <p className="text-xs text-brand-400">Ingen saker funnet via automatisk søk. Klikk "Åpne innsyn" for å søke manuelt.</p>}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
             {/* 4c: DOK-analyse */}
             {dokDatasets.length > 0 && (() => {
               // Key risk factors
@@ -1906,9 +1966,18 @@ function PrototypeContent() {
                         <div className="flex items-center gap-2">
                           <IconComp className="w-4 h-4 text-tomtly-accent" />
                           <span className="font-semibold text-tomtly-dark text-sm">{cat.label}</span>
-                          <span className="text-[10px] bg-brand-100 text-brand-500 px-2 py-0.5 rounded-full">
-                            {cat.items.length} funn
-                          </span>
+                          {(() => {
+                            const medFunn = cat.items.filter(d => (d.status || '').toLowerCase().includes('med funn')).length
+                            return medFunn > 0 ? (
+                              <span className="text-[10px] bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-semibold">
+                                {medFunn} funn
+                              </span>
+                            ) : (
+                              <span className="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
+                                ✓ Ingen funn ({cat.items.length} sjekket)
+                              </span>
+                            )
+                          })()}
                         </div>
                         {isExpanded
                           ? <ChevronUp className="w-4 h-4 text-brand-400" />
@@ -1930,23 +1999,16 @@ function PrototypeContent() {
                               <tbody>
                                 {cat.items.map((ds, di) => {
                                   const st = ds.status || ds.dekning || '–'
+                                  const isFunn = st.toLowerCase().includes('med funn')
+                                  const isIkkeKartlagt = st.toLowerCase().includes('ikke kartlagt')
                                   return (
-                                    <tr key={di} className="border-b border-brand-50 last:border-0">
-                                      <td className="px-4 py-2 text-brand-700 max-w-xs">
+                                    <tr key={di} className={`border-b border-brand-50 last:border-0 ${isFunn ? 'bg-red-50/50' : ''}`}>
+                                      <td className="px-4 py-2.5 text-brand-700 max-w-xs">
+                                        <span className="mr-1.5">{isFunn ? '⚠️' : isIkkeKartlagt ? '❓' : '✅'}</span>
                                         {ds.tittel || '–'}
-                                        {ds.metadata && (
-                                          <a
-                                            href={ds.metadata}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="ml-1 inline-flex"
-                                          >
-                                            <ExternalLink className="w-3 h-3 text-brand-400 hover:text-tomtly-accent" />
-                                          </a>
-                                        )}
                                       </td>
-                                      <td className="px-4 py-2 text-brand-500">{ds.tema || '–'}</td>
-                                      <td className="px-4 py-2">
+                                      <td className="px-4 py-2.5 text-brand-500">{ds.tema || '–'}</td>
+                                      <td className="px-4 py-2.5">
                                         <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-medium ${statusColor(st)}`}>
                                           {st}
                                         </span>
@@ -2136,7 +2198,7 @@ function TomteKartSection({ lat, lon, adresse, teigCoordsLatLon }: {
         <Layers className="w-4 h-4 text-tomtly-accent" />
         Tomtekart
       </h2>
-      <div className="relative max-w-lg">
+      <div className="relative max-w-full sm:max-w-lg">
         <canvas ref={canvasRef} className="w-full rounded-lg border border-brand-200" />
       </div>
       <div className="mt-2 flex flex-wrap gap-3 text-[10px] text-brand-400">

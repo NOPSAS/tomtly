@@ -594,6 +594,9 @@ export default function SelgerDashboard() {
   const [visningDato, setVisningDato] = useState('')
   const [visningTid, setVisningTid] = useState('12:00')
   const [visningsendt, setVisningsendt] = useState(false)
+  const [finnUrl, setFinnUrl] = useState('')
+  const [finnUrlSaved, setFinnUrlSaved] = useState(false)
+  const [finnTekstKopiert, setFinnTekstKopiert] = useState(false)
 
   const harBud = Object.values(interessentStatuser).includes('bud_mottatt')
 
@@ -904,7 +907,7 @@ export default function SelgerDashboard() {
           {activeNav === 'oversikt' && (
             <>
               {/* ── Key Metrics ──────────────────────────────────────────────── */}
-              <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+              <section className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
                 {[
                   { label: 'Visninger', ...data.metrics.visninger },
                   { label: 'Interessenter', ...data.metrics.interessenter },
@@ -1383,6 +1386,88 @@ export default function SelgerDashboard() {
                   </div>
                 </section>
               )}
+
+              {/* ── FINN.no ─────────────────────────────────────────────────── */}
+              <section className="mb-8">
+                <div className="bg-white rounded-xl border border-brand-200 p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-lg font-display font-semibold text-tomtly-dark flex items-center gap-2">
+                      🐟 Publiser på FINN.no
+                    </h2>
+                    <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-yellow-100 text-yellow-800 border border-yellow-300">
+                      {finnUrl ? 'Publisert' : 'Ikke publisert'}
+                    </span>
+                  </div>
+
+                  {/* Step-by-step guide */}
+                  <div className="mb-6">
+                    <h3 className="text-sm font-semibold text-tomtly-dark mb-3">Slik publiserer du på FINN.no</h3>
+                    <ol className="space-y-2 text-sm text-brand-600">
+                      <li className="flex gap-2"><span className="font-mono font-semibold text-tomtly-accent shrink-0">1.</span> Kopier annonseteksten nedenfor</li>
+                      <li className="flex gap-2"><span className="font-mono font-semibold text-tomtly-accent shrink-0">2.</span> Gå til <a href="https://www.finn.no/realestate/newbuildings/ad.html?type=plot" target="_blank" rel="noopener" className="text-tomtly-accent underline">finn.no/ny-annonse</a> og velg &quot;Tomt&quot;</li>
+                      <li className="flex gap-2"><span className="font-mono font-semibold text-tomtly-accent shrink-0">3.</span> Lim inn annonseteksten i beskrivelsesfeltet</li>
+                      <li className="flex gap-2"><span className="font-mono font-semibold text-tomtly-accent shrink-0">4.</span> Last ned bildepakken og last opp bildene</li>
+                      <li className="flex gap-2"><span className="font-mono font-semibold text-tomtly-accent shrink-0">5.</span> Fyll inn pris, adresse og kontaktinfo</li>
+                      <li className="flex gap-2"><span className="font-mono font-semibold text-tomtly-accent shrink-0">6.</span> Publiser annonsen</li>
+                      <li className="flex gap-2"><span className="font-mono font-semibold text-tomtly-accent shrink-0">7.</span> Lim inn FINN-lenken nedenfor slik at vi kan spore visninger</li>
+                    </ol>
+                  </div>
+
+                  {/* Auto-generated ad text */}
+                  <div className="mb-6">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-sm font-semibold text-tomtly-dark">Annonsetekst for FINN</h3>
+                      <button
+                        onClick={() => {
+                          const tekst = `${data.adresse} – ${data.areal} m² tomt til salgs\n\nAttraktiv tomt ${data.adresse.includes('Nesodden') ? 'på Nesodden' : 'i ' + data.adresse.split(',').pop()?.trim()} med godkjent regulering og gode byggemuligheter. Tomten er analysert av Tomtly med husmodeller og byggekalkyle.\n\nNøkkelinfo:\n• Tomteareal: ${data.areal} m²\n• Regulert til: ${data.tomtDetaljer.regulering}\n• Utnyttelsesgrad: ${data.tomtDetaljer.utnyttelsesgrad}\n• Pris: ${data.tomtDetaljer.prisantydning}\n\nSe komplett tomteanalyse med husmodeller og byggekalkyle: https://tomtly.no/tomter/${data.id}\n\nOppgjør håndteres av Propr via Norsk eiendomsoppgjør AS.\nKontakt selger direkte for visning.`
+                          navigator.clipboard.writeText(tekst).then(() => {
+                            setFinnTekstKopiert(true)
+                            setTimeout(() => setFinnTekstKopiert(false), 2000)
+                          })
+                        }}
+                        className={`text-xs font-medium px-3 py-1.5 rounded-lg transition-colors ${finnTekstKopiert ? 'bg-green-100 text-green-800' : 'bg-tomtly-accent text-white hover:bg-tomtly-accent/90'}`}
+                      >
+                        {finnTekstKopiert ? '✅ Kopiert!' : 'Kopier tekst'}
+                      </button>
+                    </div>
+                    <textarea
+                      readOnly
+                      rows={14}
+                      className="w-full font-mono text-xs bg-brand-50 border border-brand-200 rounded-lg p-4 text-brand-700 resize-none"
+                      value={`${data.adresse} – ${data.areal} m² tomt til salgs\n\nAttraktiv tomt ${data.adresse.includes('Nesodden') ? 'på Nesodden' : 'i ' + data.adresse.split(',').pop()?.trim()} med godkjent regulering og gode byggemuligheter. Tomten er analysert av Tomtly med husmodeller og byggekalkyle.\n\nNøkkelinfo:\n• Tomteareal: ${data.areal} m²\n• Regulert til: ${data.tomtDetaljer.regulering}\n• Utnyttelsesgrad: ${data.tomtDetaljer.utnyttelsesgrad}\n• Pris: ${data.tomtDetaljer.prisantydning}\n\nSe komplett tomteanalyse med husmodeller og byggekalkyle: https://tomtly.no/tomter/${data.id}\n\nOppgjør håndteres av Propr via Norsk eiendomsoppgjør AS.\nKontakt selger direkte for visning.`}
+                    />
+                  </div>
+
+                  {/* Download image pack */}
+                  <div className="mb-6">
+                    <button className="flex items-center gap-2 text-sm font-medium text-tomtly-accent border border-tomtly-accent/30 rounded-lg px-4 py-2.5 hover:bg-tomtly-accent/5 transition-colors">
+                      📸 Last ned bildepakke
+                    </button>
+                    <p className="text-xs text-brand-400 mt-1.5">Optimaliserte bilder for FINN-annonsen (tomt, kart, husmodeller)</p>
+                  </div>
+
+                  {/* FINN URL input */}
+                  <div>
+                    <h3 className="text-sm font-semibold text-tomtly-dark mb-2">FINN-lenke</h3>
+                    <p className="text-xs text-brand-400 mb-2">Lim inn lenken til FINN-annonsen din slik at vi kan følge med på visninger og klikk.</p>
+                    <div className="flex gap-2">
+                      <input
+                        type="url"
+                        placeholder="https://www.finn.no/realestate/plots/ad.html?finnkode=..."
+                        value={finnUrl}
+                        onChange={(e) => { setFinnUrl(e.target.value); setFinnUrlSaved(false) }}
+                        className="flex-1 text-sm border border-brand-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-tomtly-accent/30 focus:border-tomtly-accent"
+                      />
+                      <button
+                        onClick={() => { setFinnUrlSaved(true); setTimeout(() => setFinnUrlSaved(false), 2000) }}
+                        className={`text-sm font-medium px-4 py-2 rounded-lg transition-colors ${finnUrlSaved ? 'bg-green-100 text-green-800' : 'bg-tomtly-accent text-white hover:bg-tomtly-accent/90'}`}
+                      >
+                        {finnUrlSaved ? '✅ Lagret' : 'Lagre'}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </section>
 
               {/* ── Comparable Sales ────────────────────────────────────────── */}
               {data.sammenlignbare.length > 0 && (
