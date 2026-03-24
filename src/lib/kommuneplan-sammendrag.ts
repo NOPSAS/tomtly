@@ -246,6 +246,216 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
     ],
   },
 
+  '3030': {
+    kommunenummer: '3030',
+    kommunenavn: 'Lillestrøm',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-12-11',
+    sammendrag: 'Lillestrøm kommune satser på byutvikling rundt Lillestrøm, Strømmen og Kjeller. Høy tetthet nær stasjoner. Rælingen-delen har villaområder med moderate begrensninger.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–30%' },
+      { label: 'Maks gesimshøyde', verdi: '8 m (villa), 15–22 m (sentrum)' },
+      { label: 'Maks etasjer', verdi: '2 (villa), 4–8 (sentrum)' },
+      { label: 'Parkering', verdi: '0,5–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Fortetting langs Hovedbanen og Kongsvingerbanen',
+      'Kjeller flyplass-området: fremtidig byutviklingsområde',
+      'Krav om klimagassregnskap for større prosjekter',
+      'Støykrav langs E6 og jernbane',
+    ],
+  },
+
+  '3032': {
+    kommunenummer: '3032',
+    kommunenavn: 'Gjerdrum',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-06-19',
+    sammendrag: 'Gjerdrum kommune har etter kvikkleireskredet i Ask fokus på grunnforhold og sikkerhet. Utvikling konsentreres i Ask sentrum. Strenge krav til geotekniske vurderinger.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Strenge krav til geoteknisk vurdering ved all bygging',
+      'Kvikkleiresonekartlegging kreves',
+      'Fortetting i Ask sentrum',
+      'LNF: Kun landbruk og nødvendige tiltak',
+    ],
+  },
+
+  '3033': {
+    kommunenummer: '3033',
+    kommunenavn: 'Ullensaker',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-09-25',
+    sammendrag: 'Ullensaker (Jessheim) er en vekstkommune med sterk utvikling rundt Gardermoen. Jessheim sentrum fortettes. Kløfta har moderate utviklingsmuligheter. Landbruksarealer har sterkt vern.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '8–12 m' },
+      { label: 'Maks etasjer', verdi: '2–3 (bolig), 4–6 (sentrum)' },
+      { label: 'Parkering', verdi: '1–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Sterk vekst rundt Jessheim stasjon',
+      'Gardermoen-nærhet: Støysoner begrenser boligbygging',
+      'Jordvern: Matjord skal ikke bygges ned',
+      'Krav om detaljregulering for nye boligfelt',
+    ],
+  },
+
+  '3205': {
+    kommunenummer: '3205',
+    kommunenavn: 'Ringerike',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-10-16',
+    sammendrag: 'Ringerike (Hønefoss) forbereder seg på Ringeriksbanen med sterk sentrumsutvikling. Hønefoss vil bli et knutepunkt. Spredte boligområder i Sokna og Hallingby.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–6 (sentrum)' },
+      { label: 'Parkering', verdi: '1–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Ringeriksbanen: Store utviklingsarealer langs ny jernbane',
+      'Hønefoss sentrum: Høy utnyttelse rundt stasjonsområdet',
+      'Flom- og skredsikring langs Storelva og Begna',
+      'Jordvern på Ringeriksletta',
+    ],
+  },
+
+  '3103': {
+    kommunenummer: '3103',
+    kommunenavn: 'Tønsberg',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-06-14',
+    sammendrag: 'Tønsberg fortetter i sentrum og langs Kanalen. Bevaring av middelalderbyen er sentralt. Nøtterøy og Tjøme (nå del av Færder) har egne planer. Sjønære områder har strenge byggeforbud.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–5 (sentrum)' },
+      { label: 'Parkering', verdi: '1–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Middelalderbyen: Strenge bevaringskrav',
+      'Byggegrense mot sjø: 100 meter',
+      'Kanalområdet: Høy utnyttelse med kvalitetskrav',
+      'Kulturminner og kulturmiljøer har høy prioritet',
+    ],
+  },
+
+  '3107': {
+    kommunenummer: '3107',
+    kommunenavn: 'Sandefjord',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-09-18',
+    sammendrag: 'Sandefjord kommune (inkl. tidligere Andebu og Stokke) har utvikling langs kysten og rundt sentrum. Gode tomtemuligheter i Andebu og Stokke. Strandsonen er strengt vernet.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–5 (sentrum)' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Stokke og Andebu: Gode muligheter for boligtomter',
+      'Strandsonen: Byggeforbud i 100-metersbeltet',
+      'Kulturminner fra vikingtiden skal bevares',
+      'Krav om tilpasning til stedlig arkitektur',
+    ],
+  },
+
+  '3105': {
+    kommunenummer: '3105',
+    kommunenavn: 'Larvik',
+    planNavn: 'Kommuneplanens arealdel 2022–2034',
+    planId: 'KPA2022',
+    iKraft: '2022-12-12',
+    sammendrag: 'Larvik kommune har utvikling i Larvik sentrum, Stavern og langs E18-korridoren. Bøkeskogen og kulturlandskap bevares. Gode muligheter for boligtomter i ytre områder.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–4 (sentrum)' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Stavern festningsby: Strenge bevaringskrav',
+      'Bøkeskogen: Friluftsområde med vern',
+      'E18: Støysoner langs ny motorvei',
+      'Jordvern i landbruksområdene',
+    ],
+  },
+
+  '3101': {
+    kommunenummer: '3101',
+    kommunenavn: 'Horten',
+    planNavn: 'Kommuneplanens arealdel 2022–2034',
+    planId: 'KPA2022',
+    iKraft: '2022-10-19',
+    sammendrag: 'Horten kommune utvikler sentrum og Karljohansvern-området. Moderat vekst. Åsgårdstrand har streng bevaring. Gode tog-forbindelser til Oslo via Vestfoldbanen.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Karljohansvern: Utviklingsområde ved sjøen',
+      'Åsgårdstrand: Strenge bevaringskrav (Munch)',
+      'Vestfoldbanen: Stasjonsnær utvikling prioriteres',
+      'Strandsonen: 100 meter byggeforbud',
+    ],
+  },
+
+  '3120': {
+    kommunenummer: '3120',
+    kommunenavn: 'Moss',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-11-06',
+    sammendrag: 'Moss kommune (inkl. Rygge) satser på utvikling rundt Moss stasjon og Sjøsiden. Ny jernbanetunnel gir muligheter. Jeløy har strenge begrensninger. Rygge har boligpotensial.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–6 (sentrum)' },
+      { label: 'Parkering', verdi: '0,8–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Sjøsiden/stasjonsområdet: Ny byutvikling',
+      'Jeløy: Strenge begrensninger, bevaring',
+      'Rygge flystasjon-området: Mulig fremtidig utvikling',
+      'Kvikkleire: Geotekniske krav i deler av kommunen',
+    ],
+  },
+
+  '3124': {
+    kommunenummer: '3124',
+    kommunenavn: 'Fredrikstad',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-06-15',
+    sammendrag: 'Fredrikstad fortetter i sentrum og langs Glomma. Gamlebyen er fredet. Kråkerøy og Onsøy har villaområder. Gode tomtemuligheter i utkanten av byen.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–5 (sentrum)' },
+      { label: 'Parkering', verdi: '1–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Gamlebyen: UNESCO-tentativ, strenge bevaringskrav',
+      'Flom langs Glomma: Krav om flomsikring',
+      'FMV-området: Byutviklingsprosjekt',
+      'Hvaler-forbindelse: Turisme og fritidsboliger',
+    ],
+  },
+
 }
 
 export function getKommuneplanSammendrag(kommunenummer: string): KommuneplanSammendrag | null {
