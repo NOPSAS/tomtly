@@ -29,7 +29,7 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
       { label: 'Maks mønehøyde', verdi: '9–10 m' },
       { label: 'Maks etasjer', verdi: '2 (3 i sentrum)' },
       { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
-      { label: 'Uteoppholdsareal', verdi: 'Min. 50 m² per boenhet' },
+      { label: 'MUA (uteopphold)', verdi: 'Min. 50 m² per boenhet' },
     ],
     viktigeBestemmelser: [
       'Byggeområder i tettstedsområder krever detaljregulering før bygging',
@@ -54,7 +54,7 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
       { label: 'Maks gesimshøyde', verdi: '8 m (småhus), 15–22 m (fortetting)' },
       { label: 'Maks etasjer småhus', verdi: '2' },
       { label: 'Parkering', verdi: '0,5–1,5 plasser/boenhet (avhengig av nærhet til kollektiv)' },
-      { label: 'Uteoppholdsareal', verdi: 'Min. 25–50 m² per boenhet' },
+      { label: 'MUA (uteopphold)', verdi: 'Min. 25–50 m² per boenhet' },
     ],
     viktigeBestemmelser: [
       'Småhusplanen (S-4220) gjelder for store deler av villaområdene',
@@ -77,7 +77,7 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
       { label: 'Maks gesimshøyde', verdi: '7–9 m (bolig), opp til 21 m (sentrum)' },
       { label: 'Maks etasjer', verdi: '2 (bolig), 3–7 (sentrum)' },
       { label: 'Parkering', verdi: '0,5–2 plasser/boenhet' },
-      { label: 'Uteoppholdsareal', verdi: 'Min. 30–50 m² per boenhet' },
+      { label: 'MUA (uteopphold)', verdi: 'Min. 30–50 m² per boenhet' },
     ],
     viktigeBestemmelser: [
       'Alle nye tiltak over 10 boenheter krever detaljregulering',
@@ -162,7 +162,7 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
       { label: 'Maks mønehøyde', verdi: '9,5 m' },
       { label: 'Maks etasjer', verdi: '2 (3 i sentrum)' },
       { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
-      { label: 'Uteoppholdsareal', verdi: 'Min. 50 m² per boenhet' },
+      { label: 'MUA (uteopphold)', verdi: 'Min. 50 m² per boenhet' },
     ],
     viktigeBestemmelser: [
       'Fortetting i Vestby sentrum og Son prioriteres',
@@ -212,7 +212,7 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
       { label: 'Maks mønehøyde', verdi: '9 m' },
       { label: 'Maks etasjer', verdi: '2 (3 i sentrum)' },
       { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
-      { label: 'Uteoppholdsareal', verdi: 'Min. 50 m² per boenhet' },
+      { label: 'MUA (uteopphold)', verdi: 'Min. 50 m² per boenhet' },
     ],
     viktigeBestemmelser: [
       'Fortetting rundt Rotnes/Hagan og Hakadal stasjon prioriteres',

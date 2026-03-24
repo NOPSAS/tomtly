@@ -39,65 +39,54 @@ export async function POST(request: NextRequest) {
 
 Analyser denne ${planType === 'kommune' ? 'kommuneplanbestemmelsen' : 'reguleringsbestemmelsen'} (${planNavn || 'ukjent plan'}).
 
-VIKTIG: Fokuser på bestemmelsene som gjelder for BOLIGBEBYGGELSE. Se etter seksjoner om:
-- "Bolig" eller "Boligbebyggelse"
-- "Frittliggende småhusbebyggelse"
-- "Konsentrert småhusbebyggelse"
-- Utnyttelsesgrad (%-BYA, %-BRA, %-TU)
-- Byggehøyder (gesims, møne)
-- Antall etasjer
-- Byggegrenser og avstand
+VIKTIG:
+- Fokuser BARE på bestemmelsene for BOLIGBEBYGGELSE (frittliggende småhusbebyggelse, konsentrert småhusbebyggelse, eller generelle boligbestemmelser).
+- %-BYA betyr prosent bebygd areal av tomten (typisk 20-30% for småhus). Det er IKKE det samme som BRA.
+- Gesimshøyde er høyde til overkant av yttervegg (typisk 6-9 meter for småhus).
+- Mønehøyde er høyde til toppen av taket (typisk 8-10 meter for småhus).
+- MUA = minste uteoppholdsareal per boenhet (i m² eller som % av BRA).
+- Oppgi tall UTEN enhet i JSON (bare tallet). Skriv enheten i beskrivelse-feltet.
 
-Hvis dokumentet har ulike bestemmelser for frittliggende vs konsentrert småhusbebyggelse, oppgi begge.
-
-Returner et JSON-objekt med følgende struktur:
+Returner et JSON-objekt:
 
 {
   "planNavn": "navnet på planen",
-  "planType": "reguleringsplan/kommuneplan",
-  "sammendrag": "2-3 setninger som oppsummerer de viktigste bestemmelsene",
+  "sammendrag": "2-3 setninger som oppsummerer bestemmelsene for bolig",
   "utnyttelsesgrad": {
-    "bya_prosent": <tall eller null>,
-    "bra_prosent": <tall eller null>,
-    "tu_prosent": <tall eller null>,
-    "beskrivelse": "kort tekst om utnyttelsesgrad"
+    "bya_prosent": <tall 0-100 eller null>,
+    "beskrivelse": "f.eks. Maks %-BYA er 25% for frittliggende småhus"
   },
   "hoyder": {
-    "gesimshøyde_m": <tall eller null>,
-    "mønehøyde_m": <tall eller null>,
-    "maks_kotehøyde": <tall eller null>,
-    "beskrivelse": "kort tekst om høydebestemmelser"
+    "gesimshøyde_m": <tall i meter eller null>,
+    "mønehøyde_m": <tall i meter eller null>,
+    "beskrivelse": "f.eks. Gesims maks 7m, møne maks 9m"
   },
   "etasjer": {
     "maks_etasjer": <tall eller null>,
-    "beskrivelse": "kort tekst"
+    "beskrivelse": "f.eks. Maks 2 etasjer + kjeller"
+  },
+  "mua": {
+    "min_m2_per_boenhet": <tall i m² eller null>,
+    "prosent_av_bra": <tall 0-100 eller null>,
+    "beskrivelse": "f.eks. MUA min 50 m² per boenhet"
+  },
+  "parkering": {
+    "antall_per_boenhet": <tall eller null>,
+    "beskrivelse": "f.eks. Min 2 plasser per boenhet"
   },
   "byggegrenser": {
     "mot_vei_m": <tall eller null>,
     "mot_nabo_m": <tall eller null>,
-    "beskrivelse": "kort tekst"
+    "beskrivelse": "f.eks. 4m mot nabo, 6m mot vei"
   },
-  "parkering": {
-    "krav": "kort tekst om parkeringskrav",
-    "antall_per_boenhet": <tall eller null>
-  },
-  "uteoppholdsareal": {
-    "krav_prosent": <tall eller null>,
-    "beskrivelse": "kort tekst"
-  },
-  "viktige_bestemmelser": [
-    "viktig bestemmelse 1",
-    "viktig bestemmelse 2"
-  ],
-  "restriksjoner": [
-    "restriksjon som kan begrense utvikling"
-  ]
+  "viktige_bestemmelser": ["bestemmelse 1", "bestemmelse 2"],
+  "restriksjoner": ["restriksjon 1"]
 }
 
-Returner KUN JSON, ingen annen tekst. Bruk null for verdier som ikke finnes i bestemmelsene.`
+Returner KUN JSON. Bruk null der verdien ikke finnes i dokumentet.`
 
     const response = await client.messages.create({
-      model: 'claude-haiku-4-5-20251001',
+      model: 'claude-sonnet-4-20250514',
       max_tokens: 2000,
       messages: [{
         role: 'user',

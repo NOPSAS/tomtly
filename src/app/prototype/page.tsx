@@ -151,6 +151,7 @@ interface BestemmelseAnalyse {
   byggegrenser?: { mot_vei_m?: number | null; mot_nabo_m?: number | null; beskrivelse?: string }
   parkering?: { krav?: string; antall_per_boenhet?: number | null }
   uteoppholdsareal?: { krav_prosent?: number | null; beskrivelse?: string }
+  mua?: { min_m2_per_boenhet?: number | null; prosent_av_bra?: number | null; beskrivelse?: string }
   viktige_bestemmelser?: string[]
   restriksjoner?: string[]
 }
@@ -1351,7 +1352,14 @@ function PrototypeContent() {
                           <p className="text-lg font-bold text-tomtly-dark">{analyse.parkering.antall_per_boenhet} /boenhet</p>
                         </div>
                       )}
-                      {analyse.uteoppholdsareal?.krav_prosent && (
+                      {analyse.mua?.min_m2_per_boenhet && (
+                        <div className="bg-brand-50 rounded-xl p-3 border border-brand-200">
+                          <p className="text-[10px] text-brand-500 uppercase">MUA</p>
+                          <p className="text-lg font-bold text-tomtly-dark">{analyse.mua.min_m2_per_boenhet} m²</p>
+                          <p className="text-[10px] text-brand-400">per boenhet</p>
+                        </div>
+                      )}
+                      {!analyse.mua?.min_m2_per_boenhet && analyse.uteoppholdsareal?.krav_prosent && (
                         <div className="bg-brand-50 rounded-xl p-3 border border-brand-200">
                           <p className="text-[10px] text-brand-500 uppercase">Uteopphold</p>
                           <p className="text-lg font-bold text-tomtly-dark">{analyse.uteoppholdsareal.krav_prosent}%</p>
