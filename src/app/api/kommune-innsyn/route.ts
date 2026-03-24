@@ -16,119 +16,220 @@ interface InnsynKilde {
   sokeUrl: (gnr: number, bnr: number, adresse: string) => string
 }
 
-// Kjente innsynsløsninger per kommune
+// Innsynsløsninger med 2024 kommunenumre
 const INNSYN_KILDER: Record<string, InnsynKilde[]> = {
-  // Oslo
+  // ── Oslo ──
   '0301': [{
-    kommune: 'Oslo',
-    system: 'PBE Saksinnsyn',
+    kommune: 'Oslo', system: 'PBE Saksinnsyn',
     url: 'https://innsyn.pbe.oslo.kommune.no/saksinnsyn',
     sokeUrl: (gnr, bnr) => `https://innsyn.pbe.oslo.kommune.no/saksinnsyn/caseList.asp?text=${gnr}/${bnr}`,
   }],
-  // Bærum
-  '3024': [{
-    kommune: 'Bærum',
-    system: 'ACOS Innsynpluss',
+
+  // ── Akershus ──
+  '3201': [{
+    kommune: 'Bærum', system: 'ACOS Innsynpluss',
     url: 'https://innsynpluss.onacos.no/baerum/Byggesak/Liste',
     sokeUrl: (gnr, bnr) => `https://innsynpluss.onacos.no/baerum/Byggesak/Liste?s=${gnr}/${bnr}`,
   }],
-  // Asker
-  '3025': [{
-    kommune: 'Asker',
-    system: 'Innsynsportal',
+  '3203': [{
+    kommune: 'Asker', system: 'Innsynsportal',
     url: 'https://asker-bygg.innsynsportal.no',
     sokeUrl: (gnr, bnr) => `https://asker-bygg.innsynsportal.no/postjournal-v2/d3aab42c-a204-438d-8e99-5189ae2ff468?query=${gnr}/${bnr}`,
   }],
-  // Nesodden
-  '3212': [{
-    kommune: 'Nesodden',
-    system: 'Elements Publikum',
-    url: 'https://prod02.elementscloud.no/publikum/944383565_PROD-944383565',
-    sokeUrl: (gnr, bnr) => `https://prod02.elementscloud.no/publikum/944383565_PROD-944383565`,
-  }],
-  // Frogn
-  '3214': [{
-    kommune: 'Frogn',
-    system: '360online',
-    url: 'https://frogn.pj.360online.com',
-    sokeUrl: (gnr, bnr) => `https://frogn.pj.360online.com/Journal/Search?searchString=${gnr}/${bnr}`,
-  }],
-  // Nordre Follo
-  '3020': [{
-    kommune: 'Nordre Follo',
-    system: '360online',
+  '3207': [{
+    kommune: 'Nordre Follo', system: '360online',
     url: 'https://nordre-follo.pj.360online.com',
     sokeUrl: (gnr, bnr) => `https://nordre-follo.pj.360online.com/Journal/Search?searchString=${gnr}/${bnr}`,
   }],
-  // Vestby
-  '3019': [{
-    kommune: 'Vestby',
-    system: '360online',
+  '3216': [{
+    kommune: 'Vestby', system: '360online',
     url: 'https://vestby.pj.360online.com',
     sokeUrl: (gnr, bnr) => `https://vestby.pj.360online.com/Journal/Search?searchString=${gnr}/${bnr}`,
   }],
-  // Drammen
-  '3005': [{
-    kommune: 'Drammen',
-    system: 'innsyn2020',
-    url: 'https://innsyn2020.drammen.kommune.no/byggsak',
-    sokeUrl: (gnr, bnr) => `https://innsyn2020.drammen.kommune.no/byggsak?s=${gnr}/${bnr}`,
+  '3212': [{
+    kommune: 'Nesodden', system: 'Elements Publikum',
+    url: 'https://prod02.elementscloud.no/publikum/944383565_PROD-944383565',
+    sokeUrl: () => `https://prod02.elementscloud.no/publikum/944383565_PROD-944383565`,
   }],
-  // Lillestrøm
-  '3030': [{
-    kommune: 'Lillestrøm',
-    system: 'OpenGov 360',
+  '3214': [{
+    kommune: 'Frogn', system: '360online',
+    url: 'https://frogn.pj.360online.com',
+    sokeUrl: (gnr, bnr) => `https://frogn.pj.360online.com/Journal/Search?searchString=${gnr}/${bnr}`,
+  }],
+  '3232': [{
+    kommune: 'Nittedal', system: 'Elements Publikum',
+    url: 'https://prod01.elementscloud.no/Publikum/964949581',
+    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/964949581`,
+  }],
+  '3205': [{
+    kommune: 'Lillestrøm', system: 'OpenGov 360',
     url: 'https://opengov.360online.com/Cases/LILLESTROM',
     sokeUrl: (gnr, bnr) => `https://opengov.360online.com/Cases/LILLESTROM?casetypeid=99001&SearchString=${gnr}/${bnr}`,
   }],
-  // Kristiansand
+  '3209': [{
+    kommune: 'Ullensaker', system: 'Elements Publikum',
+    url: 'https://prod01.elementscloud.no/Publikum/952540556',
+    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/952540556`,
+  }],
+  '3230': [{
+    kommune: 'Gjerdrum', system: 'Elements Publikum',
+    url: 'https://prod01.elementscloud.no/Publikum/964949581',
+    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/964949581`,
+  }],
+  '3222': [{
+    kommune: 'Lørenskog', system: 'Elements Publikum',
+    url: 'https://prod01.elementscloud.no/Publikum/952540556',
+    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/952540556`,
+  }],
+  '3223': [{
+    kommune: 'Rælingen', system: 'Elements Publikum',
+    url: 'https://prod01.elementscloud.no/Publikum/952540556',
+    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/952540556`,
+  }],
+  '3218': [{
+    kommune: 'Ås', system: 'Elements Publikum',
+    url: 'https://prod01.elementscloud.no/Publikum/964949581',
+    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/964949581`,
+  }],
+  '3220': [{
+    kommune: 'Enebakk', system: 'Elements Publikum',
+    url: 'https://prod01.elementscloud.no/Publikum/964949581',
+    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/964949581`,
+  }],
+  '3237': [{
+    kommune: 'Eidsvoll', system: 'Elements Publikum',
+    url: 'https://prod01.elementscloud.no/Publikum/964949581',
+    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/964949581`,
+  }],
+
+  // ── Buskerud ──
+  '3301': [{
+    kommune: 'Drammen', system: 'innsyn2020',
+    url: 'https://innsyn2020.drammen.kommune.no/byggsak',
+    sokeUrl: (gnr, bnr) => `https://innsyn2020.drammen.kommune.no/byggsak?s=${gnr}/${bnr}`,
+  }],
+  '3303': [{
+    kommune: 'Kongsberg', system: 'Elements Publikum',
+    url: 'https://prod02.elementscloud.no/publikum/942402465_PROD-942402465',
+    sokeUrl: () => `https://prod02.elementscloud.no/publikum/942402465_PROD-942402465`,
+  }],
+  '3305': [{
+    kommune: 'Ringerike', system: 'Elements Publikum',
+    url: 'https://prod02.elementscloud.no/publikum/942402465_PROD-942402465',
+    sokeUrl: () => `https://prod02.elementscloud.no/publikum/942402465_PROD-942402465`,
+  }],
+
+  // ── Østfold ──
+  '3101': [{
+    kommune: 'Halden', system: 'Elements Publikum',
+    url: 'https://prod01.elementscloud.no/Publikum/959159092',
+    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/959159092`,
+  }],
+  '3103': [{
+    kommune: 'Moss', system: 'Kommune-nettside',
+    url: 'https://www.moss.kommune.no/alle-tjenester/innsyn/postliste-og-saksinnsyn/',
+    sokeUrl: () => `https://www.moss.kommune.no/alle-tjenester/innsyn/postliste-og-saksinnsyn/`,
+  }],
+  '3105': [{
+    kommune: 'Sarpsborg', system: 'Elements Publikum',
+    url: 'https://prod01.elementscloud.no/Publikum/938801363',
+    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/938801363`,
+  }],
+  '3107': [{
+    kommune: 'Fredrikstad', system: 'Elements Publikum',
+    url: 'https://prod01.elementscloud.no/Publikum/940039541',
+    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/940039541`,
+  }],
+
+  // ── Vestfold ──
+  '3901': [{
+    kommune: 'Horten', system: 'ACOS',
+    url: 'https://www.horten.kommune.no/politikk-og-administrasjon/innsyn-og-offentlighet/',
+    sokeUrl: () => `https://www.horten.kommune.no/politikk-og-administrasjon/innsyn-og-offentlighet/`,
+  }],
+  '3905': [{
+    kommune: 'Tønsberg', system: 'Kommune-nettside',
+    url: 'https://www.tonsberg.kommune.no/tjenester/innsyn/sok-i-postlister-saker-og-dokumenter/',
+    sokeUrl: () => `https://www.tonsberg.kommune.no/tjenester/innsyn/sok-i-postlister-saker-og-dokumenter/`,
+  }],
+  '3907': [{
+    kommune: 'Sandefjord', system: 'Kommune-nettside',
+    url: 'https://www.sandefjord.kommune.no/engasjer-deg/innsyn-og-apenhet/sok-etter-saker-og-dokumenter/',
+    sokeUrl: () => `https://www.sandefjord.kommune.no/engasjer-deg/innsyn-og-apenhet/sok-etter-saker-og-dokumenter/`,
+  }],
+  '3909': [{
+    kommune: 'Larvik', system: 'ACOS Innsynpluss',
+    url: 'https://innsynpluss.onacos.no/larvik/sok/',
+    sokeUrl: (gnr, bnr) => `https://innsynpluss.onacos.no/larvik/sok/?response=arkivsak_sok_tomdefault&text=${gnr}/${bnr}`,
+  }],
+
+  // ── Agder ──
   '4204': [{
-    kommune: 'Kristiansand',
-    system: 'OpenGov 360',
+    kommune: 'Kristiansand', system: 'OpenGov 360',
     url: 'https://opengov.360online.com/Cases/KRSANDEBYGG',
     sokeUrl: (gnr, bnr) => `https://opengov.360online.com/Cases/KRSANDEBYGG?casetypeid=99001&SearchString=${gnr}/${bnr}`,
   }],
-  // Fredrikstad
-  '3124': [{
-    kommune: 'Fredrikstad',
-    system: 'Elements Publikum',
-    url: 'https://prod01.elementscloud.no/Publikum/940039541',
-    sokeUrl: (gnr, bnr) => `https://prod01.elementscloud.no/Publikum/940039541`,
+  '4203': [{
+    kommune: 'Arendal', system: 'eInnsyn',
+    url: 'https://einnsyn.no/sok?f=485c466e-4327-4b8e-b376-128823e01d23',
+    sokeUrl: (gnr, bnr) => `https://einnsyn.no/sok?f=485c466e-4327-4b8e-b376-128823e01d23&q=${gnr}/${bnr}`,
   }],
-  // Sarpsborg
-  '3122': [{
-    kommune: 'Sarpsborg',
-    system: 'Elements Publikum',
-    url: 'https://prod01.elementscloud.no/Publikum/938801363',
-    sokeUrl: (gnr, bnr) => `https://prod01.elementscloud.no/Publikum/938801363`,
+
+  // ── Vestland ──
+  '4601': [{
+    kommune: 'Bergen', system: 'Saksinnsyn',
+    url: 'https://www.bergen.kommune.no/omkommunen/offentlig-innsyn/innsynplanogbyggesak/saksinnsyn',
+    sokeUrl: (gnr, bnr) => `https://www.bergen.kommune.no/omkommunen/offentlig-innsyn/innsynplanogbyggesak/saksinnsyn`,
   }],
-  // Halden
-  '3101': [{
-    kommune: 'Halden',
-    system: 'Elements Publikum',
-    url: 'https://prod01.elementscloud.no/Publikum/959159092',
-    sokeUrl: (gnr, bnr) => `https://prod01.elementscloud.no/Publikum/959159092`,
+
+  // ── Rogaland ──
+  '1103': [{
+    kommune: 'Stavanger', system: 'eInnsyn',
+    url: 'https://einnsyn.no/sok?f=380d076e-a561-417c-ba17-4fc731f3384d',
+    sokeUrl: (gnr, bnr) => `https://einnsyn.no/sok?f=380d076e-a561-417c-ba17-4fc731f3384d&q=${gnr}/${bnr}`,
   }],
-  // Moss
-  '3120': [{
-    kommune: 'Moss',
-    system: 'Kommune-nettside',
-    url: 'https://www.moss.kommune.no/alle-tjenester/innsyn/postliste-og-saksinnsyn/',
-    sokeUrl: (gnr, bnr) => `https://www.moss.kommune.no/alle-tjenester/innsyn/postliste-og-saksinnsyn/`,
+  '1108': [{
+    kommune: 'Sandnes', system: 'Elements Publikum',
+    url: 'https://prod01.elementscloud.no/Publikum/964965226',
+    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/964965226`,
   }],
-  // Nittedal
-  '3221': [{
-    kommune: 'Nittedal',
-    system: 'Elements Publikum',
-    url: 'https://prod01.elementscloud.no/Publikum/964949581',
-    sokeUrl: (gnr, bnr) => `https://prod01.elementscloud.no/Publikum/964949581`,
+
+  // ── Trøndelag ──
+  '5001': [{
+    kommune: 'Trondheim', system: 'Innsynsportal',
+    url: 'https://trondheim.innsynsportal.no',
+    sokeUrl: (gnr, bnr) => `https://trondheim.innsynsportal.no/postjournal-v2/fc010204-2c07-4f3c-a8ef-879ec218111c?query=${gnr}/${bnr}`,
   }],
-  // Kongsberg
-  '3006': [{
-    kommune: 'Kongsberg',
-    system: 'Elements Publikum',
-    url: 'https://prod02.elementscloud.no/publikum/942402465_PROD-942402465',
-    sokeUrl: (gnr, bnr) => `https://prod02.elementscloud.no/publikum/942402465_PROD-942402465`,
+
+  // ── Troms ──
+  '5501': [{
+    kommune: 'Tromsø', system: 'Byggsak innsyn',
+    url: 'https://innsyn.tromso.kommune.no/byggsak',
+    sokeUrl: (gnr, bnr) => `https://innsyn.tromso.kommune.no/byggsak?s=${gnr}/${bnr}`,
+  }],
+
+  // ── Innlandet ──
+  '3403': [{
+    kommune: 'Hamar', system: 'Elements Publikum',
+    url: 'https://prod02.elementscloud.no/publikum/970540008_PROD-970540008',
+    sokeUrl: () => `https://prod02.elementscloud.no/publikum/970540008_PROD-970540008`,
+  }],
+  '3405': [{
+    kommune: 'Lillehammer', system: 'Elements Publikum',
+    url: 'https://prod02.elementscloud.no/publikum/945578564_PROD-945578564',
+    sokeUrl: () => `https://prod02.elementscloud.no/publikum/945578564_PROD-945578564`,
+  }],
+
+  // ── Telemark ──
+  '3807': [{
+    kommune: 'Skien', system: 'Kommune-nettside',
+    url: 'https://www.skien.kommune.no/tjenester/bygg-og-eiendom/',
+    sokeUrl: () => `https://www.skien.kommune.no/tjenester/bygg-og-eiendom/`,
+  }],
+  '3806': [{
+    kommune: 'Porsgrunn', system: 'Kommune-nettside',
+    url: 'https://www.porsgrunn.kommune.no/tjenester/bygg-og-eiendom/',
+    sokeUrl: () => `https://www.porsgrunn.kommune.no/tjenester/bygg-og-eiendom/`,
   }],
 }
 
@@ -157,27 +258,18 @@ async function scrapeInnsyn(kilde: InnsynKilde, gnr: number, bnr: number, adress
     if (!res.ok) { result.tilgjengelig = false; return result }
     const html = await res.text()
 
-    // Sjekk om det er en JavaScript SPA (Elements, ACOS etc)
     if (html.includes('You need to enable JavaScript') || html.length < 500) {
-      // SPA-basert innsyn - kan ikke scrape server-side
-      result.saker = []
       return result
     }
 
-    // Prøv å finne saker i HTML
-    // Generisk: se etter gnr/bnr-referanser
     const gnrBnrPattern = new RegExp(`${gnr}[/\\s]+${bnr}`, 'gi')
     const lines = html.split('\n')
     for (const line of lines) {
       if (gnrBnrPattern.test(line)) {
         const clean = line.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
         if (clean.length > 10 && clean.length < 300) {
-          // Extract case number pattern
           const caseMatch = clean.match(/(\d{4}\/\d{3,6})/)
-          result.saker.push({
-            tittel: clean.substring(0, 200),
-            saksnr: caseMatch?.[1],
-          })
+          result.saker.push({ tittel: clean.substring(0, 200), saksnr: caseMatch?.[1] })
         }
       }
     }
@@ -202,10 +294,9 @@ export async function POST(request: NextRequest) {
   if (kilder.length === 0) {
     return NextResponse.json({
       success: true,
-      kommunenummer,
-      gnr, bnr,
+      kommunenummer, gnr, bnr,
       kilder: [],
-      melding: 'Ingen kjente innsynsløsninger for denne kommunen. Du kan søke direkte på kommunens nettside.',
+      melding: 'Ingen kjente innsynsløsninger for denne kommunen. Søk direkte på kommunens nettside.',
     })
   }
 
@@ -219,8 +310,7 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json({
     success: true,
-    kommunenummer,
-    gnr, bnr,
+    kommunenummer, gnr, bnr,
     kilder: innsynResultater,
   })
 }
