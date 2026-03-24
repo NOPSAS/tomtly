@@ -404,54 +404,92 @@ function Kostnadssammenligning() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
             {/* Megler */}
             <div className="bg-white rounded-2xl border-2 border-red-200 p-6">
-              <h4 className="font-semibold text-red-700 mb-4">Tradisjonell megler</h4>
-              <div className="space-y-2 text-sm mb-4">
-                <div className="flex justify-between"><span className="text-brand-600">Meglerprovisjoner (2,5–3,6%)</span><span className="font-mono">75–108 000</span></div>
-                <div className="flex justify-between"><span className="text-brand-600">Oppstarts-/tilretteleggingsgebyr</span><span className="font-mono">10–15 000</span></div>
-                <div className="flex justify-between"><span className="text-brand-600">Foto/styling</span><span className="font-mono">5–15 000</span></div>
-                <div className="flex justify-between"><span className="text-brand-600">Markedsføringspakke</span><span className="font-mono">10–20 000</span></div>
-                <div className="flex justify-between"><span className="text-brand-600">Visninger</span><span className="font-mono">3–5 000</span></div>
-                <div className="flex justify-between"><span className="text-brand-600">Oppgjør (inkludert)</span><span className="font-mono">0</span></div>
-                <div className="flex justify-between text-brand-400"><span>Tomteanalyse</span><span className="italic">Ikke inkludert</span></div>
-                <div className="flex justify-between text-brand-400"><span>Husmodeller/3D</span><span className="italic">Ikke inkludert</span></div>
+              <h4 className="font-semibold text-red-700 mb-1">Tradisjonell megler</h4>
+              <p className="text-xs text-brand-400 mb-4">Typiske kostnader ved tomtesalg</p>
+              <div className="space-y-0 text-sm mb-4">
+                {[
+                  { post: 'Provisjon (2,5–3,6%)', belop: '75 000 – 108 000' },
+                  { post: 'Tilrettelegging', belop: '10 000 – 15 000' },
+                  { post: 'Foto og styling', belop: '5 000 – 15 000' },
+                  { post: 'Markedspakke', belop: '10 000 – 20 000' },
+                  { post: 'Visninger', belop: '3 000 – 5 000' },
+                  { post: 'Oppgjør', belop: 'Inkludert' },
+                ].map((r, i) => (
+                  <div key={r.post} className={`flex justify-between py-2 ${i > 0 ? 'border-t border-red-100' : ''}`}>
+                    <span className="text-brand-600">{r.post}</span>
+                    <span className="font-mono text-xs text-brand-700 tabular-nums text-right">{r.belop}</span>
+                  </div>
+                ))}
+                <div className="flex justify-between py-2 border-t border-red-100 text-brand-400">
+                  <span>Tomteanalyse / husmodeller</span>
+                  <span className="text-xs italic">Ikke inkl.</span>
+                </div>
               </div>
-              <div className="border-t border-red-200 pt-3 flex justify-between font-bold text-red-700">
-                <span>Totalt</span><span className="font-mono">103 000–163 000 kr</span>
+              <div className="bg-red-50 rounded-lg px-4 py-3 flex justify-between items-center font-bold text-red-700">
+                <span>Totalt</span>
+                <span className="font-mono text-lg">103 – 163 000 kr</span>
               </div>
             </div>
 
             {/* Tomtly Analyse */}
             <div className="bg-white rounded-2xl border-2 border-brand-200 p-6">
-              <h4 className="font-semibold text-tomtly-dark mb-4">Tomtly Tomteanalyse</h4>
-              <div className="space-y-2 text-sm mb-4">
-                <div className="flex justify-between"><span className="text-brand-600">Tomteanalyse</span><span className="font-mono">9 900</span></div>
-                <div className="flex justify-between"><span className="text-brand-600">Oppgjør via Propr</span><span className="font-mono">9 990</span></div>
-                <div className="flex justify-between text-brand-400"><span>Markedsføring</span><span className="italic">Du gjør det selv</span></div>
-                <div className="flex justify-between text-green-700"><span>Husmodeller/3D/verdivurdering</span><span className="font-semibold">Inkludert</span></div>
-                <div className="flex justify-between text-green-700"><span>Reguleringsanalyse</span><span className="font-semibold">Inkludert</span></div>
-                <div className="flex justify-between text-green-700"><span>DOK-analyse</span><span className="font-semibold">Inkludert</span></div>
+              <h4 className="font-semibold text-tomtly-dark mb-1">Tomtly Tomteanalyse</h4>
+              <p className="text-xs text-brand-400 mb-4">Du selger selv med profesjonell rapport</p>
+              <div className="space-y-0 text-sm mb-4">
+                {[
+                  { post: 'Tomteanalyse', belop: '9 900', inkl: false },
+                  { post: 'Oppgjør via Propr', belop: '9 990', inkl: false },
+                ].map((r, i) => (
+                  <div key={r.post} className={`flex justify-between py-2 ${i > 0 ? 'border-t border-brand-100' : ''}`}>
+                    <span className="text-brand-600">{r.post}</span>
+                    <span className="font-mono text-xs text-brand-700 tabular-nums">{r.belop}</span>
+                  </div>
+                ))}
+                <div className="flex justify-between py-2 border-t border-brand-100 text-brand-400">
+                  <span>Markedsføring</span>
+                  <span className="text-xs italic">Du gjør det selv</span>
+                </div>
+                {['Husmodeller og 3D', 'Reguleringsanalyse', 'Verdivurdering', 'DOK-analyse'].map(f => (
+                  <div key={f} className="flex justify-between py-1.5 text-green-700">
+                    <span>{f}</span>
+                    <span className="text-xs font-semibold">✓ Inkludert</span>
+                  </div>
+                ))}
               </div>
-              <div className="border-t border-brand-200 pt-3 flex justify-between font-bold text-tomtly-dark">
-                <span>Totalt</span><span className="font-mono">19 890 kr</span>
+              <div className="bg-forest-50 rounded-lg px-4 py-3 flex justify-between items-center font-bold text-tomtly-dark">
+                <span>Totalt</span>
+                <span className="font-mono text-lg">19 890 kr</span>
               </div>
             </div>
 
             {/* Tomtly Analyse + Markedsføring */}
             <div className="bg-white rounded-2xl border-2 border-tomtly-accent p-6 relative">
               <div className="absolute -top-3 right-4 px-2.5 py-0.5 bg-tomtly-accent text-white text-[10px] font-semibold rounded-full">Mest populær</div>
-              <h4 className="font-semibold text-tomtly-accent mb-4">Tomtly Analyse + Markedsføring</h4>
-              <div className="space-y-2 text-sm mb-4">
-                <div className="flex justify-between"><span className="text-brand-600">Analyse (oppstart)</span><span className="font-mono">4 990</span></div>
-                <div className="flex justify-between"><span className="text-brand-600">Markedsføringsgebyr (2%)</span><span className="font-mono">60 000</span></div>
-                <div className="flex justify-between"><span className="text-brand-600">Oppgjør via Propr</span><span className="font-mono">9 990</span></div>
-                <div className="flex justify-between text-green-700"><span>Alt i analyse + markedsføring</span><span className="font-semibold">Inkludert</span></div>
-                <div className="flex justify-between text-green-700"><span>Salgsdashboard</span><span className="font-semibold">Inkludert</span></div>
-                <div className="flex justify-between text-green-700"><span>Eiendomsekspert-støtte</span><span className="font-semibold">Inkludert</span></div>
+              <h4 className="font-semibold text-tomtly-accent mb-1">Tomtly Analyse + Markedsføring</h4>
+              <p className="text-xs text-brand-400 mb-4">Vi håndterer alt – du følger med i dashboardet</p>
+              <div className="space-y-0 text-sm mb-4">
+                {[
+                  { post: 'Analyse (oppstart)', belop: '4 990' },
+                  { post: 'Markedsføringsgebyr (2%)', belop: '60 000' },
+                  { post: 'Oppgjør via Propr', belop: '9 990' },
+                ].map((r, i) => (
+                  <div key={r.post} className={`flex justify-between py-2 ${i > 0 ? 'border-t border-brand-100' : ''}`}>
+                    <span className="text-brand-600">{r.post}</span>
+                    <span className="font-mono text-xs text-brand-700 tabular-nums">{r.belop}</span>
+                  </div>
+                ))}
+                {['Alt i analysepakken', 'Salgsdashboard', 'Eiendomsekspert-støtte', 'Annonsering i 12 mnd'].map(f => (
+                  <div key={f} className="flex justify-between py-1.5 text-green-700">
+                    <span>{f}</span>
+                    <span className="text-xs font-semibold">✓ Inkludert</span>
+                  </div>
+                ))}
               </div>
-              <div className="border-t border-tomtly-accent/30 pt-3 flex justify-between font-bold text-tomtly-dark">
-                <span>Totalt</span><span className="font-mono">74 980 kr</span>
+              <div className="bg-forest-50 rounded-lg px-4 py-3 flex justify-between items-center font-bold text-tomtly-dark">
+                <span>Totalt</span>
+                <span className="font-mono text-lg">74 980 kr</span>
               </div>
-              <p className="text-[10px] text-brand-400 mt-2">Tilsvarende pris som megler – men du får mye mer</p>
+              <p className="text-[10px] text-brand-400 mt-2">Tilsvarende pris som megler – men du får husmodeller, 3D, salgsdashboard og eiendomsekspert i tillegg</p>
             </div>
           </div>
 
