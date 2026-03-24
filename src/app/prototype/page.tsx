@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useCallback, useEffect, Suspense } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, usePathname } from 'next/navigation'
 import { getKommuneplanSammendrag } from '@/lib/kommuneplan-sammendrag'
 import {
   MapPin, Search, CheckCircle2, Loader2, AlertTriangle,
@@ -329,11 +329,15 @@ function parseAR5GML(text: string): AR5Result {
 
 function PrototypeContent() {
   const searchParams = useSearchParams()
+  const pathname = usePathname()
+  // /prototype = intern bruk (ingen registrering), /tomteanalyse = kunder (krever registrering)
+  const isIntern = pathname === '/prototype' || searchParams.get('intern') === 'true'
   // Lead capture
   const [leadNavn, setLeadNavn] = useState('')
   const [leadEpost, setLeadEpost] = useState('')
   const [leadTelefon, setLeadTelefon] = useState('')
-  const [leadCaptured, setLeadCaptured] = useState(false)
+  const [leadCapturedState, setLeadCaptured] = useState(false)
+  const leadCaptured = leadCapturedState || isIntern
 
   const [query, setQuery] = useState('')
   const [suggestions, setSuggestions] = useState<Adresse[]>([])
