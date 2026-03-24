@@ -1509,10 +1509,59 @@ function PrototypeContent() {
             {/* 4b: Plananalyse */}
             {(plans.length > 0 || planTolkninger.length > 0) && (
               <div className="space-y-4">
-                <h2 className="font-display text-lg font-bold text-tomtly-dark flex items-center gap-2">
-                  <FileText className="w-5 h-5 text-tomtly-accent" />
-                  Plananalyse ({plans.length} {plans.length === 1 ? 'plan' : 'planer'})
-                </h2>
+                <div className="flex items-center justify-between">
+                  <h2 className="font-display text-lg font-bold text-tomtly-dark flex items-center gap-2">
+                    <FileText className="w-5 h-5 text-tomtly-accent" />
+                    Plananalyse ({plans.length} {plans.length === 1 ? 'plan' : 'planer'})
+                  </h2>
+                  {valgtAdresse && (
+                    <button
+                      onClick={async () => {
+                        const res = await fetch('/api/planrapport', {
+                          method: 'POST', headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ lat: valgtAdresse.representasjonspunkt.lat, lon: valgtAdresse.representasjonspunkt.lon, adresse: valgtAdresse.adressetekst, kommune: valgtAdresse.kommunenavn, kommunenummer: valgtAdresse.kommunenummer, gnr: valgtAdresse.gardsnummer, bnr: valgtAdresse.bruksnummer }),
+                        })
+                        if (res.ok) { const b = await res.blob(); const u = URL.createObjectURL(b); const a = document.createElement('a'); a.href = u; a.download = `Planrapport-${valgtAdresse.gardsnummer}-${valgtAdresse.bruksnummer}.pdf`; a.click(); URL.revokeObjectURL(u) }
+                      }}
+                      className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-tomtly-accent bg-forest-50 border border-tomtly-accent/20 rounded-lg hover:bg-forest-100 transition-colors"
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                      Planrapport PDF
+                    </button>
+                  )}
+                </div>
+                {valgtAdresse && (
+                  <button
+                    onClick={async () => {
+                      const res = await fetch('/api/planrapport', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          lat: valgtAdresse.representasjonspunkt.lat,
+                          lon: valgtAdresse.representasjonspunkt.lon,
+                          adresse: valgtAdresse.adressetekst,
+                          kommune: valgtAdresse.kommunenavn,
+                          kommunenummer: valgtAdresse.kommunenummer,
+                          gnr: valgtAdresse.gardsnummer,
+                          bnr: valgtAdresse.bruksnummer,
+                        }),
+                      })
+                      if (res.ok) {
+                        const blob = await res.blob()
+                        const url = URL.createObjectURL(blob)
+                        const a = document.createElement('a')
+                        a.href = url
+                        a.download = `Planrapport-${valgtAdresse.gardsnummer}-${valgtAdresse.bruksnummer}.pdf`
+                        a.click()
+                        URL.revokeObjectURL(url)
+                      }
+                    }}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-tomtly-accent bg-forest-50 border border-tomtly-accent/20 rounded-lg hover:bg-forest-100 transition-colors"
+                  >
+                    <ExternalLink className="w-3 h-3" />
+                    Last ned planrapport
+                  </button>
+                )}
 
                 {planTolkninger.filter(t => {
                   // Skip kommuneplaner som allerede har statisk oppsummering
