@@ -1892,54 +1892,59 @@ function PrototypeContent() {
                   )}
                 </div>
 
-                {/* Key risks visual summary */}
+                {/* Naturfare-vurdering (Holte-stil) */}
                 <div className="bg-white rounded-2xl border border-brand-100 p-6 shadow-sm">
-                  <div className="flex items-center gap-4 mb-5">
-                    <div className="flex items-center gap-2 text-sm">
-                      <span className="w-3 h-3 rounded-full bg-red-500" />
-                      <span className="text-brand-600">{funnCount} funn å vurdere</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <span className="w-3 h-3 rounded-full bg-green-500" />
-                      <span className="text-brand-600">{okCount} kartlagt uten fare</span>
-                    </div>
+                  <h3 className="font-semibold text-tomtly-dark mb-1">Naturfare og grunnforhold</h3>
+                  <p className="text-xs text-brand-400 mb-4">Vurdering av risikofaktorer basert på {dokDatasets.length} offentlige datasett</p>
+
+                  {/* Status summary bar */}
+                  <div className="flex gap-1 mb-5 h-3 rounded-full overflow-hidden">
+                    {funnCount > 0 && <div className="bg-red-500" style={{ flex: funnCount }} title={`${funnCount} med funn`} />}
+                    {okCount > 0 && <div className="bg-green-500" style={{ flex: okCount }} title={`${okCount} uten fare`} />}
+                    {(dokDatasets.length - funnCount - okCount) > 0 && <div className="bg-brand-200" style={{ flex: dokDatasets.length - funnCount - okCount }} />}
+                  </div>
+                  <div className="flex gap-4 mb-5 text-xs text-brand-500">
+                    <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-red-500" />{funnCount} med funn</span>
+                    <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-green-500" />{okCount} uten fare</span>
+                    <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-brand-200" />{dokDatasets.length - funnCount - okCount} øvrige</span>
                   </div>
 
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    {riskResults.map(risk => {
-                      // Build description of findings
-                      const funnDatasets = risk.matches.filter(m => (m.status || '').toLowerCase().includes('med funn'))
-                      const funnDesc = funnDatasets.map(m => {
-                        const name = (m.tittel || '').replace(/^Dekning\s*/i, '')
-                        const status = m.status || ''
-                        return `${name}: ${status}`
-                      })
-                      return (
-                        <div key={risk.label} className={`rounded-xl p-4 border ${
-                          risk.hasFunn
-                            ? 'bg-red-50 border-red-200'
-                            : risk.isKartlagt
-                            ? 'bg-green-50 border-green-200'
-                            : 'bg-brand-50 border-brand-200'
-                        }`}>
-                          <div className="text-2xl mb-1">{risk.icon}</div>
-                          <p className="text-sm font-semibold text-tomtly-dark">{risk.label}</p>
-                          {risk.hasFunn ? (
-                            <div className="mt-1">
-                              {funnDesc.slice(0, 2).map((desc, i) => (
-                                <p key={i} className="text-[10px] text-red-700 leading-tight">{desc}</p>
-                              ))}
-                              {funnDesc.length > 2 && <p className="text-[10px] text-red-500">+{funnDesc.length - 2} flere</p>}
-                            </div>
-                          ) : (
-                            <p className={`text-xs font-medium mt-1 ${risk.isKartlagt ? 'text-green-700' : 'text-brand-500'}`}>
-                              {risk.isKartlagt ? 'Ingen fare' : 'Ikke kartlagt'}
-                            </p>
-                          )}
-                        </div>
-                      )
-                    })}
+                  {/* Naturfare-tabell (viktigste datasettene) */}
+                  <div className="border border-brand-200 rounded-lg overflow-hidden mb-4">
+                    <table className="w-full text-xs">
+                      <thead>
+                        <tr className="bg-brand-50">
+                          <th className="text-left px-3 py-2 font-semibold text-brand-600">Risikofaktor</th>
+                          <th className="text-center px-3 py-2 font-semibold text-brand-600 w-28">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {riskResults.map(risk => {
+                          const statusText = risk.hasFunn ? 'Dekket – funn' : risk.isKartlagt ? 'Dekket – OK' : 'Ikke kartlagt'
+                          const statusBg = risk.hasFunn ? 'bg-red-100 text-red-800' : risk.isKartlagt ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800'
+                          return (
+                            <tr key={risk.label} className={`border-t border-brand-100 ${risk.hasFunn ? 'bg-red-50/30' : ''}`}>
+                              <td className="px-3 py-2.5">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-base">{risk.icon}</span>
+                                  <div>
+                                    <span className="font-medium text-tomtly-dark">{risk.label}</span>
+                                    {risk.hasFunn && risk.matches.filter(m => (m.status||'').toLowerCase().includes('med funn')).slice(0,2).map((m,i) => (
+                                      <p key={i} className="text-[10px] text-red-600 mt-0.5">{(m.tittel||'').replace(/^Dekning\s*/i,'')}: {m.status}</p>
+                                    ))}
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="px-3 py-2.5 text-center">
+                                <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-semibold ${statusBg}`}>{statusText}</span>
+                              </td>
+                            </tr>
+                          )
+                        })}
+                      </tbody>
+                    </table>
                   </div>
+                  <p className="text-[10px] text-brand-400">Datakilde: Kartverket – Det offentlige kartgrunnlaget (DOK). «Dekket» betyr at datasett dekker området. «Funn» betyr at det er registrert forekomst som bør vurderes.</p>
                 </div>
 
                 {/* Status summary */}

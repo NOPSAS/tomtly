@@ -719,6 +719,573 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
   },
 '3105': {    kommunenummer: '3105',    kommunenavn: 'Sarpsborg',    planNavn: 'Kommuneplanens arealdel 2023–2035',    planId: 'KPA2023',    iKraft: '2023-06-15',    sammendrag: 'Sarpsborg utvikler sentrum langs Glomma. Greåker og Tune har villaområder.',    nokkeltall: [      { label: 'Maks BYA bolig', verdi: '20–25%' },      { label: 'Maks gesimshøyde', verdi: '7–9 m' },    ],    viktigeBestemmelser: ['Sentrumsutvikling langs Glomma', 'Jordvern i landbruksområdene'],  },  '3101': {    kommunenummer: '3101',    kommunenavn: 'Halden',    planNavn: 'Kommuneplanens arealdel 2023–2035',    planId: 'KPA2023',    iKraft: '2023-06-15',    sammendrag: 'Halden utvikler sentrum ved Tista. Fredriksten festning er fredet. Rimelige tomter.',    nokkeltall: [      { label: 'Maks BYA bolig', verdi: '20–25%' },      { label: 'Maks gesimshøyde', verdi: '7–9 m' },    ],    viktigeBestemmelser: ['Fredriksten festning: Bevaringskrav', 'Rimelige tomtepriser'],  },
 
+  // ── Akershus ──
+
+  '3222': {
+    kommunenummer: '3222',
+    kommunenavn: 'Lørenskog',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-09-18',
+    sammendrag: 'Lørenskog kommune satser på fortetting langs T-banen (Ahus-Lørenskog stasjon) og i Solheim/Skårer-området. Kommunen har høy boligetterspørsel pga. nærhet til Oslo. Marka-grensen begrenser utbygging i nord og øst.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '22–30%' },
+      { label: 'Maks gesimshøyde', verdi: '8–12 m' },
+      { label: 'Maks etasjer', verdi: '2 (småhus), 4–6 (sentrum)' },
+      { label: 'Parkering', verdi: '0,5–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Fortetting langs T-bane og kollektivakser',
+      'Marka-grensen: Ingen utbygging i Lørenskog-marka',
+      'Ahus-området: Krav om støyvurdering',
+      'Krav om overvannshåndtering for alle nye tiltak',
+      'Universell utforming kreves i alle nye prosjekter',
+    ],
+  },
+
+  '3237': {
+    kommunenummer: '3237',
+    kommunenavn: 'Eidsvoll',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-10-16',
+    sammendrag: 'Eidsvoll kommune har utvikling rundt Eidsvoll sentrum, Råholt og Dal. God togforbindelse til Oslo via Gardermobanen. Sterkt jordvern på Øvre Romerike og bevaring av Eidsvollsbygningen-området.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '8 m' },
+      { label: 'Maks etasjer', verdi: '2–3 (bolig), 4–5 (sentrum)' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Fortetting rundt Eidsvoll stasjon og Råholt',
+      'Jordvern: Fulldyrka jord på Romerike beskyttes',
+      'Eidsvollsbygningen: Kulturminnebevaring i nærområdet',
+      'Kvikkleire: Krav om geoteknisk vurdering',
+      'Gardermobanen: Stasjonsnær utvikling prioriteres',
+    ],
+  },
+
+  '3223': {
+    kommunenummer: '3223',
+    kommunenavn: 'Rælingen',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-06-19',
+    sammendrag: 'Rælingen kommune har boligvekst rundt Fjerdingby og Løvenstad. Populær pendlerkommune med nærhet til Lillestrøm og Oslo. Øyeren og marka begrenser utbyggingsarealer.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–4 (sentrum)' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Fjerdingby: Hovedutviklingsområde med sentrumsplan',
+      'Marka-grensen: Begrenser utbygging i øst',
+      'Øyeren: Flomfare og strandsone-restriksjoner',
+      'Krav om overvannshåndtering for alle nye tiltak',
+    ],
+  },
+
+  // ── Telemark ──
+
+  '3807': {
+    kommunenummer: '3807',
+    kommunenavn: 'Skien',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-09-18',
+    sammendrag: 'Skien er Telemarks fylkeshovedstad og satser på sentrumsutvikling langs Bryggevannet og Porsgrunn-aksen. Fortetting i eksisterende tettsted prioriteres. Gulset og Kverndalen har utviklingspotensial.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–6 (sentrum)' },
+      { label: 'Parkering', verdi: '1–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Sentrumsutvikling: Høy utnyttelse rundt Bryggevannet',
+      'Grenlandsbanen: Fremtidig tog til Vestfold/Oslo',
+      'Kvikkleire: Geotekniske krav i deler av kommunen',
+      'Kulturminner: Bevaring av Ibsens Skien',
+      'Jordvern i landbruksområdene rundt Gjerpen',
+    ],
+  },
+
+  '3806': {
+    kommunenummer: '3806',
+    kommunenavn: 'Porsgrunn',
+    planNavn: 'Kommuneplanens arealdel 2022–2034',
+    planId: 'KPA2022',
+    iKraft: '2022-12-12',
+    sammendrag: 'Porsgrunn utvikler sentrum langs Porsgrunnselva og har industrihistorisk identitet. Herøya og Brevik har transformasjonspotensial. God togforbindelse via Vestfoldbanen.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–5 (sentrum)' },
+      { label: 'Parkering', verdi: '1–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Herøya: Industriområde med transformasjonspotensial',
+      'Brevik: Bevaring av kystbymiljø',
+      'Porsgrunnselva: Flomfare og elvenære restriksjoner',
+      'Vestfoldbanen: Stasjonsnær utvikling',
+    ],
+  },
+
+  '3808': {
+    kommunenummer: '3808',
+    kommunenavn: 'Notodden',
+    planNavn: 'Kommuneplanens arealdel 2022–2034',
+    planId: 'KPA2022',
+    iKraft: '2022-10-19',
+    sammendrag: 'Notodden er en UNESCO-verdensarvby (Rjukan-Notodden industriarv). Utvikling konsentreres i sentrum og Heddal. Rimelige tomtepriser og gode muligheter for boligbygging.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '8 m' },
+      { label: 'Maks etasjer', verdi: '2–3' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'UNESCO-verdensarv: Strenge bevaringskrav i industriområdene',
+      'Heddal: Boligutvikling med jordvern',
+      'Rimelige tomter tiltrekker tilflyttere',
+      'Krav om tilpasning til stedlig arkitektur',
+    ],
+  },
+
+  '3813': {
+    kommunenummer: '3813',
+    kommunenavn: 'Bamble',
+    planNavn: 'Kommuneplanens arealdel 2022–2034',
+    planId: 'KPA2022',
+    iKraft: '2022-11-15',
+    sammendrag: 'Bamble kommune har utvikling i Langesund, Stathelle og Herre. Kystlinje med streng strandsoneforvaltning. Industri på Rafnes. Attraktive boligområder nær sjøen.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Strandsone: Strenge byggeforbud i 100-metersbeltet',
+      'Langesund: Kystby-bevaring',
+      'Rafnes industriområde: Egen sone',
+      'Fritidsboliger: Strenge regler for bruksendring',
+    ],
+  },
+
+  // ── Innlandet ──
+
+  '3403': {
+    kommunenummer: '3403',
+    kommunenavn: 'Hamar',
+    planNavn: 'Kommuneplanens arealdel 2022–2034',
+    planId: 'KPA2022',
+    iKraft: '2022-12-15',
+    sammendrag: 'Hamar er Innlandets fylkeshovedstad og fortetter i sentrum og langs Mjøsa. Intercity-utbygging gir nye muligheter. Jordvern på Hedmarken er sentralt. Ridabu og Ingeberg har boligvekst.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–5 (sentrum)' },
+      { label: 'Parkering', verdi: '1–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Intercity-utbygging: Nye utviklingsarealer ved stasjonen',
+      'Mjøsa: Strandsone og flomfare',
+      'Jordvern: Sterkt vern av matjord på Hedmarken',
+      'Domkirkeodden: Kulturminnebevaring',
+      'Krav om klimatilpasning og overvannshåndtering',
+    ],
+  },
+
+  '3405': {
+    kommunenummer: '3405',
+    kommunenavn: 'Lillehammer',
+    planNavn: 'Kommuneplanens arealdel 2022–2034',
+    planId: 'KPA2022',
+    iKraft: '2022-10-19',
+    sammendrag: 'Lillehammer er OL-by med sterk identitet. Sentrum og Strandtorget fortettes. Nordre Ål og Søre Ål har boligvekst. Bevaring av trehusbyen og nærhet til Mjøsa er viktig.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–4 (sentrum)' },
+      { label: 'Parkering', verdi: '1–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Trehusbyen: Strenge bevaringskrav i sentrum',
+      'OL-anlegg: Bevaring og videreutvikling',
+      'Mjøsa: Strandsone og flomfare',
+      'Skredfare: Krav om vurdering i bratte områder',
+    ],
+  },
+
+  '3407': {
+    kommunenummer: '3407',
+    kommunenavn: 'Gjøvik',
+    planNavn: 'Kommuneplanens arealdel 2022–2034',
+    planId: 'KPA2022',
+    iKraft: '2022-11-15',
+    sammendrag: 'Gjøvik kommune fortetter i sentrum og langs Mjøsa. NTNU Gjøvik gir studentby-dynamikk. Hunndalen og Biri har boligutvikling. Industritradisjon med O. Mustad & Søn.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–5 (sentrum)' },
+      { label: 'Parkering', verdi: '1–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Sentrumsutvikling: Fortetting langs Mjøsa',
+      'NTNU-campus: Utviklingsområde',
+      'Jordvern: Matjord på Toten beskyttes',
+      'Krav om overvannshåndtering',
+    ],
+  },
+
+  '3411': {
+    kommunenummer: '3411',
+    kommunenavn: 'Ringsaker',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-06-19',
+    sammendrag: 'Ringsaker er Innlandets mest folkerike kommune. Utvikling i Brumunddal og Moelv langs Mjøsa. Store landbruksarealer med sterkt jordvern. Sjusjøen er viktig hytteområde.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '8 m' },
+      { label: 'Maks etasjer', verdi: '2–3' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Brumunddal: Stasjonsnær utvikling prioriteres',
+      'Jordvern: Sterkt vern av matjord',
+      'Mjøsa: Strandsone og vannkvalitet',
+      'Sjusjøen: Hytteområde med egne bestemmelser',
+      'Intercity: Ny jernbane gir utviklingsmuligheter',
+    ],
+  },
+
+  '3413': {
+    kommunenummer: '3413',
+    kommunenavn: 'Stange',
+    planNavn: 'Kommuneplanens arealdel 2022–2034',
+    planId: 'KPA2022',
+    iKraft: '2022-12-12',
+    sammendrag: 'Stange kommune ligger sør for Hamar langs Mjøsa. Utvikling i Stange sentrum og Ottestad. Populær pendlerkommune med togforbindelse. Sterkt jordvern på Hedmarken.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Jordvern: Svært sterkt vern av matjord på Hedmarken',
+      'Stange stasjon: Fortetting rundt knutepunkt',
+      'Mjøsa: Strandsone og vannforvaltning',
+      'LNF-områder: Strenge regler for spredt bebyggelse',
+    ],
+  },
+
+  '3420': {
+    kommunenummer: '3420',
+    kommunenavn: 'Elverum',
+    planNavn: 'Kommuneplanens arealdel 2022–2034',
+    planId: 'KPA2022',
+    iKraft: '2022-11-15',
+    sammendrag: 'Elverum er Østerdalsbyenes senter med utvikling langs Glomma. Leiret er sentrum. Militærleiren Terningmoen gir arbeidsplasser. Store skogarealer og rimelige tomter.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '8 m' },
+      { label: 'Maks etasjer', verdi: '2–3' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Leiret sentrum: Fortetting og byutvikling',
+      'Glomma: Flomfare og elvenære restriksjoner',
+      'Rimelige tomter – attraktivt for tilflyttere',
+      'Krav om overvannshåndtering',
+    ],
+  },
+
+  // ── Agder ──
+
+  '4204': {
+    kommunenummer: '4204',
+    kommunenavn: 'Kristiansand',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-09-18',
+    sammendrag: 'Kristiansand er Sørlandets hovedstad og fortetter i Kvadraturen, Lund og langs E18/E39. Inkluderer tidligere Søgne og Songdalen. Sterk strandsoneforvaltning og bevaring av trehusbyen.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–6 (sentrum)' },
+      { label: 'Parkering', verdi: '0,5–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Kvadraturen: Trehusby med strenge bevaringskrav',
+      'Strandsone: 100 meter byggeforbud langs kysten',
+      'Fortetting langs bussvei-traseen',
+      'Søgne og Songdalen: Lokale sentra utvikles',
+      'Krav om klimatilpasning og overvannshåndtering',
+    ],
+  },
+
+  '4203': {
+    kommunenummer: '4203',
+    kommunenavn: 'Arendal',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-06-19',
+    sammendrag: 'Arendal fortetter i sentrum (Pollen) og langs kysten. Bevaring av Tyholmen trehusmiljø er sentralt. Arendal havn utvikles. Hisøy og Tromøy har populære boligområder.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–5 (sentrum)' },
+      { label: 'Parkering', verdi: '1–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Tyholmen: Fredet trehusmiljø',
+      'Strandsone: Strenge byggeforbud langs kysten',
+      'Havne-utvikling: Transformasjonsområde',
+      'Krav om estetisk tilpasning til kystbykarakter',
+    ],
+  },
+
+  '4202': {
+    kommunenummer: '4202',
+    kommunenavn: 'Grimstad',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-06-15',
+    sammendrag: 'Grimstad er en attraktiv kystby med UiA-campus. Sentrum og Fevik har boligvekst. Streng strandsoneforvaltning. Populært sommersted med press på fritidsboliger.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2 (3 i sentrum)' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Strandsone: Strenge byggeforbud i 100-metersbeltet',
+      'UiA-campus: Utviklingsområde',
+      'Kystby-bevaring: Tilpasning til stedlig karakter',
+      'Fritidsboliger: Strenge regler for bruksendring',
+    ],
+  },
+
+  // ── Vestland (Bergen-regionen) ──
+
+  '4627': {
+    kommunenummer: '4627',
+    kommunenavn: 'Askøy',
+    planNavn: 'Kommuneplanens arealdel 2022–2034',
+    planId: 'KPA2022',
+    iKraft: '2022-12-15',
+    sammendrag: 'Askøy er Bergens største forstadskommune med vekst rundt Kleppestø og Ravnanger. Askøybroen gir kort vei til Bergen sentrum. Kuststrekninger og friområder bevares.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '8 m' },
+      { label: 'Maks etasjer', verdi: '2–3' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Kleppestø: Sentrumsutvikling og fortetting',
+      'Strandsone: Strenge byggeforbud langs kysten',
+      'Vannforsyning: Kapasitetskrav ved nye utbygginger',
+      'Krav om overvannshåndtering',
+    ],
+  },
+
+  '4626': {
+    kommunenummer: '4626',
+    kommunenavn: 'Øygarden',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-06-19',
+    sammendrag: 'Øygarden (inkl. tidligere Fjell og Sund) er en stor forstadskommune vest for Bergen. Straume er regionsenter. Sotrasambandet gir bedre forbindelse. Kystlandskap og oljebase preger kommunen.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '8–10 m' },
+      { label: 'Maks etasjer', verdi: '2–3 (bolig), 4–6 (Straume)' },
+      { label: 'Parkering', verdi: '1–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Straume: Regionsenter med høy utnyttelse',
+      'Sotrasambandet: Ny bro gir utviklingspotensial',
+      'Strandsone: Kystlandskap med byggeforbud',
+      'Krav om klimatilpasning og overvannshåndtering',
+    ],
+  },
+
+  '4624': {
+    kommunenummer: '4624',
+    kommunenavn: 'Bjørnafjorden',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-09-18',
+    sammendrag: 'Bjørnafjorden (tidligere Os og Fusa) ligger sør for Bergen. Os sentrum er i sterk vekst. God forbindelse via E39. Fusa-delen har landlig preg med rimelige tomter.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '8 m' },
+      { label: 'Maks etasjer', verdi: '2–3 (bolig), 4–5 (sentrum)' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Os sentrum: Fortetting og byutvikling',
+      'E39: Utvikling langs hovedveien',
+      'Fusa: Landlig med muligheter for spredt bebyggelse',
+      'Krav om overvannshåndtering',
+    ],
+  },
+
+  '4631': {
+    kommunenummer: '4631',
+    kommunenavn: 'Alver',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-06-15',
+    sammendrag: 'Alver (tidligere Lindås, Meland og Radøy) er en stor kommune nord for Bergen. Knarvik er regionsenter. Frekhaug og Meland har boligvekst. Mongstad industriområde preger næringslivet.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '8 m' },
+      { label: 'Maks etasjer', verdi: '2–3' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Knarvik: Regionsenter med fortetting',
+      'Frekhaug/Meland: Boligvekst nær Bergen',
+      'Mongstad: Industriområde med egen sone',
+      'Strandsone: Kystlandskap med byggeforbud',
+    ],
+  },
+
+  // ── Rogaland (Jæren) ──
+
+  '1124': {
+    kommunenummer: '1124',
+    kommunenavn: 'Sola',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-09-18',
+    sammendrag: 'Sola kommune huser Stavanger lufthavn og har sterk vekst. Sola sentrum og Tananger fortettes. Jærstrendene er fredet. Jordvern på Jæren begrenser nye boligfelt.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '8–10 m' },
+      { label: 'Maks etasjer', verdi: '2–3 (bolig), 4–5 (sentrum)' },
+      { label: 'Parkering', verdi: '1–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Flyplassstøy: Begrenser boligbygging i store områder',
+      'Jærstrendene: Fredet landskapsvernområde',
+      'Jordvern: Sterkt vern av matjord på Jæren',
+      'Bussvei-fortetting langs kollektivaksen',
+    ],
+  },
+
+  '1127': {
+    kommunenummer: '1127',
+    kommunenavn: 'Randaberg',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-06-19',
+    sammendrag: 'Randaberg er Norges minste kommune i areal og grenser til Stavanger. Sentrum fortettes. Jordvern på Jæren og strandsone begrenser utbygging. Populær boligkommune med landlig preg.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '8 m' },
+      { label: 'Maks etasjer', verdi: '2–3' },
+      { label: 'Parkering', verdi: '1–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Jordvern: Strenge begrensninger – lite tilgjengelig areal',
+      'Sentrum: Fortetting i Randaberg sentrum',
+      'Strandsone: Tungenes fyr og kystlandskap vernes',
+      'Krav om klimatilpasning og overvannshåndtering',
+    ],
+  },
+
+  '1121': {
+    kommunenummer: '1121',
+    kommunenavn: 'Time',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-06-19',
+    sammendrag: 'Time kommune har Bryne som regionsenter på Jæren. Sterk vekst med gode togforbindelser til Stavanger. Jordvern begrenser utbygging. Jærbanen gir god pendlermulighet.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '8–10 m' },
+      { label: 'Maks etasjer', verdi: '2–3 (bolig), 4–6 (Bryne sentrum)' },
+      { label: 'Parkering', verdi: '1–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Bryne sentrum: Fortetting og byutvikling',
+      'Jærbanen: Stasjonsnær utvikling prioriteres',
+      'Jordvern: Svært sterkt vern av matjord på Jæren',
+      'Krav om overvannshåndtering',
+    ],
+  },
+
+  '1120': {
+    kommunenummer: '1120',
+    kommunenavn: 'Klepp',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-06-15',
+    sammendrag: 'Klepp kommune ligger sentralt på Jæren med Kleppe som sentrum. Jærbanen gir pendlermulighet til Stavanger. Landbruk dominerer og jordvern er strengt. Bore strand er et populært friluftsområde.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '8 m' },
+      { label: 'Maks etasjer', verdi: '2–3' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Jordvern: Strengt vern av Jæren-matjord',
+      'Kleppe sentrum: Fortetting',
+      'Bore strand: Frilufts- og landskapsvernområde',
+      'Jærbanen: Stasjonsnær utvikling',
+    ],
+  },
+
+  // ── Møre og Romsdal ──
+
+  '1507': {
+    kommunenummer: '1507',
+    kommunenavn: 'Ålesund',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-09-18',
+    sammendrag: 'Ålesund er Sunnmøres regionhovedstad med jugendbyen som identitetsmerke. Fortetting i sentrum og Moa handelsområde. Inkluderer tidligere Skodje, Ørskog og Sandøy. Fjordlandskap og kystkultur preger arealpolitikken.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–5 (sentrum)' },
+      { label: 'Parkering', verdi: '1–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Jugendbyen: Strenge bevaringskrav i sentrum',
+      'Strandsone: 100 meter byggeforbud langs kysten',
+      'Moa: Handels- og næringsområde',
+      'Skredfare: Krav om vurdering i bratte fjordområder',
+      'Krav om klimatilpasning',
+    ],
+  },
+
+  '1506': {
+    kommunenummer: '1506',
+    kommunenavn: 'Molde',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-06-19',
+    sammendrag: 'Molde er Møre og Romsdals fylkeshovedstad. Rosenes by med panoramautsikt mot Romsdalsalpene. Fortetting i sentrum og Moldegård. Inkluderer tidligere Nesset og Midsund.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–5 (sentrum)' },
+      { label: 'Parkering', verdi: '1–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Sentrumsutvikling: Fortetting langs fjorden',
+      'Skredfare: Krav om geoteknisk vurdering',
+      'Strandsone: Strenge byggeforbud',
+      'Nesset og Midsund: Spredt bebyggelse med strenge vilkår',
+    ],
+  },
+
 }
 
 export function getKommuneplanSammendrag(kommunenummer: string): KommuneplanSammendrag | null {
