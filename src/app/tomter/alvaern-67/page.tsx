@@ -118,7 +118,7 @@ const TOMT = {
   poststed: 'Alværn',
   kommune: 'Nesodden',
   areal_m2: 900,
-  gnr: 30, bnr: 45,
+  gnr: 30, bnr: 482,
   senterpunkt: { lat: 59.8155, lng: 10.6196 },
 
   regulering: {

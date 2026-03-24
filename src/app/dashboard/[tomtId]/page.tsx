@@ -339,7 +339,7 @@ const CASES: Record<string, TomtCase> = {
     kommune: 'Nesodden (3212)',
     kommunenr: '3212',
     gnr: 30,
-    bnr: 45,
+    bnr: 482,
     status: 'analyse_ferdig',
     statusLabel: 'Analyse ferdig',
     dagerPaaMarkedet: 5,
