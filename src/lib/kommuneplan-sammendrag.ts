@@ -14,7 +14,6 @@ export interface KommuneplanSammendrag {
   }[]
   viktigeBestemmelser: string[]
 }
-
 export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
   '3212': {
     kommunenummer: '3212',
@@ -41,8 +40,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
       'Universell utforming kreves for alle nye boliger',
     ],
   },
-  '3024': {
-    kommunenummer: '3024',
+  '3201': {
+    kommunenummer: '3201',
     kommunenavn: 'Bærum',
     planNavn: 'Kommuneplanens arealdel 2022–2042',
     planId: 'KPA2022',
@@ -65,8 +64,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
       'Støykrav: Krav om stille side for boliger langs hovedveier',
     ],
   },
-  '3025': {
-    kommunenummer: '3025',
+  '3203': {
+    kommunenummer: '3203',
     kommunenavn: 'Asker',
     planNavn: 'Kommuneplanens arealdel 2022–2034',
     planId: 'KPA2022',
@@ -108,8 +107,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
       'Krav om estetisk tilpasning til eksisterende bebyggelse',
     ],
   },
-  '3020': {
-    kommunenummer: '3020',
+  '3207': {
+    kommunenummer: '3207',
     kommunenavn: 'Nordre Follo',
     planNavn: 'Kommuneplanens arealdel 2023–2035',
     planId: 'KPA2023',
@@ -128,8 +127,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
       'Marka-grensen er absolutt – ingen utbygging i marka',
     ],
   },
-  '3005': {
-    kommunenummer: '3005',
+  '3301': {
+    kommunenummer: '3301',
     kommunenavn: 'Drammen',
     planNavn: 'Kommuneplanens arealdel 2023–2035',
     planId: 'KPA2023',
@@ -149,8 +148,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
     ],
   },
 
-  '3019': {
-    kommunenummer: '3019',
+  '3216': {
+    kommunenummer: '3216',
     kommunenavn: 'Vestby',
     planNavn: 'Kommuneplanens arealdel 2023–2035',
     planId: 'KPA2023',
@@ -199,8 +198,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
     ],
   },
 
-  '3221': {
-    kommunenummer: '3221',
+  '3232': {
+    kommunenummer: '3232',
     kommunenavn: 'Nittedal',
     planNavn: 'Kommuneplanens arealdel 2021–2032',
     planId: 'KPA2021',
@@ -246,8 +245,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
     ],
   },
 
-  '3030': {
-    kommunenummer: '3030',
+  '3205': {
+    kommunenummer: '3205',
     kommunenavn: 'Lillestrøm',
     planNavn: 'Kommuneplanens arealdel 2023–2035',
     planId: 'KPA2023',
@@ -267,8 +266,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
     ],
   },
 
-  '3032': {
-    kommunenummer: '3032',
+  '3230': {
+    kommunenummer: '3230',
     kommunenavn: 'Gjerdrum',
     planNavn: 'Kommuneplanens arealdel 2023–2035',
     planId: 'KPA2023',
@@ -288,8 +287,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
     ],
   },
 
-  '3033': {
-    kommunenummer: '3033',
+  '3209': {
+    kommunenummer: '3209',
     kommunenavn: 'Ullensaker',
     planNavn: 'Kommuneplanens arealdel 2023–2035',
     planId: 'KPA2023',
@@ -309,29 +308,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
     ],
   },
 
-  '3205': {
-    kommunenummer: '3205',
-    kommunenavn: 'Ringerike',
-    planNavn: 'Kommuneplanens arealdel 2023–2035',
-    planId: 'KPA2023',
-    iKraft: '2023-10-16',
-    sammendrag: 'Ringerike (Hønefoss) forbereder seg på Ringeriksbanen med sterk sentrumsutvikling. Hønefoss vil bli et knutepunkt. Spredte boligområder i Sokna og Hallingby.',
-    nokkeltall: [
-      { label: 'Maks BYA bolig', verdi: '20–25%' },
-      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
-      { label: 'Maks etasjer', verdi: '2 (bolig), 3–6 (sentrum)' },
-      { label: 'Parkering', verdi: '1–2 plasser/boenhet' },
-    ],
-    viktigeBestemmelser: [
-      'Ringeriksbanen: Store utviklingsarealer langs ny jernbane',
-      'Hønefoss sentrum: Høy utnyttelse rundt stasjonsområdet',
-      'Flom- og skredsikring langs Storelva og Begna',
-      'Jordvern på Ringeriksletta',
-    ],
-  },
-
-  '3103': {
-    kommunenummer: '3103',
+  '3905': {
+    kommunenummer: '3905',
     kommunenavn: 'Tønsberg',
     planNavn: 'Kommuneplanens arealdel 2023–2035',
     planId: 'KPA2023',
@@ -351,8 +329,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
     ],
   },
 
-  '3107': {
-    kommunenummer: '3107',
+  '3907': {
+    kommunenummer: '3907',
     kommunenavn: 'Sandefjord',
     planNavn: 'Kommuneplanens arealdel 2023–2035',
     planId: 'KPA2023',
@@ -372,8 +350,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
     ],
   },
 
-  '3105': {
-    kommunenummer: '3105',
+  '3909': {
+    kommunenummer: '3909',
     kommunenavn: 'Larvik',
     planNavn: 'Kommuneplanens arealdel 2022–2034',
     planId: 'KPA2022',
@@ -393,8 +371,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
     ],
   },
 
-  '3101': {
-    kommunenummer: '3101',
+  '3901': {
+    kommunenummer: '3901',
     kommunenavn: 'Horten',
     planNavn: 'Kommuneplanens arealdel 2022–2034',
     planId: 'KPA2022',
@@ -414,8 +392,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
     ],
   },
 
-  '3120': {
-    kommunenummer: '3120',
+  '3103': {
+    kommunenummer: '3103',
     kommunenavn: 'Moss',
     planNavn: 'Kommuneplanens arealdel 2023–2035',
     planId: 'KPA2023',
@@ -435,8 +413,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
     ],
   },
 
-  '3124': {
-    kommunenummer: '3124',
+  '3107': {
+    kommunenummer: '3107',
     kommunenavn: 'Fredrikstad',
     planNavn: 'Kommuneplanens arealdel 2023–2035',
     planId: 'KPA2023',
@@ -582,8 +560,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
 
   // ── Buskerud ──
 
-  '3007': {
-    kommunenummer: '3007',
+  '3305': {
+    kommunenummer: '3305',
     kommunenavn: 'Ringerike',
     planNavn: 'Kommuneplanens arealdel 2023–2035',
     planId: 'KPA2023',
@@ -602,8 +580,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
     ],
   },
 
-  '3038': {
-    kommunenummer: '3038',
+  '3310': {
+    kommunenummer: '3310',
     kommunenavn: 'Hole',
     planNavn: 'Kommuneplanens arealdel 2023–2035',
     planId: 'KPA2023',
@@ -671,8 +649,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
     ],
   },
 
-  '1127': {
-    kommunenummer: '1127',
+  '1108': {
+    kommunenummer: '1108',
     kommunenavn: 'Sandnes',
     planNavn: 'Kommuneplanens arealdel 2023–2035',
     planId: 'KPA2023',
@@ -719,8 +697,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
 
   // ── Nord-Norge ──
 
-  '5401': {
-    kommunenummer: '5401',
+  '5501': {
+    kommunenummer: '5501',
     kommunenavn: 'Tromsø',
     planNavn: 'Kommuneplanens arealdel 2020–2032',
     planId: 'KPA2020',
@@ -739,6 +717,7 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
       'Arktisk klima: Spesielle krav til isolasjon og snølast',
     ],
   },
+'3105': {    kommunenummer: '3105',    kommunenavn: 'Sarpsborg',    planNavn: 'Kommuneplanens arealdel 2023–2035',    planId: 'KPA2023',    iKraft: '2023-06-15',    sammendrag: 'Sarpsborg utvikler sentrum langs Glomma. Greåker og Tune har villaområder.',    nokkeltall: [      { label: 'Maks BYA bolig', verdi: '20–25%' },      { label: 'Maks gesimshøyde', verdi: '7–9 m' },    ],    viktigeBestemmelser: ['Sentrumsutvikling langs Glomma', 'Jordvern i landbruksområdene'],  },  '3101': {    kommunenummer: '3101',    kommunenavn: 'Halden',    planNavn: 'Kommuneplanens arealdel 2023–2035',    planId: 'KPA2023',    iKraft: '2023-06-15',    sammendrag: 'Halden utvikler sentrum ved Tista. Fredriksten festning er fredet. Rimelige tomter.',    nokkeltall: [      { label: 'Maks BYA bolig', verdi: '20–25%' },      { label: 'Maks gesimshøyde', verdi: '7–9 m' },    ],    viktigeBestemmelser: ['Fredriksten festning: Bevaringskrav', 'Rimelige tomtepriser'],  },
 
 }
 
