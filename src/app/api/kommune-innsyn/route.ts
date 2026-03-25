@@ -46,7 +46,23 @@ const INNSYN_KILDER: Record<string, InnsynKilde[]> = {
     url: 'https://vestby.pj.360online.com',
     sokeUrl: (gnr, bnr) => `https://vestby.pj.360online.com/Journal/Search?searchString=${gnr}/${bnr}`,
   }],
-'3212': [    {      kommune: 'Nesodden', system: 'Elements Publikum (2024–)',      url: 'https://prod02.elementscloud.no/publikum/944383565_PROD-944383565',      sokeUrl: (gnr: number, bnr: number, adresse: string) => `https://prod02.elementscloud.no/publikum/944383565_PROD-944383565/Search?Query=${encodeURIComponent(adresse)}&OrderBy=DATE&SortOrder=1&DateFrom=2024-05-01&DateTo=2026-12-31`,    },    {      kommune: 'Nesodden', system: 'Elements Publikum (2023–2025)',      url: 'https://prod02.elementscloud.no/publikum/944383565_HIST-944383565-1725',      sokeUrl: (gnr: number, bnr: number, adresse: string) => `https://prod02.elementscloud.no/publikum/944383565_HIST-944383565-1725/Search?Query=${encodeURIComponent(adresse)}&OrderBy=DATE&SortOrder=1&DateFrom=2018-01-01&DateTo=2025-03-31`,    },  ],
+  '3212': [
+    {
+      kommune: 'Nesodden', system: 'Elements Publikum (2024–)',
+      url: 'https://prod02.elementscloud.no/publikum/944383565_PROD-944383565',
+      sokeUrl: (gnr: number, bnr: number, adresse: string) => `https://prod02.elementscloud.no/publikum/944383565_PROD-944383565/Search?Query=${encodeURIComponent(adresse)}&OrderBy=DATE&SortOrder=1&DateFrom=2024-05-01&DateTo=2026-12-31`,
+    },
+    {
+      kommune: 'Nesodden', system: 'Elements Publikum (2023–2025)',
+      url: 'https://prod02.elementscloud.no/publikum/944383565_HIST-944383565-1725',
+      sokeUrl: (gnr: number, bnr: number, adresse: string) => `https://prod02.elementscloud.no/publikum/944383565_HIST-944383565-1725/Search?Query=${encodeURIComponent(adresse)}&OrderBy=DATE&SortOrder=1&DateFrom=2018-01-01&DateTo=2025-03-31`,
+    },
+    {
+      kommune: 'Nesodden', system: 'Elements Publikum (2018–2023)',
+      url: 'https://prod02.elementscloud.no/publikum/944383565_HIST-944383565-0723',
+      sokeUrl: (gnr: number, bnr: number, adresse: string) => `https://prod02.elementscloud.no/publikum/944383565_HIST-944383565-0723/Search?Query=${encodeURIComponent(adresse)}&OrderBy=DATE&SortOrder=1&DateFrom=2018-01-01&DateTo=2023-12-31`,
+    },
+  ],
   '3214': [{
     kommune: 'Frogn', system: '360online',
     url: 'https://frogn.pj.360online.com',
