@@ -366,6 +366,7 @@ function PrototypeContent() {
   const [kartBbox, setKartBbox] = useState<number[] | null>(null)
   const [kartLoading, setKartLoading] = useState(false)
   const [kommuneInnsyn, setKommuneInnsyn] = useState<any>(null)
+  const [omraade, setOmraade] = useState<any>(null)
   const kartCanvasRef = useRef<HTMLCanvasElement>(null)
   const [steps, setSteps] = useState<Step[]>([])
 
@@ -997,6 +998,12 @@ function PrototypeContent() {
         body: JSON.stringify({ kommunenummer: knr, gnr, bnr, adresse: adr.adressetekst }),
       }).then(r => r.ok ? r.json() : null).then(d => { if (d) setKommuneInnsyn(d) }).catch(() => {})
     }
+    // Områdeanalyse (nærservice, grunnforhold)
+    fetch("/api/omraadeanalyse", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ lat, lon }),
+    }).then(r => r.ok ? r.json() : null).then(d => { if (d) setOmraade(d) }).catch(() => {})
     setAnalysing(false)
   }
 
@@ -1874,6 +1881,60 @@ function PrototypeContent() {
             {/* Solforhold */}
             {valgtAdresse && (
               <SolforholdSection lat={valgtAdresse.representasjonspunkt.lat} lon={valgtAdresse.representasjonspunkt.lon} />
+            )}
+
+            {/* Nærservice og grunnforhold */}
+            {omraade && (
+              <div className="bg-white rounded-2xl border border-brand-100 p-6 shadow-sm">
+                <h2 className="font-display text-lg font-bold text-tomtly-dark mb-4 flex items-center gap-2">
+                  <MapPin className="w-5 h-5 text-tomtly-accent" />
+                  Nærområdet
+                </h2>
+                {omraade.naerserviceKategorier && Object.keys(omraade.naerserviceKategorier).length > 0 && (
+                  <div className="mb-6">
+                    <h3 className="text-xs font-semibold text-brand-600 uppercase tracking-wide mb-3">Nærservice (innen 2 km)</h3>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                      {Object.entries(omraade.naerserviceKategorier).map(([kategori, items]: [string, any]) => (
+                        <div key={kategori} className="bg-brand-50 rounded-lg p-3 border border-brand-100">
+                          <p className="text-xs font-semibold text-tomtly-dark mb-1">{kategori}</p>
+                          {items.slice(0, 3).map((item: any, i: number) => (
+                            <p key={i} className="text-[10px] text-brand-600">{item.navn} ({item.avstand}m)</p>
+                          ))}
+                          {items.length > 3 && <p className="text-[10px] text-brand-400">+{items.length - 3} til</p>}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {omraade.grunnforhold?.length > 0 && (
+                  <div className="mb-4">
+                    <h3 className="text-xs font-semibold text-brand-600 uppercase tracking-wide mb-3">Grunnforhold og risiko</h3>
+                    <div className="border border-brand-200 rounded-lg overflow-hidden">
+                      <table className="w-full text-xs">
+                        <tbody>
+                          {omraade.grunnforhold.map((g: any, i: number) => (
+                            <tr key={i} className={`border-b border-brand-100 last:border-0 ${g.status === 'Funn registrert' ? 'bg-red-50/50' : ''}`}>
+                              <td className="px-3 py-2 font-medium text-tomtly-dark">{g.faktor}</td>
+                              <td className="px-3 py-2 text-right">
+                                <span className={`px-2 py-0.5 rounded text-[10px] font-semibold ${g.status === 'Funn registrert' ? 'bg-red-100 text-red-800' : g.status.includes('OK') ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800'}`}>
+                                  {g.status}
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+                {omraade.finnTomterUrl && (
+                  <a href={omraade.finnTomterUrl} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2.5 bg-blue-50 text-blue-700 rounded-lg text-xs font-medium hover:bg-blue-100 transition-colors border border-blue-200">
+                    <ExternalLink className="w-3.5 h-3.5" />
+                    Se tomter til salgs i området på FINN.no
+                  </a>
+                )}
+              </div>
             )}
 
             {/* Kommune byggesak-innsyn */}
