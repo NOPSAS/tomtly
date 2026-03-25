@@ -27,9 +27,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
       { label: 'Maks BYA bolig', verdi: '20–25%' },
       { label: 'Maks gesimshøyde', verdi: '7–9 m' },
       { label: 'Maks mønehøyde', verdi: '9–10 m' },
-      { label: 'Maks etasjer', verdi: '2 (3 i sentrum)' },
       { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
-      { label: 'MUA (uteopphold)', verdi: 'Min. 50 m² per boenhet' },
+      { label: 'MUA (uteopphold)', verdi: 'Min. 300 m² per boligtomt' },
     ],
     viktigeBestemmelser: [
       'Byggeområder i tettstedsområder krever detaljregulering før bygging',
@@ -163,7 +162,7 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
       { label: 'Maks mønehøyde', verdi: '9,5 m' },
       { label: 'Maks etasjer', verdi: '2 (3 i sentrum)' },
       { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
-      { label: 'MUA (uteopphold)', verdi: 'Min. 50 m² per boenhet' },
+      { label: 'MUA (uteopphold)', verdi: 'Min. 300 m² per boligtomt' },
     ],
     viktigeBestemmelser: [
       'Fortetting i Vestby sentrum og Son prioriteres',
@@ -213,7 +212,7 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
       { label: 'Maks mønehøyde', verdi: '9 m' },
       { label: 'Maks etasjer', verdi: '2 (3 i sentrum)' },
       { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
-      { label: 'MUA (uteopphold)', verdi: 'Min. 50 m² per boenhet' },
+      { label: 'MUA (uteopphold)', verdi: 'Min. 300 m² per boligtomt' },
     ],
     viktigeBestemmelser: [
       'Fortetting rundt Rotnes/Hagan og Hakadal stasjon prioriteres',
