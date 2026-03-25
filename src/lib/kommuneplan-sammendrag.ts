@@ -13,6 +13,7 @@ export interface KommuneplanSammendrag {
     verdi: string
   }[]
   viktigeBestemmelser: string[]
+  lnfr?: string // LNFR-bestemmelser for uregulerte områder
 }
 export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
   '3212': {
@@ -39,6 +40,7 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
       'Energikrav: Minimum passivhusnivå for nye boliger i sentrumsområder',
       'Universell utforming kreves for alle nye boliger',
     ],
+    lnfr: 'LNFR: Spredt boligbebyggelse kan tillates. Maks BYA 15%. Min. tomt 1500 m2. Krever vei, vann, avlop.',
   },
   '3201': {
     kommunenummer: '3201',

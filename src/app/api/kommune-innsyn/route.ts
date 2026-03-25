@@ -34,7 +34,7 @@ const INNSYN_KILDER: Record<string, InnsynKilde[]> = {
   '3203': [{
     kommune: 'Asker', system: 'Innsynsportal',
     url: 'https://asker-bygg.innsynsportal.no',
-    sokeUrl: (gnr, bnr) => `https://asker-bygg.innsynsportal.no/postjournal-v2/d3aab42c-a204-438d-8e99-5189ae2ff468?query=${gnr}/${bnr}`,
+    sokeUrl: (gnr, bnr, adresse) => `https://asker-bygg.innsynsportal.no/postjournal-v2/d3aab42c-a204-438d-8e99-5189ae2ff468?query=${gnr}/${bnr}&params=${encodeURIComponent(JSON.stringify({search: adresse}))}`,
   }],
   '3207': [{
     kommune: 'Nordre Follo', system: '360online',
@@ -198,7 +198,7 @@ const INNSYN_KILDER: Record<string, InnsynKilde[]> = {
   '5001': [{
     kommune: 'Trondheim', system: 'Innsynsportal',
     url: 'https://trondheim.innsynsportal.no',
-    sokeUrl: (gnr, bnr) => `https://trondheim.innsynsportal.no/postjournal-v2/fc010204-2c07-4f3c-a8ef-879ec218111c?query=${gnr}/${bnr}`,
+    sokeUrl: (gnr, bnr, adresse) => `https://trondheim.innsynsportal.no/postjournal-v2/fc010204-2c07-4f3c-a8ef-879ec218111c?query=${gnr}/${bnr}&params=${encodeURIComponent(JSON.stringify({search: adresse}))}`,
   }],
 
   // ── Troms ──

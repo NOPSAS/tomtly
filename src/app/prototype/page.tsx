@@ -1316,6 +1316,13 @@ function PrototypeContent() {
                       </li>
                     ))}
                   </ul>
+
+                  {kp.lnfr && (
+                    <div className="mt-5 bg-amber-50 border border-amber-200 rounded-xl p-4">
+                      <h4 className="text-xs font-semibold text-amber-800 uppercase tracking-wide mb-2">LNFR-områder (uregulerte tomter)</h4>
+                      <p className="text-xs text-amber-700 leading-relaxed">{kp.lnfr}</p>
+                    </div>
+                  )}
                 </div>
               )
             })()}
@@ -1503,6 +1510,30 @@ function PrototypeContent() {
                     </p>
                   </div>
                 )}
+              </div>
+            )}
+
+            {/* Uregulert tomt-varsel */}
+            {plans.length === 0 && !analysing && valgtAdresse && (
+              <div className="bg-amber-50 rounded-2xl border border-amber-200 p-6 shadow-sm">
+                <h2 className="font-display text-lg font-bold text-amber-800 mb-2 flex items-center gap-2">
+                  <AlertTriangle className="w-5 h-5" />
+                  Ingen reguleringsplan funnet
+                </h2>
+                <p className="text-sm text-amber-700 mb-4">
+                  Denne eiendommen har ingen gjeldende reguleringsplan i det nasjonale planregisteret.
+                  Det betyr at <strong>kommuneplanens arealdel</strong> gjelder direkte.
+                  Tomten kan være avsatt til bolig, LNFR (landbruk, natur, friluftsliv, reindrift) eller annet formål i kommuneplanen.
+                </p>
+                <div className="bg-white rounded-xl p-4 border border-amber-200">
+                  <h3 className="text-sm font-semibold text-tomtly-dark mb-2">Hva betyr dette?</h3>
+                  <ul className="space-y-1.5 text-xs text-brand-700">
+                    <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-amber-600 mt-0.5 shrink-0" />Tiltak må vurderes opp mot kommuneplanens bestemmelser</li>
+                    <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-amber-600 mt-0.5 shrink-0" />LNFR-områder har strenge begrensninger for ny bebyggelse</li>
+                    <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-amber-600 mt-0.5 shrink-0" />Spredt boligbebyggelse kan tillates med dispensasjon i noen kommuner</li>
+                    <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-amber-600 mt-0.5 shrink-0" />Kontakt kommunen for avklaring av byggemuligheter</li>
+                  </ul>
+                </div>
               </div>
             )}
 
@@ -1862,7 +1893,11 @@ function PrototypeContent() {
                           ))}
                         </div>
                       )}
-                      {kilde.saker?.length === 0 && kilde.tilgjengelig && <p className="text-xs text-brand-400">Ingen saker funnet via automatisk søk. Klikk "Åpne innsyn" for å søke manuelt.</p>}
+                      {kilde.saker?.length === 0 && (
+                        <p className="text-xs text-brand-500 bg-brand-50 rounded-lg p-2.5">
+                          Klikk «Åpne innsyn» for å se byggesaker, dispensasjoner og vedtak for denne eiendommen i kommunens sakssystem.
+                        </p>
+                      )}
                     </div>
                   ))}
                 </div>
