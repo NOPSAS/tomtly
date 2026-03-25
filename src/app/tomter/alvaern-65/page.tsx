@@ -43,7 +43,7 @@ const TOMT = {
   risikoanalyse: {
     total_risiko: 'lav' as const,
     faktorer: [
-      { kategori: 'Regulering', beskrivelse: 'Innenfor gjeldende plan, ingen dispensasjoner nødvendig', sannsynlighet: 1 as const, konsekvens: 1 as const, risikoverdi: 1, tiltak: 'BYA 9,7% av 20% tillatt – stor margin' },
+      { kategori: 'Regulering', beskrivelse: 'B4 åpen småhusbebyggelse. To dispensasjoner innvilget for rekkefølgekrav.', sannsynlighet: 1 as const, konsekvens: 1 as const, risikoverdi: 1, tiltak: 'BYA 9,7% av 20% tillatt – stor margin' },
       { kategori: 'Grunnforhold', beskrivelse: 'Fjell/morene, normal skråning', sannsynlighet: 2 as const, konsekvens: 2 as const, risikoverdi: 4, tiltak: 'Grunnundersøkelse utført' },
       { kategori: 'Byggesøknad', beskrivelse: 'Rammetillatelse søkt av Tegnebua', sannsynlighet: 1 as const, konsekvens: 1 as const, risikoverdi: 1, tiltak: 'Profesjonell søknad, komplett dokumentasjon' },
       { kategori: 'Nabovarsling', beskrivelse: 'Gjennomført uten merknader', sannsynlighet: 1 as const, konsekvens: 1 as const, risikoverdi: 1, tiltak: 'Ingen naboprotester mottatt' },
@@ -78,13 +78,13 @@ const TOMT = {
 }
 
 const SALGSPROSESS = [
-  { tid: 'Uke 1', tittel: 'Tomteanalyse', beskrivelse: 'tomtly gjennomførte komplett analyse: regulering, arealberegninger, husmodeller og verdivurdering.' },
+  { tid: 'Uke 1', tittel: 'Tomteanalyse', beskrivelse: 'Tomtly gjennomførte komplett analyse: regulering, arealberegninger, husmodeller og verdivurdering.' },
   { tid: 'Uke 2', tittel: 'Husmodell valgt', beskrivelse: 'Wide fra ABChus ble valgt – pulttak, 207,9 m² BRA. Perfekt for tomten og reguleringsplanen.' },
   { tid: 'Uke 3', tittel: 'Tegnebua koblet på', beskrivelse: 'Tegnebua tegnet situasjonsplan, fasader og plantegninger. Tilpasset Wide til tomtens terreng.' },
   { tid: 'Uke 4–5', tittel: 'Nabovarsling', beskrivelse: '14 dagers nabovarsling gjennomført. Ingen merknader mottatt fra naboer.' },
   { tid: 'Uke 6', tittel: 'Rammetillatelse søkt', beskrivelse: 'Tegnebua sendte komplett søknad om rammetillatelse til Nesodden kommune.' },
-  { tid: 'Uke 7–8', tittel: 'Annonsering og visning', beskrivelse: 'Tomten ble annonsert på tomtly.no med komplett tomterapport, husmodell og tegninger. Interessenter kontaktet.' },
-  { tid: 'Uke 9', tittel: 'SOLGT via Propr', beskrivelse: 'Salg gjennomført. Oppgjør håndtert av Propr (Norsk eiendomsoppgjør AS). Kjetil solgte selv med tomtly sine verktøy.' },
+  { tid: 'Uke 7–8', tittel: 'Annonsering og visning', beskrivelse: 'Tomten ble annonsert på Tomtly.no med komplett tomterapport, husmodell og tegninger. Interessenter kontaktet.' },
+  { tid: 'Uke 9', tittel: 'SOLGT via Propr', beskrivelse: 'Salg gjennomført. Oppgjør håndtert av Propr (Norsk eiendomsoppgjør AS). Kjetil solgte selv med Tomtly sine verktøy.' },
 ]
 
 const AREALBEREGNINGER = {
@@ -162,13 +162,13 @@ export default function Alvaern65() {
                   <Quote className="w-10 h-10 text-tomtly-gold flex-shrink-0 mt-1" />
                   <div>
                     <h2 className="font-display text-2xl font-bold text-tomtly-dark">Kundehistorie</h2>
-                    <p className="text-brand-600 text-sm mt-1">Gamle Alværnvei 65 – solgt via tomtly</p>
+                    <p className="text-brand-600 text-sm mt-1">Gamle Alværnvei 65 – solgt via Tomtly</p>
                   </div>
                 </div>
 
                 <blockquote className="text-lg text-brand-700 leading-relaxed mb-6 italic">
                   &ldquo;Jeg hadde en stor tomt jeg ønsket å selge, men visste ikke helt hvordan jeg skulle presentere den for kjøpere.
-                  tomtly tok seg av alt – analyse av reguleringsplanen, valg av husmodell, tegninger via Tegnebua og til
+                  Tomtly tok seg av alt – analyse av reguleringsplanen, valg av husmodell, tegninger via Tegnebua og til
                   og med nabovarsling og rammetillatelse. Da tomten ble lagt ut hadde den komplett dokumentasjon og en
                   ferdig husmodell. Det gjorde salget mye enklere.&rdquo;
                 </blockquote>
@@ -207,7 +207,7 @@ export default function Alvaern65() {
               <div className="bg-brand-50 border border-brand-200 rounded-2xl overflow-hidden">
                 <div className="aspect-video bg-brand-100 relative">
                   <img
-                    src={`${IMG}/wide-fasade.jpg`}
+                    src={`${IMG}/render-cam-01.jpg`}
                     alt="Wide fra ABChus – fasade"
                     className="w-full h-full object-cover"
                   />
@@ -280,11 +280,11 @@ export default function Alvaern65() {
               {/* Plantegninger */}
               <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="bg-brand-50 border border-brand-200 rounded-lg overflow-hidden">
-                  <img src={`${IMG}/wide-plan-1etg.jpg`} alt="Wide – plantegning 1. etasje" className="w-full" />
+                  <img src={`${IMG}/wide-stue.jpg`} alt="Wide – stue med panoramautsikt" className="w-full" />
                   <p className="text-xs text-brand-500 p-3">1. etasje – stue, kjøkken, entré</p>
                 </div>
                 <div className="bg-brand-50 border border-brand-200 rounded-lg overflow-hidden">
-                  <img src={`${IMG}/wide-plan-2etg.jpg`} alt="Wide – plantegning 2. etasje" className="w-full" />
+                  <img src={`${IMG}/wide-kjokken.jpg`} alt="Wide – kjøkken" className="w-full" />
                   <p className="text-xs text-brand-500 p-3">2. etasje – soverom, bad</p>
                 </div>
               </div>
@@ -294,14 +294,16 @@ export default function Alvaern65() {
             <section id="regulering">
               <TomtRegulering regulering={TOMT.regulering} />
 
-              <div className="mt-6 bg-green-50 border border-green-200 rounded-xl p-6">
-                <h3 className="font-semibold text-green-800 mb-3 flex items-center gap-2">
+              <div className="mt-6 bg-amber-50 border border-amber-200 rounded-xl p-6">
+                <h3 className="font-semibold text-amber-800 mb-3 flex items-center gap-2">
                   <CheckCircle className="w-5 h-5" />
-                  Ingen dispensasjoner nødvendig
+                  Dispensasjoner innvilget
                 </h3>
-                <p className="text-sm text-green-700 mb-4">
-                  Wide-modellen er plassert godt innenfor alle reguleringsbestemmelser. Ingen dispensasjoner
-                  var nødvendig for dette prosjektet.
+                <p className="text-sm text-amber-700 mb-4">
+                  For dette prosjektet ble det innvilget to dispensasjoner fra Nesodden kommune:
+                  1. Midlertidig dispensasjon fra pbl. §18.1 – krav til opparbeidelse av vei (Gamle Alværnvei ikke opparbeidet til regulert standard)
+                  2. Dispensasjon fra reguleringsbestemmelse §1.2.1 og §1.2.2 – rekkefølgekrav om fortau langs Orreholtet og Lindemannsvei
+                  Tomtly og Tegnebua utarbeidet dispensasjonssøknaden som del av byggesøknaden.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {[
@@ -549,11 +551,11 @@ export default function Alvaern65() {
                   </Link>
                   <Link href="/tomter/bjornemyrveien-20" className="block bg-white rounded-lg p-3 border border-brand-200 hover:border-tomtly-accent transition-colors">
                     <p className="font-medium text-tomtly-dark text-sm">Bjørnemyrveien 20</p>
-                    <p className="text-xs text-brand-500">Oppegård</p>
+                    <p className="text-xs text-brand-500">605 m² · 3 000 000 kr · Bjørnemyr, Nesodden</p>
                   </Link>
                   <Link href="/tomter/bjornemyrveien-22" className="block bg-white rounded-lg p-3 border border-brand-200 hover:border-tomtly-accent transition-colors">
                     <p className="font-medium text-tomtly-dark text-sm">Bjørnemyrveien 22</p>
-                    <p className="text-xs text-brand-500">Oppegård</p>
+                    <p className="text-xs text-brand-500">613 m² · 3 000 000 kr · Bjørnemyr, Nesodden</p>
                   </Link>
                 </div>
               </div>
