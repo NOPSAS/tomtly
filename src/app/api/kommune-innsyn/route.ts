@@ -46,11 +46,7 @@ const INNSYN_KILDER: Record<string, InnsynKilde[]> = {
     url: 'https://vestby.pj.360online.com',
     sokeUrl: (gnr, bnr) => `https://vestby.pj.360online.com/Journal/Search?searchString=${gnr}/${bnr}`,
   }],
-  '3212': [{
-    kommune: 'Nesodden', system: 'Elements Publikum',
-    url: 'https://prod02.elementscloud.no/publikum/944383565_PROD-944383565',
-    sokeUrl: () => `https://prod02.elementscloud.no/publikum/944383565_PROD-944383565`,
-  }],
+'3212': [    {      kommune: 'Nesodden', system: 'Elements Publikum (2024–)',      url: 'https://prod02.elementscloud.no/publikum/944383565_PROD-944383565',      sokeUrl: (gnr: number, bnr: number, adresse: string) => `https://prod02.elementscloud.no/publikum/944383565_PROD-944383565/Search?Query=${encodeURIComponent(adresse)}&OrderBy=DATE&SortOrder=1&DateFrom=2024-05-01&DateTo=2026-12-31`,    },    {      kommune: 'Nesodden', system: 'Elements Publikum (2023–2025)',      url: 'https://prod02.elementscloud.no/publikum/944383565_HIST-944383565-1725',      sokeUrl: (gnr: number, bnr: number, adresse: string) => `https://prod02.elementscloud.no/publikum/944383565_HIST-944383565-1725/Search?Query=${encodeURIComponent(adresse)}&OrderBy=DATE&SortOrder=1&DateFrom=2018-01-01&DateTo=2025-03-31`,    },  ],
   '3214': [{
     kommune: 'Frogn', system: '360online',
     url: 'https://frogn.pj.360online.com',
@@ -59,7 +55,7 @@ const INNSYN_KILDER: Record<string, InnsynKilde[]> = {
   '3232': [{
     kommune: 'Nittedal', system: 'Elements Publikum',
     url: 'https://prod01.elementscloud.no/Publikum/964949581',
-    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/964949581`,
+    sokeUrl: (gnr: number, bnr: number, adresse: string) => `https://prod01.elementscloud.no/Publikum/964949581/Search?Query=${encodeURIComponent(adresse)}&OrderBy=DATE&SortOrder=1`,
   }],
   '3205': [{
     kommune: 'Lillestrøm', system: 'OpenGov 360',
@@ -69,37 +65,37 @@ const INNSYN_KILDER: Record<string, InnsynKilde[]> = {
   '3209': [{
     kommune: 'Ullensaker', system: 'Elements Publikum',
     url: 'https://prod01.elementscloud.no/Publikum/952540556',
-    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/952540556`,
+    sokeUrl: (gnr: number, bnr: number, adresse: string) => `https://prod01.elementscloud.no/Publikum/952540556/Search?Query=${encodeURIComponent(adresse)}&OrderBy=DATE&SortOrder=1`,
   }],
   '3230': [{
     kommune: 'Gjerdrum', system: 'Elements Publikum',
     url: 'https://prod01.elementscloud.no/Publikum/964949581',
-    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/964949581`,
+    sokeUrl: (gnr: number, bnr: number, adresse: string) => `https://prod01.elementscloud.no/Publikum/964949581/Search?Query=${encodeURIComponent(adresse)}&OrderBy=DATE&SortOrder=1`,
   }],
   '3222': [{
     kommune: 'Lørenskog', system: 'Elements Publikum',
     url: 'https://prod01.elementscloud.no/Publikum/952540556',
-    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/952540556`,
+    sokeUrl: (gnr: number, bnr: number, adresse: string) => `https://prod01.elementscloud.no/Publikum/952540556/Search?Query=${encodeURIComponent(adresse)}&OrderBy=DATE&SortOrder=1`,
   }],
   '3223': [{
     kommune: 'Rælingen', system: 'Elements Publikum',
     url: 'https://prod01.elementscloud.no/Publikum/952540556',
-    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/952540556`,
+    sokeUrl: (gnr: number, bnr: number, adresse: string) => `https://prod01.elementscloud.no/Publikum/952540556/Search?Query=${encodeURIComponent(adresse)}&OrderBy=DATE&SortOrder=1`,
   }],
   '3218': [{
     kommune: 'Ås', system: 'Elements Publikum',
     url: 'https://prod01.elementscloud.no/Publikum/964949581',
-    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/964949581`,
+    sokeUrl: (gnr: number, bnr: number, adresse: string) => `https://prod01.elementscloud.no/Publikum/964949581/Search?Query=${encodeURIComponent(adresse)}&OrderBy=DATE&SortOrder=1`,
   }],
   '3220': [{
     kommune: 'Enebakk', system: 'Elements Publikum',
     url: 'https://prod01.elementscloud.no/Publikum/964949581',
-    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/964949581`,
+    sokeUrl: (gnr: number, bnr: number, adresse: string) => `https://prod01.elementscloud.no/Publikum/964949581/Search?Query=${encodeURIComponent(adresse)}&OrderBy=DATE&SortOrder=1`,
   }],
   '3237': [{
     kommune: 'Eidsvoll', system: 'Elements Publikum',
     url: 'https://prod01.elementscloud.no/Publikum/964949581',
-    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/964949581`,
+    sokeUrl: (gnr: number, bnr: number, adresse: string) => `https://prod01.elementscloud.no/Publikum/964949581/Search?Query=${encodeURIComponent(adresse)}&OrderBy=DATE&SortOrder=1`,
   }],
 
   // ── Buskerud ──
@@ -111,19 +107,19 @@ const INNSYN_KILDER: Record<string, InnsynKilde[]> = {
   '3303': [{
     kommune: 'Kongsberg', system: 'Elements Publikum',
     url: 'https://prod02.elementscloud.no/publikum/942402465_PROD-942402465',
-    sokeUrl: () => `https://prod02.elementscloud.no/publikum/942402465_PROD-942402465`,
+    sokeUrl: (gnr: number, bnr: number, adresse: string) => `https://prod02.elementscloud.no/publikum/942402465_PROD-942402465/Search?Query=${encodeURIComponent(adresse)}&OrderBy=DATE&SortOrder=1`,
   }],
   '3305': [{
     kommune: 'Ringerike', system: 'Elements Publikum',
     url: 'https://prod02.elementscloud.no/publikum/942402465_PROD-942402465',
-    sokeUrl: () => `https://prod02.elementscloud.no/publikum/942402465_PROD-942402465`,
+    sokeUrl: (gnr: number, bnr: number, adresse: string) => `https://prod02.elementscloud.no/publikum/942402465_PROD-942402465/Search?Query=${encodeURIComponent(adresse)}&OrderBy=DATE&SortOrder=1`,
   }],
 
   // ── Østfold ──
   '3101': [{
     kommune: 'Halden', system: 'Elements Publikum',
     url: 'https://prod01.elementscloud.no/Publikum/959159092',
-    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/959159092`,
+    sokeUrl: (gnr: number, bnr: number, adresse: string) => `https://prod01.elementscloud.no/Publikum/959159092/Search?Query=${encodeURIComponent(adresse)}&OrderBy=DATE&SortOrder=1`,
   }],
   '3103': [{
     kommune: 'Moss', system: 'Kommune-nettside',
@@ -133,12 +129,12 @@ const INNSYN_KILDER: Record<string, InnsynKilde[]> = {
   '3105': [{
     kommune: 'Sarpsborg', system: 'Elements Publikum',
     url: 'https://prod01.elementscloud.no/Publikum/938801363',
-    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/938801363`,
+    sokeUrl: (gnr: number, bnr: number, adresse: string) => `https://prod01.elementscloud.no/Publikum/938801363/Search?Query=${encodeURIComponent(adresse)}&OrderBy=DATE&SortOrder=1`,
   }],
   '3107': [{
     kommune: 'Fredrikstad', system: 'Elements Publikum',
     url: 'https://prod01.elementscloud.no/Publikum/940039541',
-    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/940039541`,
+    sokeUrl: (gnr: number, bnr: number, adresse: string) => `https://prod01.elementscloud.no/Publikum/940039541/Search?Query=${encodeURIComponent(adresse)}&OrderBy=DATE&SortOrder=1`,
   }],
 
   // ── Vestfold ──
@@ -191,7 +187,7 @@ const INNSYN_KILDER: Record<string, InnsynKilde[]> = {
   '1108': [{
     kommune: 'Sandnes', system: 'Elements Publikum',
     url: 'https://prod01.elementscloud.no/Publikum/964965226',
-    sokeUrl: () => `https://prod01.elementscloud.no/Publikum/964965226`,
+    sokeUrl: (gnr: number, bnr: number, adresse: string) => `https://prod01.elementscloud.no/Publikum/964965226/Search?Query=${encodeURIComponent(adresse)}&OrderBy=DATE&SortOrder=1`,
   }],
 
   // ── Trøndelag ──
@@ -212,12 +208,12 @@ const INNSYN_KILDER: Record<string, InnsynKilde[]> = {
   '3403': [{
     kommune: 'Hamar', system: 'Elements Publikum',
     url: 'https://prod02.elementscloud.no/publikum/970540008_PROD-970540008',
-    sokeUrl: () => `https://prod02.elementscloud.no/publikum/970540008_PROD-970540008`,
+    sokeUrl: (gnr: number, bnr: number, adresse: string) => `https://prod02.elementscloud.no/publikum/970540008_PROD-970540008/Search?Query=${encodeURIComponent(adresse)}&OrderBy=DATE&SortOrder=1`,
   }],
   '3405': [{
     kommune: 'Lillehammer', system: 'Elements Publikum',
     url: 'https://prod02.elementscloud.no/publikum/945578564_PROD-945578564',
-    sokeUrl: () => `https://prod02.elementscloud.no/publikum/945578564_PROD-945578564`,
+    sokeUrl: (gnr: number, bnr: number, adresse: string) => `https://prod02.elementscloud.no/publikum/945578564_PROD-945578564/Search?Query=${encodeURIComponent(adresse)}&OrderBy=DATE&SortOrder=1`,
   }],
 
   // ── Telemark ──
