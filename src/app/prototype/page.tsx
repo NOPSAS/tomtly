@@ -3,6 +3,8 @@
 import { useState, useRef, useCallback, useEffect, Suspense } from 'react'
 import { useSearchParams, usePathname } from 'next/navigation'
 import { getKommuneplanSammendrag } from '@/lib/kommuneplan-sammendrag'
+import { getKartInnsyn } from '@/lib/kommune-kartinnsyn'
+import { Solforhold as SolforholdSection } from '@/components/Solforhold'
 import {
   MapPin, Search, CheckCircle2, Loader2, AlertTriangle,
   ChevronDown, ChevronUp, Layers, FileText, Shield, Info,
@@ -1869,6 +1871,11 @@ function PrototypeContent() {
               </div>
             )}
 
+            {/* Solforhold */}
+            {valgtAdresse && (
+              <SolforholdSection lat={valgtAdresse.representasjonspunkt.lat} lon={valgtAdresse.representasjonspunkt.lon} />
+            )}
+
             {/* Kommune byggesak-innsyn */}
             {kommuneInnsyn && kommuneInnsyn.kilder?.length > 0 && (
               <div className="bg-white rounded-2xl border border-brand-100 p-6 shadow-sm">
@@ -2132,6 +2139,45 @@ function PrototypeContent() {
                 </div>
               </div>
             )}
+
+            {/* Kommunalt kartinnsyn */}
+            {valgtAdresse && (() => {
+              const kartKilder = getKartInnsyn(valgtAdresse.kommunenummer)
+              if (kartKilder.length === 0) return null
+              const gnr2 = valgtAdresse.gardsnummer
+              const bnr2 = valgtAdresse.bruksnummer
+              return (
+                <div className="bg-white rounded-2xl border border-brand-100 p-6 shadow-sm">
+                  <h2 className="font-display text-lg font-bold text-tomtly-dark mb-3 flex items-center gap-2">
+                    <Layers className="w-5 h-5 text-tomtly-accent" />
+                    Kommunalt kartinnsyn
+                  </h2>
+                  <p className="text-xs text-brand-400 mb-4">Her kan du hente DOK-analyse, planrapport og mer fra kommunens kartløsning</p>
+                  <div className="space-y-3">
+                    {kartKilder.map((k, i) => (
+                      <div key={i} className="flex items-center justify-between bg-brand-50 rounded-lg p-3 border border-brand-200">
+                        <div>
+                          <p className="text-sm font-medium text-tomtly-dark">{k.navn}</p>
+                          <div className="flex gap-2 mt-1">
+                            {k.harDokAnalyse && <span className="text-[10px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded">DOK-analyse</span>}
+                            {k.harPlanrapport && <span className="text-[10px] bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">Planrapport</span>}
+                          </div>
+                        </div>
+                        <a
+                          href={gnr2 && bnr2 ? k.sokeUrl(gnr2, bnr2) : k.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-tomtly-accent bg-forest-50 border border-tomtly-accent/20 rounded-lg hover:bg-forest-100 transition-colors shrink-0"
+                        >
+                          <ExternalLink className="w-3 h-3" />
+                          Åpne kartinnsyn
+                        </a>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )
+            })()}
 
             {/* Mangler info? */}
             <ManglerInfoBoks adresse={valgtAdresse?.adressetekst || ''} epost={leadEpost} />
