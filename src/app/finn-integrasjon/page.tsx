@@ -278,7 +278,7 @@ export default function FinnIntegrasjonPage() {
           <div className="bg-white rounded-2xl border-2 border-tomtly-accent p-8 md:p-10 max-w-lg mx-auto">
             <p className="text-sm text-tomtly-accent font-semibold uppercase tracking-wider mb-2">Tomtanalyse + FINN-materiale</p>
             <p className="font-display text-4xl font-bold text-tomtly-dark mb-2">4 990 kr</p>
-            <p className="text-brand-500 mb-6">+ 2,5 % ved gjennomført salg</p>
+            <p className="text-brand-500 mb-6">+ 2 % suksesshonorar + mva ved gjennomført salg</p>
             <ul className="space-y-2 text-sm text-left max-w-xs mx-auto mb-8">
               {[
                 'Komplett mulighetsstudie',
@@ -407,7 +407,7 @@ export default function FinnIntegrasjonPage() {
               </div>
               <div className="bg-white/5 border border-white/10 rounded-xl p-6">
                 <p className="text-sm text-brand-300 leading-relaxed">
-                  Tomtly er en tjeneste fra NOPS AS (org.nr 933 819 086). Vi har autorisert meglerpartner og samarbeider med Propr for oppgjør.
+                  Tomtly er en tjeneste fra NOPS AS (org.nr 933 819 086). Vi har autorisert meglerpartner og samarbeider med Proff Oppgjør AS for oppgjør.
                 </p>
               </div>
             </div>

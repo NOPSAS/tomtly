@@ -67,7 +67,7 @@ const PER_KUNDE_DATA: RevenueRow[] = [
   { kilde: 'Fradeling (5% av ny tomts verdi)', inntekt: 75000, kostnad: 10000, margin: 65000, note: '5% av ny tomts verdi (snitt 1,5 MNOK). 0 kr ved avslag – kunde betaler kun kommunale gebyrer.' },
   { kilde: 'Husleverandør-abo (snitt)', inntekt: 15000, kostnad: 0, margin: 15000, note: 'Basis 10k, Partner 20k/mnd' },
   { kilde: 'Bank lead-fee', inntekt: 4900, kostnad: 0, margin: 4900, note: 'Per innvilget byggelån' },
-  { kilde: 'Propr-fee per salg', inntekt: 2000, kostnad: 0, margin: 2000, note: 'Propr tar 9 990 kr/oppgjør, vi får 2 000 kr per kunde' },
+  { kilde: 'Proff Oppgjør-fee per salg', inntekt: 2000, kostnad: 0, margin: 2000, note: 'Proff Oppgjør tar 9 000 kr + mva/oppgjør, vi får 2 000 kr per kunde' },
   { kilde: 'Fotograf (drone + foto)', inntekt: 5500, kostnad: 4500, margin: 1000, note: '5 500 kr til kunde, 4 500 kr til fotograf' },
 ]
 
@@ -187,7 +187,7 @@ export default function InntektPage() {
       timerPer: 0.5,
     },
     {
-      label: 'Propr-fee (per salg)',
+      label: 'Proff Oppgjør-fee (per salg)',
       antall: inputs.analysePlusMarkedsforing,
       inntektPer: 2000,
       timerPer: 0,
@@ -215,7 +215,7 @@ export default function InntektPage() {
         <div className="max-w-7xl mx-auto flex items-center gap-4">
           <Link href="/" className="p-1 hover:bg-white/10 rounded-lg transition-colors">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.svg" alt="tomtly" className="h-7 invert" />
+            <img src="/logo.svg" alt="Tomtly" className="h-7 invert" />
           </Link>
           <div>
             <h1 className="font-display text-lg font-bold">Tomtly – Inntektsmodell</h1>
@@ -445,7 +445,7 @@ function Forretningsmodell() {
 
         <FlowMarker text="TOMTEN SELGES" highlight />
 
-        <FlowStep nummer="4" tittel="Propr (oppgjør)" ikon="🤝" inntekt="~2 000 kr formidlingsgebyr" beskrivelse="Oppgjør håndteres av Propr (9 990 kr til kunde). Vi får formidlingsgebyr per kunde." />
+        <FlowStep nummer="4" tittel="Proff Oppgjør (oppgjør)" ikon="🤝" inntekt="~2 000 kr formidlingsgebyr" beskrivelse="Oppgjør håndteres av Proff Oppgjør AS (9 000 kr + mva til kunde). Vi får formidlingsgebyr per kunde." />
         <FlowStep nummer="5" tittel="Bank lead-fee" ikon="🏦" inntekt="4 900 kr per lån" beskrivelse="Kjøper trenger byggelån. Vi presenterer totalkostnad banken kan vurdere." />
         <FlowStep nummer="6" tittel="Husleverandør" ikon="🏠" inntekt="10 000–20 000 kr/mnd" beskrivelse="Husmodeller vises i analysen. Leverandør betaler abonnement for eksponering." />
 
@@ -460,7 +460,7 @@ function Forretningsmodell() {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
           <InntektBoks label="Analyse (forskudd)" belop={4990} farge="bg-tomtly-accent" tekstFarge="text-white" />
           <InntektBoks label="Tilrettelegging (2%)" belop={40000} farge="bg-tomtly-accent" tekstFarge="text-white" stor />
-          <InntektBoks label="Propr-fee" belop={2000} farge="bg-brand-600" tekstFarge="text-white" />
+          <InntektBoks label="Proff Oppgjør-fee" belop={2000} farge="bg-brand-600" tekstFarge="text-white" />
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
           <InntektBoks label="Bank lead-fee" belop={4900} farge="bg-blue-500" tekstFarge="text-white" />
@@ -485,7 +485,7 @@ function Forretningsmodell() {
             { segment: 'Fradeling', pris: '5% av ny tomts verdi', ikon: '✂️' },
             { segment: 'Husleverandør', pris: '10–20 000 kr/mnd', ikon: '🏠' },
             { segment: 'Bank', pris: '4 900 kr/innvilget lån', ikon: '🏦' },
-            { segment: 'Propr', pris: '~2 000 kr formidling', ikon: '🤝' },
+            { segment: 'Proff Oppgjør', pris: '~2 000 kr formidling', ikon: '🤝' },
           ].map((s) => (
             <div key={s.segment} className="bg-white rounded-xl border border-brand-200 p-4 text-center">
               <p className="text-2xl mb-2">{s.ikon}</p>
@@ -513,7 +513,7 @@ function Forretningsmodell() {
           <div className="bg-forest-50 rounded-2xl p-6 border-2 border-tomtly-accent">
             <h4 className="font-semibold text-tomtly-dark mb-4">Tomtly</h4>
             <ul className="space-y-2 text-sm text-brand-700">
-              <li>• 4 990 kr + 2,5% provisjon</li>
+              <li>• 4 990 kr + 2 % suksesshonorar + mva</li>
               <li>• Mulighetsstudie, husmodeller, kalkyle, 3D</li>
               <li>• Kjøper ser ferdig byggeprosjekt</li>
               <li>• Tjener på alle ledd etter salget også</li>

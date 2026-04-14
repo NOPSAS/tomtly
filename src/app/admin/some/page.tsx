@@ -38,7 +38,7 @@ interface SoMePost {
 
 // ─── Demo data ───────────────────────────────────────────────────────────────
 
-const DEFAULT_HASHTAGS = '#tomtly #tomt #byggetomt #drømmehuset #byggenytt #norskebolig #eiendom #mulighetsstudie #tomtesalg #selgetomt #fradeling #husbygging #arkitektur #føretter #eiendomsutvikling'
+const DEFAULT_HASHTAGS = '#Tomtly #tomt #byggetomt #drømmehuset #byggenytt #norskebolig #eiendom #mulighetsstudie #tomtesalg #selgetomt #fradeling #husbygging #arkitektur #føretter #eiendomsutvikling'
 
 const DEMO_POSTS: SoMePost[] = [
   {
@@ -88,7 +88,7 @@ const KONSEPTER = [
     tittel: 'Gress til drøm',
     beskrivelse: 'Før/etter-transformasjon av en tomt. Vis den tomme tomten først, deretter med husmodell, hage og innkjørsel. Dramatisk effekt med swipe eller timelapse.',
     format: 'Reel / TikTok',
-    eksempelCaption: 'Fra gresslette til drømmebolig på 60 sekunder 🏡 Hva synes du? #tomtly #føretter #drømmehuset',
+    eksempelCaption: 'Fra gresslette til drømmebolig på 60 sekunder 🏡 Hva synes du? #Tomtly #føretter #drømmehuset',
   },
   {
     tittel: 'Visste du at...',

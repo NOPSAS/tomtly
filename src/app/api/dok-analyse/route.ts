@@ -4,6 +4,8 @@ import { NextRequest, NextResponse } from 'next/server'
 // Unngår CORS/timeout-problemer fra frontend
 // POST { lat, lon }
 
+export const maxDuration = 30
+
 const DOK_API = 'https://kartverket-ogc-api.azurewebsites.net/processes/fullstendighetsdekning/execution'
 
 interface DOKCoverage {

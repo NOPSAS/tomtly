@@ -16,30 +16,14 @@ interface Props {
   adresse: string
 }
 
-const KATEGORI_LABEL: Record<string, string> = {
-  drone: 'Dronefoto',
-  tomt: 'Tomten',
-  nabolag: 'Nabolaget',
-  utsikt: 'Utsikt',
-  solforhold: 'Solforhold',
-  vei: 'Adkomst',
-  annet: 'Bilde',
-}
-
 export function TomtBildegalleri({ bilder, adresse }: Props) {
   const [aktivtIdx, setAktivtIdx] = useState(0)
   const [fullskjerm, setFullskjerm] = useState(false)
-  const [filterKategori, setFilterKategori] = useState<string | null>(null)
 
-  const filtrert = filterKategori
-    ? bilder.filter((b) => b.kategori === filterKategori)
-    : bilder
-  const aktivt = filtrert[aktivtIdx] || filtrert[0]
+  const aktivt = bilder[aktivtIdx] || bilder[0]
 
-  const kategorier = [...new Set(bilder.map((b) => b.kategori))]
-
-  const neste = () => setAktivtIdx((i) => (i + 1) % filtrert.length)
-  const forrige = () => setAktivtIdx((i) => (i - 1 + filtrert.length) % filtrert.length)
+  const neste = () => setAktivtIdx((i) => (i + 1) % bilder.length)
+  const forrige = () => setAktivtIdx((i) => (i - 1 + bilder.length) % bilder.length)
 
   if (!aktivt) return null
 
@@ -49,32 +33,6 @@ export function TomtBildegalleri({ bilder, adresse }: Props) {
         Bilder
       </h2>
       <p className="text-brand-600 mb-4">{bilder.length} bilder fra {adresse}</p>
-
-      {/* Kategori-filter */}
-      <div className="flex gap-2 mb-4 flex-wrap">
-        <button
-          onClick={() => { setFilterKategori(null); setAktivtIdx(0) }}
-          className={`px-3 py-1.5 text-xs rounded-lg transition-colors ${
-            !filterKategori ? 'bg-tomtly-accent text-white' : 'bg-brand-100 text-brand-600 hover:bg-brand-200'
-          }`}
-        >
-          Alle ({bilder.length})
-        </button>
-        {kategorier.map((kat) => {
-          const antall = bilder.filter((b) => b.kategori === kat).length
-          return (
-            <button
-              key={kat}
-              onClick={() => { setFilterKategori(kat); setAktivtIdx(0) }}
-              className={`px-3 py-1.5 text-xs rounded-lg transition-colors ${
-                filterKategori === kat ? 'bg-tomtly-accent text-white' : 'bg-brand-100 text-brand-600 hover:bg-brand-200'
-              }`}
-            >
-              {KATEGORI_LABEL[kat] || kat} ({antall})
-            </button>
-          )
-        })}
-      </div>
 
       {/* Hovedbilde */}
       <div className="relative aspect-[16/10] rounded-xl overflow-hidden mb-3 group bg-brand-100">
@@ -86,7 +44,7 @@ export function TomtBildegalleri({ bilder, adresse }: Props) {
         />
 
         {/* Navigasjon */}
-        {filtrert.length > 1 && (
+        {bilder.length > 1 && (
           <>
             <button
               onClick={forrige}
@@ -113,7 +71,7 @@ export function TomtBildegalleri({ bilder, adresse }: Props) {
 
         {/* Teller */}
         <div className="absolute bottom-3 right-3 px-2.5 py-1 bg-black/50 backdrop-blur-sm rounded-full text-xs text-white">
-          {aktivtIdx + 1} / {filtrert.length}
+          {aktivtIdx + 1} / {bilder.length}
         </div>
 
         {/* Bildetekst */}
@@ -126,7 +84,7 @@ export function TomtBildegalleri({ bilder, adresse }: Props) {
 
       {/* Thumbnail-stripe */}
       <div className="flex gap-2 overflow-x-auto pb-2">
-        {filtrert.map((bilde, idx) => (
+        {bilder.map((bilde, idx) => (
           <button
             key={bilde.id}
             onClick={() => setAktivtIdx(idx)}
@@ -161,7 +119,7 @@ export function TomtBildegalleri({ bilder, adresse }: Props) {
             className="max-w-[90vw] max-h-[85vh] object-contain rounded-lg"
           />
 
-          {filtrert.length > 1 && (
+          {bilder.length > 1 && (
             <>
               <button onClick={forrige} className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 rounded-full text-white hover:bg-white/20">
                 <ChevronLeft className="w-6 h-6" />
@@ -174,7 +132,7 @@ export function TomtBildegalleri({ bilder, adresse }: Props) {
 
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center">
             <p className="text-white/80 text-sm">
-              {aktivtIdx + 1} / {filtrert.length}
+              {aktivtIdx + 1} / {bilder.length}
             </p>
             {aktivt.bildetekst && (
               <p className="text-white/60 text-xs mt-1 max-w-lg">{aktivt.bildetekst}</p>

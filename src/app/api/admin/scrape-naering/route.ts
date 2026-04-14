@@ -89,6 +89,7 @@ async function handler(request?: NextRequest) {
   let newCount = 0
   let updatedCount = 0
   let detailsFetched = 0
+  const errors: string[] = []
 
   for (const finnKode of allKoder) {
     const { data: existing } = await supabase
@@ -112,14 +113,18 @@ async function handler(request?: NextRequest) {
       tomtestorrelse_m2: details.tomtestorrelse_m2 || null,
       reguleringsformaal: details.regulering || null,
       prisantydning: details.prisantydning || null,
-      type: 'Næringstomt',
+      type: 'næringstomt',
       megler_firma: details.megler_firma || null,
       kilde: 'finn',
       status: 'identifisert',
       status_historikk: [{ status: 'identifisert', dato: new Date().toISOString() }],
     })
 
-    if (!error) newCount++
+    if (error) {
+      errors.push(`${finnKode}: ${error.message}`)
+    } else {
+      newCount++
+    }
   }
 
   return NextResponse.json({
@@ -129,6 +134,7 @@ async function handler(request?: NextRequest) {
     totalt_funnet: allKoder.size,
     detaljer_hentet: detailsFetched,
     sider_scraped: PAGES.length,
+    feil: errors.length > 0 ? errors.slice(0, 10) : undefined,
   })
 }
 

@@ -10,7 +10,7 @@ import Link from 'next/link'
 
 // ============================================================
 // GAMLE ALVÆRNVEI 65 – Alværn, Nesodden
-// 1 374 m² tomt – SOLGT via tomtly + Propr
+// 1 374 m² tomt – SOLGT via tomtly
 // Husmodell: Wide fra ABChus, BRA 207.9 m², pulttak
 // Selger: Kjetil Halvorsen
 // ============================================================
@@ -84,7 +84,7 @@ const SALGSPROSESS = [
   { tid: 'Uke 4–5', tittel: 'Nabovarsling', beskrivelse: '14 dagers nabovarsling gjennomført. Ingen merknader mottatt fra naboer.' },
   { tid: 'Uke 6', tittel: 'Rammetillatelse søkt', beskrivelse: 'Tegnebua sendte komplett søknad om rammetillatelse til Nesodden kommune.' },
   { tid: 'Uke 7–8', tittel: 'Annonsering og visning', beskrivelse: 'Tomten ble annonsert på Tomtly.no med komplett tomterapport, husmodell og tegninger. Interessenter kontaktet.' },
-  { tid: 'Uke 9', tittel: 'SOLGT via Propr', beskrivelse: 'Salg gjennomført. Oppgjør håndtert av Propr (Norsk eiendomsoppgjør AS). Kjetil solgte selv med Tomtly sine verktøy.' },
+  { tid: 'Uke 9', tittel: 'SOLGT', beskrivelse: 'Salg gjennomført. Oppgjør håndtert av profesjonell oppgjørspartner. Kjetil solgte selv med Tomtly sine verktøy.' },
 ]
 
 const AREALBEREGNINGER = {
@@ -188,7 +188,7 @@ export default function Alvaern65() {
                     { label: 'Salgspris', value: '3 200 000 kr' },
                     { label: 'Tomteareal', value: '1 374 m²' },
                     { label: 'Tid til salg', value: '~9 uker' },
-                    { label: 'Oppgjør', value: 'Propr' },
+                    { label: 'Oppgjør', value: 'Proff Oppgjør' },
                   ].map((s) => (
                     <div key={s.label} className="bg-white rounded-lg p-3 text-center">
                       <p className="text-xs text-brand-500 uppercase tracking-wide">{s.label}</p>
@@ -486,8 +486,8 @@ export default function Alvaern65() {
                 Har du en tomt du vil selge?
               </h2>
               <p className="text-brand-300 mb-6 max-w-lg mx-auto">
-                tomtly hjelper deg med analyse, husmodeller, tegninger og salg.
-                Du selger selv – vi gir deg verktøyene. Oppgjør via Propr.
+                Tomtly hjelper deg med analyse, husmodeller, tegninger og salg.
+                Du selger selv – vi gir deg verktøyene. Oppgjør via Proff Oppgjør AS.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Link
@@ -533,7 +533,7 @@ export default function Alvaern65() {
                   </div>
                   <div className="pt-3 border-t border-red-200">
                     <p className="text-xs text-brand-500">Solgt via</p>
-                    <p className="font-semibold text-tomtly-dark">tomtly + Propr</p>
+                    <p className="font-semibold text-tomtly-dark">Tomtly</p>
                   </div>
                 </div>
               </div>

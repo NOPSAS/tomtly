@@ -78,7 +78,7 @@ export default function ModellCPage() {
                   <h3 className="font-display text-lg font-bold text-tomtly-dark">Selger selv</h3>
                 </div>
                 <p className="text-sm text-brand-600 leading-relaxed">
-                  Selger velger å gjennomføre salget på egenhånd. Bruker Propr eller lignende for oppgjør. Tomtly er ikke involvert.
+                  Selger velger å gjennomføre salget på egenhånd. Bruker Proff Oppgjør eller lignende for oppgjør. Tomtly er ikke involvert.
                 </p>
               </div>
               <div className="bg-forest-50 rounded-2xl p-6 border border-tomtly-accent/20">
@@ -331,7 +331,7 @@ export default function ModellCPage() {
               <thead>
                 <tr className="border-b border-white/20">
                   <th className="text-left py-4 pr-4 text-sm font-semibold text-brand-400 uppercase tracking-wider" />
-                  <th className="text-center py-4 px-4 text-sm font-semibold text-brand-400 uppercase tracking-wider">Dagens modell<br /><span className="text-xs normal-case">(2,5 % provisjon)</span></th>
+                  <th className="text-center py-4 px-4 text-sm font-semibold text-brand-400 uppercase tracking-wider">Dagens modell<br /><span className="text-xs normal-case">(2 % suksesshonorar + mva)</span></th>
                   <th className="text-center py-4 px-4 text-sm font-semibold text-brand-400 uppercase tracking-wider">Modell B<br /><span className="text-xs normal-case">(meglerpartner 60/40)</span></th>
                   <th className="text-center py-4 px-4 text-sm font-semibold text-tomtly-gold uppercase tracking-wider relative">
                     <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-tomtly-gold text-tomtly-dark text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Anbefalt</span>

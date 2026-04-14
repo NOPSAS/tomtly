@@ -305,24 +305,24 @@ function Steg2Prismodell() {
           <p className="text-sm text-brand-500 mb-3">Alt i analysepakken + profesjonell annonsering, salgsdashboard, faglig oppfølging og Tomtekonsulent-støtte i inntil 12 måneder.</p>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-bold text-tomtly-dark">4 990 kr</span>
-            <span className="text-sm text-brand-400">+ 2 % tilretteleggingsgebyr ved salg</span>
+            <span className="text-sm text-brand-400">+ 2 % suksesshonorar + mva ved salg</span>
           </div>
-          <p className="text-[10px] text-brand-400 mt-1">2% forfaller kun ved gjennomført salg. Ingen salg = ingen ekstra kostnad.</p>
+          <p className="text-[10px] text-brand-400 mt-1">2% + mva forfaller kun ved gjennomført salg (min. 20 000 kr + mva). Ingen salg = ingen ekstra kostnad. Alle priser eks. mva.</p>
         </button>
       </div>
 
       {/* Oppgjør info */}
       <div className="mt-6 bg-brand-50 rounded-lg border border-brand-200 p-4">
         <p className="text-sm text-brand-600">
-          <span className="font-semibold text-tomtly-dark">Oppgjør via Propr</span> – fra 9 990 kr (betales separat).
-          Trygt og autorisert eiendomsoppgjør via Norsk eiendomsoppgjør AS.
+          <span className="font-semibold text-tomtly-dark">Oppgjør via Proff Oppgjør AS</span> – fra 9 000 kr + mva (+ 545 kr tinglysing av sikringsobligasjon, betales separat).
+          Trygt og autorisert eiendomsoppgjør via vår samarbeidspartner Proff Oppgjør AS.
         </p>
       </div>
 
       {/* Forsikringsklausul */}
       {valgtPakke === 'markedsforing' && (
         <p className="text-[10px] text-brand-400 mt-3">
-          Ved oppsigelse av markedsføringspakken gjelder tilretteleggingsgebyret (2%) fortsatt dersom eiendommen selges innen 3 måneder etter oppsigelsesdato.
+          Ved oppsigelse av markedsføringspakken gjelder suksesshonoraret (2 % + mva, min. 20 000 kr + mva) fortsatt dersom eiendommen selges innen 3 måneder etter oppsigelsesdato.
         </p>
       )}
     </div>
@@ -372,7 +372,7 @@ function Steg3Bekreftelse() {
             'Arkitektteamet vurderer mulighetene',
             'Vi matcher husmodeller og innhenter priser',
             'Du mottar ferdig analyse med husmodeller og kostnadsoverslag',
-            'Tomten publiseres på tomtly',
+            'Tomten publiseres på Tomtly',
           ].map((steg, idx) => (
             <li key={idx} className="flex items-start gap-3 text-sm text-brand-700">
               <span className="w-5 h-5 bg-tomtly-accent text-white rounded-full flex items-center justify-center flex-shrink-0 text-xs">

@@ -165,8 +165,8 @@ function TabLeverandorer() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card title="Prising">
-          <p className="text-2xl font-bold text-tomtly-dark mb-1">Fra 5 000 kr/mnd</p>
-          <p className="text-sm text-brand-600">inkl. 10 husmodeller</p>
+          <p className="text-2xl font-bold text-tomtly-dark mb-1">10 000–20 000 kr/mnd</p>
+          <p className="text-sm text-brand-600">per leverandør, inkl. husmodelleksponering på alle tomter</p>
         </Card>
 
         <Card title="Markedsstorrelse">
@@ -413,7 +413,7 @@ function TabSamarbeidspartnere() {
       navn: 'Ferdighusleverandører',
       eksempler: 'Hedalm-Anebyhus, ABChus, Mesterhus',
       viTilbyr: 'Husmodellene deres vises direkte på tomtesider til kvalifiserte kjøpere som har tomt og budsjett. Matching basert på regulering, BYA og topografi.',
-      deBetaler: 'Månedlig abonnement for husmodelleksponering (fra 5 000 kr/mnd)',
+      deBetaler: 'Månedlig abonnement for husmodelleksponering (10 000–20 000 kr/mnd)',
       forKunden: 'Ser hvilke hus som passer på tomten, med komplett budsjett. Slipper å lete selv.',
     },
     {
@@ -421,7 +421,7 @@ function TabSamarbeidspartnere() {
       navn: 'Entreprenører',
       eksempler: 'Lokale og regionale entreprenører',
       viTilbyr: 'Kvalifiserte byggeprosjekter med ferdig budsjett og tidsplan. Kunden har allerede kjøpt tomt og valgt hus.',
-      deBetaler: '14 900 kr/år i årsavgift for kvalifiserte leads',
+      deBetaler: 'Gratis deltakelse, 3–8% påslag ved signert avtale',
       forKunden: 'Får tilbud fra kvalitetssikrede entreprenører med forutsigbare priser.',
     },
     {
@@ -442,11 +442,11 @@ function TabSamarbeidspartnere() {
     },
     {
       ikon: '🤝',
-      navn: 'Propr',
+      navn: 'Proff Oppgjør AS',
       eksempler: 'Oppgjørspartner',
-      viTilbyr: 'Vi sender alle kunder som kjøper tomt via Tomtly til Propr for oppgjør. Forutsigbar pipeline.',
-      deBetaler: 'Formidlingsgebyr per oppgjør (ca. 2 500 kr)',
-      forKunden: 'Trygt og profesjonelt eiendomsoppgjør til fast pris (9 990 kr).',
+      viTilbyr: 'Vi sender alle kunder som kjøper tomt via Tomtly til Proff Oppgjør AS for oppgjør. Forutsigbar pipeline.',
+      deBetaler: 'Formidlingsgebyr per oppgjør (ca. 2 000 kr til Tomtly)',
+      forKunden: 'Trygt og profesjonelt eiendomsoppgjør til fast pris (9 000 kr + mva).',
     },
     {
       ikon: '📸',
@@ -539,13 +539,13 @@ function TabInntektsmodell() {
       <Card title="Inntektsflyt per tomt">
         <div className="overflow-x-auto">
           <div className="flex items-center gap-3 min-w-[900px] py-4">
-            <FlowStep label="Tomteeier" sublabel="4 990 kr + 2,5 %" color="bg-blue-50 border-blue-200 text-blue-800" />
+            <FlowStep label="Tomteeier" sublabel="9 900 kr / 4 990 kr + 2%" color="bg-blue-50 border-blue-200 text-blue-800" />
             <ArrowRight className="w-5 h-5 text-brand-400 flex-shrink-0" />
             <FlowStep label="Tomtanalyse" sublabel="Mulighetsstudie" color="bg-brand-50 border-brand-200 text-brand-700" />
             <ArrowRight className="w-5 h-5 text-brand-400 flex-shrink-0" />
             <FlowStep label="Publisering" sublabel="Pa Tomtly.no" color="bg-brand-50 border-brand-200 text-brand-700" />
             <ArrowRight className="w-5 h-5 text-brand-400 flex-shrink-0" />
-            <FlowStep label="Salg via megler" sublabel="2,5 % prov." color="bg-green-50 border-green-200 text-green-800" />
+            <FlowStep label="Salg" sublabel="2% tilrettelegging" color="bg-green-50 border-green-200 text-green-800" />
             <ArrowRight className="w-5 h-5 text-brand-400 flex-shrink-0" />
             <FlowStep label="Kjoper overtar" sublabel="Velger hus" color="bg-brand-50 border-brand-200 text-brand-700" />
             <ArrowRight className="w-5 h-5 text-brand-400 flex-shrink-0" />
@@ -554,16 +554,16 @@ function TabInntektsmodell() {
         </div>
       </Card>
 
-      {/* Addon pricing */}
-      <Card title="Addon-inntekter per tomt">
+      {/* Tomtly-inntekter per tomt */}
+      <Card title="Tomtly-inntekter per tomt (direkte)">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[
-            { tjeneste: 'Situasjonsplan', pris: '5 000 kr' },
-            { tjeneste: 'Byggesøknad', pris: '25 000 kr' },
-            { tjeneste: 'Dispensasjon', pris: '10 000 kr' },
-            { tjeneste: 'Arkitekttegninger', pris: '20 000 kr' },
-            { tjeneste: 'Finansiering (lead-fee)', pris: 'Varierer' },
-            { tjeneste: 'Entreprenorpaslag', pris: '3-8%' },
+            { tjeneste: 'Tomteanalyse (fastpris)', pris: '9 900 kr' },
+            { tjeneste: 'Analyse + Markedsføring', pris: '4 990 kr' },
+            { tjeneste: 'Tilretteleggingsgebyr ved salg', pris: '2% av salgssum' },
+            { tjeneste: 'Fradeling', pris: '5% av ny tomts verdi' },
+            { tjeneste: 'Bank lead-fee', pris: '4 900 kr' },
+            { tjeneste: 'Proff Oppgjør-formidling', pris: '~2 000 kr' },
           ].map((a) => (
             <div key={a.tjeneste} className="flex items-center justify-between bg-brand-50 rounded-lg p-3 border border-brand-100">
               <span className="text-sm text-brand-700">{a.tjeneste}</span>
@@ -571,22 +571,25 @@ function TabInntektsmodell() {
             </div>
           ))}
         </div>
+        <p className="text-xs text-brand-500 mt-3">Tegning/byggesøknad utføres av Konsepthus/Tegnebua — ikke Tomtly-inntekt.</p>
       </Card>
 
       {/* Per-tomt economics */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="bg-green-50 rounded-2xl border border-green-200 p-6 text-center">
-          <p className="text-sm font-medium text-green-700 mb-1">Total verdi per tomt</p>
-          <p className="text-3xl font-bold text-green-800">180 000 - 300 000 kr</p>
+          <p className="text-sm font-medium text-green-700 mb-1">Snitt inntekt per tomt</p>
+          <p className="text-3xl font-bold text-green-800">~55 000 kr</p>
+          <p className="text-xs text-green-600 mt-1">Analyse + markedsføring + 2% prov.</p>
         </div>
         <div className="bg-blue-50 rounded-2xl border border-blue-200 p-6 text-center">
-          <p className="text-sm font-medium text-blue-700 mb-1">Kostnad per tomt</p>
-          <p className="text-3xl font-bold text-blue-800">~4 000 kr</p>
-          <p className="text-xs text-blue-600 mt-1">(ca. 4 timer)</p>
+          <p className="text-sm font-medium text-blue-700 mb-1">Kostnad per analyse</p>
+          <p className="text-3xl font-bold text-blue-800">~2 000 kr</p>
+          <p className="text-xs text-blue-600 mt-1">(KI-automatisert, ~2 timer)</p>
         </div>
         <div className="bg-amber-50 rounded-2xl border border-amber-200 p-6 text-center">
-          <p className="text-sm font-medium text-amber-700 mb-1">Margin per tomt</p>
-          <p className="text-3xl font-bold text-amber-800">97-98%</p>
+          <p className="text-sm font-medium text-amber-700 mb-1">Bruttomargin</p>
+          <p className="text-3xl font-bold text-amber-800">~96%</p>
+          <p className="text-xs text-amber-600 mt-1">Skalerbar uten ekstra ansatte</p>
         </div>
       </div>
 
@@ -602,13 +605,15 @@ function TabInntektsmodell() {
             </thead>
             <tbody className="divide-y divide-brand-100">
               {[
-                ['Tomteeier fastpris', '4 990 kr'],
-                ['Provisjon ved salg', '2,5 %'],
-                ['Megler Premium', '4 900 kr'],
-                ['Addon-inntekt snitt per tomt', '40 000 - 60 000 kr'],
-                ['Kostnad per analyse', '~4 000 kr'],
-                ['LTV per tomt (konservativt)', '~75 000 kr'],
-                ['LTV per tomt (optimistisk)', '~300 000 kr'],
+                ['Tomteanalyse (fastpris)', '9 900 kr'],
+                ['Analyse + Markedsføring', '4 990 kr + 2%'],
+                ['Megler-analyse (B2B)', '2 900 kr'],
+                ['Fradeling', '5% av ny tomts verdi'],
+                ['Husleverandør-abo', '10 000–20 000 kr/mnd'],
+                ['Bank lead-fee', '4 900 kr'],
+                ['Kostnad per analyse', '~2 000 kr'],
+                ['LTV per tomt (konservativt)', '~55 000 kr'],
+                ['LTV per tomt (optimistisk)', '~200 000 kr'],
               ].map(([k, v]) => (
                 <tr key={k}>
                   <td className="py-2.5 pr-4 text-brand-600">{k}</td>
@@ -635,14 +640,18 @@ function TabInntektsmodell() {
             </thead>
             <tbody className="divide-y divide-brand-100">
               {[
-                ['Tomtanalyser/mnd', '15', '30', '30', '80'],
-                ['Meglere (abonnement)', '5', '15', '10', '25'],
-                ['Leverandorer', '3', '8', '5', '15'],
-                ['MRR analyser', '73 500 kr', '147 000 kr', '147 000 kr', '392 000 kr'],
-                ['MRR meglere', '37 500 kr', '112 500 kr', '75 000 kr', '187 500 kr'],
-                ['MRR leverandører', '15 000 kr', '40 000 kr', '25 000 kr', '75 000 kr'],
-                ['Total MRR', '126 000 kr', '299 500 kr', '247 000 kr', '654 500 kr'],
-                ['ARR', '1,5 MNOK', '3,6 MNOK', '3,0 MNOK', '7,9 MNOK'],
+                ['Fastpris-analyser/mnd', '10', '20', '20', '50'],
+                ['Markedspakker/mnd (4 990 + 2%)', '5', '15', '10', '30'],
+                ['Megler-analyser/mnd (2 900)', '5', '15', '10', '30'],
+                ['Husleverandør-abo (15k snitt)', '2', '4', '3', '8'],
+                ['Inntekt fastpris (× 9 900)', '99 000 kr', '198 000 kr', '198 000 kr', '495 000 kr'],
+                ['Inntekt markedspakke startgebyr', '24 950 kr', '74 850 kr', '49 900 kr', '149 700 kr'],
+                ['Inntekt 2% prov. (60% salg, snitt 2M)', '120 000 kr', '360 000 kr', '240 000 kr', '720 000 kr'],
+                ['Inntekt megler-analyser', '14 500 kr', '43 500 kr', '29 000 kr', '87 000 kr'],
+                ['Inntekt leverandør-abo', '30 000 kr', '60 000 kr', '45 000 kr', '120 000 kr'],
+                ['Bank/fradeling/Proff Oppgjør', '15 000 kr', '40 000 kr', '25 000 kr', '80 000 kr'],
+                ['Totalt per måned', '303 450 kr', '776 350 kr', '586 900 kr', '1 651 700 kr'],
+                ['Annualisert', '3,6 MNOK', '9,3 MNOK', '7,0 MNOK', '19,8 MNOK'],
               ].map(([label, ...values]) => (
                 <tr key={label}>
                   <td className="py-2.5 pr-4 text-brand-600">{label}</td>

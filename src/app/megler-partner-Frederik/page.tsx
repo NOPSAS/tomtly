@@ -22,11 +22,11 @@ export default function FrederikPage() {
   const fastEntAbo = Math.round(3 * 14900 / 12)
   const fastHusAbo = 2 * 15000
   const fastBank = 4 * 4900
-  const fastPropr = totalSalg * 2000
+  const fastProffoppgjor = totalSalg * 2000
   const fastProjFin = 2 * 9900
   const fastFotograf = Math.round(totalSalg / 2) * 1000
 
-  const fastTotal = fastAnalyser + fastMeglerPremium + fastNaering + fastFradeling + fastEntAbo + fastHusAbo + fastBank + fastPropr + fastProjFin + fastFotograf
+  const fastTotal = fastAnalyser + fastMeglerPremium + fastNaering + fastFradeling + fastEntAbo + fastHusAbo + fastBank + fastProffoppgjor + fastProjFin + fastFotograf
   const tomtlyTotal = provTotal + fastTotal
 
   const frederikProv = Math.round(provTotal * 0.20)
@@ -75,7 +75,7 @@ export default function FrederikPage() {
               </p>
               <div className="bg-forest-50 rounded-xl p-6 border border-forest-200">
                 <p className="text-sm text-forest-800 font-semibold mb-2">Kort oppsummert:</p>
-                <p className="text-sm text-forest-700">Tomteeier betaler 4 990 kr. Vi lager analyse. Autorisert meglerpartner gjennomfører salget. Vi tar 2,5% ved salg. Alle vinner.</p>
+                <p className="text-sm text-forest-700">Tomteeier betaler 4 990 kr. Vi lager analyse. Autorisert meglerpartner gjennomfører salget. Vi tar 2% ved salg. Alle vinner.</p>
               </div>
             </div>
 
@@ -87,7 +87,7 @@ export default function FrederikPage() {
                   { nr: '1', tittel: 'Tomteeier kontakter oss', desc: 'Eller vi kontakter dem (vi scraper FINN daglig for tomter som ikke selger).', ikon: '📍' },
                   { nr: '2', tittel: 'Vi lager analyse', desc: 'Mulighetsstudie med husmodeller, kalkyle og visualiseringer. Kunden betaler 4 990 kr.', ikon: '📐' },
                   { nr: '3', tittel: 'Tomten selges', desc: 'Publisering, markedsføring, salgsoppgaver, kundekontakt. Du og de andre selgerne håndterer dette.', ikon: '🤝' },
-                  { nr: '4', tittel: 'Tomten selges', desc: 'Tomtly tar 2,5% provisjon. Oppgjør via Propr. Alle er fornøyde.', ikon: '✅' },
+                  { nr: '4', tittel: 'Tomten selges', desc: 'Tomtly tar 2% provisjon. Oppgjør via Proff Oppgjør AS. Alle er fornøyde.', ikon: '✅' },
                 ].map((s) => (
                   <div key={s.nr} className="flex items-start gap-4 bg-brand-50 rounded-xl p-5 border border-brand-200">
                     <div className="text-3xl">{s.ikon}</div>
@@ -111,11 +111,11 @@ export default function FrederikPage() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
                 {[
                   { kilde: 'Tomtanalyse', belop: '4 990 kr', farge: 'bg-tomtly-accent', tekst: 'text-white' },
-                  { kilde: 'Provisjon 2,5%', belop: '75 000 kr', farge: 'bg-forest-600', tekst: 'text-white' },
+                  { kilde: 'Provisjon 2%', belop: '75 000 kr', farge: 'bg-forest-600', tekst: 'text-white' },
                   { kilde: 'Huslev.-abo', belop: '~3 000 kr', farge: 'bg-blue-500', tekst: 'text-white' },
                   { kilde: 'Entreprenør-abo', belop: '~2 000 kr', farge: 'bg-amber-500', tekst: 'text-white' },
                   { kilde: 'Bank lead-fee', belop: '4 900 kr', farge: 'bg-purple-500', tekst: 'text-white' },
-                  { kilde: 'Propr-fee', belop: '2 000 kr', farge: 'bg-brand-600', tekst: 'text-white' },
+                  { kilde: 'Proff Oppgjør-fee', belop: '2 000 kr', farge: 'bg-brand-600', tekst: 'text-white' },
                   { kilde: 'Prosjektfin.', belop: '~5 000 kr', farge: 'bg-red-500', tekst: 'text-white' },
                   { kilde: 'Fotograf', belop: '1 000 kr', farge: 'bg-pink-500', tekst: 'text-white' },
                 ].map((p) => (
@@ -152,8 +152,8 @@ export default function FrederikPage() {
                 <div className="bg-forest-50 rounded-xl p-5 border-2 border-tomtly-accent">
                   <h3 className="font-semibold text-tomtly-dark mb-3">Tomtly</h3>
                   <ul className="space-y-2 text-sm text-brand-700">
-                    <li>• 4 990 kr + 2,5% provisjon</li>
-                    <li>• Oppgjør via Propr (9 990 kr)</li>
+                    <li>• 4 990 kr + 2% provisjon</li>
+                    <li>• Oppgjør via Proff Oppgjør (9 000 kr + mva)</li>
                     <li>• <strong>Total: ~91 000 kr for en 3M-tomt</strong></li>
                     <li>• Kunden får: profesjonell mulighetsstudie</li>
                     <li>• Tomtly tjener: <strong>8 inntektsstrømmer</strong></li>
@@ -266,7 +266,7 @@ export default function FrederikPage() {
                   <div className="flex justify-between"><span>Næringsanalyser</span><span>{fmt(fastNaering)} kr</span></div>
                   <div className="flex justify-between"><span>Fradeling</span><span>{fmt(fastFradeling)} kr</span></div>
                   <div className="flex justify-between"><span>Abo (entreprenør + huslev.)</span><span>{fmt(fastEntAbo + fastHusAbo)} kr</span></div>
-                  <div className="flex justify-between"><span>Bank, Propr, prosjektfin., foto</span><span>{fmt(fastBank + fastPropr + fastProjFin + fastFotograf)} kr</span></div>
+                  <div className="flex justify-between"><span>Bank, Proff Oppgjør, prosjektfin., foto</span><span>{fmt(fastBank + fastProffoppgjor + fastProjFin + fastFotograf)} kr</span></div>
                   <div className="flex justify-between font-semibold text-brand-700 pt-2 border-t border-brand-200"><span>Sum</span><span>{fmt(fastTotal)} kr/mnd</span></div>
                 </div>
                 <div className="flex justify-between font-bold text-brand-700 mt-3 pt-3 border-t border-brand-200">
@@ -358,7 +358,7 @@ export default function FrederikPage() {
                 <div>
                   <h3 className="font-semibold text-tomtly-dark mb-3">Det du slipper</h3>
                   <ul className="space-y-2">
-                    {['Ingen visninger på kveld/helg', 'Ingen oppgjør (Propr gjør det)', 'Analyse lages av teamet', 'Jobb fra hvor som helst', 'Slipper markedsmateriell'].map((i) => (
+                    {['Ingen visninger på kveld/helg', 'Ingen oppgjør (Proff Oppgjør gjør det)', 'Analyse lages av teamet', 'Jobb fra hvor som helst', 'Slipper markedsmateriell'].map((i) => (
                       <li key={i} className="flex items-start gap-2 text-sm text-brand-600"><CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />{i}</li>
                     ))}
                   </ul>

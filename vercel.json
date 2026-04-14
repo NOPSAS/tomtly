@@ -6,7 +6,11 @@
     "src/app/api/admin/scrape-arealplaner/route.ts": { "maxDuration": 60 },
     "src/app/api/analyse-bestemmelser/route.ts": { "maxDuration": 60 },
     "src/app/api/tomtekart/route.ts": { "maxDuration": 60 },
-    "src/app/api/dok-analyse/route.ts": { "maxDuration": 30 }
+    "src/app/api/dok-analyse/route.ts": { "maxDuration": 30 },
+    "src/app/api/dok-rapport/route.ts": { "maxDuration": 60 },
+    "src/app/api/norkart-analyse/route.ts": { "maxDuration": 30 },
+    "src/app/api/planrapport/route.ts": { "maxDuration": 30 },
+    "src/app/api/kommuneplan/route.ts": { "maxDuration": 30 }
   },
   "crons": [
     { "path": "/api/admin/scrape-finn", "schedule": "0 5 * * *" },

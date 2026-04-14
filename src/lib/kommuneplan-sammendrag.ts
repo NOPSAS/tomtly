@@ -539,8 +539,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
 
   // ── Vestfold ──
 
-  '3110': {
-    kommunenummer: '3110',
+  '3903': {
+    kommunenummer: '3903',
     kommunenavn: 'Holmestrand',
     planNavn: 'Kommuneplanens arealdel 2023–2035',
     planId: 'KPA2023',
@@ -789,8 +789,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
 
   // ── Telemark ──
 
-  '3807': {
-    kommunenummer: '3807',
+  '4003': {
+    kommunenummer: '4003',
     kommunenavn: 'Skien',
     planNavn: 'Kommuneplanens arealdel 2023–2035',
     planId: 'KPA2023',
@@ -811,8 +811,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
     ],
   },
 
-  '3806': {
-    kommunenummer: '3806',
+  '4001': {
+    kommunenummer: '4001',
     kommunenavn: 'Porsgrunn',
     planNavn: 'Kommuneplanens arealdel 2022–2034',
     planId: 'KPA2022',
@@ -832,8 +832,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
     ],
   },
 
-  '3808': {
-    kommunenummer: '3808',
+  '4005': {
+    kommunenummer: '4005',
     kommunenavn: 'Notodden',
     planNavn: 'Kommuneplanens arealdel 2022–2034',
     planId: 'KPA2022',
@@ -853,8 +853,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
     ],
   },
 
-  '3813': {
-    kommunenummer: '3813',
+  '4012': {
+    kommunenummer: '4012',
     kommunenavn: 'Bamble',
     planNavn: 'Kommuneplanens arealdel 2022–2034',
     planId: 'KPA2022',
@@ -1244,8 +1244,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
 
   // ── Møre og Romsdal ──
 
-  '1507': {
-    kommunenummer: '1507',
+  '1508': {
+    kommunenummer: '1508',
     kommunenavn: 'Ålesund',
     planNavn: 'Kommuneplanens arealdel 2023–2035',
     planId: 'KPA2023',
@@ -1554,8 +1554,8 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
   },
 
   // Vestfold
-  '3811': {
-    kommunenummer: '3811',
+  '3911': {
+    kommunenummer: '3911',
     kommunenavn: 'Færder',
     planNavn: 'Kommuneplanens arealdel 2023–2035',
     planId: 'KPA2023',
@@ -1930,6 +1930,334 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
       'Kulturminner: Bjerkebæk og stavkirker har høy bevaringsverdi',
       'LNF-områder: Strenge begrensninger på spredt bebyggelse',
       'Villrein: Hensyn til villreinens leveområder',
+    ],
+  },
+
+  // ─── Nye store kommuner (april 2026) ─────────────────────
+
+  '3001': {
+    kommunenummer: '3001',
+    kommunenavn: 'Halden',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-02-16',
+    sammendrag: 'Halden er en grenseby mot Sverige med et variert bysentrum, industri og landbruk. Kommunen satser på fortetting i sentrum og langs Tista. Viktige hensyn til festningsområdet (Fredriksten), strandsone langs Iddefjorden og kulturmiljøer i trebyen.',
+    nokkeltall: [
+      { label: 'Maks %-BYA bolig', verdi: '25–35 %' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks mønehøyde', verdi: '9–11 m' },
+      { label: 'Parkering', verdi: '1,5–2 plasser per boenhet' },
+      { label: 'MUA', verdi: 'Min. 30 % av tomt' },
+    ],
+    viktigeBestemmelser: [
+      'Fortetting: Sentrumsområder prioriteres for utbygging',
+      'Strandsone: 100-metersbeltet langs Iddefjorden og Ringdalsfjorden',
+      'Kulturminner: Fredriksten festning og Halden trebybebyggelse',
+      'Jordvern: Dyrka mark i Tistedalen og Idd skal bevares',
+      'Flom: Hensyn til Tista og flomkartlagte områder',
+      'Støy: Vurdering mot rv. 21 og jernbanelinje',
+    ],
+  },
+  '3002': {
+    kommunenummer: '3002',
+    kommunenavn: 'Moss',
+    planNavn: 'Kommuneplanens arealdel 2021–2032',
+    planId: 'KPA2021',
+    iKraft: '2021-03-24',
+    sammendrag: 'Moss er en kystby ved Oslofjorden med sterkt sentrum, industri og gode togforbindelser til Oslo. Kommunen prioriterer fortetting i sentrum og rundt stasjonsområdet. Viktige hensyn til strandsone, kulturmiljøer og jordvern.',
+    nokkeltall: [
+      { label: 'Maks %-BYA bolig', verdi: '25–30 %' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m (småhus)' },
+      { label: 'Maks mønehøyde', verdi: '9–10 m' },
+      { label: 'Parkering', verdi: '1–2 plasser per boenhet' },
+      { label: 'MUA', verdi: 'Min. 30–50 %' },
+    ],
+    viktigeBestemmelser: [
+      'Fortetting: Prioritert rundt Moss stasjon og sentrum',
+      'Strandsone: Streng 100-meterssone langs Oslofjorden',
+      'Jernbane: Nytt dobbeltspor påvirker arealbruk',
+      'Kvikkleire: Flere kjente kvikkleiresoner (Moss-raset 2023)',
+      'Kulturminner: Verneverdige bygningsmiljøer i sentrum',
+      'Jordvern: Landbruksareal i Rygge skal skjermes',
+    ],
+  },
+  '3003': {
+    kommunenummer: '3003',
+    kommunenavn: 'Sarpsborg',
+    planNavn: 'Kommuneplanens arealdel 2018–2030',
+    planId: 'KPA2018',
+    iKraft: '2018-06-14',
+    sammendrag: 'Sarpsborg er en historisk by ved Glomma med industri, handel og landbruk. Kommunen prioriterer utbygging langs bybåndet fra Kalnes til Greåker. Viktige hensyn til kulturmiljøet rundt Borgarsyssel, flomsoner langs Glomma og landbruksarealer.',
+    nokkeltall: [
+      { label: 'Maks %-BYA bolig', verdi: '25–30 %' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks mønehøyde', verdi: '9–11 m' },
+      { label: 'Maks etasjer', verdi: '2–3 (bolig)' },
+      { label: 'Parkering', verdi: '1,5–2 plasser per boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Bybånd: Prioritert utvikling langs bybåndet Kalnes–Sarpsborg–Greåker',
+      'Flom: Glomma har store flomsoner gjennom byen',
+      'Kulturminner: Borgarsyssel middelalderby og St. Nikolas-kirken',
+      'Jordvern: Viktige landbruksarealer i Tune og Varteig',
+      'Strandsone: Hensyn til Oslofjorden og Glommas utløp',
+      'Kvikkleire: Flere kartlagte kvikkleiresoner',
+    ],
+  },
+  '3004': {
+    kommunenummer: '3004',
+    kommunenavn: 'Fredrikstad',
+    planNavn: 'Kommuneplanens arealdel 2020–2032',
+    planId: 'KPA2020',
+    iKraft: '2020-09-17',
+    sammendrag: 'Fredrikstad er Østfolds største by med gamlebyen, Glomma-delta og stort næringsområde på Øra. Kommunen fortetter langs bybåndet og rundt stasjonsområdet. Hensyn til gamlebyen (UNESCO-tentativ), strandsone og flomsoner langs Glomma.',
+    nokkeltall: [
+      { label: 'Maks %-BYA bolig', verdi: '25–35 %' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks mønehøyde', verdi: '9–11 m' },
+      { label: 'Parkering', verdi: '1–2 plasser per boenhet' },
+      { label: 'MUA', verdi: 'Min. 30 %' },
+    ],
+    viktigeBestemmelser: [
+      'Gamlebyen: Sterke vernebestemmelser for festningsbyen',
+      'Fortetting: Sentrum og Grønli prioritert for utbygging',
+      'Flom: Store flomsoner langs Glomma og i deltaområdet',
+      'Strandsone: 100-metersbeltet langs Oslofjorden og Hvaler',
+      'Kvikkleire: Flere kartlagte soner i Fredrikstad-morenen',
+      'Jordvern: Viktige landbruksarealer i Borge og Onsøy',
+      'Industri: Øra-området regulert til næringsformål',
+    ],
+  },
+  '3005': {
+    kommunenummer: '3005',
+    kommunenavn: 'Drammen',
+    planNavn: 'Kommuneplanens arealdel 2023–2040',
+    planId: 'KPA2023',
+    iKraft: '2023-11-14',
+    sammendrag: 'Drammen er sammensatt av tidligere Drammen, Nedre Eiker og Svelvik. Byen er Norges sjette største og satser tungt på banebasert fortetting langs Drammenselva og jernbane. Viktige hensyn til kvikkleire (Mjøndalen), flomsoner og kulturmiljøer.',
+    nokkeltall: [
+      { label: 'Maks %-BYA bolig', verdi: '25–35 %' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m (småhus)' },
+      { label: 'Maks mønehøyde', verdi: '9–11 m' },
+      { label: 'Parkering', verdi: '1–1,5 plasser per boenhet (sentrum)' },
+      { label: 'MUA', verdi: 'Min. 30 % uteoppholdsareal' },
+    ],
+    viktigeBestemmelser: [
+      'Fortetting: Knutepunktutvikling langs jernbane (Mjøndalen, Hokksund, Drammen)',
+      'Kvikkleire: Store kvikkleireforekomster (Mjøndalen, Steinberg) – krever grunnundersøkelser',
+      'Flom: Drammenselva med flomsoner gjennom hele kommunen',
+      'Strandsone: Drammensfjorden og Svelvik med strenge byggerestriksjoner',
+      'Jordvern: Jordbruksarealer i Nedre Eiker skal ivaretas',
+      'Kulturminner: Bragernes og Strømsø med verneverdig trehusbebyggelse',
+      'Støy: Hensyn til E18, jernbane og næringsområder',
+    ],
+  },
+  '3006': {
+    kommunenummer: '3006',
+    kommunenavn: 'Kongsberg',
+    planNavn: 'Kommuneplanens arealdel 2021–2033',
+    planId: 'KPA2021',
+    iKraft: '2021-06-23',
+    sammendrag: 'Kongsberg er en teknologiby med sterkt næringsmiljø (våpenindustri, teknologi) og Lågendalen. Kommunen fortetter i sentrum og langs Numedalslågen. Viktige hensyn til kulturminner fra sølvverkets tid og flom langs Lågen.',
+    nokkeltall: [
+      { label: 'Maks %-BYA bolig', verdi: '25–30 %' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks mønehøyde', verdi: '9–10 m' },
+      { label: 'Maks etasjer', verdi: '2–3' },
+      { label: 'Parkering', verdi: '1,5–2 plasser per boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Kulturminner: Sølvverket og historiske bygningsmiljøer med strenge vernebestemmelser',
+      'Flom: Numedalslågen med store flomsoner gjennom byen',
+      'Fortetting: Sentrum og Hvittingfoss prioritert',
+      'Natur: Jondalen og fjellarealene med LNF-restriksjoner',
+      'Teknologi: Næringsområder for teknologiklyngen prioritert',
+      'Støy: Hensyn til skytebaner og industriområder',
+    ],
+  },
+  '3007': {
+    kommunenummer: '3007',
+    kommunenavn: 'Ringerike',
+    planNavn: 'Kommuneplanens arealdel 2019–2030',
+    planId: 'KPA2019',
+    iKraft: '2019-12-12',
+    sammendrag: 'Ringerike er en stor kommune med Hønefoss som sentrum. Ny E16 og Ringeriksbanen (ferdig ~2030) vil gi stor vekst. Kommunen har store landbruksarealer (Ringerikes kornkammer) og flomsoner langs Storelva og Begna.',
+    nokkeltall: [
+      { label: 'Maks %-BYA bolig', verdi: '25–30 %' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks mønehøyde', verdi: '9–10 m' },
+      { label: 'Maks etasjer', verdi: '2–3' },
+      { label: 'Parkering', verdi: '1,5–2 plasser per boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Ringeriksbanen: Store arealer avsatt til ny jernbane og E16',
+      'Flom: Storelva og Begna har betydelige flomsoner',
+      'Jordvern: Ringerike er blant Norges viktigste kornområder',
+      'Fortetting: Hønefoss sentrum og stasjonsnære områder prioritert',
+      'Kvikkleire: Kartlagte forekomster i Storelva-dalen',
+      'Natur: Tyrifjorden og Nordmarka med LNF-restriksjoner',
+    ],
+  },
+  '3030': {
+    kommunenummer: '3030',
+    kommunenavn: 'Lillestrøm',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-09-20',
+    sammendrag: 'Lillestrøm er sammensatt av Skedsmo, Fet og Sørum. Norges mest sentrale kommune utenfor Oslo med knutepunkt for jernbane og flyplass. Sterk fortetting rundt Lillestrøm og Strømmen. Store boligområder og Nittedal-grensen har mye friluftsliv.',
+    nokkeltall: [
+      { label: 'Maks %-BYA bolig', verdi: '25–30 %' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m (småhus)' },
+      { label: 'Maks mønehøyde', verdi: '9–10 m' },
+      { label: 'Parkering', verdi: '0,5–1,5 plasser (knutepunkt lavest)' },
+      { label: 'MUA', verdi: 'Min. 30 % av tomt' },
+    ],
+    viktigeBestemmelser: [
+      'Fortetting: Sterk knutepunktutvikling (Lillestrøm stasjon, Strømmen)',
+      'Flom: Nitelva og Glomma med store flomsoner',
+      'Kvikkleire: Betydelige forekomster langs Nitelva og Leira',
+      'Jordvern: Viktige landbruksarealer i Sørum og Fet',
+      'Støy: Hensyn til Gardermobanen, E6 og Gardermoen',
+      'Kulturminner: Fetsund lenser og historiske bygningsmiljøer',
+      'Blågrønn struktur: Sammenhengende grøntdrag langs elvene',
+    ],
+  },
+  '3803': {
+    kommunenummer: '3803',
+    kommunenavn: 'Tønsberg',
+    planNavn: 'Kommuneplanens arealdel 2022–2034',
+    planId: 'KPA2022',
+    iKraft: '2022-05-25',
+    sammendrag: 'Tønsberg er Norges eldste by med vikinghistorie og en levende kystby. Kommunen inkluderer Sem og Re. Sterk satsing på sentrumutvikling og bevaring av kulturmiljøer. Viktige hensyn til strandsone, jordvern og det unike historiske miljøet.',
+    nokkeltall: [
+      { label: 'Maks %-BYA bolig', verdi: '25–30 %' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks mønehøyde', verdi: '9–11 m' },
+      { label: 'Parkering', verdi: '1–2 plasser per boenhet' },
+      { label: 'MUA', verdi: 'Min. 30 %' },
+    ],
+    viktigeBestemmelser: [
+      'Kulturminner: Slottsfjellet, vikingarv og middelalderbyen har strenge vernebestemmelser',
+      'Strandsone: 100-metersbeltet langs Tønsbergfjorden og Nøtterøy-sundet',
+      'Fortetting: Sentrum og Kilen prioritert for utvikling',
+      'Jordvern: Store landbruksarealer i Re som skal bevares',
+      'Flom: Hensyn til Aulielva og kystflom',
+      'Støy: E18-korridoren og jernbanetrasé',
+    ],
+  },
+  '3804': {
+    kommunenummer: '3804',
+    kommunenavn: 'Sandefjord',
+    planNavn: 'Kommuneplanens arealdel 2019–2031',
+    planId: 'KPA2019',
+    iKraft: '2019-12-11',
+    sammendrag: 'Sandefjord er en kystby med sterk hvalfangerhistorie, badebyer og store næringsinteresser. Kommunen inkluderer Andebu og Stokke. Viktige hensyn til strandsone, kulturmiljøer i sentrum og store landbruksarealer i innlandet.',
+    nokkeltall: [
+      { label: 'Maks %-BYA bolig', verdi: '25–30 %' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks mønehøyde', verdi: '9–10 m' },
+      { label: 'Maks etasjer', verdi: '2–3' },
+      { label: 'Parkering', verdi: '1,5–2 plasser per boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Strandsone: Strenge byggerestriksjoner langs hele kysten',
+      'Kulturminner: Gokstadhaugen og hvalfangermiljøer',
+      'Fortetting: Sentrum og Torp-området prioritert',
+      'Jordvern: Store landbruksarealer i Andebu og Stokke',
+      'Friluftsliv: Yxney og øyene i Sandefjordsfjorden',
+      'Støy: Hensyn til Torp Sandefjord Lufthavn',
+    ],
+  },
+  '3805': {
+    kommunenummer: '3805',
+    kommunenavn: 'Larvik',
+    planNavn: 'Kommuneplanens arealdel 2021–2033',
+    planId: 'KPA2021',
+    iKraft: '2021-10-06',
+    sammendrag: 'Larvik er en kystby i Vestfold med bøkeskogene, Farris og Stavern festningsby. Kommunen er sammensatt med Lardal. Viktige hensyn til strandsone, bøkeskogen (vernet), kulturmiljøer og store landbruksarealer.',
+    nokkeltall: [
+      { label: 'Maks %-BYA bolig', verdi: '25–30 %' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks mønehøyde', verdi: '9–10 m' },
+      { label: 'Maks etasjer', verdi: '2–3' },
+      { label: 'Parkering', verdi: '1,5–2 plasser per boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Strandsone: 100-metersbeltet strengt håndhevet langs hele Vestfold-kysten',
+      'Bøkeskogen: Nasjonalt vernet naturområde med buffersone',
+      'Stavern: Festningsbyen med strenge kulturminnebestemmelser',
+      'Jordvern: Viktige landbruksarealer i Hedrum og Lardal',
+      'Flom: Numedalslågen med flomsoner gjennom Larvik',
+      'Fortetting: Larvik sentrum og Stavern prioritert',
+    ],
+  },
+  '3806': {
+    kommunenummer: '3806',
+    kommunenavn: 'Porsgrunn',
+    planNavn: 'Kommuneplanens arealdel 2019–2031',
+    planId: 'KPA2019',
+    iKraft: '2019-05-16',
+    sammendrag: 'Porsgrunn er en industriby ved Porsgrunnselva med Norcem, Yara og sterk industritradisjon. Kommunen satser på sentrumsutvikling og transformasjon av industriarealer. Viktige hensyn til elveløpet, industrikultur og kvikkleire.',
+    nokkeltall: [
+      { label: 'Maks %-BYA bolig', verdi: '25–30 %' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks mønehøyde', verdi: '9–11 m' },
+      { label: 'Maks etasjer', verdi: '2–3' },
+      { label: 'Parkering', verdi: '1–2 plasser per boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Industri: Store næringsarealer (Herøya, Norcem) med bufferbestemmelser',
+      'Kvikkleire: Flere kartlagte soner langs Porsgrunnselva',
+      'Fortetting: Sentrum og Osebakken prioritert for transformasjon',
+      'Flom: Porsgrunnselva med flomsoner',
+      'Støy: Industristøy og trafikkstøy fra E18',
+      'Kulturminner: Industrikulturarv fra Norsk Hydro-epoken',
+    ],
+  },
+  '3807': {
+    kommunenummer: '3807',
+    kommunenavn: 'Skien',
+    planNavn: 'Kommuneplanens arealdel 2020–2032',
+    planId: 'KPA2020',
+    iKraft: '2020-12-10',
+    sammendrag: 'Skien er Telemarks hovedby med historisk sentrum, Telemarkskanalen og Henrik Ibsens fødeby. Kommunen fortetter i sentrum og langs byaksen. Viktige hensyn til kulturmiljøer, flomsoner langs Porsgrunnselva og Norsjø, og kvikkleire.',
+    nokkeltall: [
+      { label: 'Maks %-BYA bolig', verdi: '25–30 %' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks mønehøyde', verdi: '9–11 m' },
+      { label: 'Parkering', verdi: '1–2 plasser per boenhet' },
+      { label: 'MUA', verdi: 'Min. 30 %' },
+    ],
+    viktigeBestemmelser: [
+      'Kulturminner: Ibsenhuset, Gjerpen kirke og historisk sentrum',
+      'Flom: Porsgrunnselva og Norsjø med store flomsoner',
+      'Kvikkleire: Flere kartlagte soner i elvedalen',
+      'Fortetting: Sentrum og Klosterøya prioritert',
+      'Jordvern: Gjerpen med viktige landbruksarealer',
+      'Støy: Hensyn til E18 og Bratsbergbanen',
+    ],
+  },
+  '5402': {
+    kommunenummer: '5402',
+    kommunenavn: 'Harstad',
+    planNavn: 'Kommuneplanens arealdel 2020–2030',
+    planId: 'KPA2020',
+    iKraft: '2020-09-03',
+    sammendrag: 'Harstad er en nordnorsk by med arktisk klima, Trondenes historiske senter og viktig forsvarsby. Kommunen er sammensatt med Bjarkøy. Viktige hensyn til strandsone, kulturminner (Trondenes) og nordnorsk natur.',
+    nokkeltall: [
+      { label: 'Maks %-BYA bolig', verdi: '25–30 %' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks mønehøyde', verdi: '9–10 m' },
+      { label: 'Maks etasjer', verdi: '2–3' },
+      { label: 'Parkering', verdi: '1,5–2 plasser per boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Kulturminner: Trondenes kirke og Trondenes historiske senter',
+      'Strandsone: 100-metersbeltet langs hele kysten',
+      'Forsvar: Hensyn til Forsvarsbygg og militære anlegg',
+      'Snøskred: Aktsomhetssoner for skred i fjellsider',
+      'Fortetting: Harstad sentrum prioritert for utvikling',
+      'LNFR: Store utmarksområder med restriksjoner',
     ],
   },
 

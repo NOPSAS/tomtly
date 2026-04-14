@@ -11,22 +11,40 @@ const HEADERS = {
   'Accept-Language': 'nb-NO,nb;q=0.9,no;q=0.8,en;q=0.5',
 }
 
-function buildPages() {
+function buildPages(mode?: string) {
   const pages: { url: string; type: string }[] = []
-  // Boligtomter side 1-3, eldste først, pris > 1M (keep fast for Vercel)
-  for (let i = 1; i <= 3; i++) {
+
+  if (!mode || mode === 'tomter') {
+    // Boligtomter side 1-2, eldste først
+    for (let i = 1; i <= 2; i++) {
+      pages.push({
+        url: `https://www.finn.no/realestate/plots/search.html?page=${i}&sort=PUBLISHED_ASC&price_from=1000000`,
+        type: 'tomt',
+      })
+    }
+    // Fritidstomter side 1
     pages.push({
-      url: `https://www.finn.no/realestate/plots/search.html?page=${i}&sort=PUBLISHED_ASC&price_from=1000000`,
-      type: 'tomt',
-    })
-  }
-  // Fritidstomter side 1-2
-  for (let i = 1; i <= 2; i++) {
-    pages.push({
-      url: `https://www.finn.no/realestate/leisureplots/search.html?page=${i}&sort=PUBLISHED_ASC&price_from=1000000`,
+      url: `https://www.finn.no/realestate/leisureplots/search.html?page=1&sort=PUBLISHED_ASC&price_from=1000000`,
       type: 'fritidstomt',
     })
   }
+
+  if (mode === 'tvangssalg') {
+    pages.push({
+      url: `https://www.finn.no/realestate/plots/search.html?sort=PUBLISHED_ASC&trade_type=3`,
+      type: 'tomt',
+    })
+  }
+
+  if (mode === 'rivning') {
+    for (const q of ['rivningsobjekt', 'dødsbo']) {
+      pages.push({
+        url: `https://www.finn.no/realestate/homes/search.html?q=${encodeURIComponent(q)}&sort=PUBLISHED_DESC`,
+        type: 'tomt',
+      })
+    }
+  }
+
   return pages
 }
 
@@ -64,19 +82,31 @@ interface AdDetails {
 }
 
 async function scrapeAdDetails(finnKode: string, type: string): Promise<AdDetails> {
-  const adType = type === 'fritidstomt' ? 'leisureplots' : 'plots'
-  const url = `https://www.finn.no/realestate/${adType}/ad.html?finnkode=${finnKode}`
+  // Try plots first, then homes (for rivningsobjekter found via homes search)
+  const adTypes = type === 'fritidstomt' ? ['leisureplots'] : ['plots', 'homes']
+  let html = ''
+  let actualUrl = ''
+  for (const adType of adTypes) {
+    actualUrl = `https://www.finn.no/realestate/${adType}/ad.html?finnkode=${finnKode}`
+    try {
+      const res = await fetch(actualUrl, { headers: HEADERS })
+      if (res.ok) {
+        html = await res.text()
+        if (html.length > 5000) break // got a real page
+      }
+    } catch { /* try next */ }
+  }
+  if (!html) return {}
+  const url = actualUrl
   try {
-    const res = await fetch(url, { headers: HEADERS })
-    if (!res.ok) return {}
-    const html = await res.text()
     const d: AdDetails = {}
 
-    // Title → address
+    // Title → address (fjern "| FINN eiendom" og lignende)
     const titleMatch = html.match(/<title>([^<]+)<\/title>/)
     if (titleMatch) {
       d.adresse = titleMatch[1]
-        .replace(/\s*\|.*$/, '')
+        .replace(/\s*\|\s*FINN.*$/i, '')
+        .replace(/\s*-\s*FINN.*$/i, '')
         .replace(/^.*?:\s*/, '')
         .trim()
     }
@@ -183,9 +213,10 @@ async function handler(request?: NextRequest) {
   if (request) {
     try { body = await request.json() } catch {}
   }
-  const maxDetails = body.maxAds || 10
+  const maxDetails = body.maxAds || 5
+  const mode = body.mode || 'tomter' // 'tomter' | 'tvangssalg' | 'rivning'
 
-  const PAGES = buildPages()
+  const PAGES = buildPages(mode)
   const allKoder = new Map<string, string>()
   const errors: string[] = []
 
@@ -250,7 +281,13 @@ async function handler(request?: NextRequest) {
       reguleringsinfo: details.reguleringsinfo || null,
       thumbnail_url: details.thumbnail_url || null,
       status: 'ny',
-      flagg: [],
+      flagg: (() => {
+        const flags: string[] = []
+        const text = `${details.adresse || ''} ${details.reguleringsinfo || ''}`.toLowerCase()
+        const rivOrd = ['riv', 'kondemnab', 'dødsbo', 'oppussing', 'totalrenover', 'ubeboelig', 'sanering']
+        if (rivOrd.some(k => text.includes(k))) flags.push('rivningsobjekt')
+        return flags
+      })(),
       status_historikk: [{ status: 'ny', dato: new Date().toISOString() }],
     })
 

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 const PAYMENT_LINKS: Record<string, string> = {
+  tomtly_salg_oppstart: 'https://buy.stripe.com/eVq9AV0fI3018be5tvbfO07',
   tomtanalyse: 'https://buy.stripe.com/eVq14p2nQbwx1MQ4prbfO03',
   megler: 'https://buy.stripe.com/14AbJ30fIastdvy3lnbfO04',
   megler_3pack: 'https://buy.stripe.com/3cIbJ37Ia301dvy3lnbfO05',

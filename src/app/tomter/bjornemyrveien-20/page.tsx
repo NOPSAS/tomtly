@@ -21,6 +21,7 @@ const IMG = '/tomter/bjornemyrveien-shared'
 
 const BILDER = [
   { id: 'b1', url: `${IMG}/skogly-fasade-1.png`, alt: 'Skogly – fasade', kategori: 'tomt' as const, bildetekst: 'Husmodellen Skogly fra Hedalm-Anebyhus plassert på Parsell B.' },
+  { id: 'b8', url: `${IMG}/lasse-fasade.png`, alt: 'Lasse – fasade', kategori: 'tomt' as const, bildetekst: 'Husmodellen Lasse fra Älvsbyhus – 1,5-etasjes med lavest totalkostnad.' },
   { id: 'b2', url: `${IMG}/render-parsell-b.jpg`, alt: 'Illustrasjon Parsell B', kategori: 'tomt' as const, bildetekst: 'Illustrasjon av ferdig bolig på Parsell B (flat tomt).' },
   { id: 'b3', url: `${IMG}/luftfoto-parsell-b.jpg`, alt: 'Luftfoto Parsell B', kategori: 'drone' as const, bildetekst: 'Luftfoto som viser Parsell B med planlagt bolig.' },
   { id: 'b4', url: `${IMG}/dronebilde.jpg`, alt: 'Dronebilde av tomtene', kategori: 'drone' as const, bildetekst: 'Dronefoto av begge tomtene og nærområdet på Bjørnemyr.' },
@@ -46,6 +47,7 @@ const HUSMODELLER = [
     id: 'skogly',
     navn: 'Skogly',
     leverandor: 'Hedalm-Anebyhus',
+    leverandor_url: 'https://www.hedalm-anebyhus.no/hus/skogly/',
     beskrivelse: 'Moderne, kompakt bolig perfekt tilpasset skrånende tomter. Stor og åpen stue/kjøkkenløsning med balkong. To plan med inngang fra begge etasjer.',
     bra_m2: 126.1, soverom: 4, bad: '2', etasjer: 2,
     ekstra: { 'BRA totalt': '126,9 m²', 'BYA': '80,5 m²', 'Tomtetype': 'Flat / svakt skrånende' },
@@ -63,9 +65,31 @@ const HUSMODELLER = [
     },
   },
   {
+    id: 'lasse',
+    navn: 'Lasse',
+    leverandor: 'Älvsbyhus',
+    leverandor_url: 'https://www.alvsbyhus.no/vare-hus/1.5-etasjes-hus/lasse/',
+    beskrivelse: 'Sjarmerende 1,5-etasjes hus med alt du trenger. Åpen kjøkken/stue-løsning med vinduer langs hele langsiden. Romslig soverom, bad med vaskerom og bod på hovedplan. Uinnredet loft med trapp, vinduer, undergulv og forberedt for VVS/el – kan innredes med ekstra soverom, kontor eller lekerom. Laveste totalkostnad av alle modellene.',
+    bra_m2: 96, soverom: 1, bad: '1', etasjer: 1.5,
+    ekstra: { 'BYA': '79 m²', 'Potensiale': 'Opptil 2 soverom i 1. etg + 2 på loft', 'Grunnmur': 'Inkludert i pris', 'Takvinkel': '38° (standard) eller 34°' },
+    pris_hus: 2364000,
+    total_budsjett: 6467000,
+    kostnader: [...FELLES_KOSTNADER, { post: 'Lasse – nøkkelferdig fra Älvsbyhus (inkl. grunnmur)', belop: 2364000 }, { post: 'Eventuelle tilvalg på hus', belop: 200000 }, { post: 'Grunnarbeider (utgraving, drenering m.m.)', belop: 667532 }, { post: 'Kommunale gebyrer', belop: 160000 }],
+    verdi_bra_m2: 96, verdi_m2_pris: 70000, verdi_total: 6720000,
+    inkludert: ['Ferdig grunnmur inkludert', 'Parkett på gulv i tørre oppholdsrom', 'Flislagt entré og våtrom', 'Pipe og peisovn', 'Komplett el-leveranse', 'Komplett rørleveranse', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Trapp til loft med vinduer og undergulv', 'Frakt fra fabrikk inkludert'],
+    bilder: {
+      fasade: [`${IMG}/lasse-fasade.png`, `${IMG}/lasse-bakside.png`],
+      plantegninger: [
+        { url: `${IMG}/lasse-plan-etasje1.png`, label: 'Etasje 1 – stue/kjøkken, soverom, bad, bod' },
+        { url: `${IMG}/lasse-plan-etasje15.png`, label: 'Etasje 1.5 – loft (uinnredet, forberedt)' },
+      ],
+    },
+  },
+  {
     id: 'vindy',
     navn: 'Vindy',
     leverandor: 'ABChus',
+    leverandor_url: 'https://www.abchus.no/hus/vindy/',
     beskrivelse: 'Moderne, arealeffektivt hus på to plan. Finnes i variant for flat og skrå tomt. Med skrå tomt får du parkering under verandaen. Mulighet for å bygge anneks/bod på ca. 20 m² i tillegg.',
     bra_m2: 107, bra_m2_alt: 105, soverom: 3, bad: '1 + WC', etasjer: 2,
     pris_hus: 3720000, pris_hus_skra: 3757000,
@@ -93,6 +117,7 @@ const HUSMODELLER = [
     id: 'emilie',
     navn: 'Emilie',
     leverandor: 'ABChus',
+    leverandor_url: 'https://www.abchus.no/hus/emilie/',
     beskrivelse: 'Romslig og praktisk enebolig over to plan med 4 soverom, vaskerom og sportsbod. Passer begge tomter.',
     bra_m2: 140.2, soverom: 4, bad: '1 + WC', etasjer: 2,
     ekstra: { Vaskerom: 'Ja', Sportsbod: '5,6 m²' },
@@ -120,6 +145,7 @@ const HUSMODELLER = [
     id: 'nordstrand',
     navn: 'Nordstrand',
     leverandor: 'Mesterhus',
+    leverandor_url: 'https://www.mesterhus.no/ferdighus/nordstrand/',
     beskrivelse: 'Flott og romslig hus over to plan med 4 soverom, 2 bad, kontor/bod og en stor, åpen stue/kjøkkenløsning med balkong. Moderne arkitektur.',
     bra_m2: 132, soverom: 4, bad: '2', etasjer: 2,
     ekstra: { 'Kontor/Bod': 'Ja' },
@@ -235,6 +261,7 @@ export default function Bjornemyrveien20() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2 space-y-16">
             <section id="husmodeller"><TomtHusmodeller modeller={HUSMODELLER as any} tomtType="flat" tomtNavn="Tomt B (flat tomt)" /></section>
+            <section id="bilder"><TomtBildegalleri bilder={BILDER} adresse={TOMT.adresse} /></section>
             <section id="tegnebua"><TomtTegnebua valgte_husmodeller={1} /></section>
 
             <section id="tidsplan">
@@ -258,7 +285,6 @@ export default function Bjornemyrveien20() {
             </section>
 
             <section id="regulering"><TomtRegulering regulering={TOMT.regulering} /></section>
-            <section id="bilder"><TomtBildegalleri bilder={BILDER} adresse={TOMT.adresse} /></section>
             <section id="nabolag"><TomtNabolag punkter={TOMT.nabolag.punkter} nabolag_beskrivelse={TOMT.nabolag.beskrivelse} /></section>
 
             <section id="dokumenter">

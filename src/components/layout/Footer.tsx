@@ -21,7 +21,7 @@ export function Footer() {
               som utviklingsprosjekter.
             </p>
             <p className="text-xs text-brand-500 mt-4">
-              tomtly er en del av NOPS-plattformen
+              Tomtly er en del av NOPS-plattformen
             </p>
           </div>
 
@@ -45,6 +45,7 @@ export function Footer() {
               <li><Link href="/for-entreprenorer" className="text-sm hover:text-white transition-colors">Entreprenører</Link></li>
               <li><Link href="/utvikler" className="text-sm hover:text-white transition-colors">Utviklere</Link></li>
               <li><Link href="/for-banker" className="text-sm hover:text-white transition-colors">Banker</Link></li>
+              <li><Link href="/for-kommuner" className="text-sm hover:text-white transition-colors">Kommuner</Link></li>
             </ul>
           </div>
 
@@ -62,8 +63,8 @@ export function Footer() {
         {/* Juridisk disclaimer */}
         <div className="border-t border-brand-800 mt-12 pt-6">
           <p className="text-[10px] text-brand-600 leading-relaxed max-w-3xl">
-            tomtly er ikke et eiendomsmeglingsforetak og driver ikke eiendomsmegling. Tomtly tilbyr analyse- og markedsføringstjenester for tomteeiere som ønsker å selge selv. Tilretteleggingsgebyret er betaling for tomtlys tjenester og er ikke meglerprovisjoner. Tomteeier er selv ansvarlig for salget av sin eiendom. Kontrakt og oppgjør håndteres av{' '}
-            <a href="https://propr.no" target="_blank" rel="noopener noreferrer" className="underline hover:text-brand-400">Propr.no</a> via autorisert oppgjørsselskap (Norsk eiendomsoppgjør AS).
+            Tomtly er ikke et eiendomsmeglingsforetak og driver ikke eiendomsmegling. Tomtly tilbyr analyse- og markedsføringstjenester for tomteeiere som ønsker å selge selv. Suksesshonoraret er betaling for Tomtlys tjenester og er ikke meglerprovisjoner. Tomteeier er selv ansvarlig for salget av sin eiendom. Kontrakt og oppgjør håndteres av vår samarbeidspartner{' '}
+            <a href="https://xn--proffoppgjr-pgb.no/" target="_blank" rel="noopener noreferrer" className="underline hover:text-brand-400">Proff Oppgjør AS</a>.
           </p>
         </div>
 

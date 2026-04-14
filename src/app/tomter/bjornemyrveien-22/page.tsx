@@ -42,7 +42,7 @@ const ETTER_HUS = [
 
 const HUSMODELLER = [
   {
-    id: 'skogly', navn: 'Skogly', leverandor: 'Hedalm-Anebyhus',
+    id: 'skogly', navn: 'Skogly', leverandor: 'Hedalm-Anebyhus', leverandor_url: 'https://www.hedalm-anebyhus.no/hus/skogly/',
     beskrivelse: 'Moderne, kompakt bolig perfekt tilpasset skrånende tomter. Stor og åpen stue/kjøkkenløsning med balkong. To plan med inngang fra begge etasjer – ideell for Tomt C.',
     bra_m2: 126.1, soverom: 4, bad: '2', etasjer: 2,
     ekstra: { 'BRA totalt': '126,9 m²', 'BYA': '80,5 m²', 'Tomtetype': 'Flat / svakt skrånende' },
@@ -59,7 +59,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'vindy', navn: 'Vindy', leverandor: 'ABChus',
+    id: 'vindy', navn: 'Vindy', leverandor: 'ABChus', leverandor_url: 'https://www.abchus.no/hus/vindy/',
     beskrivelse: 'Moderne, arealeffektivt hus på to plan. På skrå tomt får du parkering under verandaen – en svært god løsning. Mulighet for anneks/bod på ca. 20 m².',
     bra_m2: 107, bra_m2_alt: 105, soverom: 3, bad: '1 + WC', etasjer: 2,
     pris_hus: 3720000, pris_hus_skra: 3757000,
@@ -84,7 +84,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'emilie', navn: 'Emilie', leverandor: 'ABChus',
+    id: 'emilie', navn: 'Emilie', leverandor: 'ABChus', leverandor_url: 'https://www.abchus.no/hus/emilie/',
     beskrivelse: 'Romslig og praktisk enebolig over to plan med 4 soverom, vaskerom og sportsbod. Passer begge tomter.',
     bra_m2: 140.2, soverom: 4, bad: '1 + WC', etasjer: 2,
     ekstra: { Vaskerom: 'Ja', Sportsbod: '5,6 m²' },
@@ -108,7 +108,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'nordstrand', navn: 'Nordstrand', leverandor: 'Mesterhus',
+    id: 'nordstrand', navn: 'Nordstrand', leverandor: 'Mesterhus', leverandor_url: 'https://www.mesterhus.no/ferdighus/nordstrand/',
     beskrivelse: 'Flott og romslig hus over to plan med 4 soverom, 2 bad, kontor/bod og stor stue/kjøkkenløsning med balkong. Moderne arkitektur. Plantegningene tilpasses noe for skrå tomt.',
     bra_m2: 132, soverom: 4, bad: '2', etasjer: 2,
     ekstra: { 'Kontor/Bod': 'Ja' },
@@ -224,6 +224,7 @@ export default function Bjornemyrveien22() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2 space-y-16">
             <section id="husmodeller"><TomtHusmodeller modeller={HUSMODELLER as any} tomtType="skra" tomtNavn="Tomt C (skrå tomt)" /></section>
+            <section id="bilder"><TomtBildegalleri bilder={BILDER} adresse={TOMT.adresse} /></section>
             <section id="tegnebua"><TomtTegnebua valgte_husmodeller={1} /></section>
 
             <section id="tidsplan">
@@ -247,7 +248,6 @@ export default function Bjornemyrveien22() {
             </section>
 
             <section id="regulering"><TomtRegulering regulering={TOMT.regulering} /></section>
-            <section id="bilder"><TomtBildegalleri bilder={BILDER} adresse={TOMT.adresse} /></section>
             <section id="nabolag"><TomtNabolag punkter={TOMT.nabolag.punkter} nabolag_beskrivelse={TOMT.nabolag.beskrivelse} /></section>
 
             <section id="dokumenter">

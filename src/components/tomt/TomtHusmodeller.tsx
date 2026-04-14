@@ -77,25 +77,25 @@ export function TomtHusmodeller({ modeller, tomtType, tomtNavn }: Props) {
         Velg husmodell
       </h2>
       <p className="text-brand-600 mb-6">
-        4 husmodeller med komplett kostnadsoverslag for {tomtNavn}.
+        {modeller.length} husmodeller med komplett kostnadsoverslag for {tomtNavn}.
       </p>
 
       {/* Modell-tabs */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+      <div className={`grid grid-cols-2 gap-3 mb-8 ${modeller.length <= 4 ? 'md:grid-cols-4' : 'md:grid-cols-3 lg:grid-cols-5'}`}>
         {modeller.map((m, idx) => {
           const mBudsjett = tomtType === 'skra' && m.total_budsjett_skra ? m.total_budsjett_skra : m.total_budsjett
           return (
             <button
               key={m.id}
               onClick={() => setAktivModell(idx)}
-              className={`text-left p-4 rounded-xl border-2 transition-all ${
+              className={`text-left p-3 lg:p-4 rounded-xl border-2 transition-all ${
                 aktivModell === idx
-                  ? 'border-tomtly-accent bg-forest-50'
+                  ? 'border-tomtly-accent bg-forest-50 shadow-sm'
                   : 'border-brand-200 hover:border-brand-300'
               }`}
             >
-              <p className="font-semibold text-tomtly-dark text-sm">{m.navn}</p>
-              <p className="text-xs text-brand-500">{m.leverandor}</p>
+              <p className="font-semibold text-tomtly-dark text-sm truncate">{m.navn}</p>
+              <p className="text-[11px] text-brand-500 truncate">{m.leverandor}</p>
               <p className="text-sm font-bold text-tomtly-accent mt-1">
                 {(mBudsjett / 1000000).toFixed(1)} MNOK
               </p>
@@ -181,6 +181,21 @@ export function TomtHusmodeller({ modeller, tomtType, tomtNavn }: Props) {
               </div>
             ))}
           </div>
+
+          {/* Fasadetegninger (alle utover hovedbildet) */}
+          {bilder.fasade.length > 1 && (
+            <>
+              <h4 className="text-sm font-semibold text-brand-700 mb-3">Fasader – {aktiv.navn}</h4>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+                {bilder.fasade.slice(1).map((url, idx) => (
+                  <div key={idx} className="bg-white border border-brand-200 rounded-xl overflow-hidden">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={url} alt={`${aktiv.navn} fasade ${idx + 2}`} className="w-full object-contain bg-white p-1" />
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
 
           {/* Inkludert */}
           <h4 className="text-sm font-semibold text-brand-700 mb-3">Inkludert i {aktiv.navn}</h4>

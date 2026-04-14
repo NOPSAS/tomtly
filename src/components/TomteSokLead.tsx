@@ -2,60 +2,9 @@
 
 import { useState, useMemo } from 'react'
 import { MapPin, Search, CheckCircle2, Loader2, Phone } from 'lucide-react'
+import { ALLE_KOMMUNER } from '@/lib/kommuner'
 
-const KOMMUNER = [
-  'Alstahaug','Alta','Alvdal','Alver','Ammot','Andoy','Aremark','Arendal','Asker',
-  'Askoy','Aurskog-Holand','Austrheim','Austevoll','Afjord','Al',
-  'Bamble','Bardu','Batsfjord','Bergen','Berlevag','Bindal','Birkenes','Bjornafjorden',
-  'Bodo','Bokn','Bremanger','Bronnoy','Bygland','Bykle','Bo i Nordland','Bo i Telemark',
-  'Baerum',
-  'Dovre','Drammen','Drangedal','Donna','Eidfjord','Eidskog','Eidsvoll','Eigersund',
-  'Elverum','Enebakk','Engerdal','Etne','Etnedal','Evenes','Evje og Hornnes',
-  'Farsund','Fauske','Fedje','Fitjar','Fjaler','Fjord','Fla','Flakstad','Flatanger',
-  'Flesberg','Flekkefjord','Flora','Folldal','Forde','Fredrikstad','Froland','Frogn',
-  'Frosta','Froya','Fyresdal',
-  'Gamvik','Gausdal','Gildeskaal','Giske','Gjemnes','Gjerdrum','Gjerstad','Gjesdal',
-  'Gjovik','Gloppen','Gol','Gran','Grane','Gratangen','Grimstad','Grong','Grue',
-  'Gulen',
-  'Hadsel','Halden','Hamaroy','Hamar','Hammerfest','Hareid','Harstad','Hasvik',
-  'Hattfjelldal','Haugesund','Heim','Hemsedal','Hemnes','Herøy i Møre og Romsdal',
-  'Herøy i Nordland','Hitra','Hjartdal','Hjelmeland','Hol','Hole','Holmestrand',
-  'Holtalen','Horten','Hurdal','Husoy','Hvaler','Hyllestad','Hoyanger','Hoylandet',
-  'Ha','Ila',
-  'Inderoy','Indre Fosen','Indre Ostfold','Iveland',
-  'Jevnaker',
-  'Kafjord','Karmoy','Karasjok','Kautokeino','Klepp','Kinn','Kongsberg','Kongsvinger',
-  'Kragero','Kristiansand','Kristiansund','Krodsherad','Kvam','Kvafjord','Kvaefjord',
-  'Kvinesdal','Kvinnherad','Kviteseid','Kvitsoy',
-  'Larvik','Lavangen','Leirfjord','Leka','Lenvik','Leppa','Lesja','Levanger',
-  'Lier','Lierne','Lillehammer','Lillestrom','Lindesnes','Lom','Loppa','Loten',
-  'Lunner','Luroy','Luster','Lyngdal','Lyngen','Lardal','Loren',
-  'Malselv','Malvik','Marker','Masfjorden','Melhus','Meraker','Midtre Gauldal',
-  'Modalen','Modum','Molde','Moskenes','Moss','Moy',
-  'Namsos','Namsskogan','Nannestad','Narvik','Nes','Nesbyen','Nesna','Nesodden',
-  'Nissedal','Nittedal','Nome','Nord-Aurdal','Nord-Fron','Nord-Odal','Nordkapp',
-  'Nordre Follo','Nordre Land','Nore og Uvdal','Notodden',
-  'Oppdal','Orkland','Os','Oslo','Osteroy','Overhalla',
-  'Porsanger','Porsgrunn',
-  'Ralingen','Rana','Randaberg','Rakkestad','Re','Rendalen','Rennebu','Ringebu',
-  'Ringerike','Ringsaker','Risor','Rodoy','Rollag','Romskog','Rost','Raade',
-  'Salangen','Saltdal','Samnanger','Sande','Sandefjord','Sandnes','Sarpsborg',
-  'Sauda','Sel','Selbu','Senja','Sigdal','Siljan','Sirdal','Skaun','Skien',
-  'Skiptvet','Skjaak','Smola','Snasa','Snillfjord','Sogndal','Sola','Solund',
-  'Somna','Songdalen','Sor-Aurdal','Sor-Fron','Sor-Odal','Sor-Varanger','Sorfold',
-  'Sorland','Sortland','Stad','Stange','Stavanger','Steigen','Steinkjer',
-  'Stjordal','Stokke','Stor-Elvdal','Stord','Stranda','Strand','Stryn','Sula',
-  'Suldal','Sunndal','Surnadal','Sveio','Sykkylven',
-  'Tana','Time','Tingvoll','Tinn','Tjeldsund','Tokke','Tolga','Tonsberg','Torsken',
-  'Trana','Tromso','Trondheim','Trysil','Tysnes','Tysvar','Tonsberg',
-  'Ullensaker','Ullensvang','Ulstein','Ulvik','Utsira',
-  'Vadso','Vaksdal','Valle','Vang','Vanylven','Vardo','Vefsn','Vega','Vegaarshei',
-  'Vennesla','Verdal','Vestby','Vesteralen','Vestnes','Vestre Slidre',
-  'Vestre Toten','Vestvagoy','Vevelstad','Vik','Vindafjord','Volda','Voss','Vaagan',
-  'Vaaler i Innlandet','Vaaler i Viken','Vagsoy',
-  'Ovre Eiker','Oyer','Oygarden','Oystre Slidre',
-  'Al','Alesund','Amli','Amot',
-].sort((a, b) => a.localeCompare(b, 'nb-NO'))
+const KOMMUNER = ALLE_KOMMUNER
 
 export function TomteSokLead() {
   const [kommuneQuery, setKommuneQuery] = useState('')

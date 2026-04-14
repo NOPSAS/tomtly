@@ -206,7 +206,7 @@ export function Solforhold({ lat, lon }: Props) {
       </div>
 
       {/* Key stats */}
-      <div className="grid grid-cols-4 gap-2 mb-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
         {[
           { label: 'Soloppgang', value: formatTime(sunrise) },
           { label: 'Solnedgang', value: formatTime(sunset) },
@@ -221,7 +221,7 @@ export function Solforhold({ lat, lon }: Props) {
       </div>
 
       {/* Map with sun path */}
-      <div className="relative rounded-lg overflow-hidden border border-brand-200 mb-4">
+      <div className="relative rounded-lg overflow-hidden border border-brand-200 mb-4 max-w-sm mx-auto">
         <canvas ref={canvasRef} className="w-full" style={{ aspectRatio: '1' }} />
         {!mapLoaded && (
           <div className="absolute inset-0 bg-brand-50 flex items-center justify-center">
@@ -232,7 +232,7 @@ export function Solforhold({ lat, lon }: Props) {
 
       {/* Annual overview */}
       <h3 className="text-xs font-semibold text-brand-600 uppercase tracking-wide mb-2">Årsoversikt – dagslys og solhøyde</h3>
-      <div className="grid grid-cols-4 sm:grid-cols-6 gap-1.5">
+      <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-1.5">
         {seasonData.map((s, i) => (
           <button key={s.month} onClick={() => setSelectedMonth(i)}
             className={`text-center p-1.5 rounded text-[10px] transition-colors ${selectedMonth === i ? 'bg-amber-100 border border-amber-300' : 'bg-brand-50 hover:bg-brand-100'}`}

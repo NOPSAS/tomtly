@@ -22,7 +22,7 @@ const NIBIO_AR5 = 'https://wms.nibio.no/cgi-bin/ar5'
 const AREALPLANER_BASE = 'https://api.arealplaner.no/api'
 const AREALPLANER_TOKEN = 'D7D7FFB4-1A4A-44EA-BD15-BCDB6CEF8CA5'
 
-const API_TIMEOUT = 15000
+const API_TIMEOUT = 20000
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -356,7 +356,7 @@ function PrototypeContent() {
   const [planTolkninger, setPlanTolkninger] = useState<PlanTolkning[]>([])
   const [dokDatasets, setDokDatasets] = useState<DOKDataset[]>([])
   const [ar5, setAr5] = useState<AR5Result | null>(null)
-  const [tomteScore, setTomteScore] = useState<number | null>(null)
+  // tomteScore fjernet — brukes ikke i analysen
   const [arealplaner, setArealplaner] = useState<ArealplanerPlan[]>([])
   const [eiendomsAnalyse, setEiendomsAnalyse] = useState<EiendomsAnalyse | null>(null)
   const [dispAnalyse, setDispAnalyse] = useState<DispensasjonAnalyse | null>(null)
@@ -366,7 +366,15 @@ function PrototypeContent() {
   const [kartBbox, setKartBbox] = useState<number[] | null>(null)
   const [kartLoading, setKartLoading] = useState(false)
   const [kommuneInnsyn, setKommuneInnsyn] = useState<any>(null)
+  const [postliste, setPostliste] = useState<any>(null)
+  const [osloHvaGjelder, setOsloHvaGjelder] = useState<any>(null)
+  const [osloSaksinnsyn, setOsloSaksinnsyn] = useState<any>(null)
   const [omraade, setOmraade] = useState<any>(null)
+  const [dynamiskKommuneplan, setDynamiskKommuneplan] = useState<any>(null)
+  const [autoSammendrag, setAutoSammendrag] = useState<any>(null)
+  const [autoSammendragLoading, setAutoSammendragLoading] = useState(false)
+  const [norkartData, setNorkartData] = useState<any>(null)
+  const [norkartLoading, setNorkartLoading] = useState(false)
   const kartCanvasRef = useRef<HTMLCanvasElement>(null)
   const [steps, setSteps] = useState<Step[]>([])
 
@@ -429,12 +437,54 @@ function PrototypeContent() {
         setSuggestions([])
         return
       }
+
+      // Bygg liste med søkevarianter for å maksimere treff
+      const varianter = new Set<string>()
+      const original = sok.trim()
+      varianter.add(original)
+
+      // Variant 1: fjern komma + postnummer + poststed (f.eks. "Askerudveien 35, 1929 Auli" → "Askerudveien 35 Auli")
+      // Postnummer kan fjernes fordi adresse-API-et takler det dårlig sammen med fritekst
+      const utenKomma = original.replace(/,/g, ' ').replace(/\s+/g, ' ').trim()
+      varianter.add(utenKomma)
+
+      // Variant 2: erstatt 4-sifret postnummer med ingenting
+      const utenPostnr = utenKomma.replace(/\b\d{4}\b/g, '').replace(/\s+/g, ' ').trim()
+      if (utenPostnr.length >= 3) varianter.add(utenPostnr)
+
+      // Variant 3 + 4: vei ↔ veg fuzzy match (gjelder utenPostnr-versjonen)
+      const baseForFuzzy = utenPostnr || utenKomma
+      if (/veien\b/i.test(baseForFuzzy)) {
+        varianter.add(baseForFuzzy.replace(/veien\b/gi, 'vegen'))
+      }
+      if (/vegen\b/i.test(baseForFuzzy)) {
+        varianter.add(baseForFuzzy.replace(/vegen\b/gi, 'veien'))
+      }
+
+      // Kjør søkene sekvensielt og stopp på første treff
       try {
-        const res = await fetch(
-          `https://ws.geonorge.no/adresser/v1/sok?sok=${encodeURIComponent(sok)}&treffPerSide=5`
-        )
-        const data = await res.json()
-        setSuggestions(data.adresser || [])
+        const seenIds = new Set<string>()
+        const allResults: any[] = []
+
+        for (const variant of varianter) {
+          if (allResults.length >= 5) break
+          const res = await fetch(
+            `https://ws.geonorge.no/adresser/v1/sok?sok=${encodeURIComponent(variant)}&treffPerSide=5&fuzzy=true`
+          )
+          if (!res.ok) continue
+          const data = await res.json()
+          for (const adr of (data.adresser || [])) {
+            const id = `${adr.kommunenummer}-${adr.gardsnummer}-${adr.bruksnummer}-${adr.adressetekst}`
+            if (!seenIds.has(id)) {
+              seenIds.add(id)
+              allResults.push(adr)
+            }
+            if (allResults.length >= 5) break
+          }
+          if (allResults.length > 0) break // stopp på første variant som ga treff
+        }
+
+        setSuggestions(allResults)
         setShowSuggestions(true)
       } catch {
         setSuggestions([])
@@ -489,7 +539,7 @@ function PrototypeContent() {
     setPlanTolkninger([])
     setDokDatasets([])
     setAr5(null)
-    setTomteScore(null)
+    // tomteScore fjernet
     setExpandedPlans(new Set())
     setExpandedDOK(new Set())
     setArealplaner([])
@@ -500,6 +550,10 @@ function PrototypeContent() {
     setFkbKart(null)
     setKartBbox(null)
     setKartLoading(false)
+    setDynamiskKommuneplan(null)
+    setAutoSammendrag(null)
+    setNorkartData(null)
+    setNorkartLoading(false)
 
     const { lat, lon } = adr.representasjonspunkt
     const knr = adr.kommunenummer
@@ -514,6 +568,7 @@ function PrototypeContent() {
       { label: 'Koordinattransformasjon', status: 'pending' },
       { label: 'KI-tolkning av planer', status: 'pending' },
       { label: 'Arealplaner.no dokumenter', status: 'pending' },
+      { label: 'Kommuneplan og kartinnsyn', status: 'pending' },
     ]
     setSteps([...stepsList])
 
@@ -528,8 +583,9 @@ function PrototypeContent() {
     updateStep(2, { status: 'loading' })
     updateStep(3, { status: 'loading' })
     updateStep(4, { status: 'loading' })
+    updateStep(7, { status: 'loading' })
 
-    const [teigRes, planRes, dokRes, utmRes] = await Promise.allSettled([
+    const [teigRes, planRes, dokRes, utmRes, kpRes] = await Promise.allSettled([
       // Teiggeometri
       (async () => {
         if (!gnr || !bnr) throw new Error('Mangler gnr/bnr')
@@ -538,28 +594,44 @@ function PrototypeContent() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         return res.json()
       })(),
-      // Planregister
+      // Planregister (Planslurpen)
       (async () => {
         if (!gnr || !bnr) throw new Error('Mangler gnr/bnr')
         const url = `${PLANSLURPEN_BASE}/planregister/${knr}/${gnr}/${bnr}`
-        const res = await fetchWithTimeout(url)
+        const res = await fetchWithTimeout(url, { headers: { 'x-api-key': PLANSLURPEN_API_KEY } })
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         return res.json()
       })(),
-      // DOK-analyse (via server-side proxy for pålitelighet)
+      // DOK-analyse (via server-side proxy)
       (async () => {
-        const res = await fetch('/api/dok-analyse', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ lat, lon })
-        })
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        return res.json()
+        const controller = new AbortController()
+        const timer = setTimeout(() => controller.abort(), 25000)
+        try {
+          const res = await fetch('/api/dok-analyse', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ lat, lon }),
+            signal: controller.signal,
+          })
+          if (!res.ok) throw new Error(`HTTP ${res.status}`)
+          return res.json()
+        } finally { clearTimeout(timer) }
       })(),
       // UTM transform
       (async () => {
         const url = `${KARTVERKET_TRANSFORM}/transformer?x=${lat}&y=${lon}&fra=4258&til=25833`
         const res = await fetchWithTimeout(url)
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        return res.json()
+      })(),
+      // Kommuneplan + kartinnsyn (ny samlet API)
+      (async () => {
+        if (!gnr || !bnr) throw new Error('Mangler gnr/bnr')
+        const res = await fetch('/api/kommuneplan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ kommunenummer: knr, gnr, bnr }),
+        })
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         return res.json()
       })(),
@@ -634,6 +706,37 @@ function PrototypeContent() {
       updateStep(4, { status: 'done', label: 'Koordinater transformert' })
     } else {
       updateStep(4, { status: 'error', label: 'Koordinater feilet', detail: utmRes.reason?.message })
+    }
+
+    // Process kommuneplan + kartinnsyn
+    if (kpRes.status === 'fulfilled') {
+      const kpData = kpRes.value
+      setDynamiskKommuneplan(kpData)
+      const kpNavn = kpData.kommuneplan?.planNavn
+      const regCount = kpData.antallReguleringsplaner || 0
+      const innsynCount = kpData.kartInnsyn?.length || 0
+      updateStep(7, {
+        status: 'done',
+        label: kpNavn
+          ? `Kommuneplan: ${kpNavn.substring(0, 40)}${kpNavn.length > 40 ? '...' : ''}`
+          : `${regCount} planer, ${innsynCount} innsynskilder`
+      })
+    } else {
+      updateStep(7, { status: 'error', label: 'Kommuneplan feilet', detail: kpRes.reason?.message })
+    }
+
+    // Auto-genererer KI-sammendrag av kommuneplan dersom statisk ikke finnes
+    if (!getKommuneplanSammendrag(knr)) {
+      setAutoSammendragLoading(true)
+      fetch('/api/auto-kommunesammendrag', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ kommunenummer: knr, kommunenavn: adr.kommunenavn || '' }),
+      })
+        .then(r => r.ok ? r.json() : null)
+        .then(d => { if (d?.success) setAutoSammendrag(d.sammendrag) })
+        .catch(() => {})
+        .finally(() => setAutoSammendragLoading(false))
     }
 
     // ─── Group 2: Depends on group 1 ───────────────────────────────
@@ -723,16 +826,60 @@ function PrototypeContent() {
     try {
       const apHeaders = { 'X-WAAPI-TOKEN': AREALPLANER_TOKEN }
 
-      // Find kundeId for this kommune
+      // Find kundeId for this kommune (try both 2024 and pre-2024 kommunenumre)
       const kunderRes = await fetchWithTimeout(`${AREALPLANER_BASE}/kunder`, { headers: apHeaders })
       if (!kunderRes.ok) throw new Error(`HTTP ${kunderRes.status}`)
       const kunder = await kunderRes.json()
-      const kunde = kunder.find((k: any) => k.kommunenummer === knr && k.status === 0)
+
+      // Mapping: nåværende kommunenummer → alternative numre brukt av arealplaner.no
+      const KOMMUNE_NR_MAP: Record<string, string[]> = {
+        '3101': ['3001'], // Halden
+        '3103': ['3002'], // Moss
+        '3105': ['3003'], // Sarpsborg
+        '3107': ['3004'], // Fredrikstad
+        '3201': ['3024'], // Bærum
+        '3203': ['3025'], // Asker
+        '3205': ['3030'], // Lillestrøm
+        '3207': ['3020'], // Nordre Follo
+        '3212': ['3023'], // Nesodden
+        '3301': ['3005'], // Drammen
+        '3303': ['3006'], // Kongsberg
+        '3305': ['3007'], // Ringerike
+        '3903': ['3802'], // Holmestrand
+        '3905': ['3803'], // Tønsberg
+        '3907': ['3804'], // Sandefjord
+        '3909': ['3805'], // Larvik
+        '3911': ['3811'], // Færder
+        '4001': ['3806'], // Porsgrunn
+        '4003': ['3807'], // Skien
+        '4005': ['3808'], // Notodden
+        '4012': ['3813'], // Bamble
+        '1508': ['1507'], // Ålesund
+      }
+
+      // Try matching: first exact, then alternative numbers, then partial name match
+      let kunde = kunder.find((k: any) => k.kommunenummer === knr && k.status === 0)
+      const altNrs = KOMMUNE_NR_MAP[knr] || []
+      if (!kunde) {
+        for (const altNr of altNrs) {
+          kunde = kunder.find((k: any) => k.kommunenummer === altNr && k.status === 0)
+          if (kunde) break
+        }
+      }
+      // Last resort: try matching on kommune name from adresse
+      if (!kunde && valgtAdresse?.kommunenavn) {
+        const kNavn = valgtAdresse.kommunenavn.toLowerCase()
+        kunde = kunder.find((k: any) => k.status === 0 && (k.navn || '').toLowerCase().includes(kNavn))
+      }
+      console.log('[Arealplaner] knr:', knr, 'kunde:', kunde?.id, kunde?.navn, kunde?.kommunenummer)
+
+      // Use the kundeId's actual kommunenummer for the plan query
+      const apKnr = kunde?.kommunenummer || knr
 
       if (kunde && gnr && bnr) {
         // Hent planer som gjelder denne eiendommen (gnr/bnr-filter)
         const planerRes = await fetchWithTimeout(
-          `${AREALPLANER_BASE}/kunder/${kunde.id}/arealplaner?knr=${knr}&gnr=${gnr}&bnr=${bnr}`,
+          `${AREALPLANER_BASE}/kunder/${kunde.id}/arealplaner?knr=${apKnr}&gnr=${gnr}&bnr=${bnr}`,
           { headers: apHeaders }
         )
         if (!planerRes.ok) throw new Error(`Planer HTTP ${planerRes.status}`)
@@ -854,9 +1001,9 @@ function PrototypeContent() {
 
         if (bestemmelseDocs.length > 0) {
           setAnalyseringBestemmelser(true)
-          // Analyse each bestemmelse (max 2 for speed)
+          // Analyse best match bestemmelse (max 1)
           Promise.allSettled(
-            bestemmelseDocs.slice(0, 2).map(async (doc) => {
+            bestemmelseDocs.slice(0, 1).map(async (doc) => {
               const res = await fetch('/api/analyse-bestemmelser', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -998,12 +1145,40 @@ function PrototypeContent() {
         body: JSON.stringify({ kommunenummer: knr, gnr, bnr, adresse: adr.adressetekst }),
       }).then(r => r.ok ? r.json() : null).then(d => { if (d) setKommuneInnsyn(d) }).catch(() => {})
     }
+    // Offentlige postlister (eInnsyn)
+    fetch("/api/postliste", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ adresse: adr.adressetekst, gnr, bnr, kommunenavn: adr.kommunenavn || '' }),
+    }).then(r => r.ok ? r.json() : null).then(d => { if (d) setPostliste(d) }).catch(() => {})
+    // Oslo PBE "Hva gjelder" + Saksinnsyn (kun Oslo)
+    if (knr === '0301' && gnr && bnr) {
+      fetch("/api/oslo-hvagjelder", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ gnr, bnr }),
+      }).then(r => r.ok ? r.json() : null).then(d => { if (d) setOsloHvaGjelder(d) }).catch(() => {})
+      fetch("/api/oslo-saksinnsyn", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ gnr, bnr }),
+      }).then(r => r.ok ? r.json() : null).then(d => { if (d) setOsloSaksinnsyn(d) }).catch(() => {})
+    }
     // Områdeanalyse (nærservice, grunnforhold)
     fetch("/api/omraadeanalyse", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ lat, lon }),
     }).then(r => r.ok ? r.json() : null).then(d => { if (d) setOmraade(d) }).catch(() => {})
+    // Norkart-analyse (bygningsdata + ROS risiko- og sårbarhet)
+    if (gnr && bnr) {
+      setNorkartLoading(true)
+      fetch("/api/norkart-analyse", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ kommunenummer: knr, gaardsnummer: gnr, bruksnummer: bnr }),
+      }).then(r => r.ok ? r.json() : null).then(d => { if (d?.tilgjengelig !== false) setNorkartData(d); setNorkartLoading(false) }).catch(() => { setNorkartLoading(false) })
+    }
     setAnalysing(false)
   }
 
@@ -1052,7 +1227,7 @@ function PrototypeContent() {
             Hva kan du bygge på tomten?
           </h1>
           <p className="text-lg text-brand-300 mb-10 max-w-2xl mx-auto">
-            Få en komplett analyse med reguleringsplan, byggemuligheter, husmodeller og verdivurdering – på sekunder.
+            Få en analyse med reguleringsplan, byggemuligheter og grunnforhold for din tomt.
           </p>
 
           {/* Lead capture gate */}
@@ -1171,10 +1346,10 @@ function PrototypeContent() {
 
             {/* 4a: Eiendomsheader */}
             <div className="bg-white rounded-xl border border-brand-100 p-6 shadow-sm">
-              <div className="flex items-start justify-between mb-4">
-                <h2 className="font-display text-xl font-bold text-tomtly-dark flex items-center gap-2">
-                  <MapPin className="w-5 h-5 text-tomtly-accent" />
-                  {valgtAdresse.adressetekst}, {valgtAdresse.postnummer} {valgtAdresse.poststed}
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-4">
+                <h2 className="font-display text-lg sm:text-xl font-bold text-tomtly-dark flex items-center gap-2 min-w-0">
+                  <MapPin className="w-5 h-5 text-tomtly-accent shrink-0" />
+                  <span className="truncate">{valgtAdresse.adressetekst}, {valgtAdresse.postnummer} {valgtAdresse.poststed}</span>
                 </h2>
                 <div className="flex items-center gap-1.5 shrink-0">
                   <button
@@ -1224,6 +1399,7 @@ function PrototypeContent() {
                 lon={valgtAdresse.representasjonspunkt.lon}
                 adresse={valgtAdresse.adressetekst}
                 teigCoordsLatLon={fkbKart ? JSON.parse(fkbKart) : undefined}
+                bygningsomriss={norkartData?.bygningsdata?.Bygninger?.filter((b: any) => b.FkbData?.BygningsOmriss).map((b: any) => ({ geojson: b.FkbData.BygningsOmriss, type: b.MatrikkelData?.Bygningstype })) || undefined}
               />
             )}
 
@@ -1291,11 +1467,14 @@ function PrototypeContent() {
               </div>
             )}
 
-            {/* Kommuneplanbestemmelser (forhåndsgenerert) */}
+            {/* Kommuneplanbestemmelser (statisk, auto-generert, eller dynamisk) */}
             {valgtAdresse && (() => {
               const kp = getKommuneplanSammendrag(valgtAdresse.kommunenummer)
-              if (!kp) return null
-              return (
+              const auto = autoSammendrag
+              const dkp = dynamiskKommuneplan
+
+              // Statisk sammendrag finnes
+              if (kp) return (
                 <div className="bg-white rounded-2xl border border-brand-100 p-6 md:p-8 shadow-sm">
                   <div className="flex items-center gap-2 mb-1">
                     <Shield className="w-5 h-5 text-tomtly-accent" />
@@ -1334,6 +1513,179 @@ function PrototypeContent() {
                   )}
                 </div>
               )
+
+              // Auto-generert KI-sammendrag (når statisk ikke finnes)
+              if (auto?.sammendrag) return (
+                <div className="bg-white rounded-2xl border border-brand-100 p-6 md:p-8 shadow-sm">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Shield className="w-5 h-5 text-tomtly-accent" />
+                    <h2 className="font-display text-lg font-bold text-tomtly-dark">Kommuneplanens arealdel</h2>
+                    <span className="ml-auto text-[10px] bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-medium">KI-generert</span>
+                  </div>
+                  <p className="text-xs text-brand-400 mb-4">{auto.planNavn}{auto.iKraft && ` · I kraft: ${new Date(auto.iKraft).toLocaleDateString('nb-NO')}`}</p>
+
+                  <div className="bg-forest-50 border border-forest-200 rounded-xl p-4 mb-5">
+                    <p className="text-sm text-brand-700 leading-relaxed">{auto.sammendrag}</p>
+                  </div>
+
+                  {auto.nokkeltall && auto.nokkeltall.length > 0 && (
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-5">
+                      {auto.nokkeltall.map((n: any, i: number) => (
+                        <div key={i} className="bg-brand-50 rounded-lg p-3 border border-brand-100">
+                          <p className="text-[10px] text-brand-500 uppercase">{n.label}</p>
+                          <p className="text-sm font-bold text-tomtly-dark mt-0.5">{n.verdi}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {(auto.minTomtestorrelse || auto.maksBya_prosent || auto.maksBra || auto.maksBya) && (
+                    <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-5">
+                      <h4 className="text-xs font-semibold text-blue-800 uppercase tracking-wide mb-2">Bestemmelser fra bestemmelsene</h4>
+                      <div className="space-y-1 text-xs text-blue-900">
+                        {auto.minTomtestorrelse && <p><strong>Min. tomtestørrelse:</strong> {auto.minTomtestorrelse}</p>}
+                        {auto.maksBya_prosent && <p><strong>Maks %-BYA:</strong> {auto.maksBya_prosent}</p>}
+                        {auto.maksBya && <p><strong>Maks BYA:</strong> {auto.maksBya}</p>}
+                        {auto.maksBra && <p><strong>Maks BRA:</strong> {auto.maksBra}</p>}
+                      </div>
+                    </div>
+                  )}
+
+                  {auto.viktigeBestemmelser && auto.viktigeBestemmelser.length > 0 && (
+                    <>
+                      <h3 className="text-xs font-semibold text-brand-600 uppercase tracking-wide mb-2">Viktige bestemmelser</h3>
+                      <ul className="space-y-1.5">
+                        {auto.viktigeBestemmelser.map((b: string, i: number) => (
+                          <li key={i} className="flex items-start gap-2 text-xs text-brand-700">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-tomtly-accent mt-0.5 shrink-0" />
+                            {b}
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+
+                  {auto.lnfr && (
+                    <div className="mt-5 bg-amber-50 border border-amber-200 rounded-xl p-4">
+                      <h4 className="text-xs font-semibold text-amber-800 uppercase tracking-wide mb-2">LNFR-områder (uregulerte tomter)</h4>
+                      <p className="text-xs text-amber-700 leading-relaxed">{auto.lnfr}</p>
+                    </div>
+                  )}
+
+                  <p className="text-[10px] text-brand-400 mt-4 italic">
+                    Sammendraget er automatisk generert av KI basert på kommuneplanens bestemmelser. Verifiser alltid mot original-bestemmelsene før du tar viktige beslutninger.
+                  </p>
+                </div>
+              )
+
+              // Loading state for auto-generering
+              if (autoSammendragLoading) return (
+                <div className="bg-white rounded-2xl border border-brand-100 p-6 md:p-8 shadow-sm">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Loader2 className="w-5 h-5 text-tomtly-accent animate-spin" />
+                    <h2 className="font-display text-lg font-bold text-tomtly-dark">Genererer kommuneplan-sammendrag…</h2>
+                  </div>
+                  <p className="text-xs text-brand-500">KI analyserer kommuneplanens bestemmelser. Dette tar 30–60 sekunder første gang.</p>
+                </div>
+              )
+
+              // Dynamisk kommuneplan fra API
+              if (dkp?.kommuneplan) return (
+                <div className="bg-white rounded-2xl border border-brand-100 p-6 md:p-8 shadow-sm">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Shield className="w-5 h-5 text-tomtly-accent" />
+                    <h2 className="font-display text-lg font-bold text-tomtly-dark">Kommuneplanens arealdel</h2>
+                  </div>
+                  <p className="text-xs text-brand-400 mb-4">
+                    {dkp.kommuneplan.planNavn}
+                    {dkp.kommuneplan.iKraft && ` · I kraft: ${new Date(dkp.kommuneplan.iKraft).toLocaleDateString('nb-NO')}`}
+                  </p>
+
+                  <div className="grid grid-cols-2 gap-3 mb-5">
+                    <div className="bg-brand-50 rounded-lg p-3 border border-brand-100">
+                      <p className="text-[10px] text-brand-500 uppercase">Plan-ID</p>
+                      <p className="text-sm font-bold text-tomtly-dark mt-0.5">{dkp.kommuneplan.planId}</p>
+                    </div>
+                    <div className="bg-brand-50 rounded-lg p-3 border border-brand-100">
+                      <p className="text-[10px] text-brand-500 uppercase">Type</p>
+                      <p className="text-sm font-bold text-tomtly-dark mt-0.5">{dkp.kommuneplan.planType}</p>
+                    </div>
+                    <div className="bg-brand-50 rounded-lg p-3 border border-brand-100">
+                      <p className="text-[10px] text-brand-500 uppercase">Status</p>
+                      <p className="text-sm font-bold text-tomtly-dark mt-0.5">{dkp.kommuneplan.planStatus}</p>
+                    </div>
+                    <div className="bg-brand-50 rounded-lg p-3 border border-brand-100">
+                      <p className="text-[10px] text-brand-500 uppercase">Reguleringsplaner</p>
+                      <p className="text-sm font-bold text-tomtly-dark mt-0.5">{dkp.antallReguleringsplaner} stk</p>
+                    </div>
+                  </div>
+
+                  {dkp.kommuneplan.dokumenter?.length > 0 && (
+                    <>
+                      <h3 className="text-xs font-semibold text-brand-600 uppercase tracking-wide mb-2">Plandokumenter</h3>
+                      <div className="space-y-1.5 mb-4">
+                        {dkp.kommuneplan.dokumenter.slice(0, 10).map((d: any, i: number) => (
+                          <div key={i} className="flex items-center gap-2 text-xs text-brand-700">
+                            <FileText className="w-3.5 h-3.5 text-brand-400 shrink-0" />
+                            {d.url ? (
+                              <a href={d.url} target="_blank" rel="noopener noreferrer" className="text-tomtly-accent hover:underline">{d.navn}</a>
+                            ) : (
+                              <span>{d.navn}</span>
+                            )}
+                            <span className="text-brand-400 text-[10px]">{d.type}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  )}
+
+                  {/* Innsynslenker */}
+                  {dkp.kartInnsyn?.length > 0 && (
+                    <>
+                      <h3 className="text-xs font-semibold text-brand-600 uppercase tracking-wide mb-2 mt-4">Se i kommunens kartløsning</h3>
+                      <div className="space-y-2">
+                        {dkp.kartInnsyn.map((k: any, i: number) => (
+                          <a key={i} href={k.sokeUrl} target="_blank" rel="noopener noreferrer"
+                            className="flex items-center gap-2 bg-brand-50 rounded-lg p-3 border border-brand-200 hover:bg-forest-50 transition-colors">
+                            <ExternalLink className="w-4 h-4 text-tomtly-accent shrink-0" />
+                            <div className="flex-1">
+                              <p className="text-sm font-medium text-tomtly-dark">{k.navn}</p>
+                              <div className="flex gap-2 mt-0.5">
+                                {k.harDokAnalyse && <span className="text-[10px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded">DOK-analyse</span>}
+                                {k.harPlanrapport && <span className="text-[10px] bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded">Planrapport</span>}
+                              </div>
+                            </div>
+                          </a>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
+              )
+
+              // Kun dynamisk kartinnsyn (ingen kommuneplan funnet)
+              if (dkp?.kartInnsyn?.length > 0) return (
+                <div className="bg-white rounded-2xl border border-brand-100 p-6 shadow-sm">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Shield className="w-5 h-5 text-tomtly-accent" />
+                    <h2 className="font-display text-lg font-bold text-tomtly-dark">Kommunalt kartinnsyn – {dkp.kommunenavn}</h2>
+                  </div>
+                  <p className="text-xs text-brand-400 mb-4">Kommuneplanens arealdel ikke funnet i registeret. Sjekk kommunens kartløsning direkte.</p>
+                  <div className="space-y-2">
+                    {dkp.kartInnsyn.map((k: any, i: number) => (
+                      <a key={i} href={k.sokeUrl} target="_blank" rel="noopener noreferrer"
+                        className="flex items-center gap-2 bg-brand-50 rounded-lg p-3 border border-brand-200 hover:bg-forest-50 transition-colors">
+                        <ExternalLink className="w-4 h-4 text-tomtly-accent shrink-0" />
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-tomtly-dark">{k.navn}</p>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )
+
+              return null
             })()}
 
             {/* Bestemmelse-analyse (KI-tolket) */}
@@ -1522,37 +1874,56 @@ function PrototypeContent() {
               </div>
             )}
 
-            {/* Uregulert tomt-varsel */}
-            {plans.length === 0 && !analysing && valgtAdresse && (
-              <div className="bg-amber-50 rounded-2xl border border-amber-200 p-6 shadow-sm">
-                <h2 className="font-display text-lg font-bold text-amber-800 mb-2 flex items-center gap-2">
-                  <AlertTriangle className="w-5 h-5" />
-                  Ingen reguleringsplan funnet
-                </h2>
-                <p className="text-sm text-amber-700 mb-4">
-                  Denne eiendommen har ingen gjeldende reguleringsplan i det nasjonale planregisteret.
-                  Det betyr at <strong>kommuneplanens arealdel</strong> gjelder direkte.
-                  Tomten kan være avsatt til bolig, LNFR (landbruk, natur, friluftsliv, reindrift) eller annet formål i kommuneplanen.
-                </p>
-                <div className="bg-white rounded-xl p-4 border border-amber-200">
-                  <h3 className="text-sm font-semibold text-tomtly-dark mb-2">Hva betyr dette?</h3>
-                  <ul className="space-y-1.5 text-xs text-brand-700">
-                    <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-amber-600 mt-0.5 shrink-0" />Tiltak må vurderes opp mot kommuneplanens bestemmelser</li>
-                    <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-amber-600 mt-0.5 shrink-0" />LNFR-områder har strenge begrensninger for ny bebyggelse</li>
-                    <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-amber-600 mt-0.5 shrink-0" />Spredt boligbebyggelse kan tillates med dispensasjon i noen kommuner</li>
-                    <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-amber-600 mt-0.5 shrink-0" />Kontakt kommunen for avklaring av byggemuligheter</li>
-                  </ul>
+            {/* Reguleringsplan ikke funnet i nasjonalt register – vis lenker til kommunens kartløsning */}
+            {plans.length === 0 && arealplaner.length === 0 && bestemmelseAnalyser.length === 0 && !analyseringBestemmelser && !analysing && valgtAdresse && (() => {
+              const ki = getKartInnsyn(valgtAdresse.kommunenummer, valgtAdresse.kommunenavn)
+              return (
+                <div className="bg-amber-50 rounded-2xl border border-amber-200 p-6 shadow-sm">
+                  <h2 className="font-display text-lg font-bold text-amber-800 mb-2 flex items-center gap-2">
+                    <AlertTriangle className="w-5 h-5" />
+                    Reguleringsplan ikke tilgjengelig i nasjonalt register
+                  </h2>
+                  <p className="text-sm text-amber-700 mb-4">
+                    Denne kommunen har ikke gjort reguleringsplaner tilgjengelig via det nasjonale planregisteret (arealplaner.no / Planslurpen).
+                    Eiendommen kan likevel være regulert – sjekk kommunens egen kartløsning nedenfor.
+                  </p>
+
+                  {ki.length > 0 && (
+                    <div className="space-y-2 mb-4">
+                      <h3 className="text-xs font-semibold text-amber-800 uppercase tracking-wide">Se reguleringsplan i kommunens kartløsning</h3>
+                      {ki.map((k, i) => (
+                        <a key={i} href={k.sokeUrl(valgtAdresse.gardsnummer || 0, valgtAdresse.bruksnummer || 0)} target="_blank" rel="noopener noreferrer"
+                          className="flex items-center gap-2 bg-white rounded-lg p-3 border border-amber-200 hover:bg-amber-100/50 transition-colors">
+                          <ExternalLink className="w-4 h-4 text-amber-700 shrink-0" />
+                          <div>
+                            <p className="text-sm font-medium text-tomtly-dark">{k.navn}</p>
+                            <p className="text-[10px] text-brand-500">{k.kommune}</p>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="bg-white rounded-xl p-4 border border-amber-200">
+                    <h3 className="text-sm font-semibold text-tomtly-dark mb-2">Kommuneplanens arealdel gjelder uansett</h3>
+                    <ul className="space-y-1.5 text-xs text-brand-700">
+                      <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-amber-600 mt-0.5 shrink-0" />Selv om planen ikke vises her, kan tomten være regulert – sjekk i kartløsningen over</li>
+                      <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-amber-600 mt-0.5 shrink-0" />Uregulerte tomter styres av kommuneplanens arealdel (vist over)</li>
+                      <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-amber-600 mt-0.5 shrink-0" />LNFR-områder har strenge begrensninger for ny bebyggelse</li>
+                      <li className="flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-amber-600 mt-0.5 shrink-0" />Kontakt kommunen for avklaring av byggemuligheter</li>
+                    </ul>
+                  </div>
                 </div>
-              </div>
-            )}
+              )
+            })()}
 
             {/* 4b: Plananalyse */}
-            {(plans.length > 0 || planTolkninger.length > 0) && (
+            {(plans.length > 0 || arealplaner.length > 0 || planTolkninger.length > 0) && (
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <h2 className="font-display text-lg font-bold text-tomtly-dark flex items-center gap-2">
                     <FileText className="w-5 h-5 text-tomtly-accent" />
-                    Plananalyse ({plans.length} {plans.length === 1 ? 'plan' : 'planer'})
+                    Plananalyse ({Math.max(plans.length, arealplaner.length)} {Math.max(plans.length, arealplaner.length) === 1 ? 'plan' : 'planer'})
                   </h2>
                   {valgtAdresse && (
                     <button
@@ -1572,34 +1943,38 @@ function PrototypeContent() {
                 </div>
                 {valgtAdresse && (
                   <button
-                    onClick={async () => {
-                      const res = await fetch('/api/planrapport', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                          lat: valgtAdresse.representasjonspunkt.lat,
-                          lon: valgtAdresse.representasjonspunkt.lon,
-                          adresse: valgtAdresse.adressetekst,
-                          kommune: valgtAdresse.kommunenavn,
-                          kommunenummer: valgtAdresse.kommunenummer,
-                          gnr: valgtAdresse.gardsnummer,
-                          bnr: valgtAdresse.bruksnummer,
-                        }),
-                      })
-                      if (res.ok) {
-                        const blob = await res.blob()
-                        const url = URL.createObjectURL(blob)
-                        const a = document.createElement('a')
-                        a.href = url
-                        a.download = `Planrapport-${valgtAdresse.gardsnummer}-${valgtAdresse.bruksnummer}.pdf`
-                        a.click()
-                        URL.revokeObjectURL(url)
-                      }
+                    onClick={async (e) => {
+                      const btn = e.currentTarget; btn.disabled = true; btn.textContent = 'Genererer...'
+                      try {
+                        const res = await fetch('/api/planrapport', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                            lat: valgtAdresse.representasjonspunkt.lat,
+                            lon: valgtAdresse.representasjonspunkt.lon,
+                            adresse: valgtAdresse.adressetekst,
+                            kommune: valgtAdresse.kommunenavn,
+                            kommunenummer: valgtAdresse.kommunenummer,
+                            gnr: valgtAdresse.gardsnummer,
+                            bnr: valgtAdresse.bruksnummer,
+                          }),
+                        })
+                        if (res.ok) {
+                          const blob = await res.blob()
+                          const url = URL.createObjectURL(blob)
+                          const a = document.createElement('a')
+                          a.href = url
+                          a.download = `Planrapport-${valgtAdresse.gardsnummer}-${valgtAdresse.bruksnummer}.pdf`
+                          a.click()
+                          URL.revokeObjectURL(url)
+                        } else { alert('Kunne ikke generere planrapport.') }
+                      } catch { alert('Feil ved generering av planrapport.') }
+                      finally { btn.disabled = false; btn.textContent = 'Last ned planrapport (PDF)' }
                     }}
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-tomtly-accent bg-forest-50 border border-tomtly-accent/20 rounded-lg hover:bg-forest-100 transition-colors"
+                    className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-tomtly-accent rounded-lg hover:bg-forest-700 transition-colors disabled:opacity-50"
                   >
-                    <ExternalLink className="w-3 h-3" />
-                    Last ned planrapport
+                    <FileText className="w-3.5 h-3.5" />
+                    Last ned planrapport (PDF)
                   </button>
                 )}
 
@@ -1785,7 +2160,7 @@ function PrototypeContent() {
                   )
                 })}
 
-                {/* Plans without tolkning */}
+                {/* Plans without tolkning (Planslurpen) */}
                 {plans.filter(p => !planTolkninger.find(t => t.planId === p.planId)).map((plan, i) => (
                   <div key={`orphan-${i}`} className="bg-white rounded-xl border border-brand-100 p-5 shadow-sm">
                     <p className="text-sm font-medium text-tomtly-dark">{plan.plannavn || plan.planId}</p>
@@ -1796,6 +2171,27 @@ function PrototypeContent() {
                     </p>
                   </div>
                 ))}
+
+                {/* Show arealplaner.no plans when Planslurpen has nothing */}
+                {plans.length === 0 && arealplaner.length > 0 && (
+                  <div className="space-y-3">
+                    {arealplaner.map((plan: any, i: number) => {
+                      const pType = typeof plan.planType === 'string' ? plan.planType : plan.planType?.beskrivelse || ''
+                      const pStatus = typeof plan.planStatus === 'string' ? plan.planStatus : plan.planStatus?.beskrivelse || ''
+                      return (
+                        <div key={`ap-${i}`} className="bg-white rounded-xl border border-brand-100 p-5 shadow-sm">
+                          <p className="text-sm font-medium text-tomtly-dark">{plan.planNavn || plan.planId}</p>
+                          <p className="text-xs text-brand-400 mt-1">
+                            {pType && `${pType} · `}
+                            {pStatus && `${pStatus} · `}
+                            Plan-ID: {plan.planId}
+                          </p>
+                          <p className="text-[10px] text-brand-400 mt-1">Kilde: arealplaner.no</p>
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
               </div>
             )}
 
@@ -1883,6 +2279,229 @@ function PrototypeContent() {
               <SolforholdSection lat={valgtAdresse.representasjonspunkt.lat} lon={valgtAdresse.representasjonspunkt.lon} />
             )}
 
+            {/* ═══ Norkart Bygningsdata ═══ */}
+            {norkartData?.bygningsdata?.Bygninger?.length > 0 && (
+              <div className="bg-white rounded-2xl border border-brand-100 p-6 shadow-sm">
+                <h2 className="font-display text-lg font-bold text-tomtly-dark mb-4 flex items-center gap-2">
+                  <Building2 className="w-5 h-5 text-tomtly-accent" />
+                  Bygningsdata
+                  <span className="text-[9px] font-normal text-brand-400 bg-brand-50 px-2 py-0.5 rounded-full">Norkart</span>
+                </h2>
+                <div className="space-y-4">
+                  {norkartData.bygningsdata.Bygninger.map((b: any, bi: number) => {
+                    const md = b.MatrikkelData || {}
+                    const ba = b.ByggAreal || {}
+                    return (
+                    <div key={bi} className="border border-brand-200 rounded-lg p-4">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
+                        {md.Bygningstype && (
+                          <div className="bg-brand-50 rounded-lg p-2.5">
+                            <p className="text-brand-500">Bygningstype</p>
+                            <p className="font-semibold text-tomtly-dark">{md.Bygningstype}</p>
+                          </div>
+                        )}
+                        {md.Bygningstatus && (
+                          <div className="bg-brand-50 rounded-lg p-2.5">
+                            <p className="text-brand-500">Status</p>
+                            <p className="font-semibold text-tomtly-dark">{md.Bygningstatus}</p>
+                          </div>
+                        )}
+                        {md.AntattByggeaar > 0 && (
+                          <div className="bg-brand-50 rounded-lg p-2.5">
+                            <p className="text-brand-500">Byggeår</p>
+                            <p className="font-semibold text-tomtly-dark">{md.AntattByggeaar}</p>
+                          </div>
+                        )}
+                        {md.Antalletasjer > 0 && (
+                          <div className="bg-brand-50 rounded-lg p-2.5">
+                            <p className="text-brand-500">Etasjer</p>
+                            <p className="font-semibold text-tomtly-dark">{md.Antalletasjer}</p>
+                          </div>
+                        )}
+                        {md.Bruksarealtotalt > 0 && (
+                          <div className="bg-brand-50 rounded-lg p-2.5">
+                            <p className="text-brand-500">Bruksareal totalt</p>
+                            <p className="font-semibold text-tomtly-dark">{md.Bruksarealtotalt} m²</p>
+                          </div>
+                        )}
+                        {md.Bruksarealtilbolig > 0 && (
+                          <div className="bg-brand-50 rounded-lg p-2.5">
+                            <p className="text-brand-500">BRA bolig</p>
+                            <p className="font-semibold text-tomtly-dark">{md.Bruksarealtilbolig} m²</p>
+                          </div>
+                        )}
+                        {md.Antallboenheter > 0 && (
+                          <div className="bg-brand-50 rounded-lg p-2.5">
+                            <p className="text-brand-500">Boenheter</p>
+                            <p className="font-semibold text-tomtly-dark">{md.Antallboenheter}</p>
+                          </div>
+                        )}
+                        {md.Vannforsyning && (
+                          <div className="bg-brand-50 rounded-lg p-2.5">
+                            <p className="text-brand-500">Vannforsyning</p>
+                            <p className="font-semibold text-tomtly-dark">{md.Vannforsyning}</p>
+                          </div>
+                        )}
+                        {ba.FotAvtrykk > 0 && (
+                          <div className="bg-brand-50 rounded-lg p-2.5">
+                            <p className="text-brand-500">Fotavtrykk</p>
+                            <p className="font-semibold text-tomtly-dark">{Math.round(ba.FotAvtrykk)} m²</p>
+                          </div>
+                        )}
+                        {ba.TakAreal > 0 && (
+                          <div className="bg-brand-50 rounded-lg p-2.5">
+                            <p className="text-brand-500">Takareal</p>
+                            <p className="font-semibold text-tomtly-dark">{Math.round(ba.TakAreal)} m²</p>
+                          </div>
+                        )}
+                        {ba.MaksHoyde > 0 && (
+                          <div className="bg-brand-50 rounded-lg p-2.5">
+                            <p className="text-brand-500">Maks høyde</p>
+                            <p className="font-semibold text-tomtly-dark">{ba.MaksHoyde.toFixed(1)} m</p>
+                          </div>
+                        )}
+                        {ba.BygningsVolum > 0 && (
+                          <div className="bg-brand-50 rounded-lg p-2.5">
+                            <p className="text-brand-500">Bygningsvolum</p>
+                            <p className="font-semibold text-tomtly-dark">{Math.round(ba.BygningsVolum)} m³</p>
+                          </div>
+                        )}
+                      </div>
+
+                      {md.Etasjer?.length > 0 && (
+                        <div className="mt-3">
+                          <p className="text-xs font-semibold text-brand-600 mb-2">Etasjer ({md.Etasjer.length})</p>
+                          <div className="border border-brand-200 rounded-lg overflow-hidden">
+                            <table className="w-full text-[10px]">
+                              <thead><tr className="bg-brand-50 border-b border-brand-200">
+                                <th className="text-left px-2 py-1.5 text-brand-600">Etasje</th>
+                                <th className="text-right px-2 py-1.5 text-brand-600">BRA bolig</th>
+                                <th className="text-right px-2 py-1.5 text-brand-600">BRA annet</th>
+                                <th className="text-right px-2 py-1.5 text-brand-600">BRA totalt</th>
+                              </tr></thead>
+                              <tbody>
+                                {md.Etasjer.map((e: any, ei: number) => (
+                                  <tr key={ei} className="border-b border-brand-100 last:border-0">
+                                    <td className="px-2 py-1.5 text-brand-700">{e.Etasjeplankode || ''}{e.Etasjenummer}</td>
+                                    <td className="px-2 py-1.5 text-right text-brand-600">{e.BruksarealTilBolig || 0} m²</td>
+                                    <td className="px-2 py-1.5 text-right text-brand-600">{e.BruksarealTilAnnet || 0} m²</td>
+                                    <td className="px-2 py-1.5 text-right font-medium text-tomtly-dark">{e.BrukserealTotalt || 0} m²</td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      )}
+
+                      {(md.HarSefrakminne || md.HarKulturminne) && (
+                        <div className="mt-3 flex gap-2">
+                          {md.HarSefrakminne && <span className="px-2 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-semibold rounded-full">SEFRAK</span>}
+                          {md.HarKulturminne && <span className="px-2 py-0.5 bg-purple-100 text-purple-800 text-[10px] font-semibold rounded-full">Kulturminne</span>}
+                        </div>
+                      )}
+                    </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* ═══ Norkart ROS — Risiko og sårbarhet ═══ */}
+            {norkartData?.rosData?.RosData?.length > 0 && (
+              <div className="bg-white rounded-2xl border border-brand-100 p-6 shadow-sm">
+                <h2 className="font-display text-lg font-bold text-tomtly-dark mb-4 flex items-center gap-2">
+                  <Shield className="w-5 h-5 text-red-500" />
+                  Risiko og sårbarhet (ROS)
+                  <span className="text-[9px] font-normal text-brand-400 bg-brand-50 px-2 py-0.5 rounded-full">Norkart</span>
+                </h2>
+                {norkartData.rosData.RosData.map((ros: any, ri: number) => {
+                  const items: Array<{faktor: string; status: string; detaljer: string}> = []
+                  // Flom
+                  if (ros.Flom && ros.Flom !== 'Ikke kartlagt' && ros.Flom !== 'Nei, karttlagt') {
+                    items.push({ faktor: 'Flomsone', status: 'fare', detaljer: `Gjentaksintervall: ${ros.Flom} år` })
+                  } else if (ros.AktsomhetFlom) {
+                    items.push({ faktor: 'Aktsomhet flom', status: 'advarsel', detaljer: 'Innenfor aktsomhetsområde' })
+                  } else {
+                    items.push({ faktor: 'Flom', status: 'ok', detaljer: ros.Flom || 'Ingen data' })
+                  }
+                  // Kvikkleire
+                  if (ros.Kvikkleire && ros.Kvikkleire !== 'Nei' && ros.Kvikkleire !== 'Ikke kartlagt') {
+                    items.push({ faktor: 'Kvikkleire', status: ros.Kvikkleire.includes('Høy') ? 'fare' : 'advarsel', detaljer: ros.Kvikkleire })
+                  } else {
+                    items.push({ faktor: 'Kvikkleire', status: 'ok', detaljer: ros.Kvikkleire || 'Ikke kartlagt' })
+                  }
+                  // Skred
+                  if (ros.Steinsprang || ros.Snoskred || ros.JordEllerFlomSkredfare) {
+                    const t = [ros.Steinsprang && 'Steinsprang', ros.Snoskred && 'Snøskred', ros.JordEllerFlomSkredfare && 'Jord/flomskred'].filter(Boolean)
+                    items.push({ faktor: 'Skredfare', status: 'fare', detaljer: t.join(', ') })
+                  } else {
+                    items.push({ faktor: 'Skredfare', status: 'ok', detaljer: 'Ingen registrert' })
+                  }
+                  // Stormflo
+                  if (ros.FareForStormFlo && ros.FareForStormFlo !== 'Nei') {
+                    items.push({ faktor: 'Stormflo', status: 'fare', detaljer: `${ros.FareForStormFlo} års gjentaksintervall` })
+                  }
+                  // Kraftledning
+                  if (ros.Kraftledning && ros.Kraftledning !== 'Nei') {
+                    items.push({ faktor: 'Kraftledning', status: 'advarsel', detaljer: `Innenfor ${ros.Kraftledning}` })
+                  }
+                  // Brannstasjon
+                  if (ros.AvstandBrannstasjon) {
+                    items.push({ faktor: 'Brannstasjon', status: ros.AvstandBrannstasjon > 15 ? 'advarsel' : 'ok', detaljer: `${ros.AvstandBrannstasjon.toFixed(1)} km – ${ros.Brannstasjon || ''}` })
+                  }
+                  // Kultur
+                  if (ros.FredaBygg) items.push({ faktor: 'Fredet bygg', status: 'advarsel', detaljer: ros.FredabyggNavn || 'Ja' })
+                  if (ros.Enkeltminne) items.push({ faktor: 'Enkeltminne', status: 'advarsel', detaljer: ros.EnkeltminneNavn || 'Ja' })
+                  if (ros.Verneomrade) items.push({ faktor: 'Verneområde', status: 'fare', detaljer: ros.VerneomradeNavn || 'Ja' })
+                  // Kyst
+                  if (ros.Kyst && ros.Kyst !== 'Nei') items.push({ faktor: 'Kystsone', status: 'advarsel', detaljer: `Innenfor ${ros.Kyst}` })
+                  // Nedbør
+                  if (ros.NedborAar) items.push({ faktor: 'Nedbør', status: 'ok', detaljer: `${ros.NedborAar} mm/år` })
+                  // Overvann
+                  const ov = (ros as any)._overvann
+                  if (ov?.Flom_Risikotall) {
+                    items.push({ faktor: 'Overvannsrisiko', status: ov.Flom_Risikotall > 4 ? 'fare' : ov.Flom_Risikotall > 2 ? 'advarsel' : 'ok', detaljer: `Risikotall: ${ov.Flom_Risikotall.toFixed(1)} / 7` })
+                  }
+
+                  return (
+                    <div key={ri} className={ri > 0 ? 'mt-4 pt-4 border-t border-brand-100' : ''}>
+                      {norkartData.rosData.RosData.length > 1 && <p className="text-xs font-semibold text-brand-600 mb-2">Teig {ros.Grunnkretsnavn || ros.Teignummer} {ros.Poststed && `(${ros.Poststed})`}</p>}
+                      <div className="border border-brand-200 rounded-lg overflow-hidden">
+                        <table className="w-full text-xs">
+                          <tbody>
+                            {items.map((item, ii) => (
+                              <tr key={ii} className={`border-b border-brand-100 last:border-0 ${item.status === 'fare' ? 'bg-red-50/50' : item.status === 'advarsel' ? 'bg-amber-50/50' : ''}`}>
+                                <td className="px-3 py-2 font-medium text-tomtly-dark w-1/3">{item.faktor}</td>
+                                <td className="px-3 py-2 text-brand-600">{item.detaljer}</td>
+                                <td className="px-3 py-2 text-right">
+                                  <span className={`px-2 py-0.5 rounded text-[10px] font-semibold ${
+                                    item.status === 'fare' ? 'bg-red-100 text-red-800' :
+                                    item.status === 'advarsel' ? 'bg-amber-100 text-amber-800' :
+                                    'bg-green-100 text-green-800'
+                                  }`}>
+                                    {item.status === 'fare' ? 'Fare' : item.status === 'advarsel' ? 'Advarsel' : 'OK'}
+                                  </span>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+
+            {/* Norkart loading indicator */}
+            {norkartLoading && (
+              <div className="bg-white rounded-2xl border border-brand-100 p-6 shadow-sm flex items-center gap-3">
+                <Loader2 className="w-5 h-5 text-tomtly-accent animate-spin" />
+                <span className="text-sm text-brand-600">Henter data fra Norkart (bygningsdata, risiko- og sårbarhet)...</span>
+              </div>
+            )}
+
             {/* Nærservice og grunnforhold */}
             {omraade && (
               <div className="bg-white rounded-2xl border border-brand-100 p-6 shadow-sm">
@@ -1956,18 +2575,237 @@ function PrototypeContent() {
                       </div>
                       {kilde.saker?.length > 0 && (
                         <div className="space-y-1 mt-2">
-                          {kilde.saker.slice(0, 5).map((sak: any, si: number) => (
-                            <div key={si} className="bg-brand-50 rounded px-3 py-1.5 text-xs text-brand-700">{sak.saksnr && <span className="font-mono mr-2">{sak.saksnr}</span>}{sak.tittel}</div>
+                          {kilde.saker.slice(0, 15).map((sak: any, si: number) => (
+                            sak.url ? (
+                              <a key={si} href={sak.url} target="_blank" rel="noopener noreferrer" className="flex items-start gap-2 bg-brand-50 rounded px-3 py-1.5 text-xs text-brand-700 hover:bg-brand-100 transition-colors group">
+                                <div className="flex-1 min-w-0">
+                                  {sak.saksnr && <span className="font-mono mr-2 text-brand-500">{sak.saksnr}</span>}
+                                  <span className="group-hover:text-tomtly-accent">{sak.tittel}</span>
+                                  {sak.dato && <span className="text-brand-400 ml-2">{sak.dato}</span>}
+                                </div>
+                                <ExternalLink className="w-3 h-3 text-brand-300 flex-shrink-0 mt-0.5" />
+                              </a>
+                            ) : (
+                              <div key={si} className="bg-brand-50 rounded px-3 py-1.5 text-xs text-brand-700">
+                                {sak.saksnr && <span className="font-mono mr-2">{sak.saksnr}</span>}{sak.tittel}
+                              </div>
+                            )
                           ))}
+                          {kilde.saker.length > 15 && <p className="text-xs text-brand-400 mt-1">+ {kilde.saker.length - 15} saker til</p>}
                         </div>
                       )}
-                      {kilde.saker?.length === 0 && (
+                      {kilde.saker?.length === 0 && !kilde.tilgjengelig && (
                         <p className="text-xs text-brand-500 bg-brand-50 rounded-lg p-2.5">
-                          Klikk «Åpne innsyn» for å se byggesaker, dispensasjoner og vedtak for denne eiendommen i kommunens sakssystem.
+                          Kunne ikke nå innsynsløsningen. Klikk «Åpne innsyn» for å søke manuelt.
+                        </p>
+                      )}
+                      {kilde.saker?.length === 0 && kilde.tilgjengelig && (
+                        <p className="text-xs text-brand-500 bg-brand-50 rounded-lg p-2.5">
+                          Ingen saker funnet i dette systemet. Klikk «Åpne innsyn» for å verifisere.
                         </p>
                       )}
                     </div>
                   ))}
+                </div>
+              </div>
+            )}
+            {/* Oslo PBE – Hva gjelder */}
+            {osloHvaGjelder?.treff && (
+              <div className="bg-white rounded-2xl border border-brand-100 p-6 shadow-sm">
+                <h2 className="font-display text-lg font-bold text-tomtly-dark mb-4 flex items-center gap-2">
+                  <Layers className="w-5 h-5 text-tomtly-accent" />
+                  Oslo PBE – Hva gjelder for eiendommen
+                </h2>
+
+                {/* Reguleringsplaner */}
+                {osloHvaGjelder.reguleringsplaner?.length > 0 && (
+                  <div className="mb-4">
+                    <h3 className="text-sm font-semibold text-tomtly-dark mb-2">Reguleringsplaner</h3>
+                    <div className="space-y-2">
+                      {osloHvaGjelder.reguleringsplaner.map((plan: any, i: number) => (
+                        <div key={i} className="bg-brand-50 rounded-lg p-3">
+                          <div className="flex items-start justify-between gap-2">
+                            <div>
+                              <p className="text-sm font-medium text-tomtly-dark">{plan.navn}</p>
+                              <p className="text-xs text-brand-600 mt-0.5">{plan.tittel}</p>
+                            </div>
+                            {plan.ikraft && <span className="text-xs text-brand-400 whitespace-nowrap">Ikraft: {plan.ikraft}</span>}
+                          </div>
+                          {plan.formaal?.length > 0 && (
+                            <div className="flex flex-wrap gap-1 mt-1.5">
+                              {plan.formaal.map((f: string, fi: number) => (
+                                <span key={fi} className="text-[10px] bg-brand-100 text-brand-600 px-1.5 py-0.5 rounded">{f}</span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Kommunedelplaner */}
+                {osloHvaGjelder.kommunedelplaner?.length > 0 && (
+                  <div className="mb-4">
+                    <h3 className="text-sm font-semibold text-tomtly-dark mb-2">Kommunedelplaner</h3>
+                    {osloHvaGjelder.kommunedelplaner.map((k: any, i: number) => (
+                      <div key={i} className="text-xs text-brand-600 bg-brand-50 rounded px-3 py-1.5 mb-1">
+                        <span className="font-medium">{k.navn}</span> – {k.beskrivelse}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Risikofaktorer */}
+                {osloHvaGjelder.risiko?.length > 0 && (
+                  <div className="mb-4">
+                    <h3 className="text-sm font-semibold text-tomtly-dark mb-2">Risiko og restriksjoner</h3>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
+                      {osloHvaGjelder.risiko.map((r: any, i: number) => (
+                        <div key={i} className={`rounded-lg px-2.5 py-1.5 text-xs ${r.status === 'fare' ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>
+                          <span className="font-medium">{r.kategori}</span>
+                          {r.status === 'fare' && <span className="block text-[10px] mt-0.5">{r.beskrivelse}</span>}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Infrastruktur */}
+                {osloHvaGjelder.infrastruktur?.length > 0 && (
+                  <div className="mb-4">
+                    <h3 className="text-sm font-semibold text-tomtly-dark mb-2">Infrastruktur</h3>
+                    <div className="space-y-1">
+                      {osloHvaGjelder.infrastruktur.map((inf: any, i: number) => (
+                        <div key={i} className="text-xs text-brand-600 bg-brand-50 rounded px-3 py-1.5">
+                          <span className="font-medium">{inf.kategori}:</span> {inf.verdi}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Småhusplan-info */}
+                {osloHvaGjelder.smahusplan?.omfattet && (
+                  <div className="mb-4 border border-amber-200 bg-amber-50 rounded-xl p-4">
+                    <h3 className="text-sm font-bold text-amber-900 mb-2 flex items-center gap-1.5">
+                      <AlertTriangle className="w-4 h-4 text-amber-600" />
+                      Småhusplanen – Midlertidig forbud mot tiltak
+                    </h3>
+                    <div className="space-y-2 text-xs text-amber-800">
+                      {osloHvaGjelder.smahusplan.oppsummering?.map((t: string, i: number) => (
+                        <p key={i}>{t}</p>
+                      ))}
+                    </div>
+
+                    <details className="mt-3">
+                      <summary className="text-xs font-semibold text-amber-900 cursor-pointer hover:text-amber-700">Vedtatte bestemmelser (klikk for detaljer)</summary>
+                      <ul className="mt-2 space-y-1 text-xs text-amber-800 list-disc list-inside">
+                        {osloHvaGjelder.smahusplan.vedtatteRegler?.punkter?.map((p: string, i: number) => (
+                          <li key={i}>{p}</li>
+                        ))}
+                      </ul>
+                    </details>
+
+                    <details className="mt-2">
+                      <summary className="text-xs font-semibold text-amber-900 cursor-pointer hover:text-amber-700">Unntak fra forbudet</summary>
+                      <div className="mt-2 text-xs text-amber-800">
+                        <p className="font-medium mb-1">Tiltak som kan tillates:</p>
+                        <ul className="space-y-0.5 list-disc list-inside mb-2">
+                          {osloHvaGjelder.smahusplan.mft?.unntak?.map((u: string, i: number) => (
+                            <li key={i}>{u}</li>
+                          ))}
+                        </ul>
+                        <p className="font-medium mb-1">Alltid forbudt:</p>
+                        <ul className="space-y-0.5 list-disc list-inside mb-2">
+                          {osloHvaGjelder.smahusplan.mft?.alltidForbudt?.map((f: string, i: number) => (
+                            <li key={i} className="text-red-700">{f}</li>
+                          ))}
+                        </ul>
+                        <p className="font-medium mb-1">Foreslåtte endringer ved forlengelse:</p>
+                        <ul className="space-y-0.5 list-disc list-inside">
+                          {osloHvaGjelder.smahusplan.mft?.forslagteEndringerVedForlengelse?.map((e: string, i: number) => (
+                            <li key={i}>{e}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </details>
+                  </div>
+                )}
+
+                <a href={osloHvaGjelder.pbeUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-tomtly-accent bg-forest-50 rounded-lg hover:bg-forest-100 transition-colors w-fit">
+                  <ExternalLink className="w-3 h-3" />Se fullstendig i Oslo PBE
+                </a>
+              </div>
+            )}
+            {/* Oslo Saksinnsyn */}
+            {osloSaksinnsyn?.saker?.length > 0 && (
+              <div className="bg-white rounded-2xl border border-brand-100 p-6 shadow-sm">
+                <h2 className="font-display text-lg font-bold text-tomtly-dark mb-1 flex items-center gap-2">
+                  <Building2 className="w-5 h-5 text-tomtly-accent" />
+                  Oslo Saksinnsyn – Byggesaker
+                </h2>
+                <p className="text-xs text-brand-500 mb-4">{osloSaksinnsyn.antall} saker funnet for eiendommen</p>
+                <div className="space-y-1.5">
+                  {osloSaksinnsyn.saker.slice(0, 10).map((sak: any, i: number) => (
+                    <a key={i} href={sak.url} target="_blank" rel="noopener noreferrer" className="block border border-brand-200 rounded-lg px-3 py-2 hover:bg-brand-50 transition-colors group">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm text-tomtly-dark group-hover:text-tomtly-accent transition-colors truncate">{sak.tittel}</p>
+                          <div className="flex items-center gap-2 mt-0.5">
+                            <span className="text-[11px] font-mono text-brand-500">{sak.saksnummer}</span>
+                            {sak.dato && <span className="text-[11px] text-brand-400">{sak.dato}</span>}
+                            {sak.status && <span className="text-[11px] text-brand-400 bg-brand-100 px-1.5 py-0.5 rounded">{sak.status}</span>}
+                          </div>
+                        </div>
+                        <ExternalLink className="w-3 h-3 text-brand-300 flex-shrink-0 mt-1 group-hover:text-tomtly-accent" />
+                      </div>
+                    </a>
+                  ))}
+                </div>
+                {osloSaksinnsyn.antall > 10 && (
+                  <p className="text-xs text-brand-500 mt-2">Viser 10 av {osloSaksinnsyn.antall} saker</p>
+                )}
+                <a href={osloSaksinnsyn.saksinnsynUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-tomtly-accent bg-forest-50 rounded-lg hover:bg-forest-100 transition-colors w-fit mt-3">
+                  <ExternalLink className="w-3 h-3" />Se alle saker i Saksinnsyn
+                </a>
+              </div>
+            )}
+            {/* Offentlige postlister */}
+            {postliste && (
+              <div className="bg-white rounded-2xl border border-brand-100 p-6 shadow-sm">
+                <h2 className="font-display text-lg font-bold text-tomtly-dark mb-4 flex items-center gap-2">
+                  <FileText className="w-5 h-5 text-tomtly-accent" />
+                  Offentlige postlister
+                </h2>
+                {postliste.antall > 0 ? (
+                  <div className="space-y-2 mb-4">
+                    {postliste.resultater.map((r: any, i: number) => (
+                      <a key={i} href={r.einnsynUrl} target="_blank" rel="noopener noreferrer" className="block border border-brand-200 rounded-lg p-3 hover:bg-brand-50 transition-colors">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-tomtly-dark truncate">{r.tittel}</p>
+                            <div className="flex items-center gap-2 mt-1">
+                              {r.dato && <span className="text-xs text-brand-500">{r.dato}</span>}
+                              <span className="text-xs text-brand-400 bg-brand-100 px-1.5 py-0.5 rounded">{r.type}</span>
+                              {r.saksnummer && <span className="text-xs font-mono text-brand-500">{r.saksnummer}</span>}
+                            </div>
+                          </div>
+                          <ExternalLink className="w-3.5 h-3.5 text-brand-400 flex-shrink-0 mt-1" />
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-brand-600 mb-4">Ingen treff i offentlige postlister for denne eiendommen.</p>
+                )}
+                <div className="flex gap-2 flex-wrap">
+                  <a href={postliste.lenker.einnsyn} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-tomtly-accent bg-forest-50 rounded-lg hover:bg-forest-100 transition-colors">
+                    <ExternalLink className="w-3 h-3" />Søk i eInnsyn
+                  </a>
+                  <a href={postliste.lenker.norskPostliste} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-tomtly-accent bg-forest-50 rounded-lg hover:bg-forest-100 transition-colors">
+                    <ExternalLink className="w-3 h-3" />Søk i Norske postlister
+                  </a>
                 </div>
               </div>
             )}
@@ -2006,42 +2844,54 @@ function PrototypeContent() {
 
               return (
               <div className="space-y-4">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <h2 className="font-display text-lg font-bold text-tomtly-dark flex items-center gap-2">
                     <Shield className="w-5 h-5 text-tomtly-accent" />
                     DOK-analyse ({dokDatasets.length} datasett)
                   </h2>
-                  {valgtAdresse && (
-                    <button
-                      onClick={async () => {
-                        const res = await fetch('/api/dok-rapport', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({
-                            lat: valgtAdresse.representasjonspunkt.lat,
-                            lon: valgtAdresse.representasjonspunkt.lon,
-                            adresse: valgtAdresse.adressetekst,
-                            kommune: valgtAdresse.kommunenavn,
-                            gnr: valgtAdresse.gardsnummer,
-                            bnr: valgtAdresse.bruksnummer,
-                          }),
-                        })
-                        if (res.ok) {
-                          const blob = await res.blob()
-                          const url = URL.createObjectURL(blob)
-                          const a = document.createElement('a')
-                          a.href = url
-                          a.download = `DOK-analyse-${valgtAdresse.gardsnummer}-${valgtAdresse.bruksnummer}.pdf`
-                          a.click()
-                          URL.revokeObjectURL(url)
-                        }
-                      }}
-                      className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-tomtly-accent bg-forest-50 border border-tomtly-accent/20 rounded-lg hover:bg-forest-100 transition-colors"
-                    >
-                      <ExternalLink className="w-3 h-3" />
-                      Last ned PDF
-                    </button>
-                  )}
+                  <div className="flex gap-2">
+                    {valgtAdresse && (
+                      <button
+                        id="dok-pdf-btn"
+                        onClick={async (e) => {
+                          const btn = e.currentTarget
+                          btn.disabled = true
+                          btn.textContent = 'Genererer...'
+                          try {
+                            const res = await fetch('/api/dok-rapport', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({
+                                lat: valgtAdresse.representasjonspunkt.lat,
+                                lon: valgtAdresse.representasjonspunkt.lon,
+                                adresse: valgtAdresse.adressetekst,
+                                kommune: valgtAdresse.kommunenavn,
+                                kommunenummer: valgtAdresse.kommunenummer,
+                                gnr: valgtAdresse.gardsnummer,
+                                bnr: valgtAdresse.bruksnummer,
+                              }),
+                            })
+                            if (res.ok) {
+                              const blob = await res.blob()
+                              const url = URL.createObjectURL(blob)
+                              const a = document.createElement('a')
+                              a.href = url
+                              a.download = `DOK-analyse-${valgtAdresse.gardsnummer}-${valgtAdresse.bruksnummer}.pdf`
+                              a.click()
+                              URL.revokeObjectURL(url)
+                            } else {
+                              alert('Kunne ikke generere PDF. Prøv igjen.')
+                            }
+                          } catch { alert('Feil ved PDF-generering. Prøv igjen.') }
+                          finally { btn.disabled = false; btn.textContent = 'Last ned DOK-rapport (PDF)' }
+                        }}
+                        className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-tomtly-accent rounded-lg hover:bg-forest-700 transition-colors disabled:opacity-50"
+                      >
+                        <FileText className="w-3.5 h-3.5" />
+                        Last ned DOK-rapport (PDF)
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 {/* Naturfare-vurdering (Holte-stil) */}
@@ -2050,45 +2900,56 @@ function PrototypeContent() {
                   <p className="text-xs text-brand-400 mb-4">Vurdering av risikofaktorer basert på {dokDatasets.length} offentlige datasett</p>
 
                   {/* Status summary bar */}
-                  <div className="flex gap-1 mb-5 h-3 rounded-full overflow-hidden">
+                  <div className="flex gap-1 mb-3 h-3 rounded-full overflow-hidden">
                     {funnCount > 0 && <div className="bg-red-500" style={{ flex: funnCount }} title={`${funnCount} med funn`} />}
                     {okCount > 0 && <div className="bg-green-500" style={{ flex: okCount }} title={`${okCount} uten fare`} />}
-                    {(dokDatasets.length - funnCount - okCount) > 0 && <div className="bg-brand-200" style={{ flex: dokDatasets.length - funnCount - okCount }} />}
+                    {(riskResults.length - funnCount - okCount) > 0 && <div className="bg-amber-300" style={{ flex: riskResults.length - funnCount - okCount }} />}
                   </div>
-                  <div className="flex gap-4 mb-5 text-xs text-brand-500">
+                  <div className="flex flex-wrap gap-3 mb-5 text-xs text-brand-500">
                     <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-red-500" />{funnCount} med funn</span>
-                    <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-green-500" />{okCount} uten fare</span>
-                    <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-brand-200" />{dokDatasets.length - funnCount - okCount} øvrige</span>
+                    <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-green-500" />{okCount} kartlagt OK</span>
+                    <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-amber-300" />{riskResults.length - funnCount - okCount} ikke kartlagt</span>
+                    <span className="text-brand-400 ml-auto">{dokDatasets.length} datasett totalt</span>
                   </div>
 
                   {/* Naturfare-tabell (viktigste datasettene) */}
-                  <div className="border border-brand-200 rounded-lg overflow-hidden mb-4">
+                  <div className="border border-brand-200 rounded-lg overflow-x-auto mb-4">
                     <table className="w-full text-xs">
                       <thead>
                         <tr className="bg-brand-50">
                           <th className="text-left px-3 py-2 font-semibold text-brand-600">Risikofaktor</th>
-                          <th className="text-center px-3 py-2 font-semibold text-brand-600 w-28">Status</th>
+                          <th className="text-center px-3 py-2 font-semibold text-brand-600 w-20 sm:w-28">Status</th>
                         </tr>
                       </thead>
                       <tbody>
                         {riskResults.map(risk => {
-                          const statusText = risk.hasFunn ? 'Dekket – funn' : risk.isKartlagt ? 'Dekket – OK' : 'Ikke kartlagt'
+                          const statusText = risk.hasFunn ? 'FUNN' : risk.isKartlagt ? 'OK' : 'Ikke kartlagt'
                           const statusBg = risk.hasFunn ? 'bg-red-100 text-red-800' : risk.isKartlagt ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800'
+                          const funnDatasett = risk.matches.filter(m => (m.status||'').toLowerCase().includes('med funn'))
                           return (
-                            <tr key={risk.label} className={`border-t border-brand-100 ${risk.hasFunn ? 'bg-red-50/30' : ''}`}>
+                            <tr key={risk.label} className={`border-t border-brand-100 ${risk.hasFunn ? 'bg-red-50/40' : ''}`}>
                               <td className="px-3 py-2.5">
-                                <div className="flex items-center gap-2">
-                                  <span className="text-base">{risk.icon}</span>
-                                  <div>
+                                <div className="flex items-start gap-2">
+                                  <span className="text-base mt-0.5">{risk.icon}</span>
+                                  <div className="min-w-0">
                                     <span className="font-medium text-tomtly-dark">{risk.label}</span>
-                                    {risk.hasFunn && risk.matches.filter(m => (m.status||'').toLowerCase().includes('med funn')).slice(0,2).map((m,i) => (
-                                      <p key={i} className="text-[10px] text-red-600 mt-0.5">{(m.tittel||'').replace(/^Dekning\s*/i,'')}: {m.status}</p>
+                                    <span className="text-[10px] text-brand-400 ml-1.5">({risk.count} datasett)</span>
+                                    {risk.hasFunn && funnDatasett.slice(0,3).map((m,i) => (
+                                      <p key={i} className="text-[10px] text-red-700 mt-0.5 leading-tight">
+                                        {(m.tittel||'').replace(/^Dekning\s*-?\s*/i,'')}
+                                      </p>
                                     ))}
+                                    {!risk.hasFunn && risk.isKartlagt && (
+                                      <p className="text-[10px] text-green-700 mt-0.5">Ingen registrert fare i dette området</p>
+                                    )}
+                                    {!risk.hasFunn && !risk.isKartlagt && risk.count > 0 && (
+                                      <p className="text-[10px] text-amber-700 mt-0.5">Området er ikke kartlagt for denne risikofaktoren</p>
+                                    )}
                                   </div>
                                 </div>
                               </td>
-                              <td className="px-3 py-2.5 text-center">
-                                <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-semibold ${statusBg}`}>{statusText}</span>
+                              <td className="px-3 py-2.5 text-center align-top">
+                                <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-semibold whitespace-nowrap ${statusBg}`}>{statusText}</span>
                               </td>
                             </tr>
                           )
@@ -2203,7 +3064,7 @@ function PrototypeContent() {
 
             {/* Kommunalt kartinnsyn */}
             {valgtAdresse && (() => {
-              const kartKilder = getKartInnsyn(valgtAdresse.kommunenummer)
+              const kartKilder = getKartInnsyn(valgtAdresse.kommunenummer, valgtAdresse.kommunenavn)
               if (kartKilder.length === 0) return null
               const gnr2 = valgtAdresse.gardsnummer
               const bnr2 = valgtAdresse.bruksnummer
@@ -2258,7 +3119,7 @@ function PrototypeContent() {
                     <span>Geonorge – Adresseregisteret</span>
                   </div>
                   <p className="text-[10px] text-brand-400 mt-3">
-                    Data hentet {new Date().toLocaleDateString('nb-NO')}. Tomtescore er en indikativ vurdering og erstatter ikke faglig analyse.
+                    Data hentet {new Date().toLocaleDateString('nb-NO')}. Analysen er veiledende og erstatter ikke faglig vurdering.
                   </p>
                 </div>
               </div>
@@ -2303,11 +3164,12 @@ function PrototypeContent() {
 
 // ─── Tomtekart with polygon overlay ─────────────────────────────────────────
 
-function TomteKartSection({ lat, lon, adresse, teigCoordsLatLon }: {
+function TomteKartSection({ lat, lon, adresse, teigCoordsLatLon, bygningsomriss }: {
   lat: number
   lon: number
   adresse: string
   teigCoordsLatLon?: [number, number][]
+  bygningsomriss?: Array<{ geojson: string; type?: string }>
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [drawn, setDrawn] = useState(false)
@@ -2367,6 +3229,29 @@ function TomteKartSection({ lat, lon, adresse, teigCoordsLatLon }: {
         ctx.stroke()
       }
 
+      // Bygningsfotavtrykk fra Norkart FKB
+      if (bygningsomriss?.length) {
+        for (const b of bygningsomriss) {
+          try {
+            const geo = typeof b.geojson === 'string' ? JSON.parse(b.geojson) : b.geojson
+            const coords = geo?.type === 'Polygon' ? geo.coordinates?.[0] :
+                           geo?.type === 'MultiPolygon' ? geo.coordinates?.[0]?.[0] : null
+            if (!coords?.length) continue
+            ctx.beginPath()
+            coords.forEach((c: number[], i: number) => {
+              const [px, py] = ll2px(c[1], c[0])
+              if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py)
+            })
+            ctx.closePath()
+            ctx.fillStyle = 'rgba(45, 90, 61, 0.25)'
+            ctx.fill()
+            ctx.strokeStyle = '#2d5a3d'
+            ctx.lineWidth = 2
+            ctx.stroke()
+          } catch {}
+        }
+      }
+
       // Center marker
       const [cx, cy] = ll2px(lat, lon)
       ctx.beginPath(); ctx.arc(cx, cy, 7, 0, Math.PI * 2)
@@ -2394,13 +3279,14 @@ function TomteKartSection({ lat, lon, adresse, teigCoordsLatLon }: {
         <Layers className="w-4 h-4 text-tomtly-accent" />
         Tomtekart
       </h2>
-      <div className="relative max-w-full sm:max-w-lg">
-        <canvas ref={canvasRef} className="w-full rounded-lg border border-brand-200" />
+      <div className="relative">
+        <canvas ref={canvasRef} className="w-full max-w-lg rounded-lg border border-brand-200" />
       </div>
-      <div className="mt-2 flex flex-wrap gap-3 text-[10px] text-brand-400">
+      <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-[10px] text-brand-400">
         <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-rose-600" /> Adresse</span>
         <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm border border-rose-600 bg-rose-600/10" /> Eiendomsgrense</span>
-        <span className="ml-auto">Kartverket topografisk kart</span>
+        {bygningsomriss?.length ? <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm border border-tomtly-accent bg-tomtly-accent/25" /> Bygning</span> : null}
+        <span className="ml-auto">Kartverket + Norkart FKB</span>
       </div>
     </div>
   )

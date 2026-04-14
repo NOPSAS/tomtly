@@ -2,36 +2,44 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, User, TrendingUp, CheckCircle2, Home, Award } from 'lucide-react'
+import { ArrowLeft, TrendingUp, CheckCircle2, Zap, Target, BarChart3, Globe, Shield, Users } from 'lucide-react'
 
-export default function MeglerPartnerPage() {
-  const [antallAnalyser, setAntallAnalyser] = useState(30)
-  const [synlighetAndel, setSynlighetAndel] = useState(60)
-  const [premiumAndel, setPremiumAndel] = useState(20)
-  const [snittNaering, setSnittNaering] = useState(3)
-  const [partnerAndel, setPartnerAndel] = useState(20)
+export default function InvestorPage() {
+  const [analyserMnd, setAnalyserMnd] = useState(30)
 
-  const analyserPure = Math.round(antallAnalyser * (1 - synlighetAndel / 100 - premiumAndel / 100))
-  const analyserSynlighet = Math.round(antallAnalyser * synlighetAndel / 100)
-  const analyserPremium = Math.round(antallAnalyser * premiumAndel / 100)
+  // Inntektsmodell basert på faktiske priser (CLAUDE.md)
+  const analyseFastpris = 9900    // Tomteanalyse engangspris
+  const markedspakke = 4990       // Analyse + Markedsføring startpris
+  const tilrettelegging = 0.02    // 2% tilretteleggingsgebyr ved salg
+  const snittSalgssum = 2000000   // Snitt tomtepris
+  const fradelingProsent = 0.05   // 5% av ny tomts verdi
+  const bankLeadFee = 4900        // Per innvilget byggelån
+  const huslevAbo = 15000         // Snitt per mnd
+  const meglerAnalyse = 2900      // Per analyse fra megler
 
-  const inntektAnalyse = analyserPure * 4990
-  const inntektSynlighet = analyserSynlighet * 50000  // 2,5 % provisjon snitt
-  const inntektPremium = analyserPremium * 4900  // Megler Premium
-  const inntektNaering = snittNaering * 24900
-  const inntektMeglere = 0  // Megler Standard er gratis
-  const inntektAddons = 0 // Via Konsepthus, ikke Tomtly
-  const inntektEntreprenor = Math.round(3 * 14900 / 12)
-  const inntektHuslev = 2 * 15000
-  const inntektBank = Math.round(antallAnalyser * 0.08) * 4900
+  // Fordeling av analyser
+  const fastprisAndel = 0.30      // 30% velger kun analyse
+  const markedAndel = 0.50        // 50% velger analyse + markedsføring
+  const meglerAndel = 0.20        // 20% kommer via megler
 
-  const totalMndInntekt = inntektAnalyse + inntektSynlighet + inntektPremium + inntektNaering + inntektMeglere + inntektAddons + inntektEntreprenor + inntektHuslev + inntektBank
+  const antFastpris = Math.round(analyserMnd * fastprisAndel)
+  const antMarked = Math.round(analyserMnd * markedAndel)
+  const antMegler = Math.round(analyserMnd * meglerAndel)
+  const antSolgt = Math.round(antMarked * 0.6) // 60% av markedspakker fører til salg
+  const antFradeling = Math.round(analyserMnd * 0.05) // 5% er fradelinger
+  const antBankLead = Math.round(analyserMnd * 0.08) // 8% gir byggelån-leads
 
-  const partnerMnd = Math.round(totalMndInntekt * partnerAndel / 100)
-  const partnerAar = partnerMnd * 12
+  const inntektFastpris = antFastpris * analyseFastpris
+  const inntektMarked = antMarked * markedspakke
+  const inntektProv = antSolgt * snittSalgssum * tilrettelegging
+  const inntektMegler = antMegler * meglerAnalyse
+  const inntektFradeling = antFradeling * snittSalgssum * fradelingProsent
+  const inntektBank = antBankLead * bankLeadFee
+  const inntektHuslev = 2 * huslevAbo // 2 leverandører
+  const inntektEntreprenor = 0 // Ikke aktivert ennå
 
-  const tomtlyKostnad = antallAnalyser * 4000
-  const tomtlyNetto = totalMndInntekt - partnerMnd - tomtlyKostnad
+  const totalMnd = inntektFastpris + inntektMarked + inntektProv + inntektMegler + inntektFradeling + inntektBank + inntektHuslev + inntektEntreprenor
+  const totalAar = totalMnd * 12
 
   const fmt = (n: number) => n.toLocaleString('nb-NO')
 
@@ -41,236 +49,186 @@ export default function MeglerPartnerPage() {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link href="/admin" className="text-brand-400 hover:text-white"><ArrowLeft className="w-5 h-5" /></Link>
-            <h1 className="font-display text-lg font-bold">Megler-partner: Lønnsmodell</h1>
+            <h1 className="font-display text-lg font-bold">Investor – TOMTLY</h1>
           </div>
-          <span className="text-xs text-brand-400">Kun for intern bruk</span>
+          <span className="text-xs text-brand-400">Konfidensielt</span>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-        {/* Tilbudet */}
+        {/* Hero */}
+        <div className="text-center mb-12">
+          <h1 className="font-display text-4xl md:text-5xl font-bold text-tomtly-dark mb-4">TOMTLY</h1>
+          <p className="text-xl text-brand-600 max-w-2xl mx-auto">Norges smarteste plattform for tomteanalyse og tomtesalg. KI-drevet. Skalerbar. Unik markedsposisjon.</p>
+        </div>
+
+        {/* Hva er Tomtly */}
         <div className="bg-white rounded-2xl border border-brand-200 p-8 mb-8">
-          <div className="flex items-center gap-3 mb-6">
-            <User className="w-8 h-8 text-tomtly-accent" />
-            <div>
-              <h2 className="font-display text-2xl font-bold text-tomtly-dark">Bli med på reisen – som megler og salgssjef i Tomtly</h2>
-              <p className="text-brand-500">Tilbud til erfaren eiendomsmegler</p>
+          <h2 className="font-display text-2xl font-bold text-tomtly-dark mb-4 flex items-center gap-2">
+            <Zap className="w-6 h-6 text-tomtly-accent" />
+            Hva er Tomtly?
+          </h2>
+          <p className="text-brand-600 mb-6">
+            Tomtly analyserer hva du kan bygge på en tomt — automatisk. Vi henter data fra 10+ offentlige registre (DiBK, Kartverket, kommuner), tolker reguleringsplaner med KI, og gir tomteeiere en komplett analyse med byggepotensial, husmodeller, 3D-visualisering og verdivurdering.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-brand-50 rounded-xl p-5 border border-brand-200">
+              <Globe className="w-6 h-6 text-tomtly-accent mb-2" />
+              <h3 className="font-semibold text-tomtly-dark mb-1">Hele Norge</h3>
+              <p className="text-sm text-brand-600">Fungerer for alle 356 kommuner. Ingen manuelt arbeid per kommune.</p>
             </div>
-          </div>
-
-          <div className="bg-tomtly-dark rounded-xl p-8 mb-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div>
-                <p className="text-sm text-brand-400 mb-2">Din andel av Tomtlys inntekt</p>
-                <p className="text-5xl font-bold text-white mb-1">{partnerAndel}%</p>
-                <p className="text-brand-400">av all inntekt Tomtly genererer</p>
-              </div>
-              <div>
-                <p className="text-sm text-brand-400 mb-2">Eierskap i Tomtly AS</p>
-                <p className="text-5xl font-bold text-tomtly-gold mb-1">10%</p>
-                <p className="text-brand-400">aksjer i selskapet</p>
-              </div>
+            <div className="bg-brand-50 rounded-xl p-5 border border-brand-200">
+              <Shield className="w-6 h-6 text-tomtly-accent mb-2" />
+              <h3 className="font-semibold text-tomtly-dark mb-1">Ikke megler</h3>
+              <p className="text-sm text-brand-600">Analyseplattform. Tomteeier selger selv. Oppgjør via Proff Oppgjør AS. Ingen meglerforetak-krav.</p>
             </div>
-          </div>
-
-          <div className="bg-forest-50 rounded-xl p-6 border border-forest-200 mb-8">
-            <h3 className="font-semibold text-forest-800 mb-3">Modellen i korte trekk:</h3>
-            <ul className="space-y-2 text-sm text-forest-700">
-              <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-forest-600 flex-shrink-0 mt-0.5" />Ingen fast grunnlønn i startfasen – ren inntektsandel</li>
-              <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-forest-600 flex-shrink-0 mt-0.5" />Du får 20% av all inntekt Tomtly genererer – fra dag 1</li>
-              <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-forest-600 flex-shrink-0 mt-0.5" />Du får 10% eierskap i Tomtly AS – du bygger din egen verdi</li>
-              <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-forest-600 flex-shrink-0 mt-0.5" />Oppgjør på eiendommer gjøres via Propr – vi slipper meglerforetak-krav</li>
-              <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-forest-600 flex-shrink-0 mt-0.5" />Vi er billigere enn tradisjonelle meglere fordi oppgjør er outsourcet til Propr</li>
-              <li className="flex items-start gap-2"><CheckCircle2 className="w-4 h-4 text-forest-600 flex-shrink-0 mt-0.5" />Din rolle: selge analyser, bygge kunderelasjoner, skaffe partnere</li>
-            </ul>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="font-semibold text-tomtly-dark mb-4">Det du slipper:</h3>
-              <ul className="space-y-2">
-                {[
-                  'Ingen visninger – kjøpere kontakter selger direkte',
-                  'Ingen helgearbeid – kontortid, mandag-fredag',
-                  'Ingen budrunder å administrere',
-                  'Ingen oppgjørsprosess (Propr gjør det)',
-                  'Ingen meglerforetak-ansvar',
-                  'Ingen forsikringskrav som megler',
-                  'Ingen klagerisiko – vi analyserer, ikke selger',
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-2 text-sm text-brand-600">
-                    <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />{item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold text-tomtly-dark mb-4">Det du får:</h3>
-              <ul className="space-y-2">
-                {[
-                  '20% av all inntekt Tomtly genererer',
-                  '10% eierskap i Tomtly AS',
-                  'Bygge noe eget fra starten',
-                  'Bruke meglererfaring uten meglerjobben',
-                  'Ubegrenset oppsidepotensial',
-                  'Fleksibilitet og frihet',
-                  'Eierandel som vokser i verdi med selskapet',
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-2 text-sm text-brand-600">
-                    <TrendingUp className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />{item}
-                  </li>
-                ))}
-              </ul>
+            <div className="bg-brand-50 rounded-xl p-5 border border-brand-200">
+              <Users className="w-6 h-6 text-tomtly-accent mb-2" />
+              <h3 className="font-semibold text-tomtly-dark mb-1">B2B + B2C</h3>
+              <p className="text-sm text-brand-600">Selger til tomteeiere direkte + via meglere, kommuner og husleverandører.</p>
             </div>
           </div>
         </div>
 
-        {/* Scenario-kalkulator */}
+        {/* Forretningsmodell */}
         <div className="bg-white rounded-2xl border border-brand-200 p-8 mb-8">
-          <h2 className="font-display text-xl font-bold text-tomtly-dark mb-6">Hva kan du tjene?</h2>
+          <h2 className="font-display text-2xl font-bold text-tomtly-dark mb-6 flex items-center gap-2">
+            <BarChart3 className="w-6 h-6 text-tomtly-accent" />
+            Forretningsmodell – 7 inntektsstrømmer per tomt
+          </h2>
+          <div className="space-y-3 mb-8">
+            {[
+              { nr: '1', navn: 'Tomteanalyse', pris: '9 900 kr', desc: 'Engangspris. Analyse, husmodeller, 3D, verdivurdering, tomterapport.', type: 'Fastpris' },
+              { nr: '2', navn: 'Analyse + Markedsføring', pris: '4 990 kr + 2%', desc: 'Alt i analyse + annonsering, salgsdashboard, Tomtekonsulent, salgsverktøy. 2% tilretteleggingsgebyr ved salg.', type: 'Hybrid' },
+              { nr: '3', navn: 'Oppgjør via Proff Oppgjør AS', pris: 'fra 9 000 kr + mva', desc: 'Betales separat til vår samarbeidspartner Proff Oppgjør AS. Ikke Tomtly-inntekt.', type: 'Partner' },
+              { nr: '4', navn: 'Fradeling', pris: '5% av ny tomts verdi', desc: '0 kr fra Tomtly ved avslag. Kunde betaler kun kommunale gebyrer.', type: 'Provisjon' },
+              { nr: '5', navn: 'Husleverandør-abo', pris: '10 000–20 000 kr/mnd', desc: 'Husmodelleksponering på alle tomter. ABChus, Hedalm-Anebyhus m.fl.', type: 'Abonnement' },
+              { nr: '6', navn: 'Bank lead-fee', pris: '4 900 kr', desc: 'Per innvilget byggelån formidlet til bankpartner.', type: 'Lead-fee' },
+              { nr: '7', navn: 'Megler-analyse', pris: '2 900 kr', desc: 'Eiendomsmeglere bestiller analyser for sine kunder. Lavere pris, høyere volum.', type: 'B2B' },
+            ].map((s) => (
+              <div key={s.nr} className="flex items-start gap-4 bg-brand-50 rounded-xl p-4 border border-brand-200">
+                <div className="w-8 h-8 rounded-full bg-tomtly-accent text-white flex items-center justify-center text-sm font-bold flex-shrink-0">{s.nr}</div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <h3 className="font-semibold text-tomtly-dark">{s.navn}</h3>
+                    <span className="text-[10px] bg-brand-200 text-brand-600 px-1.5 py-0.5 rounded">{s.type}</span>
+                  </div>
+                  <p className="text-sm text-brand-600">{s.desc}</p>
+                </div>
+                <div className="text-right flex-shrink-0">
+                  <p className="font-bold text-tomtly-dark">{s.pris}</p>
+                </div>
+              </div>
+            ))}
+          </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <div>
-              <label className="block text-xs text-brand-500 mb-1">Analyser/mnd</label>
-              <input type="number" value={antallAnalyser} onChange={(e) => setAntallAnalyser(Number(e.target.value))} className="w-full px-3 py-2 border border-brand-200 rounded-lg text-sm" />
-            </div>
-            <div>
-              <label className="block text-xs text-brand-500 mb-1">% som selger (2,5 % prov.)</label>
-              <input type="number" value={synlighetAndel} onChange={(e) => setSynlighetAndel(Number(e.target.value))} className="w-full px-3 py-2 border border-brand-200 rounded-lg text-sm" />
-            </div>
-            <div>
-              <label className="block text-xs text-brand-500 mb-1">% Megler Premium (4 900)</label>
-              <input type="number" value={premiumAndel} onChange={(e) => setPremiumAndel(Number(e.target.value))} className="w-full px-3 py-2 border border-brand-200 rounded-lg text-sm" />
-            </div>
-            <div>
-              <label className="block text-xs text-brand-500 mb-1">Din andel (%)</label>
-              <input type="number" value={partnerAndel} onChange={(e) => setPartnerAndel(Number(e.target.value))} className="w-full px-3 py-2 border border-brand-200 rounded-lg text-sm" />
+          <div className="bg-forest-50 border border-forest-200 rounded-xl p-5">
+            <p className="text-sm text-forest-700">
+              <strong>Forsikringsklausul:</strong> Ved oppsigelse av markedsføringspakken gjelder tilretteleggingsgebyret (2%) fortsatt dersom eiendommen selges innen 3 måneder etter oppsigelsesdato.
+            </p>
+          </div>
+        </div>
+
+        {/* Inntektskalkulator */}
+        <div className="bg-white rounded-2xl border border-brand-200 p-8 mb-8">
+          <h2 className="font-display text-2xl font-bold text-tomtly-dark mb-6 flex items-center gap-2">
+            <TrendingUp className="w-6 h-6 text-tomtly-accent" />
+            Inntektskalkulator
+          </h2>
+
+          <div className="mb-6">
+            <label className="block text-sm text-brand-500 mb-1">Analyser per måned</label>
+            <input type="range" min={5} max={100} value={analyserMnd} onChange={(e) => setAnalyserMnd(Number(e.target.value))} className="w-full" />
+            <div className="flex justify-between text-xs text-brand-400 mt-1">
+              <span>5</span>
+              <span className="font-bold text-tomtly-dark text-lg">{analyserMnd}</span>
+              <span>100</span>
             </div>
           </div>
 
-          {/* Inntektstabell */}
           <div className="bg-brand-50 rounded-xl border border-brand-200 overflow-hidden mb-6">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-brand-200 bg-brand-100">
-                  <th className="text-left py-2 px-4 text-brand-600">Kilde</th>
+                  <th className="text-left py-2 px-4 text-brand-600">Inntektskilde</th>
                   <th className="text-right py-2 px-4 text-brand-600">Antall</th>
-                  <th className="text-right py-2 px-4 text-brand-600">Tomtly inntekt</th>
-                  <th className="text-right py-2 px-4 text-brand-600">Din andel ({partnerAndel}%)</th>
+                  <th className="text-right py-2 px-4 text-brand-600">Pris</th>
+                  <th className="text-right py-2 px-4 text-brand-600">Inntekt/mnd</th>
                 </tr>
               </thead>
               <tbody>
                 {[
-                  { kilde: 'Tomteeier fastpris (4 990 kr)', antall: analyserPure, inntekt: inntektAnalyse },
-                  { kilde: 'Provisjon 2,5 % (snitt 50 000 kr)', antall: analyserSynlighet, inntekt: inntektSynlighet },
-                  { kilde: 'Megler Premium (4 900 kr)', antall: analyserPremium, inntekt: inntektPremium },
-                  { kilde: 'Næringstomter (snitt 24 900 kr)', antall: snittNaering, inntekt: inntektNaering },
-                  { kilde: 'Megler Standard (gratis)', antall: Math.round(antallAnalyser * 0.3), inntekt: inntektMeglere },
-                  { kilde: 'Tegning/søknad (via Konsepthus – 0 kr)', antall: Math.round(antallAnalyser * 0.10), inntekt: inntektAddons },
-                  { kilde: 'Entreprenør-abo', antall: 3, inntekt: inntektEntreprenor },
-                  { kilde: 'Husleverandør-abo', antall: 2, inntekt: inntektHuslev },
-                  { kilde: 'Bank lead-fee', antall: Math.round(antallAnalyser * 0.08), inntekt: inntektBank },
+                  { kilde: 'Tomteanalyse (fastpris)', antall: antFastpris, pris: '9 900 kr', inntekt: inntektFastpris },
+                  { kilde: 'Analyse + Markedsføring (startgebyr)', antall: antMarked, pris: '4 990 kr', inntekt: inntektMarked },
+                  { kilde: 'Tilretteleggingsgebyr 2% ved salg', antall: antSolgt, pris: `${fmt(Math.round(snittSalgssum * tilrettelegging))} kr`, inntekt: inntektProv },
+                  { kilde: 'Megler-analyse (B2B)', antall: antMegler, pris: '2 900 kr', inntekt: inntektMegler },
+                  { kilde: 'Fradeling (5% av ny tomt)', antall: antFradeling, pris: `${fmt(Math.round(snittSalgssum * fradelingProsent))} kr`, inntekt: inntektFradeling },
+                  { kilde: 'Bank lead-fee', antall: antBankLead, pris: '4 900 kr', inntekt: inntektBank },
+                  { kilde: 'Husleverandør-abo (2 stk)', antall: 2, pris: '15 000 kr/mnd', inntekt: inntektHuslev },
                 ].map((r) => (
                   <tr key={r.kilde} className="border-b border-brand-100">
                     <td className="py-2 px-4">{r.kilde}</td>
                     <td className="text-right py-2 px-4">{r.antall}</td>
-                    <td className="text-right py-2 px-4">{fmt(r.inntekt)} kr</td>
-                    <td className="text-right py-2 px-4 font-semibold text-tomtly-accent">{fmt(Math.round(r.inntekt * partnerAndel / 100))} kr</td>
+                    <td className="text-right py-2 px-4 text-brand-500">{r.pris}</td>
+                    <td className="text-right py-2 px-4 font-semibold">{fmt(r.inntekt)} kr</td>
                   </tr>
                 ))}
               </tbody>
               <tfoot>
                 <tr className="bg-tomtly-dark text-white">
-                  <td className="py-3 px-4 font-semibold" colSpan={2}>Totalt per måned</td>
-                  <td className="text-right py-3 px-4 font-bold">{fmt(totalMndInntekt)} kr</td>
-                  <td className="text-right py-3 px-4 font-bold text-tomtly-gold text-lg">{fmt(partnerMnd)} kr</td>
+                  <td className="py-3 px-4 font-semibold" colSpan={3}>Totalt per måned (MRR)</td>
+                  <td className="text-right py-3 px-4 font-bold text-lg">{fmt(totalMnd)} kr</td>
                 </tr>
               </tfoot>
             </table>
           </div>
 
-          {/* Resultat-kort */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-forest-50 rounded-xl p-6 border border-forest-200 text-center">
-              <p className="text-xs text-forest-600 mb-1">Din månedslønn</p>
-              <p className="text-3xl font-bold text-tomtly-accent">{fmt(partnerMnd)} kr</p>
+              <p className="text-xs text-forest-600 mb-1">MRR</p>
+              <p className="text-3xl font-bold text-tomtly-accent">{fmt(totalMnd)} kr</p>
             </div>
             <div className="bg-tomtly-dark rounded-xl p-6 text-center">
-              <p className="text-xs text-brand-400 mb-1">Din årslønn</p>
-              <p className="text-3xl font-bold text-tomtly-gold">{fmt(partnerAar)} kr</p>
+              <p className="text-xs text-brand-400 mb-1">ARR</p>
+              <p className="text-3xl font-bold text-tomtly-gold">{fmt(totalAar)} kr</p>
             </div>
             <div className="bg-brand-50 rounded-xl p-6 border border-brand-200 text-center">
-              <p className="text-xs text-brand-500 mb-1">+ 10% eierskap i Tomtly AS</p>
-              <p className="text-3xl font-bold text-tomtly-dark">
-                <Award className="w-8 h-8 text-tomtly-gold mx-auto" />
-              </p>
-              <p className="text-xs text-brand-500 mt-1">Vokser i verdi med selskapet</p>
-            </div>
-          </div>
-
-          {/* Fordeling */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div className="bg-forest-50 rounded-xl p-6 border border-forest-200">
-              <h4 className="font-semibold text-forest-800 mb-3">Din del</h4>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between"><span className="text-forest-700">{partnerAndel}% av {fmt(totalMndInntekt)} kr</span><span className="font-bold">{fmt(partnerMnd)} kr/mnd</span></div>
-                <div className="flex justify-between"><span className="text-forest-700">Årslønn</span><span className="font-bold">{fmt(partnerAar)} kr</span></div>
-                <div className="flex justify-between pt-2 border-t border-forest-300"><span className="text-forest-700">+ 10% eierskap i Tomtly AS</span><span className="font-bold text-tomtly-gold">Uvurderlig</span></div>
-              </div>
-            </div>
-            <div className="bg-brand-50 rounded-xl p-6 border border-brand-200">
-              <h4 className="font-semibold text-tomtly-dark mb-3">Tomtlys del</h4>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between"><span className="text-brand-600">Inntekt</span><span className="font-semibold">{fmt(totalMndInntekt)} kr/mnd</span></div>
-                <div className="flex justify-between"><span className="text-brand-600">– Din andel ({partnerAndel}%)</span><span className="text-red-500">-{fmt(partnerMnd)} kr</span></div>
-                <div className="flex justify-between"><span className="text-brand-600">– Produksjonskost ({antallAnalyser} × 4k)</span><span className="text-red-500">-{fmt(tomtlyKostnad)} kr</span></div>
-                <div className="flex justify-between pt-2 border-t border-brand-300"><span className="font-semibold">Tomtly netto</span><span className="font-bold">{fmt(tomtlyNetto)} kr/mnd</span></div>
-                <div className="flex justify-between"><span className="text-brand-600">Annualisert</span><span className="font-bold">{fmt(tomtlyNetto * 12)} kr/år</span></div>
-              </div>
-            </div>
-          </div>
-
-          {/* Bar */}
-          <div className="mb-4">
-            <p className="text-xs text-brand-500 mb-2">Inntektsfordeling</p>
-            <div className="flex rounded-lg overflow-hidden h-10">
-              <div className="bg-tomtly-accent flex items-center justify-center text-white text-xs font-semibold px-2" style={{ width: `${Math.max(8, (partnerMnd / totalMndInntekt) * 100)}%` }}>
-                Partner {Math.round((partnerMnd / totalMndInntekt) * 100)}%
-              </div>
-              <div className="bg-brand-300 flex items-center justify-center text-white text-xs font-semibold px-2" style={{ width: `${Math.max(8, (tomtlyKostnad / totalMndInntekt) * 100)}%` }}>
-                Prod. {Math.round((tomtlyKostnad / totalMndInntekt) * 100)}%
-              </div>
-              <div className="bg-tomtly-gold flex items-center justify-center text-tomtly-dark text-xs font-semibold px-2" style={{ width: `${Math.max(8, Math.max(0, tomtlyNetto) / totalMndInntekt * 100)}%` }}>
-                Tomtly {Math.round(Math.max(0, tomtlyNetto) / totalMndInntekt * 100)}%
-              </div>
+              <p className="text-xs text-brand-500 mb-1">Inntekt per analyse (snitt)</p>
+              <p className="text-3xl font-bold text-tomtly-dark">{fmt(Math.round(totalMnd / analyserMnd))} kr</p>
             </div>
           </div>
         </div>
 
-        {/* Oppskalering */}
+        {/* Skaleringsplan */}
         <div className="bg-white rounded-2xl border border-brand-200 p-8 mb-8">
-          <h2 className="font-display text-xl font-bold text-tomtly-dark mb-6">Vei til 1 MNOK+</h2>
+          <h2 className="font-display text-2xl font-bold text-tomtly-dark mb-6 flex items-center gap-2">
+            <Target className="w-6 h-6 text-tomtly-accent" />
+            Skaleringsplan
+          </h2>
           <div className="space-y-4">
             {[
-              { mnd: 'Måned 1-2', analyser: 10, desc: 'Oppstart, lære produkt, kontakte første kunder via FINN-leads og nettverk' },
-              { mnd: 'Måned 3-4', analyser: 20, desc: 'Pipeline bygges, meglerkontakter, gjentagende kunder' },
-              { mnd: 'Måned 5-6', analyser: 30, desc: 'Fullt tempo, næring, entreprenør-abo, husleverandør-abo kommer inn' },
-              { mnd: 'Måned 7-12', analyser: 40, desc: 'Skalering, kommuner, partneravtaler, stabil inntektsstrøm' },
-            ].map((m) => {
-              const estInntekt = m.analyser * 9000 * 0.7
-              const dinAndel = Math.round(estInntekt * partnerAndel / 100)
+              { fase: 'Nå', mnd: 'Q2 2026', analyser: 5, fokus: 'Nesodden-tomter, produkt-validering, megler-piloter', mrr: 5 },
+              { fase: 'Fase 1', mnd: 'Q3 2026', analyser: 15, fokus: 'Oslo/Akershus, megler-kanal, FINN-leads, 2 husleverandører', mrr: 15 },
+              { fase: 'Fase 2', mnd: 'Q4 2026', analyser: 30, fokus: 'Hele Østlandet, kommune-partnerskap, bank-avtaler', mrr: 30 },
+              { fase: 'Fase 3', mnd: 'Q1-Q2 2027', analyser: 60, fokus: 'Nasjonalt, API-integrasjoner, white-label for meglerkjeder', mrr: 60 },
+              { fase: 'Mål', mnd: 'Q4 2027', analyser: 100, fokus: 'Markedsleder tomteanalyse, abonnementsmodell for meglere', mrr: 100 },
+            ].map((f) => {
+              const estMrr = Math.round(f.analyser * (totalMnd / analyserMnd))
               return (
-                <div key={m.mnd} className="flex items-center gap-4 bg-brand-50 rounded-xl p-4 border border-brand-200">
-                  <div className="w-28 flex-shrink-0">
-                    <p className="text-xs font-semibold text-tomtly-accent">{m.mnd}</p>
-                    <p className="text-lg font-bold text-tomtly-dark">{m.analyser}/mnd</p>
+                <div key={f.fase} className="flex items-center gap-4 bg-brand-50 rounded-xl p-4 border border-brand-200">
+                  <div className="w-20 flex-shrink-0">
+                    <p className="text-xs font-semibold text-tomtly-accent">{f.fase}</p>
+                    <p className="text-xs text-brand-500">{f.mnd}</p>
                   </div>
-                  <div className="flex-1"><p className="text-sm text-brand-600">{m.desc}</p></div>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-tomtly-dark">{f.analyser} analyser/mnd</p>
+                    <p className="text-xs text-brand-600">{f.fokus}</p>
+                  </div>
                   <div className="text-right flex-shrink-0">
-                    <p className="text-xs text-brand-500">Din andel/mnd</p>
-                    <p className="font-bold text-tomtly-accent">{fmt(dinAndel)} kr</p>
-                    <p className="text-xs text-brand-400">{fmt(dinAndel * 12)} kr/år</p>
+                    <p className="text-xs text-brand-500">Est. MRR</p>
+                    <p className="font-bold text-tomtly-accent">{fmt(estMrr)} kr</p>
+                    <p className="text-xs text-brand-400">ARR: {fmt(estMrr * 12)} kr</p>
                   </div>
                 </div>
               )
@@ -278,67 +236,52 @@ export default function MeglerPartnerPage() {
           </div>
         </div>
 
-        {/* Propr-forklaringen */}
+        {/* Konkurransefortrinn */}
         <div className="bg-white rounded-2xl border border-brand-200 p-8 mb-8">
-          <h2 className="font-display text-xl font-bold text-tomtly-dark mb-4">Hvorfor Propr + Tomtly fungerer</h2>
+          <h2 className="font-display text-2xl font-bold text-tomtly-dark mb-6">Konkurransefortrinn</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-brand-50 rounded-xl p-5 border border-brand-200">
-              <h3 className="font-semibold text-brand-700 mb-2">Tradisjonell megler</h3>
-              <ul className="space-y-1 text-sm text-brand-600">
-                <li>• Provisjon: 1-3,6% av salgssum</li>
-                <li>• Typisk tomt 3 MNOK → 36 000–108 000 kr</li>
-                <li>• Inkluderer: visning, bud, oppgjør, alt</li>
-                <li>• Megler gjør ALT selv</li>
-              </ul>
-            </div>
-            <div className="bg-forest-50 rounded-xl p-5 border border-forest-200">
-              <h3 className="font-semibold text-forest-700 mb-2">Tomtly + Propr</h3>
-              <ul className="space-y-1 text-sm text-forest-700">
-                <li>• Tomtly: 4 990 kr fastpris + 2,5 % provisjon</li>
-                <li>• Propr: Oppgjør = 9 990 kr</li>
-                <li>• Tomt 2 MNOK: 4 990 + 50 000 + 9 990 = 64 980 kr</li>
-                <li>• <strong>Konkurransedyktig pris, bedre presentasjon</strong></li>
-              </ul>
-            </div>
+            {[
+              { tittel: 'KI-drevet analyse', desc: 'Automatisk tolkning av reguleringsplaner, DOK-data og kommuneplaner. Ingen manuelt arbeid per tomt.' },
+              { tittel: 'Alle 356 kommuner', desc: 'Planslurpen (DiBK) + arealplaner.no + Kartverket gir landsdekkende data fra dag 1.' },
+              { tittel: 'Ikke meglerfirma', desc: 'Tomteeier selger selv. Proff Oppgjør AS håndterer oppgjør. Tomtly er ren analyseplattform — ingen Finanstilsyns-krav.' },
+              { tittel: 'Marginalkonkurranse = 0', desc: 'Ingen andre i Norge tilbyr automatisert tomteanalyse med KI-tolkning av reguleringsbestemmelser.' },
+              { tittel: 'Nettverkseffekt', desc: 'Flere meglere → flere analyser → bedre data → bedre analyser → flere meglere.' },
+              { tittel: 'Lav CAC', desc: 'Leads fra FINN.no-scraping, kommunale postlister, megler-partnerskap. Ingen dyr markedsføring.' },
+            ].map((f) => (
+              <div key={f.tittel} className="flex items-start gap-3">
+                <CheckCircle2 className="w-5 h-5 text-tomtly-accent flex-shrink-0 mt-0.5" />
+                <div>
+                  <h3 className="font-semibold text-tomtly-dark">{f.tittel}</h3>
+                  <p className="text-sm text-brand-600">{f.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
-          <p className="text-sm text-brand-600 mt-4">
-            Selger sparer 10 000–80 000 kr sammenlignet med tradisjonell megler. Tomtly leverer bedre analyse og presentasjon enn noen megler. Propr håndterer det juridiske oppgjøret trygt. Alle vinner.
-          </p>
         </div>
 
-        {/* Sammenligning */}
-        <div className="bg-white rounded-2xl border border-brand-200 p-8">
-          <h2 className="font-display text-xl font-bold text-tomtly-dark mb-6">Tomtly vs. tradisjonell megling</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-brand-200">
-                  <th className="text-left py-3 px-4 text-brand-500"></th>
-                  <th className="text-left py-3 px-4 text-brand-500">Tradisjonell megler</th>
-                  <th className="text-left py-3 px-4 text-tomtly-accent font-bold">Tomtly</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ['Arbeidstid', 'Kvelder, helger, visninger', 'Kontortid, mandag-fredag'],
-                  ['Visninger', '3-10 per eiendom', 'Ingen – kjøper kontakter selger'],
-                  ['Budrunder', 'Håndterer bud og forhandling', 'Vår megler håndterer salget'],
-                  ['Oppgjør', 'Ansvar for oppgjørsprosess', 'Outsourcet til Propr (9 990 kr)'],
-                  ['Forsikring', 'Meglerforskring påkrevd', 'Ikke nødvendig'],
-                  ['Klagerisiko', 'Reklamasjonsnemnd', 'Minimal – profesjonell prosess'],
-                  ['Inntektsmodell', '1-3,6% provisjon, 10-15 salg/år', '4 990 kr + 2,5 % provisjon, 30+ per mnd'],
-                  ['Din lønn', '500-800k (ansatt), usikkert (selvstendig)', '20% av inntekt + 10% eierskap'],
-                  ['Stress', 'Høyt – deadline, kvelder, press', 'Lavt – kontorbasert, B2B-salg'],
-                  ['Oppside', 'Lineært – flere timer = mer penger', 'Eksponentielt – eierskap vokser'],
-                ].map(([kat, trad, tomtly]) => (
-                  <tr key={kat} className="border-b border-brand-100">
-                    <td className="py-3 px-4 font-medium text-brand-700">{kat}</td>
-                    <td className="py-3 px-4 text-brand-500">{trad}</td>
-                    <td className="py-3 px-4 text-tomtly-dark font-medium">{tomtly}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {/* Selskapsinfo */}
+        <div className="bg-tomtly-dark rounded-2xl p-8 text-white">
+          <h2 className="font-display text-2xl font-bold mb-6">Selskapsinfo</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div>
+              <p className="text-xs text-brand-400 mb-1">Selskap</p>
+              <p className="font-bold">NOPS AS</p>
+              <p className="text-xs text-brand-400">Org.nr 933 819 086</p>
+            </div>
+            <div>
+              <p className="text-xs text-brand-400 mb-1">Produkt</p>
+              <p className="font-bold">tomtly.no</p>
+            </div>
+            <div>
+              <p className="text-xs text-brand-400 mb-1">Grunnlegger</p>
+              <p className="font-bold">Jakob Bjøndal</p>
+              <p className="text-xs text-brand-400">hey@nops.no</p>
+            </div>
+            <div>
+              <p className="text-xs text-brand-400 mb-1">Status</p>
+              <p className="font-bold text-tomtly-gold">Pre-revenue</p>
+              <p className="text-xs text-brand-400">Produkt live</p>
+            </div>
           </div>
         </div>
       </div>

@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { PDFDocument, rgb, StandardFonts, PDFPage, PDFFont, RGB } from 'pdf-lib'
+import { hentBygningerForMatrikkel, hentRosForMatrikkel, type NorkartRosData } from '@/lib/norkart'
 
-// Genererer DOK-analyse PDF-rapport
-// POST { lat, lon, adresse, kommune, gnr, bnr }
+// Genererer DOK-analyse PDF-rapport med Norkart ROS-data
+// POST { lat, lon, adresse, kommune, kommunenummer, gnr, bnr }
 
 const DOK_API = 'https://kartverket-ogc-api.azurewebsites.net/processes/fullstendighetsdekning/execution'
 
@@ -50,8 +51,8 @@ const NATURFARE_ITEMS: NaturfareItem[] = [
 export async function POST(request: NextRequest) {
   let body: Record<string, unknown> = {}
   try { body = await request.json() } catch { /* empty body fallback */ }
-  const { lat, lon, adresse, kommune, gnr, bnr } = body as {
-    lat?: number; lon?: number; adresse?: string; kommune?: string; gnr?: string; bnr?: string
+  const { lat, lon, adresse, kommune, kommunenummer, gnr, bnr } = body as {
+    lat?: number; lon?: number; adresse?: string; kommune?: string; kommunenummer?: string; gnr?: string; bnr?: string
   }
 
   if (!lat || !lon) {
@@ -73,6 +74,18 @@ export async function POST(request: NextRequest) {
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err)
     return NextResponse.json({ error: `DOK-henting feilet: ${message}` }, { status: 502 })
+  }
+
+  // 1b. Hent Norkart ROS + Bygningsdata parallelt
+  let norkartRos: { RosData?: Array<NorkartRosData & { Grunnkretsnavn?: string; Poststed?: string; Postnummer?: string }> } | null = null
+  let norkartBygninger: any[] = []
+  if (kommunenummer && gnr && bnr) {
+    const [rosRes, bygRes] = await Promise.allSettled([
+      hentRosForMatrikkel(kommunenummer, gnr, bnr),
+      hentBygningerForMatrikkel(kommunenummer, gnr, bnr),
+    ])
+    if (rosRes.status === 'fulfilled' && rosRes.value) norkartRos = rosRes.value
+    if (bygRes.status === 'fulfilled' && bygRes.value?.Bygninger) norkartBygninger = bygRes.value.Bygninger
   }
 
   // 2. Fetch map tile from Kartverket
@@ -225,10 +238,12 @@ export async function POST(request: NextRequest) {
 
       const info = [
         adresse ? `Adresse: ${adresse}` : null,
-        kommune ? `Kommune: ${kommune}` : null,
+        kommune ? `Kommune: ${kommune}${kommunenummer ? ` (${kommunenummer})` : ''}` : null,
         gnr && bnr ? `Gnr/Bnr: ${gnr}/${bnr}` : null,
         `Koordinater: ${Number(lat).toFixed(5)}, ${Number(lon).toFixed(5)}`,
-        `Datasett sjekket: ${coverages.length}`,
+        `DOK-datasett sjekket: ${coverages.length}`,
+        norkartBygninger.length > 0 ? `Bygninger: ${norkartBygninger.length} registrert` : null,
+        norkartRos ? 'Norkart ROS-analyse: Tilgjengelig' : null,
       ].filter(Boolean) as string[]
 
       info.forEach((line, i) => {
@@ -480,6 +495,165 @@ export async function POST(request: NextRequest) {
     y -= 10
   }
 
+  // ─── Norkart ROS — Risiko og sårbarhet ──────────────────────────
+  if (norkartRos?.RosData?.length) {
+    const ros = norkartRos.RosData[0]
+    checkSpace(50)
+    drawText('NORKART RISIKO OG SÅRBARHET', margin, y, { font: fontBold, size: 13, color: black })
+    y -= 5
+    drawRect(margin, y - 1, 60, 3, tomtlyGreen)
+    y -= 18
+    drawText('Analyse fra Norkart WAAPI-ROS. Daglig oppdatert mot NVE, Miljødirektoratet, Riksantikvaren m.fl.', margin, y, { size: 8, color: lightGray, font: fontItalic })
+    y -= 18
+
+    // ROS items table
+    const rosItems: Array<{ faktor: string; verdi: string; status: 'ok' | 'advarsel' | 'fare' }> = []
+
+    // Flom
+    if (ros.Flom && ros.Flom !== 'Ikke kartlagt' && ros.Flom !== 'Nei, karttlagt') {
+      rosItems.push({ faktor: 'Flomsone', verdi: `Gjentaksintervall: ${ros.Flom} år`, status: 'fare' })
+    } else if (ros.AktsomhetFlom) {
+      rosItems.push({ faktor: 'Aktsomhet flom', verdi: 'Innenfor aktsomhetsområde', status: 'advarsel' })
+    } else {
+      rosItems.push({ faktor: 'Flom', verdi: ros.Flom || 'Ingen data', status: 'ok' })
+    }
+
+    // Kvikkleire
+    if (ros.Kvikkleire && ros.Kvikkleire !== 'Nei' && ros.Kvikkleire !== 'Ikke kartlagt') {
+      rosItems.push({ faktor: 'Kvikkleire', verdi: ros.Kvikkleire, status: ros.Kvikkleire.includes('Høy') ? 'fare' : 'advarsel' })
+    } else {
+      rosItems.push({ faktor: 'Kvikkleire', verdi: ros.Kvikkleire || 'Ikke kartlagt', status: 'ok' })
+    }
+
+    // Skred
+    if (ros.Steinsprang || ros.Snoskred || ros.JordEllerFlomSkredfare) {
+      const t = [ros.Steinsprang && 'Steinsprang', ros.Snoskred && 'Snøskred', ros.JordEllerFlomSkredfare && 'Jord/flomskred'].filter(Boolean)
+      rosItems.push({ faktor: 'Skredfare', verdi: t.join(', '), status: 'fare' })
+    } else {
+      rosItems.push({ faktor: 'Skredfare', verdi: 'Ingen registrert', status: 'ok' })
+    }
+
+    // Stormflo
+    if (ros.FareForStormFlo && ros.FareForStormFlo !== 'Nei') {
+      rosItems.push({ faktor: 'Stormflo', verdi: `${ros.FareForStormFlo} års gjentaksintervall`, status: 'fare' })
+    } else {
+      rosItems.push({ faktor: 'Stormflo', verdi: 'Nei', status: 'ok' })
+    }
+    if (ros.FareForStormFlo2100 && ros.FareForStormFlo2100 !== 'Nei') {
+      rosItems.push({ faktor: 'Stormflo 2100-prognose', verdi: ros.FareForStormFlo2100, status: 'advarsel' })
+    }
+
+    // Kraftledning
+    if (ros.Kraftledning && ros.Kraftledning !== 'Nei') {
+      rosItems.push({ faktor: 'Kraftledning/høyspent', verdi: `Innenfor ${ros.Kraftledning}`, status: 'advarsel' })
+    } else {
+      rosItems.push({ faktor: 'Kraftledning/høyspent', verdi: 'Nei', status: 'ok' })
+    }
+
+    // Brannstasjon
+    if (ros.AvstandBrannstasjon != null) {
+      rosItems.push({
+        faktor: 'Avstand brannstasjon',
+        verdi: `${ros.AvstandBrannstasjon.toFixed(1)} km – ${ros.Brannstasjon || ''} (${ros.Kasernert === 'DN' ? 'Døgnkasernert' : ros.Kasernert === 'DA' ? 'Dagkasernert' : 'Ikke kasernert'})`,
+        status: (ros.AvstandBrannstasjon > 15) ? 'advarsel' : 'ok',
+      })
+    }
+
+    // Kulturminner
+    if (ros.FredaBygg) rosItems.push({ faktor: 'Fredet bygg', verdi: ros.FredabyggNavn || 'Ja', status: 'fare' })
+    if (ros.Enkeltminne) rosItems.push({ faktor: 'Enkeltminne (kulturminne)', verdi: ros.EnkeltminneNavn || 'Ja', status: 'advarsel' })
+    if (ros.Kulturmiljo) rosItems.push({ faktor: 'Kulturmiljø', verdi: ros.KulturmiljoNavn || 'Ja', status: 'advarsel' })
+    if (ros.Verneomrade) rosItems.push({ faktor: 'Verneområde', verdi: ros.VerneomradeNavn || 'Ja', status: 'fare' })
+    if (ros.Sikringssone) rosItems.push({ faktor: 'Sikringssone', verdi: ros.SikringssoneNavn || 'Ja', status: 'advarsel' })
+
+    // Diverse
+    if (ros.Kyst && ros.Kyst !== 'Nei') rosItems.push({ faktor: 'Strandsone', verdi: `Innenfor ${ros.Kyst} fra kystlinje`, status: 'advarsel' })
+    if (ros.Brannsmittesone) rosItems.push({ faktor: 'Brannsmittesone', verdi: 'Tett trehusmiljø med høy brannsmittefare', status: 'fare' })
+    if (ros.OyUtenFastlandsforbindelse && ros.OyUtenFastlandsforbindelse !== 'Nei') {
+      rosItems.push({ faktor: 'Øy-tilknytning', verdi: ros.OyUtenFastlandsforbindelse, status: 'advarsel' })
+    }
+    if (ros.NedborAar) rosItems.push({ faktor: 'Nedbør (årlig)', verdi: `${ros.NedborAar} mm`, status: 'ok' })
+    if (ros.HarSkredHendelse) rosItems.push({ faktor: 'Skredhendelse', verdi: 'Registrert tidligere hendelse', status: 'fare' })
+
+    // ROS table header
+    drawRect(margin, y - 16, contentW, 16, tomtlyGreen)
+    drawText('Risikofaktor', margin + 8, y - 12, { font: fontBold, size: 8, color: white })
+    drawText('Verdi / detaljer', margin + contentW * 0.35, y - 12, { font: fontBold, size: 8, color: white })
+    drawText('Vurdering', margin + contentW * 0.82, y - 12, { font: fontBold, size: 8, color: white })
+    y -= 18
+
+    for (let ri = 0; ri < rosItems.length; ri++) {
+      checkSpace(16)
+      const item = rosItems[ri]
+      const rowBg = item.status === 'fare' ? (ri % 2 === 0 ? bgRed : rgb(0.97, 0.91, 0.91)) :
+                    item.status === 'advarsel' ? (ri % 2 === 0 ? bgAmber : rgb(0.98, 0.95, 0.87)) :
+                    (ri % 2 === 0 ? bgGreen : rgb(0.91, 0.96, 0.92))
+      const statusColor = item.status === 'fare' ? red : item.status === 'advarsel' ? amber : tomtlyGreen
+      const statusText = item.status === 'fare' ? 'FARE' : item.status === 'advarsel' ? 'ADVARSEL' : 'OK'
+
+      drawRect(margin, y - 14, contentW, 16, rowBg)
+      drawText(item.faktor, margin + 8, y - 10, { size: 8, color: black })
+
+      // Truncate long values
+      let verdi = item.verdi
+      const maxVerdiW = contentW * 0.45
+      while (font.widthOfTextAtSize(verdi, 8) > maxVerdiW && verdi.length > 10) {
+        verdi = verdi.substring(0, verdi.length - 4) + '...'
+      }
+      drawText(verdi, margin + contentW * 0.35, y - 10, { size: 8, color: gray })
+      drawText(statusText, margin + contentW * 0.82, y - 10, { size: 8, font: fontBold, color: statusColor })
+      y -= 16
+    }
+
+    // Grunnkrets info
+    if (ros.Grunnkretsnavn || ros.Poststed) {
+      y -= 8
+      drawText(
+        `Grunnkrets: ${ros.Grunnkretsnavn || '–'} | Postnummer: ${ros.Postnummer || '–'} ${ros.Poststed || ''}`,
+        margin, y, { size: 7, color: lightGray }
+      )
+      y -= 10
+    }
+
+    y -= 15
+  }
+
+  // ─── Bygningsdata fra Norkart ──────────────────────────────────
+  if (norkartBygninger.length > 0) {
+    checkSpace(40 + norkartBygninger.length * 16)
+    drawText('REGISTRERTE BYGNINGER', margin, y, { font: fontBold, size: 13, color: black })
+    y -= 5
+    drawRect(margin, y - 1, 60, 3, tomtlyGreen)
+    y -= 18
+    drawText('Matrikkeldata fra Norkart WAAPI-Bygning. Inkluderer FKB-data og arealberegninger.', margin, y, { size: 8, color: lightGray, font: fontItalic })
+    y -= 16
+
+    drawRect(margin, y - 14, contentW, 14, tomtlyGreen)
+    drawText('Bygningstype', margin + 8, y - 10, { font: fontBold, size: 7, color: white })
+    drawText('Status', margin + contentW * 0.35, y - 10, { font: fontBold, size: 7, color: white })
+    drawText('BRA', margin + contentW * 0.55, y - 10, { font: fontBold, size: 7, color: white })
+    drawText('Taktype', margin + contentW * 0.68, y - 10, { font: fontBold, size: 7, color: white })
+    drawText('Byggeår', margin + contentW * 0.83, y - 10, { font: fontBold, size: 7, color: white })
+    y -= 16
+
+    for (let bi = 0; bi < norkartBygninger.length; bi++) {
+      checkSpace(16)
+      const b = norkartBygninger[bi]
+      const md = b.MatrikkelData || {}
+      const ba = b.ByggAreal || {}
+
+      if (bi % 2 === 0) drawRect(margin, y - 12, contentW, 14, bgLight)
+
+      drawText(md.Bygningstype || '–', margin + 8, y - 9, { size: 7, color: black })
+      drawText(md.Bygningstatus || '–', margin + contentW * 0.35, y - 9, { size: 7, color: gray })
+      drawText(md.Bruksarealtotalt ? `${md.Bruksarealtotalt} m²` : (ba.BruttoarealBeregnet ? `~${Math.round(ba.BruttoarealBeregnet)} m²` : '–'), margin + contentW * 0.55, y - 9, { size: 7, color: gray })
+      drawText(ba.Taktype || '–', margin + contentW * 0.68, y - 9, { size: 7, color: gray })
+      drawText(md.AntattByggeaar > 0 ? String(md.AntattByggeaar) : '–', margin + contentW * 0.83, y - 9, { size: 7, color: gray })
+      y -= 14
+    }
+    y -= 15
+  }
+
   // ─── Konklusjon ─────────────────────────────────────────────────
   checkSpace(120)
   drawText('KONKLUSJON', margin, y, { font: fontBold, size: 13, color: black })
@@ -527,8 +701,23 @@ export async function POST(request: NextRequest) {
     }
   }
 
+  if (norkartRos?.RosData?.length) {
+    const rosIssues = []
+    const ros = norkartRos.RosData[0]
+    if (ros.Kraftledning && ros.Kraftledning !== 'Nei') rosIssues.push(`kraftledning innenfor ${ros.Kraftledning}`)
+    if (ros.Kyst && ros.Kyst !== 'Nei') rosIssues.push('strandsone')
+    if (ros.Brannsmittesone) rosIssues.push('brannsmittesone')
+    if (ros.FredaBygg || ros.Enkeltminne || ros.Kulturmiljo) rosIssues.push('kulturminne-registrering')
+    if (ros.Verneomrade) rosIssues.push('verneområde')
+    if (rosIssues.length > 0) {
+      conclusionLines.push(`Norkart ROS-analyse identifiserte følgende: ${rosIssues.join(', ')}. Disse forholdene bør vurderes nærmere.`)
+    } else {
+      conclusionLines.push('Norkart ROS-analyse viste ingen vesentlige risiko- eller sårbarhetsfunn utover det som er dekket av DOK-data.')
+    }
+  }
+
   conclusionLines.push(
-    'Merk: Denne rapporten er basert på tilgjengelige nasjonale kartdata og erstatter ikke stedsspesifikke grunnundersøkelser, geotekniske vurderinger eller kommunale dispensasjoner.'
+    'Merk: Denne rapporten er basert på tilgjengelige nasjonale kartdata (Kartverket DOK' + (norkartRos ? ' og Norkart ROS' : '') + ') og erstatter ikke stedsspesifikke grunnundersøkelser, geotekniske vurderinger eller kommunale dispensasjoner.'
   )
 
   for (const para of conclusionLines) {
@@ -547,7 +736,7 @@ export async function POST(request: NextRequest) {
   checkSpace(50)
   drawLine(y)
   y -= 12
-  drawText('Datakilde: Kartverket – DOK fullstendighetsdekning (kartverket-ogc-api.azurewebsites.net)', margin, y, { size: 7, color: lightGray })
+  drawText(`Datakilder: Kartverket DOK${norkartRos ? ', Norkart WAAPI-ROS, Norkart WAAPI-Bygning' : ''}`, margin, y, { size: 7, color: lightGray })
   y -= 10
   drawText('Denne rapporten er automatisk generert og er veiledende. For juridisk bindende informasjon, kontakt kommunen.', margin, y, { size: 7, color: lightGray })
   y -= 10

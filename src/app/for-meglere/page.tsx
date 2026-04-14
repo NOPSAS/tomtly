@@ -69,58 +69,29 @@ function Pakker() {
     <section id="pakker" className="bg-white py-20 lg:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-10 text-center">
-          To pakker for meglere
+          Pakker for meglere
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          {/* Standard – gratis */}
-          <div className="bg-white rounded-2xl p-8 border-2 border-brand-200">
-            <div className="text-sm font-medium text-brand-500 mb-2">Megler Standard</div>
-            <div className="flex items-baseline gap-1 mb-1">
-              <span className="text-4xl font-bold text-tomtly-dark">Gratis</span>
-            </div>
-            <p className="text-sm text-brand-500 mb-5">Publisering på Tomtly</p>
-            <ul className="space-y-2 mb-6">
-              {[
-                'Publiser tomter gratis på Tomtly',
-                'Synlig for aktive tomtekjøpere',
-                'Kjøpere kontakter megler direkte',
-                'Tomtly tar ingenting av provisjon',
-                'Du beholder hele provisjonen din',
-              ].map((f) => (
-                <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
-                  <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <a
-              href="#registrering"
-              className="block w-full text-center px-4 py-3 border-2 border-tomtly-accent text-tomtly-accent font-medium rounded-lg hover:bg-forest-50 transition-colors"
-            >
-              Kom i gang – gratis
-            </a>
-          </div>
-
-          {/* Premium */}
+          {/* Enkeltanalyse */}
           <div className="bg-white rounded-2xl p-8 border-2 border-tomtly-accent relative">
             <div className="absolute -top-3 right-6 px-3 py-1 bg-tomtly-accent text-white text-xs font-semibold rounded-full">
-              Anbefalt
+              Per tomt
             </div>
-            <div className="text-sm font-medium text-brand-500 mb-2">Megler Premium</div>
+            <div className="text-sm font-medium text-brand-500 mb-2">Tomtly-analyse</div>
             <div className="flex items-baseline gap-1 mb-1">
-              <span className="text-4xl font-bold text-tomtly-dark">4 900</span>
-              <span className="text-brand-500">kr</span>
+              <span className="text-4xl font-bold text-tomtly-dark">7 500</span>
+              <span className="text-brand-500">kr per tomt + mva</span>
             </div>
-            <p className="text-sm text-brand-500 mb-5">Full analyse + maksimal synlighet</p>
+            <p className="text-sm text-brand-500 mb-5">Komplett analyse du kan bruke i salgsoppgaven</p>
             <ul className="space-y-2 mb-6">
               {[
                 'Komplett mulighetsstudie med husmodeller',
                 'Byggekostnadskalkyle og visualiseringer',
-                'Fremhevet plassering på Tomtly',
-                'SoMe-promotering av tomten',
+                'Plassering av hus på kart',
                 'Bankferdig prosjektbeskrivelse',
                 'Profesjonelt materiale for salgsoppgave',
                 'Viderefakturerbar til selger',
+                'Tomtly tar ingenting av provisjonen din',
               ].map((f) => (
                 <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
                   <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
@@ -132,7 +103,42 @@ function Pakker() {
               href="#registrering"
               className="block w-full text-center px-4 py-3 bg-tomtly-accent text-white font-medium rounded-lg hover:bg-forest-700 transition-colors"
             >
-              Bestill Premium
+              Bestill analyse
+            </a>
+          </div>
+
+          {/* White-label abo */}
+          <div className="bg-white rounded-2xl p-8 border-2 border-tomtly-gold relative">
+            <div className="absolute -top-3 right-6 px-3 py-1 bg-tomtly-gold text-tomtly-dark text-xs font-semibold rounded-full">
+              For meglerkontor
+            </div>
+            <div className="text-sm font-medium text-brand-500 mb-2">Tomtly White Label</div>
+            <div className="flex items-baseline gap-1 mb-1">
+              <span className="text-4xl font-bold text-tomtly-dark">25 000</span>
+              <span className="text-brand-500">kr/mnd + mva</span>
+            </div>
+            <p className="text-sm text-brand-500 mb-5">Ubegrenset analyser, 12 mnd binding</p>
+            <ul className="space-y-2 mb-6">
+              {[
+                'Ubegrenset Tomtly-analyser per måned',
+                'Alle meglere på kontoret kan bestille',
+                'Eget dashboard for kontoret',
+                '"Powered by Tomtly" — din merkevare i front',
+                'Prioritert support og leveringstid',
+                'Inkl. alt i enkeltanalyse-pakken',
+                'Du differensierer deg fra andre meglerhus',
+              ].map((f) => (
+                <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
+                  <CheckCircle2 className="w-4 h-4 text-tomtly-gold flex-shrink-0 mt-0.5" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <a
+              href="mailto:hey@nops.no?subject=Tomtly White Label for meglerkontor"
+              className="block w-full text-center px-4 py-3 bg-tomtly-dark text-white font-medium rounded-lg hover:bg-brand-800 transition-colors"
+            >
+              Ta kontakt
             </a>
           </div>
         </div>
@@ -152,7 +158,7 @@ function ROI() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
             <div>
               <p className="text-sm text-brand-500 mb-1">Du investerer</p>
-              <p className="text-3xl font-bold text-tomtly-dark">4 900 kr</p>
+              <p className="text-3xl font-bold text-tomtly-dark">7 500 kr</p>
             </div>
             <div>
               <p className="text-sm text-brand-500 mb-1">Din provisjon</p>
@@ -160,7 +166,7 @@ function ROI() {
             </div>
             <div>
               <p className="text-sm text-brand-500 mb-1">ROI</p>
-              <p className="text-3xl font-bold text-green-600">10x</p>
+              <p className="text-3xl font-bold text-green-600">7x</p>
             </div>
           </div>
           <p className="text-sm text-brand-500 mt-6">
@@ -176,7 +182,7 @@ function FAQ() {
   const faqs = [
     {
       sporsmal: 'Kan jeg viderefakturere Premium-pakken til selger?',
-      svar: 'Ja. De fleste meglere legger tomtanalysen inn som del av salgspakken. Selger betaler 4 900 kr, du differensierer deg fra andre meglere – og kjøpere ser konkret hva de kan bygge.',
+      svar: 'Ja. De fleste meglere legger tomtanalysen inn som del av salgspakken. Selger betaler 7 500 kr + mva, du differensierer deg fra andre meglere – og kjøpere ser konkret hva de kan bygge.',
     },
     {
       sporsmal: 'Tar Tomtly noe av provisjonen min?',
@@ -188,7 +194,7 @@ function FAQ() {
     },
     {
       sporsmal: 'Kan jeg teste med én tomt først?',
-      svar: 'Absolutt. Standard er gratis – bare registrer deg. Eller test Premium med én tomt for 4 900 kr og se resultatet.',
+      svar: 'Absolutt. Bestill én analyse for 7 500 kr + mva og se resultatet. Eller ta kontakt om White Label-abonnement for hele kontoret (25 000 kr/mnd + mva, 12 mnd binding, ubegrenset analyser).',
     },
   ]
 

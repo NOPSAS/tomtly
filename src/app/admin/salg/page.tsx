@@ -105,21 +105,21 @@ function Malgrupper() {
                 <td className="py-3 pr-4 font-medium text-tomtly-dark">Tomteeiere (privat)</td>
                 <td className="py-3 px-4 text-brand-600">Eier selv</td>
                 <td className="py-3 px-4 text-brand-600">1 tomt</td>
-                <td className="py-3 px-4 text-brand-600">4 900 kr</td>
+                <td className="py-3 px-4 text-brand-600">9 900 kr / 4 990 kr + 2%</td>
                 <td className="py-3 px-4"><PriorityBadge level="hoy" label="Hoy (volum)" /></td>
               </tr>
               <tr>
                 <td className="py-3 pr-4 font-medium text-tomtly-dark">Eiendomsmeglere</td>
                 <td className="py-3 px-4 text-brand-600">Fagansvarlig / daglig leder</td>
                 <td className="py-3 px-4 text-brand-600">5-50 meglere</td>
-                <td className="py-3 px-4 text-brand-600">7 500 kr/mnd</td>
+                <td className="py-3 px-4 text-brand-600">2 900 kr/analyse</td>
                 <td className="py-3 px-4"><PriorityBadge level="hoy" label="Hoy (recurring)" /></td>
               </tr>
               <tr>
                 <td className="py-3 pr-4 font-medium text-tomtly-dark">Ferdighusleverandører</td>
                 <td className="py-3 px-4 text-brand-600">Markedssjef / salgssjef</td>
                 <td className="py-3 px-4 text-brand-600">10-200 ansatte</td>
-                <td className="py-3 px-4 text-brand-600">5 000+ kr/mnd</td>
+                <td className="py-3 px-4 text-brand-600">10 000–20 000 kr/mnd</td>
                 <td className="py-3 px-4"><PriorityBadge level="middels" label="Middels (strategisk)" /></td>
               </tr>
               <tr>

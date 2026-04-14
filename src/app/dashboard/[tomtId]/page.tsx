@@ -192,7 +192,7 @@ const CASES: Record<string, TomtCase> = {
       { steg: 'Gjennomfør visninger', status: 'future' },
       { steg: 'Motta bud', status: 'future' },
       { steg: 'Aksepter bud', status: 'future' },
-      { steg: 'Oppgjør via Propr', status: 'future' },
+      { steg: 'Oppgjør via Proff Oppgjør', status: 'future' },
       { steg: 'Overlevering', status: 'future' },
     ],
     sammenlignbare: [
@@ -203,9 +203,9 @@ const CASES: Record<string, TomtCase> = {
       { adresse: 'Kirkeveien 22, Nesodden', areal: 740, pris: 2450000, dato: 'Sep 2025' },
     ],
     pakkeBeskrivelse: 'Fullstendig tomteanalyse og aktiv markedsføring via tomtly. Inkluderer tomterapport, annonsering, faglig oppfølging og Tomtekonsulent-støtte.',
-    pakkeFeatures: ['Tomterapport', 'Mulighetsstudie', 'Profesjonelle bilder', 'Annonsering', 'Tomtekonsulent-støtte', 'Oppgjør via Propr'],
+    pakkeFeatures: ['Tomterapport', 'Mulighetsstudie', 'Profesjonelle bilder', 'Annonsering', 'Tomtekonsulent-støtte', 'Oppgjør via Proff Oppgjør'],
     pakkePris: '4 990 kr',
-    pakkeProvisjon: '+ 2,5 % ved salg',
+    pakkeProvisjon: '+ 2 % suksesshonorar + mva ved salg',
     tomtepresentasjonLink: '/tomter/bjornemyrveien-20',
     shareUrl: 'tomtly.no/tomt/3212/1/1011',
   },
@@ -315,7 +315,7 @@ const CASES: Record<string, TomtCase> = {
       { steg: 'Gjennomfør visninger', status: 'future' },
       { steg: 'Motta bud', status: 'future' },
       { steg: 'Aksepter bud', status: 'future' },
-      { steg: 'Oppgjør via Propr', status: 'future' },
+      { steg: 'Oppgjør via Proff Oppgjør', status: 'future' },
       { steg: 'Overlevering', status: 'future' },
     ],
     sammenlignbare: [
@@ -326,9 +326,9 @@ const CASES: Record<string, TomtCase> = {
       { adresse: 'Kirkeveien 22, Nesodden', areal: 740, pris: 2450000, dato: 'Sep 2025' },
     ],
     pakkeBeskrivelse: 'Fullstendig tomteanalyse og aktiv markedsføring via tomtly. Inkluderer tomterapport, annonsering, faglig oppfølging og Tomtekonsulent-støtte.',
-    pakkeFeatures: ['Tomterapport', 'Mulighetsstudie', 'Profesjonelle bilder', 'Annonsering', 'Tomtekonsulent-støtte', 'Oppgjør via Propr'],
+    pakkeFeatures: ['Tomterapport', 'Mulighetsstudie', 'Profesjonelle bilder', 'Annonsering', 'Tomtekonsulent-støtte', 'Oppgjør via Proff Oppgjør'],
     pakkePris: '4 990 kr',
-    pakkeProvisjon: '+ 2,5 % ved salg',
+    pakkeProvisjon: '+ 2 % suksesshonorar + mva ved salg',
     tomtepresentasjonLink: '/tomter/bjornemyrveien-22',
     shareUrl: 'tomtly.no/tomt/3212/1/1012',
   },
@@ -359,7 +359,7 @@ const CASES: Record<string, TomtCase> = {
     aktiviteter: [
       { id: 1, type: 'rapport', icon: '📈', tid: '2 dager siden', tekst: 'Tomtescore beregnet: 7.2/10 – godt potensial på Nesodden.', harHandling: false },
       { id: 2, type: 'system', icon: '✅', tid: '3 dager siden', tekst: 'Tomterapport ferdigstilt for Gamle Alværnvei 7.', harHandling: false },
-      { id: 3, type: 'system', icon: '✅', tid: '5 dager siden', tekst: 'Tomt registrert i tomtly – analyse startet.', harHandling: false },
+      { id: 3, type: 'system', icon: '✅', tid: '5 dager siden', tekst: 'Tomt registrert i Tomtly – analyse startet.', harHandling: false },
     ],
     tomtDetaljer: {
       regulering: 'Boligbebyggelse – frittliggende småhusbebyggelse',
@@ -395,7 +395,7 @@ const CASES: Record<string, TomtCase> = {
       { steg: 'Gjennomfør visninger', status: 'future' },
       { steg: 'Motta bud', status: 'future' },
       { steg: 'Aksepter bud', status: 'future' },
-      { steg: 'Oppgjør via Propr', status: 'future' },
+      { steg: 'Oppgjør via Proff Oppgjør', status: 'future' },
       { steg: 'Overlevering', status: 'future' },
     ],
     sammenlignbare: [
@@ -501,7 +501,7 @@ const CASES: Record<string, TomtCase> = {
       { steg: 'Gjennomfør visninger', status: 'future' },
       { steg: 'Motta bud', status: 'future' },
       { steg: 'Aksepter bud', status: 'future' },
-      { steg: 'Oppgjør via Propr', status: 'future' },
+      { steg: 'Oppgjør via Proff Oppgjør', status: 'future' },
       { steg: 'Overlevering', status: 'future' },
     ],
     sammenlignbare: [
@@ -509,9 +509,9 @@ const CASES: Record<string, TomtCase> = {
       { adresse: 'Demogate 12', areal: 920, pris: 3100000, dato: 'Des 2025' },
     ],
     pakkeBeskrivelse: 'Komplett analyse, markedsføring og salg via autorisert Tomtekonsulent. Inkluderer tomterapport, annonsering og faglig oppfølging.',
-    pakkeFeatures: ['Tomterapport', 'Mulighetsstudie', 'Profesjonelle bilder', 'Annonsering', 'Tomtekonsulent-støtte', 'Oppgjør via Propr'],
+    pakkeFeatures: ['Tomterapport', 'Mulighetsstudie', 'Profesjonelle bilder', 'Annonsering', 'Tomtekonsulent-støtte', 'Oppgjør via Proff Oppgjør'],
     pakkePris: '4 990 kr',
-    pakkeProvisjon: '+ 2,5 % ved salg',
+    pakkeProvisjon: '+ 2 % suksesshonorar + mva ved salg',
     tomtepresentasjonLink: '#',
     shareUrl: 'tomtly.no/tomt/demo',
   },
@@ -648,7 +648,7 @@ export default function SelgerDashboard() {
     { label: shareKopiert ? 'Kopiert!' : 'Del tomteprofil', ikon: shareKopiert ? '✅' : '🔗', beskrivelse: shareKopiert ? `https://${data.shareUrl}` : 'Kopier lenke til tomtens profil på tomtly.no', onClick: handleShare },
     { label: 'Inviter til visning', ikon: '📅', beskrivelse: 'Send visningsinvitasjon til interessenter', onClick: () => setActiveNav('interessenter') },
     { label: 'Last opp dokument', ikon: '📎', beskrivelse: 'Legg til nytt dokument i dokumentarkivet', onClick: () => setActiveNav('dokumenter') },
-    { label: 'Kontakt Tomtekonsulent', ikon: '🏠', beskrivelse: 'Send melding til din Tomtekonsulent hos tomtly', onClick: () => setShowKontaktPanel(true) },
+    { label: 'Kontakt Tomtekonsulent', ikon: '🏠', beskrivelse: 'Send melding til din Tomtekonsulent hos Tomtly', onClick: () => setShowKontaktPanel(true) },
   ]
 
   // ─── Render ─────────────────────────────────────────────────────────────────
@@ -1106,19 +1106,19 @@ export default function SelgerDashboard() {
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                       <div>
                         <p className="text-sm text-brand-600 mb-1">
-                          Du har mottatt bud. Når bud er akseptert kan du starte oppgjør digitalt via Propr.
+                          Du har mottatt bud. Når bud er akseptert kan du starte oppgjør digitalt via Proff Oppgjør AS.
                         </p>
                         <p className="text-xs text-brand-400">
-                          Propr håndterer trygt oppgjør, tinglysning og overføring av eiendom.
+                          Proff Oppgjør AS håndterer trygt oppgjør, tinglysning og overføring av eiendom.
                         </p>
                       </div>
                       <a
-                        href="https://propr.no"
+                        href="https://xn--proffoppgjr-pgb.no/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition-colors flex-shrink-0"
                       >
-                        Start oppgjør via Propr
+                        Start oppgjør via Proff Oppgjør
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                           <path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
@@ -1419,7 +1419,7 @@ export default function SelgerDashboard() {
                       <h3 className="text-sm font-semibold text-tomtly-dark">Annonsetekst for FINN</h3>
                       <button
                         onClick={() => {
-                          const tekst = `${data.adresse} – ${data.areal} m² tomt til salgs\n\nAttraktiv tomt ${data.adresse.includes('Nesodden') ? 'på Nesodden' : 'i ' + data.adresse.split(',').pop()?.trim()} med godkjent regulering og gode byggemuligheter. Tomten er analysert av tomtly med husmodeller og byggekalkyle.\n\nNøkkelinfo:\n• Tomteareal: ${data.areal} m²\n• Regulert til: ${data.tomtDetaljer.regulering}\n• Utnyttelsesgrad: ${data.tomtDetaljer.utnyttelsesgrad}\n• Pris: ${data.tomtDetaljer.prisantydning}\n\nSe komplett tomteanalyse med husmodeller og byggekalkyle: https://tomtly.no/tomter/${data.id}\n\nOppgjør håndteres av Propr via Norsk eiendomsoppgjør AS.\nKontakt selger direkte for visning.`
+                          const tekst = `${data.adresse} – ${data.areal} m² tomt til salgs\n\nAttraktiv tomt ${data.adresse.includes('Nesodden') ? 'på Nesodden' : 'i ' + data.adresse.split(',').pop()?.trim()} med godkjent regulering og gode byggemuligheter. Tomten er analysert av tomtly med husmodeller og byggekalkyle.\n\nNøkkelinfo:\n• Tomteareal: ${data.areal} m²\n• Regulert til: ${data.tomtDetaljer.regulering}\n• Utnyttelsesgrad: ${data.tomtDetaljer.utnyttelsesgrad}\n• Pris: ${data.tomtDetaljer.prisantydning}\n\nSe komplett tomteanalyse med husmodeller og byggekalkyle: https://tomtly.no/tomter/${data.id}\n\nOppgjør håndteres av Proff Oppgjør AS.\nKontakt selger direkte for visning.`
                           navigator.clipboard.writeText(tekst).then(() => {
                             setFinnTekstKopiert(true)
                             setTimeout(() => setFinnTekstKopiert(false), 2000)
@@ -1434,7 +1434,7 @@ export default function SelgerDashboard() {
                       readOnly
                       rows={14}
                       className="w-full font-mono text-xs bg-brand-50 border border-brand-200 rounded-lg p-4 text-brand-700 resize-none"
-                      value={`${data.adresse} – ${data.areal} m² tomt til salgs\n\nAttraktiv tomt ${data.adresse.includes('Nesodden') ? 'på Nesodden' : 'i ' + data.adresse.split(',').pop()?.trim()} med godkjent regulering og gode byggemuligheter. Tomten er analysert av tomtly med husmodeller og byggekalkyle.\n\nNøkkelinfo:\n• Tomteareal: ${data.areal} m²\n• Regulert til: ${data.tomtDetaljer.regulering}\n• Utnyttelsesgrad: ${data.tomtDetaljer.utnyttelsesgrad}\n• Pris: ${data.tomtDetaljer.prisantydning}\n\nSe komplett tomteanalyse med husmodeller og byggekalkyle: https://tomtly.no/tomter/${data.id}\n\nOppgjør håndteres av Propr via Norsk eiendomsoppgjør AS.\nKontakt selger direkte for visning.`}
+                      value={`${data.adresse} – ${data.areal} m² tomt til salgs\n\nAttraktiv tomt ${data.adresse.includes('Nesodden') ? 'på Nesodden' : 'i ' + data.adresse.split(',').pop()?.trim()} med godkjent regulering og gode byggemuligheter. Tomten er analysert av tomtly med husmodeller og byggekalkyle.\n\nNøkkelinfo:\n• Tomteareal: ${data.areal} m²\n• Regulert til: ${data.tomtDetaljer.regulering}\n• Utnyttelsesgrad: ${data.tomtDetaljer.utnyttelsesgrad}\n• Pris: ${data.tomtDetaljer.prisantydning}\n\nSe komplett tomteanalyse med husmodeller og byggekalkyle: https://tomtly.no/tomter/${data.id}\n\nOppgjør håndteres av Proff Oppgjør AS.\nKontakt selger direkte for visning.`}
                     />
                   </div>
 
@@ -1608,7 +1608,7 @@ export default function SelgerDashboard() {
                   {/* Insurance clause */}
                   <div className="mt-4 pt-4 border-t border-forest-200">
                     <p className="text-xs text-brand-500 leading-relaxed">
-                      Ved oppsigelse av markedsføringspakken gjelder tilretteleggingsgebyret (2%) fortsatt dersom eiendommen selges innen 3 måneder etter oppsigelsesdato.
+                      Ved oppsigelse av markedsføringspakken gjelder suksesshonoraret (2 % + mva, min. 20 000 kr + mva) fortsatt dersom eiendommen selges innen 3 måneder etter oppsigelsesdato.
                     </p>
                   </div>
                 </div>

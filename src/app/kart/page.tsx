@@ -4,45 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { Search, ChevronRight, MapPin, ShoppingBag, GraduationCap, Bus, TreePine } from 'lucide-react'
 import { formatNOK, formatM2 } from '@/lib/utils'
-
-const TOMTER = [
-  {
-    id: 'bjornemyrveien-20', adresse: 'Bjornemyrveien 20', poststed: 'Bjornemyr',
-    kommune: 'Nesodden', areal_m2: 605, pris: 3000000,
-    lat: 59.8346, lng: 10.6419,
-    bilde: '/tomter/bjornemyrveien-shared/render-parsell-b.jpg',
-    poi: [
-      { type: 'bus', navn: 'Bussholdeplass', avstand: '5 min gange' },
-      { type: 'skole', navn: 'Bjornemyr skole', avstand: '7 min gange' },
-      { type: 'butikk', navn: 'Dagligvare', avstand: '6 min gange' },
-      { type: 'natur', navn: 'Skog og turomrader', avstand: '1 min gange' },
-    ]
-  },
-  {
-    id: 'bjornemyrveien-22', adresse: 'Bjornemyrveien 22', poststed: 'Bjornemyr',
-    kommune: 'Nesodden', areal_m2: 613, pris: 3000000,
-    lat: 59.8347, lng: 10.6422,
-    bilde: '/tomter/bjornemyrveien-shared/render-parsell-c.jpg',
-    poi: [
-      { type: 'bus', navn: 'Bussholdeplass', avstand: '5 min gange' },
-      { type: 'skole', navn: 'Bjornemyr skole', avstand: '7 min gange' },
-      { type: 'butikk', navn: 'Dagligvare', avstand: '6 min gange' },
-      { type: 'natur', navn: 'Skog og turomrader', avstand: '1 min gange' },
-    ]
-  },
-  {
-    id: 'alvaern-67', adresse: 'Gamle Alvaernvei 67', poststed: 'Alvaern',
-    kommune: 'Nesodden', areal_m2: 900, pris: 3200000,
-    lat: 59.8155, lng: 10.6196,
-    bilde: '/tomter/alvaern-shared/alvaern-render-aerial-1-DvVXdDku.jpg',
-    poi: [
-      { type: 'bus', navn: 'Buss til Tangen', avstand: '4 min gange' },
-      { type: 'skole', navn: 'Alvaern ungdomsskole', avstand: '10 min gange' },
-      { type: 'butikk', navn: 'Dagligvare', avstand: '18 min gange' },
-      { type: 'natur', navn: 'Skog og turomrader', avstand: '1 min gange' },
-    ]
-  },
-]
+import { ALLE_TOMTER as TOMTER } from '@/lib/tomter-data'
 
 export default function KartSide() {
   const mapRef = useRef<HTMLDivElement>(null)
@@ -86,7 +48,10 @@ export default function KartSide() {
       if (!mapRef.current || mapRef.current.querySelector('.leaflet-container')) return
 
       // Create map centered on Nesodden
-      const map = L.map(mapRef.current).setView([59.825, 10.63], 12)
+      // Beregn senterpunkt fra alle tomter
+      const avgLat = TOMTER.reduce((s, t) => s + t.lat, 0) / TOMTER.length
+      const avgLng = TOMTER.reduce((s, t) => s + t.lng, 0) / TOMTER.length
+      const map = L.map(mapRef.current).setView([avgLat, avgLng], TOMTER.length > 3 ? 10 : 12)
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors',

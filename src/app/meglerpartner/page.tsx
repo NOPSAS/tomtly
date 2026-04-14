@@ -218,7 +218,7 @@ export default function MeglerpartnerPage() {
                   { step: '2', activity: 'Mulighetsstudie', tomtly: true, megler: false },
                   { step: '3', activity: 'Markedsføring', tomtly: true, megler: false },
                   { step: '4', activity: 'Salgsgjennomføring', tomtly: false, megler: true },
-                  { step: '5', activity: 'Oppgjør (via Propr)', tomtly: false, megler: true },
+                  { step: '5', activity: 'Oppgjør (via Proff Oppgjør)', tomtly: false, megler: true },
                 ].map((row) => (
                   <tr key={row.step} className="hover:bg-brand-50 transition-colors">
                     <td className="py-5 pr-4">
@@ -259,8 +259,8 @@ export default function MeglerpartnerPage() {
                   <span className="font-mono font-bold">2 000 000 kr</span>
                 </div>
                 <div className="flex justify-between border-b border-white/10 pb-3">
-                  <span className="text-brand-300">Provisjon (2,5 %)</span>
-                  <span className="font-mono font-bold">50 000 kr</span>
+                  <span className="text-brand-300">Suksesshonorar (2 % + mva)</span>
+                  <span className="font-mono font-bold">40 000 kr</span>
                 </div>
                 <div className="flex justify-between border-b border-white/10 pb-3">
                   <span className="text-brand-300">Din andel (35 %)</span>
@@ -549,7 +549,7 @@ export default function MeglerpartnerPage() {
               </div>
               <div className="bg-white/5 border border-white/10 rounded-xl p-6 mt-4">
                 <p className="text-sm text-brand-300 leading-relaxed">
-                  Tomtly er en tjeneste fra NOPS AS (org.nr 933 819 086). Vi har autorisert meglerpartner og samarbeider med Propr for oppgjør.
+                  Tomtly er en tjeneste fra NOPS AS (org.nr 933 819 086). Vi har autorisert meglerpartner og samarbeider med Proff Oppgjør AS for oppgjør.
                 </p>
               </div>
             </div>

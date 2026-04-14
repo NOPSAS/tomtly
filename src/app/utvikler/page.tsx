@@ -148,36 +148,27 @@ function Prising() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
           <div className="bg-white rounded-2xl p-7 border border-brand-200 text-center">
-            <p className="text-sm font-medium text-brand-500 mb-2">Per tomt</p>
-            <p className="text-3xl font-bold text-tomtly-dark mb-1">4 900 kr</p>
-            <p className="text-sm text-brand-500">Enkeltbestilling</p>
+            <p className="text-sm font-medium text-brand-500 mb-2">Tomteanalyse</p>
+            <p className="text-3xl font-bold text-tomtly-dark mb-1">9 900 kr</p>
+            <p className="text-sm text-brand-500">per tomt</p>
+            <p className="text-xs text-brand-400 mt-2">Komplett analyse med husmodeller og kalkyle</p>
           </div>
           <div className="bg-white rounded-2xl p-7 border-2 border-tomtly-accent text-center relative">
             <div className="absolute -top-2.5 right-4 px-2 py-0.5 bg-tomtly-accent text-white text-xs rounded-full">
-              Populær
+              Anbefalt
             </div>
-            <p className="text-sm font-medium text-brand-500 mb-2">5-pack</p>
-            <p className="text-3xl font-bold text-tomtly-dark mb-1">3 900 kr</p>
-            <p className="text-sm text-brand-500">per tomt</p>
+            <p className="text-sm font-medium text-brand-500 mb-2">Analyse + Markedsføring</p>
+            <p className="text-3xl font-bold text-tomtly-dark mb-1">4 990 kr</p>
+            <p className="text-sm text-brand-500">+ 2% ved salg</p>
+            <p className="text-xs text-brand-400 mt-2">Alt i analyse + annonsering, salgsdashboard og Tomtekonsulent</p>
           </div>
           <div className="bg-white rounded-2xl p-7 border border-brand-200 text-center">
-            <p className="text-sm font-medium text-brand-500 mb-2">Abo S (1-5/mnd)</p>
-            <p className="text-3xl font-bold text-tomtly-dark mb-1">14 900 kr</p>
-            <p className="text-sm text-brand-500">per måned</p>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
-          <div className="bg-white rounded-2xl p-7 border border-brand-200 text-center">
-            <p className="text-sm font-medium text-brand-500 mb-2">Abo M (6-15/mnd)</p>
-            <p className="text-3xl font-bold text-tomtly-dark mb-1">29 900 kr</p>
-            <p className="text-sm text-brand-500">per måned</p>
-          </div>
-          <div className="bg-white rounded-2xl p-7 border border-brand-200 text-center">
-            <p className="text-sm font-medium text-brand-500 mb-2">Abo L (16+/mnd)</p>
+            <p className="text-sm font-medium text-brand-500 mb-2">Volumavtale (5+ tomter)</p>
             <p className="text-3xl font-bold text-tomtly-dark mb-1">Ta kontakt</p>
             <p className="text-sm text-brand-500">Skreddersydd</p>
+            <p className="text-xs text-brand-400 mt-2">Rabattert pris ved volum. Abonnement tilgjengelig.</p>
           </div>
         </div>
       </div>
@@ -192,10 +183,10 @@ function VerdiArgument() {
         <div className="bg-forest-50 rounded-2xl border-2 border-tomtly-accent p-10">
           <TrendingUp className="w-10 h-10 text-tomtly-accent mx-auto mb-6" />
           <h2 className="font-display text-2xl lg:text-3xl font-bold text-tomtly-dark mb-4">
-            4 900 kr = 1-2% av utviklermargin
+            Analyse + Markedsføring = raskere salg
           </h2>
           <p className="text-brand-600 leading-relaxed">
-            Typisk utviklermargin er 300 000 – 750 000 kr per tomt. En mulighetsstudie til 4 900 kr er en minimal investering som øker salgshastighet og pris. Ved volum 3 900 kr per tomt.
+            Typisk utviklermargin er 300 000 – 750 000 kr per tomt. Med Tomtly Analyse + Markedsføring (4 990 kr + 2% ved salg) får kjøpere se konkrete byggemuligheter, husmodeller og kalkyler – noe som øker salgshastighet og betalingsvilje. Ved volum: ta kontakt for skreddersydd avtale.
           </p>
         </div>
       </div>

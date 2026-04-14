@@ -310,7 +310,7 @@ export default function KommuneSlugPage() {
           </p>
 
           <p className="text-lg font-semibold text-tomtly-dark mb-8">
-            For 4 990 kr + 2,5 % ved salg
+            For 4 990 kr + 2 % suksesshonorar + mva ved salg
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

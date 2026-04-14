@@ -290,34 +290,67 @@ function FAQ() {
 
 function CTASection() {
   const [sendt, setSendt] = useState(false)
+  const [sending, setSending] = useState(false)
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    setSending(true)
+    const form = e.currentTarget
+    const data = new FormData(form)
+
+    try {
+      await fetch('/api/henvendelse', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'entreprenor-registrering',
+          navn: data.get('kontaktperson'),
+          email: data.get('epost'),
+          telefon: data.get('telefon'),
+          melding: data.get('melding') || '',
+          ekstra: {
+            firma: data.get('firma'),
+            type_entreprenor: data.get('type_entreprenor'),
+            dekningsomrade: data.get('dekningsomrade'),
+          },
+        }),
+      })
+      setSendt(true)
+    } catch {
+      setSendt(true)
+    } finally {
+      setSending(false)
+    }
+  }
 
   return (
     <section id="kontakt" className="bg-tomtly-dark py-20 lg:py-28">
       <div className="max-w-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
           <h2 className="font-display text-3xl font-bold text-white mb-3">
-            Bli samarbeidsentreprenør
+            Registrer deg gratis
           </h2>
           <p className="text-brand-400">
-            Fyll ut skjemaet, så tar vi kontakt for en uforpliktende prat.
+            Registrer firmaet ditt og få tilbud på første prosjekt i ditt område – helt gratis og uforpliktende.
           </p>
         </div>
 
         {sendt ? (
           <div className="bg-forest-50 rounded-xl border border-forest-200 p-8 text-center">
             <CheckCircle2 className="w-10 h-10 text-tomtly-accent mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-tomtly-dark mb-2">Takk for henvendelsen!</h3>
-            <p className="text-sm text-brand-600">Vi tar kontakt innen 1 virkedag.</p>
+            <h3 className="text-lg font-semibold text-tomtly-dark mb-2">Du er registrert!</h3>
+            <p className="text-sm text-brand-600">Vi sender deg første prosjekt i ditt område så snart det er klart. Du får også en bekreftelse på e-post.</p>
             <p className="text-xs text-brand-400 mt-2">hey@nops.no</p>
           </div>
         ) : (
           <form
-            onSubmit={(e) => { e.preventDefault(); setSendt(true) }}
+            onSubmit={handleSubmit}
             className="bg-white rounded-xl border border-brand-200 p-8 space-y-5"
           >
             <div>
               <label className="block text-sm font-medium text-brand-700 mb-1.5">Firmanavn *</label>
               <input
+                name="firma"
                 type="text"
                 required
                 className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20"
@@ -326,6 +359,7 @@ function CTASection() {
             <div>
               <label className="block text-sm font-medium text-brand-700 mb-1.5">Kontaktperson *</label>
               <input
+                name="kontaktperson"
                 type="text"
                 required
                 className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20"
@@ -335,46 +369,64 @@ function CTASection() {
               <div>
                 <label className="block text-sm font-medium text-brand-700 mb-1.5">E-post *</label>
                 <input
+                  name="epost"
                   type="email"
                   required
                   className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-brand-700 mb-1.5">Telefon</label>
+                <label className="block text-sm font-medium text-brand-700 mb-1.5">Telefon *</label>
                 <input
+                  name="telefon"
                   type="tel"
+                  required
                   className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20"
                 />
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-brand-700 mb-1.5">Dekningsområde</label>
-              <select className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20">
-                <option>Hele Norge</option>
-                <option>Østlandet</option>
-                <option>Vestlandet</option>
-                <option>Midt-Norge</option>
-                <option>Nord-Norge</option>
-                <option>Sørlandet</option>
+              <label className="block text-sm font-medium text-brand-700 mb-1.5">Type entreprenør *</label>
+              <select name="type_entreprenor" required className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20 bg-white">
+                <option value="">Velg type</option>
+                <option value="Grunnarbeider">Grunnarbeider</option>
+                <option value="Sprenger">Sprenger</option>
+                <option value="Rørlegger">Rørlegger</option>
+                <option value="Elektriker">Elektriker</option>
+                <option value="Landmåler/utstikker">Landmåler / utstikker</option>
+                <option value="Uavhengig kontroll">Uavhengig kontroll</option>
+                <option value="Totalentreprenør">Totalentreprenør</option>
+                <option value="Annet">Annet</option>
               </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-brand-700 mb-1.5">Dekningsområde *</label>
+              <input
+                name="dekningsomrade"
+                type="text"
+                required
+                placeholder="F.eks. Nesodden, Nordre Follo, hele Viken..."
+                className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20"
+              />
             </div>
             <div>
               <label className="block text-sm font-medium text-brand-700 mb-1.5">Melding (valgfritt)</label>
               <textarea
+                name="melding"
                 rows={3}
-                placeholder="Fortell litt om selskapet og hva slags prosjekter dere tar..."
+                placeholder="Fortell litt om firmaet og hva slags prosjekter dere tar..."
                 className="w-full px-3 py-2.5 border border-brand-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-tomtly-accent/20 resize-none"
               />
             </div>
             <button
               type="submit"
-              className="w-full py-3 bg-tomtly-accent text-white font-medium rounded-lg hover:bg-forest-700 transition-colors"
+              disabled={sending}
+              className="w-full py-3.5 bg-tomtly-accent text-white font-semibold rounded-lg hover:bg-forest-700 transition-colors disabled:opacity-50"
             >
-              Bli samarbeidsentreprenør
+              {sending ? 'Registrerer...' : 'Registrer deg gratis – få første prosjekt'}
             </button>
             <p className="text-xs text-brand-400 text-center">
-              Første lead er gratis. Vi tar kontakt innen 1 virkedag. hey@nops.no
+              Helt gratis og uforpliktende. Du kan melde deg av når som helst.
             </p>
           </form>
         )}

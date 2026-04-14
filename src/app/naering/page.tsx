@@ -47,7 +47,7 @@ function Hero() {
           </h1>
 
           <p className="text-lg text-brand-400 leading-relaxed mb-10 max-w-xl">
-            Vi gjør næringstomter om til investeringscaser. Kjøpere ser avkastning – ikke et tomt jorde.
+            Vi gjør næringstomter om til investeringscaser. Kjøpere ser avkastning og et potensielt prosjekt – ikke bare en ubebygd tomt.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
@@ -168,62 +168,56 @@ function HvaViLeverer() {
 // ---- Priser ----
 
 function Priser() {
-  const pakker = [
-    {
-      navn: 'Analyse',
-      beskrivelse: 'Komplett næringsanalyse',
-      pris: '14 900',
-      enhet: 'kr',
-    },
-    {
-      navn: 'Analyse + Synlighet',
-      beskrivelse: 'Analyse + publisering',
-      pris: '24 900',
-      enhet: 'kr',
-      anbefalt: true,
-    },
-    {
-      navn: 'Premium Synlighet',
-      beskrivelse: 'Maksimal eksponering',
-      pris: '39 900',
-      enhet: 'kr',
-    },
-  ]
-
   return (
     <section className="bg-brand-50 py-20 lg:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-12 text-center">
-          Priser
+          Pris
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
-          {pakker.map((p) => (
-            <div
-              key={p.navn}
-              className={`bg-white rounded-xl p-6 border-2 ${
-                p.anbefalt ? 'border-tomtly-accent relative' : 'border-brand-200'
-              }`}
-            >
-              {p.anbefalt && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-tomtly-accent text-white text-xs font-semibold rounded-full whitespace-nowrap">
-                  Mest populær
-                </div>
-              )}
-              <h3 className="font-semibold text-tomtly-dark mb-1">{p.navn}</h3>
-              <p className="text-xs text-brand-500 mb-4">{p.beskrivelse}</p>
-              <div className="flex items-baseline gap-1">
-                <span className="text-3xl font-bold text-tomtly-dark">{p.pris}</span>
-                <span className="text-sm text-brand-500">{p.enhet}</span>
-              </div>
+        <div className="max-w-lg mx-auto">
+          <div className="bg-white rounded-2xl p-8 border-2 border-tomtly-accent relative">
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-tomtly-accent text-white text-xs font-semibold rounded-full">
+              Tomtly Næring
             </div>
-          ))}
-        </div>
-
-        <div className="mt-6 max-w-4xl mx-auto bg-forest-50 rounded-xl border border-forest-200 p-5 text-center">
-          <p className="text-sm text-forest-800">
-            <strong>Ved salg via Tomtly (med megler):</strong> 2,5 % av salgssum i tillegg til analysepakken.
-          </p>
+            <div className="text-center mb-6">
+              <div className="flex items-baseline justify-center gap-2 mb-1">
+                <span className="text-5xl font-bold text-tomtly-dark">30 000</span>
+                <span className="text-brand-500 text-lg">kr</span>
+              </div>
+              <p className="text-brand-500">+ 1 % suksesshonorar + mva ved gjennomført salg</p>
+              <p className="text-xs text-brand-400 mt-2">Alle priser eks. mva</p>
+            </div>
+            <p className="text-sm text-brand-600 text-center mb-6">
+              1 konsept per prosjekt. Vi analyserer eiendommen, viser utviklingspotensial og bistår med markedsføring mot utviklere og investorer.
+            </p>
+            <ul className="space-y-2 mb-8">
+              {[
+                'Komplett næringsanalyse med utviklingspotensial',
+                'Reguleringsanalyse og utnyttelsesgrad',
+                'Konseptforslag tilpasset regulering og marked',
+                'Kostnadskalkyle for utvikling',
+                'Markedsføring mot utviklere og investorer',
+                'Publisering på tomtly.no',
+                'Bistand i dialog med interessenter',
+                '1 % suksesshonorar + mva kun ved gjennomført salg',
+              ].map((f) => (
+                <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
+                  <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <a
+              href="mailto:hey@nops.no?subject=Næringstomt — forespørsel"
+              className="block w-full text-center px-4 py-3.5 bg-tomtly-accent text-white font-semibold rounded-lg hover:bg-forest-700 transition-colors text-lg"
+            >
+              Ta kontakt
+            </a>
+            <p className="text-xs text-brand-400 text-center mt-4">
+              Oppgjør håndteres av vår samarbeidspartner Proff Oppgjør AS. Suksesshonoraret gjelder i 12 måneder.
+            </p>
+          </div>
         </div>
       </div>
     </section>

@@ -83,7 +83,7 @@ function StegForSteg() {
       nummer: '04',
       ikon: Banknote,
       tittel: 'Salg gjennomføres',
-      beskrivelse: 'Tomten publiseres og markedsføres på tomtly. Vår Tomtekonsulent håndterer salget. Oppgjør via Propr.',
+      beskrivelse: 'Tomten publiseres og markedsføres på tomtly. Vår Tomtekonsulent håndterer salget. Oppgjør via Proff Oppgjør AS.',
     },
   ]
 
@@ -232,15 +232,15 @@ function Priser() {
           <div className="bg-white rounded-2xl p-7 border-2 border-tomtly-accent relative">
             <p className="text-sm font-medium text-brand-500 mb-2">Steg 2: Fradeling og salg</p>
             <p className="text-4xl font-bold text-tomtly-dark mb-1">0 kr</p>
-            <p className="text-sm text-tomtly-accent font-semibold mb-4">+ 5% av den nye tomtens verdi</p>
+            <p className="text-sm text-tomtly-accent font-semibold mb-4">+ 5% av den nye tomtens verdi + mva</p>
             <ul className="space-y-2 mb-6">
               {[
                 'Søknad, tegning og oppmåling – kostnadsfritt for deg',
                 'Nabovarsel og oppfølging mot kommunen',
                 'Mulighetsstudie med husmodeller og kalkyle',
-                'Publisering og markedsføring via tomtly',
+                'Publisering og markedsføring via Tomtly',
                 'Salg via vår Tomtekonsulent',
-                'Oppgjør via Propr',
+                'Oppgjør via Proff Oppgjør AS',
               ].map((f) => (
                 <li key={f} className="flex items-start gap-2 text-sm text-brand-600">
                   <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />{f}

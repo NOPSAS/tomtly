@@ -298,7 +298,7 @@ export default function FirmaPage() {
                   { step: '4', activity: 'Kvalifisering av kjøpere', tomtly: true, megler: false },
                   { step: '5', activity: 'Salgsoppdrag og visning', tomtly: false, megler: true },
                   { step: '6', activity: 'Budrunde og aksept', tomtly: false, megler: true },
-                  { step: '7', activity: 'Oppgjør (via Propr)', tomtly: false, megler: true },
+                  { step: '7', activity: 'Oppgjør (via Proff Oppgjør)', tomtly: false, megler: true },
                 ].map((row) => (
                   <tr key={row.step} className="hover:bg-brand-50 transition-colors">
                     <td className="py-4 pr-4">
@@ -365,11 +365,11 @@ export default function FirmaPage() {
                 </div>
                 <div className="flex justify-between border-b border-white/10 pb-3">
                   <span className="text-brand-300">Provisjonssats</span>
-                  <span className="font-mono font-bold">2,5 %</span>
+                  <span className="font-mono font-bold">2 %</span>
                 </div>
                 <div className="flex justify-between border-b border-white/10 pb-3">
-                  <span className="text-brand-300">Total provisjon</span>
-                  <span className="font-mono font-bold">50 000 kr</span>
+                  <span className="text-brand-300">Tilretteleggingsgebyr</span>
+                  <span className="font-mono font-bold">40 000 kr</span>
                 </div>
                 <div className="flex justify-between border-b border-white/10 pb-3">
                   <span className="text-brand-300">Tomtly beholder (65 %)</span>
@@ -466,7 +466,7 @@ export default function FirmaPage() {
           </div>
 
           <p className="text-sm text-brand-400 mt-8">
-            Basert på gjennomsnittlig tomtepris 2 MNOK og 2,5 % provisjon med 65/35 split (Tomtly/{firm.name}).
+            Basert på gjennomsnittlig tomtepris 2 MNOK og 2 % suksesshonorar + mva med 65/35 split (Tomtly/{firm.name}).
           </p>
         </div>
       </section>
@@ -710,7 +710,7 @@ export default function FirmaPage() {
               </div>
               <div className="bg-white/5 border border-white/10 rounded-xl p-6">
                 <p className="text-sm text-brand-300 leading-relaxed">
-                  Tomtly er en tjeneste fra NOPS AS (org.nr 933 819 086). Vi har autorisert meglerpartner og samarbeider med Propr for oppgjør.
+                  Tomtly er en tjeneste fra NOPS AS (org.nr 933 819 086). Vi har autorisert meglerpartner og samarbeider med Proff Oppgjør AS for oppgjør.
                 </p>
               </div>
             </div>
