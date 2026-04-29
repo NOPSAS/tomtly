@@ -375,6 +375,7 @@ function PrototypeContent() {
   const [autoSammendragLoading, setAutoSammendragLoading] = useState(false)
   const [norkartData, setNorkartData] = useState<any>(null)
   const [norkartLoading, setNorkartLoading] = useState(false)
+  const [lillestromPlaner, setLillestromPlaner] = useState<any>(null)
   const kartCanvasRef = useRef<HTMLCanvasElement>(null)
   const [steps, setSteps] = useState<Step[]>([])
 
@@ -438,9 +439,87 @@ function PrototypeContent() {
         return
       }
 
+      const original = sok.trim()
+
+      // ─── Sjekk om det er gnr/bnr-søk ────────────────────────────
+      // Støttede formater: "0301-223/60", "223/60 Oslo", "knr 0301 gnr 223 bnr 60", "3238-147/45"
+      const gnrBnrMatch = original.match(/^(\d{4})[- ](\d+)\/(\d+)/) ||
+        original.match(/(\d+)\/(\d+)\s+(.+)/) ||
+        original.match(/knr\s*(\d{4})\s*gnr\s*(\d+)\s*bnr\s*(\d+)/i)
+
+      if (gnrBnrMatch) {
+        try {
+          let knr: string, gnr: string, bnr: string
+          if (gnrBnrMatch[0].match(/^\d{4}/)) {
+            // Format: "0301-223/60"
+            knr = gnrBnrMatch[1]
+            gnr = gnrBnrMatch[2]
+            bnr = gnrBnrMatch[3]
+          } else if (gnrBnrMatch[3] && !/^\d+$/.test(gnrBnrMatch[3])) {
+            // Format: "223/60 Oslo" — kommunenavn i [3], gnr i [1], bnr i [2]
+            gnr = gnrBnrMatch[1]
+            bnr = gnrBnrMatch[2]
+            // Slå opp kommunenummer fra navn
+            const kRes = await fetch(`https://ws.geonorge.no/adresser/v1/sok?sok=${encodeURIComponent(gnrBnrMatch[3].trim())}&treffPerSide=1`)
+            const kData = await kRes.json()
+            knr = kData.adresser?.[0]?.kommunenummer || ''
+          } else {
+            knr = gnrBnrMatch[1]
+            gnr = gnrBnrMatch[2]
+            bnr = gnrBnrMatch[3]
+          }
+
+          if (knr && gnr && bnr) {
+            // Hent eiendomsdata fra Kartverket
+            const eRes = await fetch(
+              `${KARTVERKET_EIENDOM}/geokoding?kommunenummer=${knr}&gardsnummer=${gnr}&bruksnummer=${bnr}&omrade=true&utkoordsys=4258`
+            )
+            if (eRes.ok) {
+              const eData = await eRes.json()
+              const feature = eData.features?.[0]
+              if (feature) {
+                const p = feature.properties
+                // Hent adresse for denne eiendommen
+                const aRes = await fetch(
+                  `https://ws.geonorge.no/adresser/v1/sok?kommunenummer=${knr}&gardsnummer=${gnr}&bruksnummer=${bnr}&treffPerSide=1`
+                )
+                const aData = await aRes.json()
+                const adresse = aData.adresser?.[0]
+
+                // Beregn senterpunkt fra polygon
+                let lat = 0, lon = 0
+                const coords = feature.geometry?.coordinates?.[0]
+                if (coords?.length) {
+                  for (const c of coords) { lon += c[0]; lat += c[1] }
+                  lon /= coords.length; lat /= coords.length
+                } else if (feature.geometry?.coordinates) {
+                  lon = feature.geometry.coordinates[0]
+                  lat = feature.geometry.coordinates[1]
+                }
+
+                const result: Adresse = {
+                  adressetekst: adresse?.adressetekst || `${p.matrikkelnummertekst} (${knr})`,
+                  kommunenavn: adresse?.kommunenavn || `Kommune ${knr}`,
+                  kommunenummer: knr,
+                  representasjonspunkt: { lat, lon },
+                  gardsnummer: Number(gnr),
+                  bruksnummer: Number(bnr),
+                  postnummer: adresse?.postnummer || '',
+                  poststed: adresse?.poststed || '',
+                }
+
+                setSuggestions([result])
+                setShowSuggestions(true)
+                return
+              }
+            }
+          }
+        } catch {}
+      }
+
+      // ─── Vanlig adressetekst-søk ─────────────────────────────────
       // Bygg liste med søkevarianter for å maksimere treff
       const varianter = new Set<string>()
-      const original = sok.trim()
       varianter.add(original)
 
       // Variant 1: fjern komma + postnummer + poststed (f.eks. "Askerudveien 35, 1929 Auli" → "Askerudveien 35 Auli")
@@ -461,27 +540,53 @@ function PrototypeContent() {
         varianter.add(baseForFuzzy.replace(/vegen\b/gi, 'veien'))
       }
 
-      // Kjør søkene sekvensielt og stopp på første treff
+      // Søk UTEN fuzzy først, deretter med fuzzy som fallback
       try {
         const seenIds = new Set<string>()
         const allResults: any[] = []
 
+        // Steg 1: Eksakt søk (uten fuzzy) — tryggest
         for (const variant of varianter) {
           if (allResults.length >= 5) break
           const res = await fetch(
-            `https://ws.geonorge.no/adresser/v1/sok?sok=${encodeURIComponent(variant)}&treffPerSide=5&fuzzy=true`
+            `https://ws.geonorge.no/adresser/v1/sok?sok=${encodeURIComponent(variant)}&treffPerSide=5`
           )
           if (!res.ok) continue
           const data = await res.json()
           for (const adr of (data.adresser || [])) {
             const id = `${adr.kommunenummer}-${adr.gardsnummer}-${adr.bruksnummer}-${adr.adressetekst}`
-            if (!seenIds.has(id)) {
-              seenIds.add(id)
-              allResults.push(adr)
-            }
+            if (!seenIds.has(id)) { seenIds.add(id); allResults.push(adr) }
             if (allResults.length >= 5) break
           }
-          if (allResults.length > 0) break // stopp på første variant som ga treff
+          if (allResults.length > 0) break
+        }
+
+        // Steg 2: Fuzzy fallback — kun hvis eksakt ga 0 treff
+        if (allResults.length === 0) {
+          for (const variant of varianter) {
+            if (allResults.length >= 5) break
+            const res = await fetch(
+              `https://ws.geonorge.no/adresser/v1/sok?sok=${encodeURIComponent(variant)}&treffPerSide=5&fuzzy=true`
+            )
+            if (!res.ok) continue
+            const data = await res.json()
+            // Filtrer fuzzy-resultater: gatenavnet må matche rimelig
+            const sokGate = original.replace(/\d+.*$/, '').trim().toLowerCase()
+            for (const adr of (data.adresser || [])) {
+              const adrGate = (adr.adressenavn || '').toLowerCase()
+              // Sjekk at gatenavnet har minst 3 felles tegn fra starten eller inneholder søkeordet
+              const ligner = sokGate.length >= 3 && (
+                adrGate.startsWith(sokGate.substring(0, 3)) ||
+                adrGate.includes(sokGate.substring(0, Math.min(sokGate.length, 5))) ||
+                sokGate.includes(adrGate.substring(0, Math.min(adrGate.length, 5)))
+              )
+              if (!ligner && sokGate.length >= 3) continue // Hopp over treff som ikke ligner
+              const id = `${adr.kommunenummer}-${adr.gardsnummer}-${adr.bruksnummer}-${adr.adressetekst}`
+              if (!seenIds.has(id)) { seenIds.add(id); allResults.push(adr) }
+              if (allResults.length >= 5) break
+            }
+            if (allResults.length > 0) break
+          }
         }
 
         setSuggestions(allResults)
@@ -554,6 +659,7 @@ function PrototypeContent() {
     setAutoSammendrag(null)
     setNorkartData(null)
     setNorkartLoading(false)
+    setLillestromPlaner(null)
 
     const { lat, lon } = adr.representasjonspunkt
     const knr = adr.kommunenummer
@@ -985,13 +1091,17 @@ function PrototypeContent() {
           if (isKommune && getKommuneplanSammendrag(knr)) continue
 
           const docs = ap.dokumenter || []
-          const bestemmelser = docs.filter((d: ArealplanerDok) =>
-            d.dokumenttypeId === 5 || d.dokumenttype === 'Bestemmelser' || d.dokumentnavn?.toLowerCase().includes('bestemmelse')
-          )
+          const bestemmelser = docs.filter((d: ArealplanerDok) => {
+            const typeMatch = d.dokumenttypeId === 5 || (d.dokumenttype || '').toLowerCase() === 'bestemmelser'
+            const navnMatch = (d.dokumentnavn || '').toLowerCase().includes('bestemmelse')
+            const erPdf = !d.dokumentnavn || (d.dokumentnavn || '').toLowerCase().endsWith('.pdf')
+            return (typeMatch || navnMatch) && erPdf
+          })
           for (const dok of bestemmelser) {
-            if (dok.direkteUrl) {
+            const pdfUrl = dok.direkteUrl || dok.url
+            if (pdfUrl) {
               bestemmelseDocs.push({
-                url: dok.direkteUrl,
+                url: pdfUrl,
                 planNavn: ap.planNavn || ap.planId,
                 planType: 'regulering',
               })
@@ -1001,9 +1111,9 @@ function PrototypeContent() {
 
         if (bestemmelseDocs.length > 0) {
           setAnalyseringBestemmelser(true)
-          // Analyse best match bestemmelse (max 1)
+          // Analyse reguleringsbestemmelser (maks 3 planer)
           Promise.allSettled(
-            bestemmelseDocs.slice(0, 1).map(async (doc) => {
+            bestemmelseDocs.slice(0, 3).map(async (doc) => {
               const res = await fetch('/api/analyse-bestemmelser', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -1038,6 +1148,43 @@ function PrototypeContent() {
             }
             setAnalyseringBestemmelser(false)
           })
+        } else if (tolkninger.some(t => t.output)) {
+          // Fallback: bygg oppsummering fra Planslurpen-strukturdata
+          const planslurpAnalyser: BestemmelseAnalyse[] = []
+          for (const t of tolkninger) {
+            if (!t.output) continue
+            const felter = t.output.felter || t.output.bestemmelser || []
+            if (!Array.isArray(felter) || felter.length === 0) continue
+            // Ekstraher nøkkeltall fra strukturerte felter
+            let bya: number | null = null, gesims: number | null = null, mone: number | null = null, maks: number | null = null
+            const viktige: string[] = []
+            for (const f of felter) {
+              const navn = (f.navn || '').toLowerCase()
+              const under = f.underfelter || f.parametere || []
+              for (const u of (Array.isArray(under) ? under : [])) {
+                const uNavn = (u.navn || u.parameter || '').toLowerCase()
+                const verdi = u.verdi || u.value || ''
+                if (uNavn.includes('bya') && !uNavn.includes('bra') && typeof verdi === 'number') bya = verdi
+                else if (uNavn.includes('gesims') && typeof verdi === 'number') gesims = verdi
+                else if (uNavn.includes('møne') && typeof verdi === 'number') mone = verdi
+                else if (uNavn.includes('etasj') && typeof verdi === 'number') maks = verdi
+              }
+              if (navn && !navn.includes('felt') && under.length > 0) {
+                viktige.push(`${f.navn}: ${under.slice(0,2).map((u: any) => `${u.navn || u.parameter || ''} ${u.verdi || u.value || ''}`).join(', ')}`)
+              }
+            }
+            planslurpAnalyser.push({
+              planNavn: t.plannavn || t.planId,
+              sammendrag: `Reguleringsbestemmelser fra ${t.plannavn || 'gjeldende plan'}. ${felter.length} felt analysert fra Planslurpen.`,
+              utnyttelsesgrad: bya ? { bya_prosent: bya, beskrivelse: `%-BYA ${bya}%` } : undefined,
+              hoyder: gesims || mone ? { 'gesimshøyde_m': gesims, 'mønehøyde_m': mone, beskrivelse: [gesims && `Gesims ${gesims}m`, mone && `Møne ${mone}m`].filter(Boolean).join(', ') } : undefined,
+              etasjer: maks ? { maks_etasjer: maks, beskrivelse: `Maks ${maks} etasjer` } : undefined,
+              viktige_bestemmelser: viktige.slice(0, 8),
+            } as any)
+          }
+          if (planslurpAnalyser.length > 0) {
+            setBestemmelseAnalyser(planslurpAnalyser)
+          }
         }
       } else {
         updateStep(6, { status: 'error', label: kunde ? 'Mangler gnr/bnr' : 'Kommune ikke i arealplaner.no' })
@@ -1151,6 +1298,37 @@ function PrototypeContent() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ adresse: adr.adressetekst, gnr, bnr, kommunenavn: adr.kommunenavn || '' }),
     }).then(r => r.ok ? r.json() : null).then(d => { if (d) setPostliste(d) }).catch(() => {})
+    // Lillestrøm planinnsyn (kun Lillestrøm 3205)
+    if (knr === '3205' && gnr && bnr) {
+      fetch("/api/lillestrom-planer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ gnr, bnr }),
+      }).then(r => r.ok ? r.json() : null).then(d => {
+        if (d?.planer?.length > 0) {
+          setLillestromPlaner(d)
+          // KI-analyse bestemmelser fra GeoAreal dokumenter
+          for (const plan of d.planer) {
+            if (plan.bestemmelser?.length > 0) {
+              const bestDoc = plan.bestemmelser[0]
+              fetch('/api/analyse-bestemmelser', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  pdfUrl: bestDoc.nedlastUrl,
+                  planNavn: plan.planidentifikasjon,
+                  planType: 'regulering',
+                }),
+              }).then(r => r.ok ? r.json() : null).then(data => {
+                if (data?.success) {
+                  setBestemmelseAnalyser(prev => [...prev, data.analyse])
+                }
+              }).catch(() => {})
+            }
+          }
+        }
+      }).catch(() => {})
+    }
     // Oslo PBE "Hva gjelder" + Saksinnsyn (kun Oslo)
     if (knr === '0301' && gnr && bnr) {
       fetch("/api/oslo-hvagjelder", {
@@ -2556,6 +2734,60 @@ function PrototypeContent() {
               </div>
             )}
 
+            {/* Lillestrøm planinnsyn */}
+            {lillestromPlaner?.planer?.length > 0 && (
+              <div className="bg-white rounded-2xl border border-brand-100 p-6 shadow-sm">
+                <h2 className="font-display text-lg font-bold text-tomtly-dark mb-4 flex items-center gap-2">
+                  <Layers className="w-5 h-5 text-tomtly-accent" />
+                  Lillestrøm Planinnsyn
+                  <span className="text-[9px] font-normal text-brand-400 bg-brand-50 px-2 py-0.5 rounded-full">GeoAreal</span>
+                </h2>
+                <div className="space-y-4">
+                  {lillestromPlaner.planer.map((plan: any, pi: number) => (
+                    <div key={pi} className="border border-brand-200 rounded-lg p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="text-sm font-semibold text-tomtly-dark">{plan.planidentifikasjon}</h3>
+                        <a href={plan.planinnsyUrl} target="_blank" rel="noopener noreferrer"
+                          className="flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-tomtly-accent bg-forest-50 rounded-lg hover:bg-forest-100">
+                          <ExternalLink className="w-3 h-3" />Åpne i planinnsyn
+                        </a>
+                      </div>
+                      {plan.saker?.map((sak: any, si: number) => (
+                        <div key={si} className="mb-2">
+                          <p className="text-xs text-brand-500">Sak: {sak.saksnummer}</p>
+                          {sak.behandlinger?.map((b: any, bi: number) => (
+                            <p key={bi} className="text-[10px] text-brand-400">
+                              {b.dato}: {b.type} ({b.antallDokumenter} dok.)
+                            </p>
+                          ))}
+                        </div>
+                      ))}
+                      {plan.dokumenter?.length > 0 && (
+                        <div className="mt-3">
+                          <p className="text-xs font-semibold text-brand-600 mb-1.5">Dokumenter ({plan.dokumenter.length})</p>
+                          <div className="space-y-1">
+                            {plan.dokumenter.slice(0, 10).map((dok: any, di: number) => (
+                              <a key={di} href={dok.nedlastUrl} target="_blank" rel="noopener noreferrer"
+                                className="flex items-center gap-2 text-[10px] text-brand-600 bg-brand-50 rounded px-2.5 py-1.5 hover:bg-brand-100 transition-colors">
+                                <FileText className="w-3 h-3 text-tomtly-accent flex-shrink-0" />
+                                <span className="flex-1 min-w-0 truncate">{dok.beskrivelse || dok.dokumenttype}</span>
+                                <span className="text-brand-400 flex-shrink-0">{dok.dokumenttype}</span>
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <a href={lillestromPlaner.kartinnsynUrl} target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-2 mt-4 px-4 py-2.5 bg-forest-50 text-tomtly-accent rounded-lg text-xs font-medium hover:bg-forest-100 border border-tomtly-accent/20">
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  Åpne Lillestrøm Planinnsyn for gnr {lillestromPlaner.gnr} / bnr {lillestromPlaner.bnr}
+                </a>
+              </div>
+            )}
+
             {/* Kommune byggesak-innsyn */}
             {kommuneInnsyn && kommuneInnsyn.kilder?.length > 0 && (
               <div className="bg-white rounded-2xl border border-brand-100 p-6 shadow-sm">
@@ -2609,6 +2841,98 @@ function PrototypeContent() {
                 </div>
               </div>
             )}
+            {/* Oslo småhusplan — midlertidig forbud */}
+            {valgtAdresse?.kommunenummer === '0301' && (() => {
+              const sp = require('@/lib/oslo-smahusplan').OSLO_SMAHUSPLAN
+              return (
+              <div className="bg-white rounded-2xl border-2 border-amber-300 p-6 shadow-sm">
+                <div className="flex items-start gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center flex-shrink-0">
+                    <AlertTriangle className="w-5 h-5 text-amber-600" />
+                  </div>
+                  <div>
+                    <h2 className="font-display text-lg font-bold text-tomtly-dark">
+                      Småhusplanen — Midlertidig forbud mot tiltak
+                    </h2>
+                    <p className="text-xs text-amber-700 font-medium">
+                      Gjelder småhusplanområdet (S-4220) · Vedtatt {sp.vedtattDato} · Gjelder til {sp.gjelderTil}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-5">
+                  <p className="text-sm text-brand-700 leading-relaxed">{sp.sammendrag}</p>
+                </div>
+
+                {/* Unntak */}
+                <div className="mb-5">
+                  <h3 className="text-xs font-semibold text-green-700 uppercase tracking-wide mb-2">Unntak fra forbudet — dette KAN gjøres</h3>
+                  <ul className="space-y-1.5">
+                    {sp.unntak.map((u: string, i: number) => (
+                      <li key={i} className="flex items-start gap-2 text-xs text-brand-700">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-green-500 flex-shrink-0 mt-0.5" />
+                        {u}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Forbudet omfatter */}
+                <div className="mb-5">
+                  <h3 className="text-xs font-semibold text-red-700 uppercase tracking-wide mb-2">Forbudet omfatter</h3>
+                  <ul className="space-y-1.5">
+                    {sp.forbudOmfatter.map((f: string, i: number) => (
+                      <li key={i} className="flex items-start gap-2 text-xs text-brand-700">
+                        <AlertTriangle className="w-3.5 h-3.5 text-red-400 flex-shrink-0 mt-0.5" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Ny plan */}
+                <div className="mb-5">
+                  <h3 className="text-xs font-semibold text-brand-600 uppercase tracking-wide mb-2">Foreslått ny småhusplan — viktige endringer</h3>
+                  <ul className="space-y-1.5">
+                    {sp.nyPlanHoydepunkter.map((h: string, i: number) => (
+                      <li key={i} className="flex items-start gap-2 text-xs text-brand-700">
+                        <Info className="w-3.5 h-3.5 text-blue-400 flex-shrink-0 mt-0.5" />
+                        {h}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Viktig for kjøpere */}
+                <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-5">
+                  <h3 className="text-xs font-semibold text-blue-800 uppercase tracking-wide mb-2">Viktig for kjøpere og selgere</h3>
+                  <ul className="space-y-1.5">
+                    {sp.viktigForKjopere.map((v: string, i: number) => (
+                      <li key={i} className="text-xs text-blue-800">{v}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Dokumenter */}
+                <h3 className="text-xs font-semibold text-brand-600 uppercase tracking-wide mb-2">Dokumenter (last ned)</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  {sp.dokumenter.map((doc: any) => (
+                    <a
+                      key={doc.url}
+                      href={doc.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 bg-brand-50 border border-brand-200 rounded-lg p-3 text-xs text-brand-700 hover:border-tomtly-accent hover:bg-forest-50 transition-colors"
+                    >
+                      <FileText className="w-4 h-4 text-tomtly-accent flex-shrink-0" />
+                      <span className="line-clamp-2">{doc.navn}</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+              )
+            })()}
+
             {/* Oslo PBE – Hva gjelder */}
             {osloHvaGjelder?.treff && (
               <div className="bg-white rounded-2xl border border-brand-100 p-6 shadow-sm">

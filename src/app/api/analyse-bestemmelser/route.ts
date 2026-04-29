@@ -21,10 +21,15 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    // 1. Last ned PDF
-    const pdfRes = await fetch(pdfUrl, {
+    // 1. Last ned PDF (prøv med og uten token)
+    let pdfRes = await fetch(pdfUrl, {
       headers: { 'X-WAAPI-TOKEN': AREALPLANER_TOKEN },
+      signal: AbortSignal.timeout(20000),
     })
+    if (!pdfRes.ok && pdfRes.status === 401) {
+      // Retry uten token (direkteUrl trenger ikke token)
+      pdfRes = await fetch(pdfUrl, { signal: AbortSignal.timeout(20000) })
+    }
     if (!pdfRes.ok) {
       return NextResponse.json({ error: `Kunne ikke laste ned PDF: HTTP ${pdfRes.status}` }, { status: 502 })
     }

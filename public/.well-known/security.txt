@@ -1,0 +1,3 @@
+Contact: mailto:hey@nops.no
+Preferred-Languages: nb, en
+Canonical: https://tomtly.no/.well-known/security.txt

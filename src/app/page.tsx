@@ -350,7 +350,7 @@ function FremhevedeTomter() {
       adresse: 'Gamle Alværnvei 67',
       sted: 'Nesodden',
       areal: '900 m²',
-      pris: '3 200 000 kr',
+      pris: '3 000 000 kr',
       husmodeller: 3,
       type: 'Skråtomt med fjordutsikt',
     },

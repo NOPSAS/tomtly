@@ -1,4 +1,5 @@
 # Tomtly — Norges plattform for tomtesalg og tomteanalyse
+# Full versjon: https://tomtly.no/llms-full.txt
 
 > Tomtly hjelper tomteeiere med å selge tomten raskere til bedre pris ved å vise kjøpere hva de faktisk kan bygge.
 

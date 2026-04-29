@@ -1,0 +1,125 @@
+# Tomtly — Norges plattform for tomtesalg og tomteanalyse
+
+> Tomtly hjelper tomteeiere med å selge tomten raskere til bedre pris ved å vise kjøpere hva de faktisk kan bygge.
+
+## Om Tomtly
+
+Tomtly er en norsk analyseplattform og rådgivningstjeneste for tomtesalg, drevet av NOPS AS (org.nr 933 819 086). Selskapet ble grunnlagt av Jakob Bjøndal, arkitekt og eiendomsutvikler med erfaring fra 400+ byggesøknader og 20+ egne byggeprosjekter.
+
+Tomtly analyserer reguleringsplan og kommuneplan, plasserer egnede husmodeller fra norske leverandører (ABChus, Hedalm-Anebyhus, Älvsbyhus m.fl.) på tomten med kart og visualisering, og lager en komplett byggekostnadskalkyle som kjøper kan ta med til banken.
+
+Erfaringen er at kjøpere som ser et ferdig prosjekt — ikke bare en tomt — tar raskere beslutning og er villige til å betale mer. En tomt på Nesodden som hadde ligget ute i 7 måneder ble solgt 2 måneder etter Tomtly la ut analysen.
+
+## Tjenester
+
+### Tomtly Salg (for tomteeiere)
+- Tomteanalyse med reguleringssjekk og kommuneplanvurdering
+- Husmodellforslag fra norske leverandører tilpasset tomtens regulering og topografi
+- Plassering av husmodeller på kart med visualisering
+- Komplett byggekostnadskalkyle (tomt + hus + grunnarbeid + gebyrer)
+- Profesjonell salgsside på tomtly.no
+- Aktiv markedsføring og annonsering mot kjøpere
+- Bistand i dialog med interessenter
+- Faglig rådgivning gjennom hele prosessen
+- Pris: 4 990 kr oppstart + 2 % suksesshonorar + mva ved gjennomført salg (min. 20 000 kr + mva)
+
+### Tomteanalyse (gratis prøve)
+- Sjekk reguleringsplan, kommuneplan, grunnforhold og naturfare for enhver adresse i Norge
+- 356 kommuner dekket
+- DOK-analyse (Det offentlige kartgrunnlaget)
+- Norkart bygningsdata og ROS-analyse (risiko og sårbarhet)
+- Tilgjengelig på: https://tomtly.no/tomteanalyse
+
+### For eiendomsmeglere
+- Bestill profesjonell tomteanalyse for dine kunder
+- Pris: 7 500 kr + mva per tomt
+
+### Fradeling
+- Komplett håndtering av fradelingsprosessen
+- 5 % av ny tomts verdi, 0 kr ved avslag
+- https://tomtly.no/fradeling
+
+### Rammetillatelse (via Tegnebua)
+- Arkitekttegninger og byggesøknad
+- Pris: 50 000 kr + mva
+- Valgfritt tillegg
+
+### Eiendomsoppgjør
+- Via samarbeidspartner Proff Oppgjør AS
+- Pris: 9 000 kr + mva (+ 545 kr tinglysing)
+- Kontakt: Marie Nordhagen, marie@proffoppgjor.no, +47 915 98 990
+
+## Teknologi
+
+Tomtly bruker data fra:
+- Planslurpen (DiBK) — reguleringsplaner for hele Norge
+- Arealplaner.no — kommuneplaner og bestemmelser
+- Kartverket — eiendomsdata, DOK, topografisk kart
+- Norkart — bygningsdata (WAAPI-Bygning) og risiko/sårbarhet (WAAPI-ROS)
+- NIBIO — arealressurskart (AR5)
+- Claude AI — analyse av reguleringsbestemmelser (PDF)
+- 260+ kommuner med KI-generert sammendrag av kommuneplanens arealdel
+
+## Dekningsområde
+
+Hele Norge. Tomteanalyse tilgjengelig for alle 356 norske kommuner. 260+ kommuner med detaljert kommuneplansammendrag.
+
+## Referanser
+
+### Solgt tomt: Gamle Alværnvei 65, Nesodden
+- 1 374 m² tomt, solgt for 3 200 000 kr
+- Hadde ligget på FINN i 7 måneder uten seriøse henvendelser
+- 2 måneder etter Tomtly-analyse: solgt til kjøper som startet byggeprosjekt
+- Husmodell: Wide fra ABChus (207,9 m² BRA)
+- Se: https://tomtly.no/tomter/alvaern-65
+
+## Samarbeidspartnere
+
+- Proff Oppgjør AS — eiendomsoppgjør
+- Norkart AS — kartdata og bygningsdata
+- ABChus — husmodeller
+- Hedalm-Anebyhus — husmodeller
+- Älvsbyhus — husmodeller
+
+## Kontakt
+
+- Nettside: https://tomtly.no
+- E-post: hey@nops.no
+- Telefon: +47 406 03 908
+- Chat: Live chat på tomtly.no
+- Selskap: NOPS AS (org.nr 933 819 086)
+- Grunnlegger: Jakob Bjøndal
+- Adresse: Nesodden, Norge
+
+## Nyttige lenker
+
+- Forsiden: https://tomtly.no
+- Selge tomt: https://tomtly.no/for-tomteeiere
+- Gratis tomteanalyse: https://tomtly.no/tomteanalyse
+- Eksempel (solgt tomt): https://tomtly.no/tomter/alvaern-65
+- Alle tomter: https://tomtly.no/tomter
+- Kart: https://tomtly.no/kart
+- For meglere: https://tomtly.no/for-meglere
+- Fradeling: https://tomtly.no/fradeling
+- Verdivurdering: https://tomtly.no/verdivurdering
+- Aktuelt/blogg: https://tomtly.no/aktuelt
+- Kommuner: https://tomtly.no/kommune
+- Samarbeidspartnere: https://tomtly.no/samarbeidspartnere
+- Demo: https://tomtly.no/demo
+
+## Vanlige spørsmål
+
+### Hva koster det?
+4 990 kr oppstart. 2 % suksesshonorar + mva kun ved gjennomført salg (minimum 20 000 kr + mva). Ingen salg = ingen ekstra kostnad.
+
+### Er Tomtly et meglerfirma?
+Nei. Tomtly er en analyseplattform og rådgivningstjeneste. Du selger tomten selv med Tomtlys verktøy.
+
+### Når utløses 2 %?
+Kun ved gjennomført salg. Gjelder i 12 måneder + 3 måneder etter eventuell oppsigelse.
+
+### Hvem håndterer oppgjøret?
+Proff Oppgjør AS (9 000 kr + mva). Du velger selv oppgjørspartner.
+
+### Kan meglere bruke Tomtly?
+Ja. 7 500 kr + mva per analyse.

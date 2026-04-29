@@ -15,7 +15,7 @@ const PLANSLURPEN_BASE = 'https://www.planslurpen.no/api'
 
 const TOMTLY_TOMTER = [
   { slug: 'alvaern-65', lat: 59.816, lng: 10.620, adresse: 'Gamle Alværnvei 65', areal: '1 374 m²', status: 'solgt' as const, pris: '3 200 000 kr' },
-  { slug: 'alvaern-67', lat: 59.8155, lng: 10.6196, adresse: 'Gamle Alværnvei 67', areal: '900 m²', status: 'aktiv' as const, pris: '3 200 000 kr' },
+  { slug: 'alvaern-67', lat: 59.8155, lng: 10.6196, adresse: 'Gamle Alværnvei 67', areal: '900 m²', status: 'aktiv' as const, pris: '3 000 000 kr' },
   { slug: 'bjornemyrveien-20', lat: 59.8346, lng: 10.6419, adresse: 'Bjørnemyrveien 20', areal: '605 m²', status: 'aktiv' as const, pris: '3 000 000 kr' },
   { slug: 'bjornemyrveien-22', lat: 59.8348, lng: 10.6423, adresse: 'Bjørnemyrveien 22', areal: '613 m²', status: 'aktiv' as const, pris: '3 000 000 kr' },
 ]

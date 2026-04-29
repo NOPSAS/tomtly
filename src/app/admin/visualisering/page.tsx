@@ -2,9 +2,8 @@
 
 import { useState, useRef } from 'react'
 import {
-  Image as ImageIcon, Search, Loader2, Download, Camera,
-  Home, Palette, RotateCcw, Wand2, CheckCircle2, AlertTriangle,
-  ChevronDown, ExternalLink, Upload
+  Search, Loader2, Download, Camera,
+  Home, CheckCircle2, AlertTriangle, Upload, Copy, Check, ExternalLink
 } from 'lucide-react'
 
 // ─── Husbibliotek ───────────────────────────────────────────────────
@@ -18,7 +17,6 @@ interface HusModell {
   soverom: number
   beskrivelse: string
   ekstra?: Record<string, string>
-  bilder?: { fasade?: string[] }
 }
 
 const HUSBIBLIOTEK: HusModell[] = [
@@ -57,41 +55,27 @@ const HUSBIBLIOTEK: HusModell[] = [
     beskrivelse: 'Tomannsbolig/parsellhus. To separate enheter med speilvendt planløsning.',
     ekstra: { BYA: '~75 m² per enhet', Takvinkel: 'Pulttak', Stil: 'Moderne tomannsbolig' },
   },
-  {
-    id: 'egendefinert', navn: 'Egendefinert', leverandor: 'Fritekst', bra_m2: 0, etasjer: 0, soverom: 0,
-    beskrivelse: 'Beskriv huset fritt — stil, størrelse, materialer og takform.',
-  },
 ]
 
-// ─── Komponenter ────────────────────────────────────────────────────
-
 export default function VisualiseringsVerktoy() {
-  // FINN-bilder
+  // FINN
   const [finnUrl, setFinnUrl] = useState('')
   const [finnBilder, setFinnBilder] = useState<string[]>([])
   const [finnInfo, setFinnInfo] = useState<any>(null)
   const [finnLoading, setFinnLoading] = useState(false)
+  const [feil, setFeil] = useState<string | null>(null)
 
-  // Valgt bilde
-  const [valgtBilde, setValgtBilde] = useState<string | null>(null)
-  const [opplastetBilde, setOpplastetBilde] = useState<string | null>(null)
+  // Opplasting
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   // Husmodell
   const [valgtHus, setValgtHus] = useState<HusModell | null>(null)
-  const [egendefinertBeskrivelse, setEgendefinertBeskrivelse] = useState('')
 
-  // Visualiseringsinnstillinger
+  // Landskap
   const [landskap, setLandskap] = useState('')
-  const [vinkel, setVinkel] = useState('skrå')
-  const [stil, setStil] = useState('fotorealistisk')
-  const [ekstraInstruksjoner, setEkstraInstruksjoner] = useState('')
 
-  // Resultat
-  const [resultat, setResultat] = useState<string | null>(null)
-  const [genererer, setGenererer] = useState(false)
-  const [feil, setFeil] = useState<string | null>(null)
-  const [prompt, setPrompt] = useState<string | null>(null)
+  // Prompt
+  const [kopiert, setKopiert] = useState(false)
 
   // ─── Hent FINN-bilder ─────────────────────────────────────────────
 
@@ -116,181 +100,154 @@ export default function VisualiseringsVerktoy() {
     }
   }
 
-  // ─── Fileopplasting ───────────────────────────────────────────────
+  // ─── Last ned bilde ───────────────────────────────────────────────
 
-  function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (!file) return
-    const reader = new FileReader()
-    reader.onload = () => {
-      setOpplastetBilde(reader.result as string)
-      setValgtBilde(reader.result as string)
-    }
-    reader.readAsDataURL(file)
-  }
-
-  // ─── Generer visualisering ────────────────────────────────────────
-
-  async function genererVisualisering() {
-    if (!valgtHus) { setFeil('Velg en husmodell'); return }
-    setGenererer(true)
-    setFeil(null)
-    setResultat(null)
-
-    const husData = valgtHus.id === 'egendefinert'
-      ? { ...valgtHus, beskrivelse: egendefinertBeskrivelse || 'Moderne norsk enebolig' }
-      : valgtHus
-
+  async function lastNedBilde(url: string, idx: number) {
     try {
-      const res = await fetch('/api/visualisering', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          bildeUrl: valgtBilde,
-          husmodell: husData,
-          landskapBeskrivelse: landskap,
-          vinkel,
-          stil,
-          ekstraInstruksjoner,
-        }),
-      })
-      const data = await res.json()
-      if (data.error) {
-        setFeil(data.error)
-      } else {
-        setResultat(data.bildeUrl || data.bilde)
-        setPrompt(data.prompt)
-      }
-    } catch (err: any) {
-      setFeil(err.message)
-    } finally {
-      setGenererer(false)
+      const res = await fetch(url)
+      const blob = await res.blob()
+      const a = document.createElement('a')
+      a.href = URL.createObjectURL(blob)
+      a.download = `tomt-bilde-${idx + 1}.jpg`
+      a.click()
+      URL.revokeObjectURL(a.href)
+    } catch {
+      window.open(url, '_blank')
     }
   }
 
-  // ─── Aktivt bilde ─────────────────────────────────────────────────
+  // ─── Bygg Gemini-prompt ───────────────────────────────────────────
 
-  const aktivtBilde = valgtBilde || opplastetBilde
+  function byggPrompt(): string {
+    if (!valgtHus) return ''
+
+    const lines = [
+      `Plasser husmodellen "${valgtHus.navn}" fra ${valgtHus.leverandor} på denne tomten.`,
+      '',
+      `Huset:`,
+      `- ${valgtHus.navn} (${valgtHus.leverandor})`,
+      `- ${valgtHus.bra_m2} m² BRA, ${valgtHus.etasjer} etasje(r), ${valgtHus.soverom} soverom`,
+      `- ${valgtHus.beskrivelse}`,
+    ]
+
+    if (valgtHus.ekstra) {
+      Object.entries(valgtHus.ekstra).forEach(([k, v]) => {
+        lines.push(`- ${k}: ${v}`)
+      })
+    }
+
+    lines.push('')
+
+    if (landskap) {
+      lines.push(`Uteområder: ${landskap}`)
+    } else {
+      lines.push('Uteområder: Plen, grusvei/innkjørsel, naturlig norsk vegetasjon.')
+    }
+
+    lines.push('')
+    lines.push('Viktig:')
+    lines.push('- IKKE endre naboer, veier, gjerder eller annen eksisterende bebyggelse')
+    lines.push('- Huset skal se realistisk ut og passe til terrenget')
+    lines.push('- Norsk boligstil: trekledning (hvit, grå eller mørk), riktig takform')
+    lines.push('- Fotorealistisk resultat, naturlig belysning')
+
+    return lines.join('\n')
+  }
+
+  const prompt = valgtHus ? byggPrompt() : ''
+
+  function kopierPrompt() {
+    navigator.clipboard.writeText(prompt)
+    setKopiert(true)
+    setTimeout(() => setKopiert(false), 2000)
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="font-display text-3xl font-bold text-tomtly-dark mb-2 flex items-center gap-3">
-          <Wand2 className="w-8 h-8 text-tomtly-accent" />
-          Visualiseringsverktoy
-        </h1>
-        <p className="text-brand-600">Lag AI-visualiseringer av hus pa tomter for kunder.</p>
+        <h1 className="font-display text-2xl font-bold text-tomtly-dark mb-1">Visualisering</h1>
+        <p className="text-sm text-brand-600">Hent bilder fra FINN, velg husmodell, kopier prompt til Gemini.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* ═══ Venstre kolonne: Bilder ═══ */}
-        <div className="lg:col-span-1 space-y-6">
-          {/* FINN-scraper */}
+        {/* ═══ Kolonne 1: FINN-bilder ═══ */}
+        <div className="space-y-5">
           <div className="bg-white rounded-xl border border-brand-200 p-5">
-            <h2 className="font-semibold text-tomtly-dark mb-3 flex items-center gap-2">
+            <h2 className="font-semibold text-tomtly-dark mb-3 flex items-center gap-2 text-sm">
               <Search className="w-4 h-4 text-tomtly-accent" />
-              Hent bilder fra FINN
+              1. Hent bilder fra FINN
             </h2>
             <div className="flex gap-2 mb-3">
               <input
                 type="text"
                 value={finnUrl}
                 onChange={(e) => setFinnUrl(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && hentFinnBilder()}
                 placeholder="https://www.finn.no/realestate/..."
                 className="flex-1 px-3 py-2 text-sm border border-brand-200 rounded-lg focus:ring-2 focus:ring-tomtly-accent/20 focus:border-tomtly-accent"
               />
               <button
                 onClick={hentFinnBilder}
                 disabled={finnLoading || !finnUrl}
-                className="px-4 py-2 bg-tomtly-accent text-white text-sm font-medium rounded-lg hover:bg-forest-700 disabled:opacity-50 transition-colors"
+                className="px-4 py-2 bg-tomtly-accent text-white text-sm font-medium rounded-lg hover:bg-forest-700 disabled:opacity-50"
               >
                 {finnLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Hent'}
               </button>
             </div>
-            {finnInfo && (
-              <p className="text-xs text-brand-500 mb-2">
-                {finnInfo.tittel} — {finnInfo.antall} bilder funnet
-              </p>
+
+            {feil && (
+              <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-3 flex items-start gap-2">
+                <AlertTriangle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
+                <p className="text-xs text-red-700">{feil}</p>
+              </div>
             )}
+
+            {finnInfo && (
+              <div className="bg-brand-50 rounded-lg p-3 mb-3 text-xs text-brand-600">
+                <p className="font-semibold text-tomtly-dark">{finnInfo.tittel}</p>
+                {finnInfo.adresse && <p>{finnInfo.adresse}</p>}
+                <p>{finnInfo.antall} bilder funnet</p>
+              </div>
+            )}
+
             {finnBilder.length > 0 && (
-              <div className="grid grid-cols-3 gap-1.5 max-h-60 overflow-y-auto">
+              <div className="space-y-2 max-h-[500px] overflow-y-auto">
                 {finnBilder.map((url, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setValgtBilde(url)}
-                    className={`relative rounded-lg overflow-hidden border-2 transition-colors ${
-                      valgtBilde === url ? 'border-tomtly-accent' : 'border-transparent hover:border-brand-300'
-                    }`}
-                  >
+                  <div key={i} className="relative group rounded-lg overflow-hidden border border-brand-200">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={url} alt={`Bilde ${i + 1}`} className="w-full h-16 object-cover" />
-                    {valgtBilde === url && (
-                      <div className="absolute inset-0 bg-tomtly-accent/20 flex items-center justify-center">
-                        <CheckCircle2 className="w-5 h-5 text-white" />
-                      </div>
-                    )}
-                  </button>
+                    <img src={url} alt={`Bilde ${i + 1}`} className="w-full h-auto" />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                      <button
+                        onClick={() => lastNedBilde(url, i)}
+                        className="flex items-center gap-1.5 px-3 py-2 bg-white text-tomtly-dark text-xs font-semibold rounded-lg shadow-lg"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                        Last ned
+                      </button>
+                    </div>
+                    <span className="absolute top-2 left-2 bg-black/50 text-white text-[10px] px-2 py-0.5 rounded">{i + 1}/{finnBilder.length}</span>
+                  </div>
                 ))}
               </div>
             )}
-          </div>
 
-          {/* Filopplasting */}
-          <div className="bg-white rounded-xl border border-brand-200 p-5">
-            <h2 className="font-semibold text-tomtly-dark mb-3 flex items-center gap-2">
-              <Upload className="w-4 h-4 text-tomtly-accent" />
-              Eller last opp bilde
-            </h2>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleFileUpload}
-              className="hidden"
-            />
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              className="w-full py-8 border-2 border-dashed border-brand-300 rounded-lg text-sm text-brand-500 hover:border-tomtly-accent hover:text-tomtly-accent transition-colors"
-            >
-              <Camera className="w-6 h-6 mx-auto mb-2" />
-              Klikk for a velge bilde
-            </button>
-            {opplastetBilde && (
-              <div className="mt-3">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={opplastetBilde} alt="Opplastet" className="w-full h-32 object-cover rounded-lg" />
+            {finnBilder.length === 0 && !finnLoading && (
+              <div className="text-center py-6 text-brand-400">
+                <Camera className="w-8 h-8 mx-auto mb-2 opacity-40" />
+                <p className="text-xs">Lim inn en FINN-URL for å hente bilder</p>
               </div>
             )}
           </div>
-
-          {/* Valgt bilde preview */}
-          {aktivtBilde && (
-            <div className="bg-white rounded-xl border border-brand-200 p-5">
-              <h2 className="font-semibold text-tomtly-dark mb-3 flex items-center gap-2">
-                <ImageIcon className="w-4 h-4 text-tomtly-accent" />
-                Valgt referansebilde
-              </h2>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={aktivtBilde} alt="Valgt" className="w-full rounded-lg border border-brand-200" />
-              <button
-                onClick={() => { setValgtBilde(null); setOpplastetBilde(null) }}
-                className="mt-2 text-xs text-brand-500 hover:text-red-600"
-              >
-                Fjern bilde
-              </button>
-            </div>
-          )}
         </div>
 
-        {/* ═══ Midtre kolonne: Innstillinger ═══ */}
-        <div className="lg:col-span-1 space-y-6">
-          {/* Husmodell */}
+        {/* ═══ Kolonne 2: Husmodell + landskap ═══ */}
+        <div className="space-y-5">
           <div className="bg-white rounded-xl border border-brand-200 p-5">
-            <h2 className="font-semibold text-tomtly-dark mb-3 flex items-center gap-2">
+            <h2 className="font-semibold text-tomtly-dark mb-3 flex items-center gap-2 text-sm">
               <Home className="w-4 h-4 text-tomtly-accent" />
-              Velg husmodell
+              2. Velg husmodell
             </h2>
-            <div className="space-y-2 max-h-72 overflow-y-auto">
+            <div className="space-y-2 max-h-80 overflow-y-auto">
               {HUSBIBLIOTEK.map((hus) => (
                 <button
                   key={hus.id}
@@ -304,216 +261,87 @@ export default function VisualiseringsVerktoy() {
                   <div className="flex justify-between items-start">
                     <div>
                       <p className="text-sm font-semibold text-tomtly-dark">{hus.navn}</p>
-                      <p className="text-[10px] text-brand-500">{hus.leverandor}</p>
+                      <p className="text-[10px] text-brand-500">{hus.leverandor} — {hus.bra_m2} m², {hus.etasjer} etg.</p>
                     </div>
-                    {hus.bra_m2 > 0 && (
-                      <span className="text-[10px] bg-brand-100 px-2 py-0.5 rounded text-brand-600">
-                        {hus.bra_m2} m²
-                      </span>
-                    )}
+                    {valgtHus?.id === hus.id && <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0" />}
                   </div>
-                  <p className="text-[10px] text-brand-500 mt-1 line-clamp-2">{hus.beskrivelse}</p>
+                  <p className="text-[10px] text-brand-500 mt-1 line-clamp-1">{hus.beskrivelse}</p>
                 </button>
               ))}
             </div>
-
-            {valgtHus?.id === 'egendefinert' && (
-              <textarea
-                value={egendefinertBeskrivelse}
-                onChange={(e) => setEgendefinertBeskrivelse(e.target.value)}
-                placeholder="Beskriv huset: stil, storrelse, materialer, takform, antall etasjer..."
-                className="w-full mt-3 px-3 py-2 text-sm border border-brand-200 rounded-lg resize-none h-24 focus:ring-2 focus:ring-tomtly-accent/20"
-              />
-            )}
-
-            {valgtHus && valgtHus.id !== 'egendefinert' && (
-              <div className="mt-3 bg-forest-50 rounded-lg p-3 text-xs">
-                <p className="font-semibold text-tomtly-dark mb-1">{valgtHus.navn} — {valgtHus.leverandor}</p>
-                <div className="grid grid-cols-2 gap-1 text-brand-600">
-                  <span>BRA: {valgtHus.bra_m2} m²</span>
-                  <span>Etasjer: {valgtHus.etasjer}</span>
-                  <span>Soverom: {valgtHus.soverom}</span>
-                  {valgtHus.ekstra?.Takvinkel && <span>Tak: {valgtHus.ekstra.Takvinkel}</span>}
-                  {valgtHus.ekstra?.BYA && <span>BYA: {valgtHus.ekstra.BYA}</span>}
-                  {valgtHus.ekstra?.Stil && <span>Stil: {valgtHus.ekstra.Stil}</span>}
-                </div>
-              </div>
-            )}
           </div>
 
-          {/* Landskap og uteomrader */}
           <div className="bg-white rounded-xl border border-brand-200 p-5">
-            <h2 className="font-semibold text-tomtly-dark mb-3 flex items-center gap-2">
-              <Palette className="w-4 h-4 text-tomtly-accent" />
-              Uteomrader og landskap
-            </h2>
+            <h2 className="font-semibold text-tomtly-dark mb-3 text-sm">3. Beskriv uteområder (valgfritt)</h2>
             <textarea
               value={landskap}
               onChange={(e) => setLandskap(e.target.value)}
-              placeholder="Beskriv uteomradene: Plen med grusvei, bod pa venstre side, parkering foran huset, bjorketrær langs tomtegrensen, hekk mot nabo..."
-              className="w-full px-3 py-2 text-sm border border-brand-200 rounded-lg resize-none h-28 focus:ring-2 focus:ring-tomtly-accent/20"
+              placeholder="F.eks: Plen med grusvei, parkering foran, bjørketrær langs tomtegrensen, hekk mot nabo, bod på venstre side..."
+              className="w-full px-3 py-2 text-sm border border-brand-200 rounded-lg resize-none h-24 focus:ring-2 focus:ring-tomtly-accent/20"
             />
           </div>
-
-          {/* Vinkel og stil */}
-          <div className="bg-white rounded-xl border border-brand-200 p-5">
-            <h2 className="font-semibold text-tomtly-dark mb-3">Kameravinkel og stil</h2>
-            <div className="grid grid-cols-2 gap-3 mb-3">
-              <div>
-                <label className="text-xs text-brand-600 mb-1 block">Vinkel</label>
-                <select
-                  value={vinkel}
-                  onChange={(e) => setVinkel(e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-brand-200 rounded-lg"
-                >
-                  <option value="front">Frontvisning</option>
-                  <option value="skrå">Skravisning (3/4)</option>
-                  <option value="fugleperspektiv">Fugleperspektiv</option>
-                  <option value="bakfra">Bakfra (hage)</option>
-                  <option value="side">Sidevisning</option>
-                </select>
-              </div>
-              <div>
-                <label className="text-xs text-brand-600 mb-1 block">Stil</label>
-                <select
-                  value={stil}
-                  onChange={(e) => setStil(e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-brand-200 rounded-lg"
-                >
-                  <option value="fotorealistisk">Fotorealistisk</option>
-                  <option value="arkitektonisk">Arkitektonisk render</option>
-                  <option value="skisse">Skisse/akvarell</option>
-                </select>
-              </div>
-            </div>
-            <textarea
-              value={ekstraInstruksjoner}
-              onChange={(e) => setEkstraInstruksjoner(e.target.value)}
-              placeholder="Ekstra instruksjoner (valgfritt): F.eks. 'Vis huset med mork trekledning', 'Inkluder gjerde rundt tomten'..."
-              className="w-full px-3 py-2 text-sm border border-brand-200 rounded-lg resize-none h-16 focus:ring-2 focus:ring-tomtly-accent/20"
-            />
-          </div>
-
-          {/* Generer-knapp */}
-          <button
-            onClick={genererVisualisering}
-            disabled={genererer || !valgtHus}
-            className="w-full py-4 bg-tomtly-accent text-white font-semibold rounded-xl hover:bg-forest-700 disabled:opacity-50 transition-colors flex items-center justify-center gap-2 text-lg"
-          >
-            {genererer ? (
-              <>
-                <Loader2 className="w-5 h-5 animate-spin" />
-                Genererer visualisering...
-              </>
-            ) : (
-              <>
-                <Wand2 className="w-5 h-5" />
-                Generer visualisering
-              </>
-            )}
-          </button>
         </div>
 
-        {/* ═══ Hoyre kolonne: Resultat ═══ */}
-        <div className="lg:col-span-1 space-y-6">
-          {feil && (
-            <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3">
-              <AlertTriangle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-              <div>
-                <p className="text-sm font-semibold text-red-800">Feil</p>
-                <p className="text-xs text-red-600 mt-1">{feil}</p>
-              </div>
-            </div>
-          )}
+        {/* ═══ Kolonne 3: Prompt ═══ */}
+        <div className="space-y-5">
+          <div className="bg-white rounded-xl border border-brand-200 p-5">
+            <h2 className="font-semibold text-tomtly-dark mb-3 text-sm">4. Kopier prompt til Gemini</h2>
 
-          {genererer && (
-            <div className="bg-white rounded-xl border border-brand-200 p-8 text-center">
-              <Loader2 className="w-10 h-10 text-tomtly-accent animate-spin mx-auto mb-4" />
-              <p className="text-sm text-brand-600">Genererer AI-visualisering...</p>
-              <p className="text-xs text-brand-400 mt-1">Dette tar vanligvis 15-30 sekunder</p>
-            </div>
-          )}
-
-          {resultat && (
-            <div className="bg-white rounded-xl border border-brand-200 p-5">
-              <div className="flex items-center justify-between mb-3">
-                <h2 className="font-semibold text-tomtly-dark flex items-center gap-2">
-                  <ImageIcon className="w-4 h-4 text-tomtly-accent" />
-                  Resultat
-                </h2>
-                <div className="flex gap-2">
-                  <a
-                    href={resultat}
-                    download={`visualisering-${valgtHus?.navn || 'hus'}.png`}
-                    className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-tomtly-accent text-white rounded-lg hover:bg-forest-700"
-                  >
-                    <Download className="w-3 h-3" />
-                    Last ned
-                  </a>
-                  <button
-                    onClick={genererVisualisering}
-                    className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-brand-100 text-brand-700 rounded-lg hover:bg-brand-200"
-                  >
-                    <RotateCcw className="w-3 h-3" />
-                    Regenerer
-                  </button>
+            {valgtHus ? (
+              <>
+                <div className="bg-brand-50 rounded-lg p-4 mb-4 max-h-64 overflow-y-auto">
+                  <pre className="text-xs text-brand-700 whitespace-pre-wrap font-sans leading-relaxed">{prompt}</pre>
                 </div>
-              </div>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={resultat}
-                alt="AI-generert visualisering"
-                className="w-full rounded-lg border border-brand-200"
-              />
-            </div>
-          )}
 
-          {prompt && (
-            <details className="bg-white rounded-xl border border-brand-200 p-5">
-              <summary className="text-xs font-semibold text-brand-600 cursor-pointer flex items-center gap-1">
-                <ChevronDown className="w-3 h-3" />
-                Vis prompt (teknisk)
-              </summary>
-              <pre className="mt-3 text-[10px] text-brand-500 whitespace-pre-wrap bg-brand-50 rounded-lg p-3 max-h-60 overflow-y-auto">
-                {prompt}
-              </pre>
-            </details>
-          )}
+                <button
+                  onClick={kopierPrompt}
+                  className={`w-full py-3 font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 ${
+                    kopiert
+                      ? 'bg-green-500 text-white'
+                      : 'bg-tomtly-accent text-white hover:bg-forest-700'
+                  }`}
+                >
+                  {kopiert ? <><Check className="w-4 h-4" /> Kopiert!</> : <><Copy className="w-4 h-4" /> Kopier prompt</>}
+                </button>
+
+                <div className="mt-3 flex flex-col gap-2">
+                  <a
+                    href="https://gemini.google.com/app"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 py-2.5 bg-blue-50 text-blue-700 font-medium rounded-lg text-sm hover:bg-blue-100 border border-blue-200"
+                  >
+                    Åpne Gemini <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                  <a
+                    href="https://chatgpt.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 py-2.5 bg-brand-50 text-brand-600 font-medium rounded-lg text-sm hover:bg-brand-100 border border-brand-200"
+                  >
+                    Åpne ChatGPT <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              </>
+            ) : (
+              <div className="text-center py-10 text-brand-400">
+                <p className="text-sm">Velg en husmodell for å generere prompt</p>
+              </div>
+            )}
+          </div>
 
           {/* Instruksjoner */}
-          {!resultat && !genererer && (
-            <div className="bg-brand-50 rounded-xl border border-brand-200 p-5">
-              <h3 className="font-semibold text-tomtly-dark mb-3 text-sm">Slik bruker du verktøyet</h3>
-              <ol className="space-y-2 text-xs text-brand-600">
-                <li className="flex items-start gap-2">
-                  <span className="w-5 h-5 rounded-full bg-tomtly-accent text-white text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">1</span>
-                  Lim inn FINN-URL eller last opp bilde av tomten
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-5 h-5 rounded-full bg-tomtly-accent text-white text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">2</span>
-                  Velg et bilde som viser tomten fra god vinkel
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-5 h-5 rounded-full bg-tomtly-accent text-white text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">3</span>
-                  Velg husmodell fra biblioteket (eller beskriv fritt)
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-5 h-5 rounded-full bg-tomtly-accent text-white text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">4</span>
-                  Beskriv uteomradene (plen, parkering, hekk, trær)
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-5 h-5 rounded-full bg-tomtly-accent text-white text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">5</span>
-                  Klikk «Generer» — AI lager fotorealistisk bilde
-                </li>
-              </ol>
-              <div className="mt-4 bg-amber-50 border border-amber-200 rounded-lg p-3">
-                <p className="text-[10px] text-amber-800">
-                  <strong>NB:</strong> Krever OpenAI API-nokkel (OPENAI_API_KEY) i .env.local.
-                  Bildegenerering bruker gpt-image-1 og koster ca. 4-8 kr per bilde.
-                </p>
-              </div>
-            </div>
-          )}
+          <div className="bg-amber-50 rounded-xl border border-amber-200 p-5">
+            <h3 className="font-semibold text-amber-800 mb-2 text-sm">Slik bruker du det</h3>
+            <ol className="space-y-1.5 text-xs text-amber-700">
+              <li><strong>1.</strong> Hent bilder fra FINN (eller bruk egne)</li>
+              <li><strong>2.</strong> Last ned det beste tomtebildet</li>
+              <li><strong>3.</strong> Velg husmodell og beskriv uteområder</li>
+              <li><strong>4.</strong> Kopier prompten</li>
+              <li><strong>5.</strong> Åpne Gemini, last opp bildet, lim inn prompten</li>
+              <li><strong>6.</strong> Last ned resultatet og bruk i tomtepresentasjonen</li>
+            </ol>
+          </div>
         </div>
       </div>
     </div>

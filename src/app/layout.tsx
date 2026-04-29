@@ -1,9 +1,11 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import { Inter, Playfair_Display, JetBrains_Mono } from 'next/font/google'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { AuthProvider } from '@/lib/auth-context'
 import CookieConsent from '@/components/CookieConsent'
+import { PageTracker } from '@/components/PageTracker'
 import './globals.css'
 
 const inter = Inter({
@@ -72,6 +74,9 @@ export const metadata: Metadata = {
   },
   verification: {
     google: 'kEL2DGDlsoXFrh671fn15qrLlnBfYRTOiDd_ZZbqcUw',
+    other: {
+      'msvalidate.01': ['D9A21CD0FC9CCA2FFFA26B0C200B7C3B'],
+    },
   },
 }
 
@@ -83,6 +88,10 @@ export default function RootLayout({
   return (
     <html lang="nb" className={`${inter.variable} ${playfair.variable} ${jetbrains.variable}`}>
       <head>
+        {/* Search engine verification */}
+        <meta name="yandex-verification" content="a2564c67e1cda0bb" />
+        {/* IndexNow */}
+        <link rel="indexnow" href="https://tomtly.no/f1b60298834647a9a05fb19ea0216762.txt" />
         {/* Organization + WebSite structured data for Google */}
         <script
           type="application/ld+json"
@@ -168,7 +177,22 @@ export default function RootLayout({
           <main className="flex-1">{children}</main>
           <Footer />
           <CookieConsent />
+          <PageTracker />
         </AuthProvider>
+        {/* Tawk.to Live Chat */}
+        <Script id="tawk-to" strategy="afterInteractive">
+          {`
+            var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+            (function(){
+              var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+              s1.async=true;
+              s1.src='https://embed.tawk.to/69e0971fc0e3ae1c3248cf3c/1jmakslbd';
+              s1.charset='UTF-8';
+              s1.setAttribute('crossorigin','*');
+              s0.parentNode.insertBefore(s1,s0);
+            })();
+          `}
+        </Script>
       </body>
     </html>
   )

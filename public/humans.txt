@@ -1,0 +1,12 @@
+/* TEAM */
+Founder: Jakob Bjøndal
+Role: Architect, developer, entrepreneur
+Contact: hey@nops.no
+Location: Nesodden, Norway
+
+/* SITE */
+Platform: Next.js 15, Vercel
+Database: Supabase
+AI: Anthropic Claude, Norkart APIs
+Language: Norwegian Bokmål (nb-NO)
+Standards: HTML5, CSS3, Schema.org, OpenGraph

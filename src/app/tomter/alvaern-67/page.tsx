@@ -32,8 +32,8 @@ const BILDER = [
 ]
 
 const FELLES = [
-  { post: 'Tomt', belop: 3200000 },
-  { post: 'Dokumentavgift (2,5%)', belop: 80000 },
+  { post: 'Tomt', belop: 3000000 },
+  { post: 'Dokumentavgift (2,5%)', belop: 75000 },
 ]
 const ETTER = (grunnarbeid: number) => [
   { post: 'Grunnarbeider inkl. mva (tilbud S-Anlegg)', belop: grunnarbeid },
@@ -48,8 +48,8 @@ const HUSMODELLER = [
     beskrivelse: 'Funkishus med stor stue, Drømmekjøkkenet, Siemens hvitevarer, smarthus og panoramautsikt. 3 soverom + hybel. Inkluderer støpt plate/grunnmur og 1-trinns byggesøknad.',
     bra_m2: 160.3, soverom: 4, bad: '2', etasjer: 2,
     ekstra: { 'BYA': '114,6 m²', 'Utnyttelse': '16,7%', 'Hybel': 'Ja', 'Smarthus': 'Inkludert', 'Grunnmur': 'Inkludert' },
-    pris_hus: 5399000, total_budsjett: 9595175,
-    kostnader: [...FELLES, { post: 'Wide A – nøkkelferdig fra ABChus', belop: 5399000 }, ...ETTER(602625)],
+    pris_hus: 5399000, total_budsjett: 9440175,
+    kostnader: [...FELLES, { post: 'Wide A – nøkkelferdig fra ABChus', belop: 5399000 }, ...ETTER(652625)],
     verdi_bra_m2: 160, verdi_m2_pris: 78000, verdi_total: 12500000,
     inkludert: ['Støpt plate/grunnmur', 'Smarthus', 'Drømmekjøkkenet', 'Siemens hvitevarer', 'Parkett', 'Trapperingen trapp', 'Malte gipsvegger', 'Flislagte bad m/varmekabler', 'Kardia teknisk enhet', '1-trinns byggesøknad'],
     bilder: {
@@ -65,8 +65,8 @@ const HUSMODELLER = [
     beskrivelse: 'Moderne enebolig med mønetak i stue/kjøkken, 4 soverom, vaskerom og TV-stue med utgang til hage. Tilpasset skrånende tomter.',
     bra_m2: 160.9, soverom: 4, bad: '1 + WC', etasjer: 2,
     ekstra: { 'BYA': '~90 m²', 'Utnyttelse': '14,0%', 'Vaskerom': 'Ja', 'TV-stue': 'Ja' },
-    pris_hus: 4927000, total_budsjett: 9123175,
-    kostnader: [...FELLES, { post: 'Nelly – nøkkelferdig fra ABChus', belop: 4927000 }, ...ETTER(602625)],
+    pris_hus: 4927000, total_budsjett: 8968175,
+    kostnader: [...FELLES, { post: 'Nelly – nøkkelferdig fra ABChus', belop: 4927000 }, ...ETTER(652625)],
     verdi_bra_m2: 160, verdi_m2_pris: 75000, verdi_total: 12000000,
     inkludert: ['Støpt plate/grunnmur', 'Parkett', 'Flislagt entré og våtrom', 'Pipe og peisovn', 'Komplett el-leveranse', 'Komplett rørleveranse', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Fundament inkludert'],
     bilder: {
@@ -82,8 +82,8 @@ const HUSMODELLER = [
     beskrivelse: 'Herskapelig enebolig over to plan med opptil 6 soverom. Størst modell med 199 m². Stor stue/kjøkken, vaskerom, hovedsoverom med eget bad og balkong.',
     bra_m2: 199.1, soverom: 6, bad: '2 + WC', etasjer: 2,
     ekstra: { 'BYA': '~120 m²', 'Utnyttelse': '17,3%', 'Hovedsoverom': 'Med eget bad', 'Balkong': 'Ja' },
-    pris_hus: 5588000, total_budsjett: 9784175,
-    kostnader: [...FELLES, { post: 'Adele – nøkkelferdig fra ABChus', belop: 5588000 }, ...ETTER(602625)],
+    pris_hus: 5588000, total_budsjett: 9629175,
+    kostnader: [...FELLES, { post: 'Adele – nøkkelferdig fra ABChus', belop: 5588000 }, ...ETTER(652625)],
     verdi_bra_m2: 199, verdi_m2_pris: 65000, verdi_total: 13000000,
     inkludert: ['Støpt plate/grunnmur', 'Parkett', 'Flislagt entré og våtrom', 'Pipe og peisovn', 'Komplett el-leveranse', 'Komplett rørleveranse', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Fundament inkludert'],
     bilder: {
@@ -99,8 +99,8 @@ const HUSMODELLER = [
     beskrivelse: 'Kompakt og effektiv bolig med inngang fra begge plan – perfekt for skrånende tomt. 3 soverom, innglassert balkong. Billigst modell med mest gjenværende BYA-kapasitet (64 m² mer kan bygges).',
     bra_m2: 136.9, soverom: 3, bad: '2', etasjer: 2,
     ekstra: { 'BYA': '80,5 m²', 'Utnyttelse': '12,9%', 'Gjenværende BYA': '64,1 m²', 'Innglassert balkong': 'Ja' },
-    pris_hus: 3538000, total_budsjett: 7934175,
-    kostnader: [...FELLES, { post: 'Skogly – ferdig hus fra Hedalm-Anebyhus', belop: 3538000 }, { post: 'Fundament', belop: 200000 }, ...ETTER(602625)],
+    pris_hus: 3538000, total_budsjett: 7779175,
+    kostnader: [...FELLES, { post: 'Skogly – ferdig hus fra Hedalm-Anebyhus', belop: 3538000 }, { post: 'Fundament', belop: 200000 }, ...ETTER(652625)],
     verdi_bra_m2: 137, verdi_m2_pris: 77000, verdi_total: 10500000,
     inkludert: ['Parkett', 'Flislagt entré og våtrom', 'Pipe og peisovn', 'Komplett el-leveranse', 'Komplett rørleveranse', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Lyskilder inne/ute', 'Innglassert balkong'],
     bilder: {
@@ -140,7 +140,7 @@ const TOMT = {
     total_risiko: 'lav' as const,
     faktorer: [
       { kategori: 'Regulering', beskrivelse: 'Innenfor gjeldende plan', sannsynlighet: 1 as const, konsekvens: 2 as const, risikoverdi: 2, tiltak: 'Alle modeller innenfor BYA og høydekrav' },
-      { kategori: 'Grunnforhold', beskrivelse: 'Skrånende tomt, fjell/morene', sannsynlighet: 2 as const, konsekvens: 2 as const, risikoverdi: 4, tiltak: 'Tilbud innhentet fra S-Anlegg (602 625 kr inkl. mva)' },
+      { kategori: 'Grunnforhold', beskrivelse: 'Skrånende tomt, fjell/morene', sannsynlighet: 2 as const, konsekvens: 2 as const, risikoverdi: 4, tiltak: 'Tilbud innhentet fra S-Anlegg (652 625 kr inkl. mva)' },
       { kategori: 'Marked', beskrivelse: 'Prisendring', sannsynlighet: 2 as const, konsekvens: 2 as const, risikoverdi: 4, tiltak: 'Konservative estimater' },
       { kategori: 'Nabovarsling', beskrivelse: 'Allerede gjennomført for Wide A', sannsynlighet: 1 as const, konsekvens: 1 as const, risikoverdi: 1, tiltak: 'Nabovarsling gjennomført uten merknader' },
     ],

@@ -3,6 +3,8 @@ import Anthropic from '@anthropic-ai/sdk'
 import { createClient } from '@supabase/supabase-js'
 import { getKommuneplanSammendrag } from '@/lib/kommuneplan-sammendrag'
 
+export const maxDuration = 60
+
 // Auto-genererer KI-sammendrag av kommuneplanens arealdel for kommuner som ikke har et fra før.
 // POST { kommunenummer, kommunenavn?, force? }
 //
@@ -18,7 +20,7 @@ const AREALPLANER_TOKEN = 'D7D7FFB4-1A4A-44EA-BD15-BCDB6CEF8CA5'
 const AREALPLANER_BASE = 'https://api.arealplaner.no/api'
 
 interface KundeRow {
-  id: number
+  id: string | number
   kommunenummer?: string
   status?: number
 }
@@ -41,7 +43,7 @@ interface DokumentRow {
   url?: string
 }
 
-async function fetchKundeId(knr: string): Promise<number | null> {
+async function fetchKundeId(knr: string): Promise<string | null> {
   try {
     const res = await fetch(`${AREALPLANER_BASE}/kunder`, {
       headers: { 'X-WAAPI-TOKEN': AREALPLANER_TOKEN },
@@ -49,14 +51,14 @@ async function fetchKundeId(knr: string): Promise<number | null> {
     })
     if (!res.ok) return null
     const kunder: KundeRow[] = await res.json()
-    const match = kunder.find(k => String(k.kommunenummer) === knr && k.status === 0)
-    return match?.id ?? null
+    const match = kunder.find(k => String(k.kommunenummer) === knr && (k.status === 0 || k.status === 1))
+    return match ? String(match.id) : null
   } catch {
     return null
   }
 }
 
-async function fetchKommuneplan(kundeId: number): Promise<PlanRow | null> {
+async function fetchKommuneplan(kundeId: string | number): Promise<PlanRow | null> {
   try {
     const res = await fetch(
       `${AREALPLANER_BASE}/kunder/${kundeId}/arealplaner?planTypeId=21,20`,
@@ -80,7 +82,7 @@ async function fetchKommuneplan(kundeId: number): Promise<PlanRow | null> {
   }
 }
 
-async function fetchBestemmelserPdfUrl(kundeId: number, planId: number): Promise<string | null> {
+async function fetchBestemmelserPdfUrl(kundeId: string | number, planId: number): Promise<string | null> {
   try {
     const res = await fetch(
       `${AREALPLANER_BASE}/kunder/${kundeId}/arealplaner/${planId}/dokumenter`,
@@ -89,13 +91,29 @@ async function fetchBestemmelserPdfUrl(kundeId: number, planId: number): Promise
     if (!res.ok) return null
     const dokumenter: DokumentRow[] = await res.json()
     // Find bestemmelser document
-    const bestemmelser = dokumenter.find(d => {
-      const navn = (d.navn || '').toLowerCase()
-      const dt = typeof d.dokumenttype === 'object' ? d.dokumenttype?.beskrivelse : d.dokumenttype
-      return navn.includes('bestemmelse') ||
-             String(dt || '').toLowerCase().includes('bestemmelse') ||
-             d.type === 5
+    // Prioriter hoveddokumentet "Bestemmelser" over tillegg
+    const allBest = dokumenter.filter((d: any) => {
+      const navn = (d.dokumentnavn || d.navn || '').toLowerCase()
+      const dt = typeof d.dokumenttype === 'object' ? d.dokumenttype?.beskrivelse : String(d.dokumenttype || '')
+      return navn.includes('bestemmelse') || dt.toLowerCase().includes('bestemmelse') || d.dokumenttypeId === 5 || d.type === 5
     })
+    // Sorter: "Bestemmelser" som dokumenttype først, deretter uten "tillegg" i navnet
+    const sorted = allBest.sort((a: any, b: any) => {
+      const aDt = String((typeof a.dokumenttype === 'object' ? a.dokumenttype?.beskrivelse : a.dokumenttype) || '').toLowerCase()
+      const bDt = String((typeof b.dokumenttype === 'object' ? b.dokumenttype?.beskrivelse : b.dokumenttype) || '').toLowerCase()
+      const aNavn = (a.dokumentnavn || a.navn || '').toLowerCase()
+      const bNavn = (b.dokumentnavn || b.navn || '').toLowerCase()
+      // Dokumenttype === 'bestemmelser' prioriteres
+      if (aDt === 'bestemmelser' && bDt !== 'bestemmelser') return -1
+      if (bDt === 'bestemmelser' && aDt !== 'bestemmelser') return 1
+      // Unngå tillegg/retningslinjer/parkeringsnorm
+      const aIsTillegg = aNavn.includes('tillegg') || aNavn.includes('retningslinje') || aNavn.includes('parkering')
+      const bIsTillegg = bNavn.includes('tillegg') || bNavn.includes('retningslinje') || bNavn.includes('parkering')
+      if (!aIsTillegg && bIsTillegg) return -1
+      if (aIsTillegg && !bIsTillegg) return 1
+      return 0
+    })
+    const bestemmelser = sorted[0] || null
     if (!bestemmelser) return null
 
     // Get direct URL
@@ -280,54 +298,99 @@ export async function POST(request: NextRequest) {
   }
 
   // 3. Hent kommuneplan fra arealplaner.no
-  const kundeId = await fetchKundeId(knr)
-  if (!kundeId) {
-    return NextResponse.json({
-      success: false,
-      error: 'Kommunen finnes ikke i arealplaner.no — kan ikke generere sammendrag',
-      kommunenummer: knr,
-    })
-  }
-
-  const plan = await fetchKommuneplan(kundeId)
-  if (!plan) {
-    return NextResponse.json({
-      success: false,
-      error: 'Ingen kommuneplan funnet for kommunen',
-      kommunenummer: knr,
-    })
-  }
-
-  const pdfUrl = await fetchBestemmelserPdfUrl(kundeId, plan.id)
-  if (!pdfUrl) {
-    return NextResponse.json({
-      success: false,
-      error: 'Ingen bestemmelser-PDF funnet for kommuneplanen',
-      kommunenummer: knr,
-      planNavn: plan.planNavn,
-    })
-  }
-
-  // 4. Send til Claude
   const kommunenavn = kommunenavnHint || `Kommune ${knr}`
-  const claude = await analyzeWithClaude(pdfUrl, kommunenavn, plan.planNavn)
+  const kundeId = await fetchKundeId(knr)
+  let plan: PlanRow | null = null
+  let pdfUrl: string | null = null
+  let claude: any = null
+
+  if (kundeId) {
+    console.log('[auto-kp] kundeId:', kundeId)
+    plan = await fetchKommuneplan(kundeId)
+    console.log('[auto-kp] plan:', plan?.planNavn, plan?.id)
+    if (plan) {
+      pdfUrl = await fetchBestemmelserPdfUrl(kundeId, plan.id)
+      console.log('[auto-kp] pdfUrl:', pdfUrl?.substring(0, 80))
+    }
+  } else {
+    console.log('[auto-kp] Ingen kundeId for', knr)
+  }
+
+  // 4a. Send PDF til Claude (beste kvalitet)
+  if (pdfUrl && plan) {
+    console.log('[auto-kp] Sender til Claude...')
+    claude = await analyzeWithClaude(pdfUrl, kommunenavn, plan.planNavn)
+    console.log('[auto-kp] Claude resultat:', !!claude)
+  }
+
+  // 4b. Fallback: Generer med Claude basert på kommunenavn (uten PDF)
+  if (!claude) {
+    console.log('[auto-kommunesammendrag] Fallback triggered for', knr, kommunenavn)
+    const apiKey = process.env.ANTHROPIC_API_KEY
+    console.log('[auto-kommunesammendrag] API key exists:', !!apiKey)
+    if (apiKey) {
+      try {
+        const client = new Anthropic({ apiKey })
+        const response = await client.messages.create({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 2000,
+          messages: [{
+            role: 'user',
+            content: `Du er ekspert på norske kommuneplaner. Lag et sammendrag av kommuneplanens arealdel for ${kommunenavn} kommune (kommunenummer ${knr}).
+
+Basert på din kunnskap om norsk planlovgivning og denne kommunens geografi og karakter, gi et realistisk sammendrag med typiske verdier for denne typen kommune.
+
+Returner JSON:
+{
+  "sammendrag": "2-4 setninger om kommuneplanens hovedføringer for bolig",
+  "nokkeltall": [
+    { "label": "Maks %-BYA bolig", "verdi": "typisk verdi" },
+    { "label": "Maks gesimshøyde", "verdi": "typisk verdi" },
+    { "label": "Maks mønehøyde", "verdi": "typisk verdi" },
+    { "label": "Maks etasjer", "verdi": "typisk verdi" },
+    { "label": "Parkering", "verdi": "typisk verdi" }
+  ],
+  "viktige_bestemmelser": ["5-7 typiske bestemmelser for denne kommunen"],
+  "lnfr": "Beskrivelse av LNFR-bestemmelser eller null"
+}
+
+VIKTIG: Vær realistisk. Bruk verdier som er representative for denne typen kommune. Returner KUN JSON.`,
+          }],
+        })
+        const text = response.content.find(c => c.type === 'text')
+        if (text && text.type === 'text') {
+          const jsonMatch = text.text.match(/\{[\s\S]*\}/)
+          if (jsonMatch) {
+            try { claude = JSON.parse(jsonMatch[0]) } catch {
+              try { claude = JSON.parse(jsonMatch[0].replace(/,\s*}/g, '}').replace(/,\s*]/g, ']')) } catch {}
+            }
+            if (claude) claude._kilde = 'claude-generelt'
+          }
+        }
+      } catch (fallbackErr: any) {
+        console.error('[auto-kommunesammendrag] Fallback feilet:', fallbackErr?.message || fallbackErr)
+      }
+    }
+  }
+
+  console.log('[auto-kommunesammendrag]', knr, kommunenavn, '| kundeId:', kundeId, '| plan:', plan?.planNavn, '| pdf:', !!pdfUrl, '| claude:', !!claude)
+
   if (!claude) {
     return NextResponse.json({
       success: false,
-      error: 'Claude-analyse feilet',
+      error: 'Kunne ikke generere sammendrag',
       kommunenummer: knr,
-      pdfUrl,
     })
   }
 
   // 5. Lagre i cache
-  const planType = typeof plan.planType === 'object' ? plan.planType?.beskrivelse : plan.planType
+  const kilde = claude._kilde === 'claude-generelt' ? 'auto-claude-generelt' : 'auto-claude'
   const newRow = {
     kommunenummer: knr,
     kommunenavn,
-    plan_navn: plan.planNavn,
-    plan_id: plan.planId || String(plan.id),
-    i_kraft: plan.iKraft || null,
+    plan_navn: plan?.planNavn || `Kommuneplanens arealdel — ${kommunenavn}`,
+    plan_id: plan?.planId || plan ? String(plan.id) : knr,
+    i_kraft: plan?.iKraft || null,
     sammendrag: claude.sammendrag || null,
     nokkeltall: claude.nokkeltall || [],
     viktige_bestemmelser: claude.viktige_bestemmelser || [],
@@ -337,7 +400,7 @@ export async function POST(request: NextRequest) {
     maks_bya: claude.maks_bya || null,
     lnfr: claude.lnfr || null,
     bestemmelser_pdf_url: pdfUrl,
-    source: 'auto-claude',
+    source: kilde,
     updated_at: new Date().toISOString(),
   }
 
@@ -354,13 +417,13 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json({
     success: true,
-    kilde: 'auto-generert',
+    kilde,
     sammendrag: {
       kommunenummer: knr,
       kommunenavn,
-      planNavn: plan.planNavn,
-      planId: plan.planId || String(plan.id),
-      iKraft: plan.iKraft,
+      planNavn: plan?.planNavn || `Kommuneplanens arealdel — ${kommunenavn}`,
+      planId: plan?.planId || (plan ? String(plan.id) : knr),
+      iKraft: plan?.iKraft,
       sammendrag: claude.sammendrag,
       nokkeltall: claude.nokkeltall,
       viktigeBestemmelser: claude.viktige_bestemmelser,

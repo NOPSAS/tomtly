@@ -134,6 +134,17 @@ const SPESIFIKKE_KILDER: Record<string, KartInnsynKilde[]> = {
     sokeUrl: () => `https://od2.pbe.oslo.kommune.no/hvagjelder/`,
     harDokAnalyse: false, harPlanrapport: true, type: 'innsyn',
   }],
+  '3205': [{
+    kommune: 'Lillestrøm', navn: 'Lillestrøm Planinnsyn',
+    url: 'https://kartutside.lillestrom.kommune.no/planinnsyn/',
+    sokeUrl: (gnr, bnr) => `https://kartutside.lillestrom.kommune.no/planinnsyn/?gnr=${gnr}&bnr=${bnr}`,
+    harDokAnalyse: false, harPlanrapport: true, type: 'kartinnsyn',
+  }, {
+    kommune: 'Lillestrøm', navn: 'Lillestrøm KommuneGIS',
+    url: 'https://lillestroem.kommunegis.no/',
+    sokeUrl: () => `https://lillestroem.kommunegis.no/`,
+    harDokAnalyse: true, harPlanrapport: true, type: 'kartinnsyn',
+  }],
 }
 
 // ────────────────────────────────────────────────────

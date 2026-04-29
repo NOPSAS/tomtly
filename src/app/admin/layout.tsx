@@ -19,6 +19,7 @@ const NAV_LINKS = [
   { href: '/admin/some', label: 'SoMe' },
   { href: '/admin/data', label: 'Data' },
   { href: '/admin/megler-partner', label: 'Partner' },
+  { href: '/admin/visualisering', label: 'Visualisering' },
   { href: '/meglerpartner', label: 'Meglerpartner-pitch' },
   { href: '/dashboard/bjornemyrveien-20', label: 'Portal: Bjørnmyr 20' },
   { href: '/dashboard/bjornemyrveien-22', label: 'Portal: Bjørnmyr 22' },

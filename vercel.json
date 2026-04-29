@@ -10,11 +10,13 @@
     "src/app/api/dok-rapport/route.ts": { "maxDuration": 60 },
     "src/app/api/norkart-analyse/route.ts": { "maxDuration": 30 },
     "src/app/api/planrapport/route.ts": { "maxDuration": 30 },
-    "src/app/api/kommuneplan/route.ts": { "maxDuration": 30 }
+    "src/app/api/kommuneplan/route.ts": { "maxDuration": 30 },
+    "src/app/api/auto-kommunesammendrag/route.ts": { "maxDuration": 120 }
   },
   "crons": [
     { "path": "/api/admin/scrape-finn", "schedule": "0 5 * * *" },
     { "path": "/api/admin/scrape-delesaker", "schedule": "0 6 * * 1" },
-    { "path": "/api/admin/scrape-naering", "schedule": "0 5 * * 3" }
+    { "path": "/api/admin/scrape-naering", "schedule": "0 5 * * 3" },
+    { "path": "/api/admin/indexnow", "schedule": "0 4 * * 1" }
   ]
 }
