@@ -354,6 +354,16 @@ function FremhevedeTomter() {
       husmodeller: 3,
       type: 'Skråtomt med fjordutsikt',
     },
+    {
+      href: '/tomter/myllavegen-58',
+      bilde: '/tomter/myllavegen-58/hero.jpg',
+      adresse: 'Myllavegen 58',
+      sted: 'Grua, Lunner',
+      areal: '1 000 m²',
+      pris: '950 000 kr',
+      husmodeller: 12,
+      type: 'Skråtomt',
+    },
   ]
 
   return (
