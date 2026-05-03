@@ -1,17 +1,26 @@
-'use client'
-import TomtSide from '@/components/TomtSide'
+import { TomtHero } from '@/components/tomt/TomtHero'
+import { TomtBildegalleri } from '@/components/tomt/TomtBildegalleri'
+import { TomtHusmodeller } from '@/components/tomt/TomtHusmodeller'
+import { TomtRegulering } from '@/components/tomt/TomtRegulering'
+import { TomtRisiko } from '@/components/tomt/TomtRisiko'
+import { TomtKart } from '@/components/tomt/TomtKart'
+import { TomtKontakt } from '@/components/tomt/TomtKontakt'
+import { TomtNabolag } from '@/components/tomt/TomtNabolag'
+import { TomtDeling } from '@/components/tomt/TomtDeling'
+import { TomtTegnebua } from '@/components/tomt/TomtTegnebua'
+import { FileText, Download } from 'lucide-react'
 
 const IMG = '/tomter/myllavegen-58'
 
 const BILDER = [
-  { id: 'h1', url: `${IMG}/hero.jpg`, alt: 'Myllavegen 58 – oversiktsbilde', kategori: 'tomt' },
-  { id: 'h2', url: `${IMG}/situasjonskart.jpg`, alt: 'Situasjonskart', kategori: 'kart' },
-  { id: 'h3', url: `${IMG}/arwen-situasjon.jpg`, alt: 'Arwen plassert på tomt', kategori: 'husmodell' },
-  { id: 'h4', url: `${IMG}/nelly-situasjon.jpg`, alt: 'Nelly plassert på tomt', kategori: 'husmodell' },
-  { id: 'h5', url: `${IMG}/wide-situasjon.jpg`, alt: 'Wide Skrå plassert på tomt', kategori: 'husmodell' },
-  { id: 'h6', url: `${IMG}/signatur-305-situasjon.jpg`, alt: 'Signatur 305 plassert på tomt', kategori: 'husmodell' },
-  { id: 'h7', url: `${IMG}/skogly-situasjon.jpg`, alt: 'Skogly plassert på tomt', kategori: 'husmodell' },
-  { id: 'h8', url: `${IMG}/moholt-situasjon.jpg`, alt: 'Moholt plassert på tomt', kategori: 'husmodell' },
+  { id: 'h1', url: `${IMG}/hero.jpg`, alt: 'Myllavegen 58 – oversiktsbilde', kategori: 'tomt' as const },
+  { id: 'h2', url: `${IMG}/situasjonskart.jpg`, alt: 'Situasjonskart', kategori: 'tomt' as const },
+  { id: 'h3', url: `${IMG}/arwen-situasjon.jpg`, alt: 'Arwen plassert på tomt', kategori: 'annet' as const },
+  { id: 'h4', url: `${IMG}/nelly-situasjon.jpg`, alt: 'Nelly plassert på tomt', kategori: 'annet' as const },
+  { id: 'h5', url: `${IMG}/wide-situasjon.jpg`, alt: 'Wide Skrå plassert på tomt', kategori: 'annet' as const },
+  { id: 'h6', url: `${IMG}/signatur-305-situasjon.jpg`, alt: 'Signatur 305 plassert på tomt', kategori: 'annet' as const },
+  { id: 'h7', url: `${IMG}/skogly-situasjon.jpg`, alt: 'Skogly plassert på tomt', kategori: 'annet' as const },
+  { id: 'h8', url: `${IMG}/moholt-situasjon.jpg`, alt: 'Moholt plassert på tomt', kategori: 'annet' as const },
 ]
 
 const FELLES = [
@@ -245,70 +254,39 @@ const HUSMODELLER = [
   },
 ]
 
-const TIDSPLAN = [
-  { tid: 'Uke 1', tittel: 'Kjøp av tomt', beskrivelse: 'Avtale signeres. Overtakelse etter nærmere avtale.' },
-  { tid: 'Uke 2–3', tittel: 'Velg husmodell', beskrivelse: 'Gjennomgang av husmodeller med Tomtly. Kontakt med husleverandør.' },
-  { tid: 'Uke 3–4', tittel: 'Tegning og søknad', beskrivelse: 'Tegnebua utarbeider tegninger og sender byggesøknad til Lunner kommune.' },
-  { tid: 'Uke 4–12', tittel: 'Saksbehandling', beskrivelse: 'Kommunal behandling. Typisk 6–8 uker i Lunner.' },
-  { tid: 'Uke 12–14', tittel: 'Produksjon starter', beskrivelse: 'Husleverandør starter produksjon. Grunnarbeid forberedes.' },
-  { tid: 'Uke 14–40', tittel: 'Bygging', beskrivelse: 'Huset monteres og ferdigstilles. Tidsbruk varierer med leverandør.' },
-]
-
-const DATA = {
+const TOMT = {
   adresse: 'Myllavegen 58',
-  sted: 'Grua, Lunner',
+  poststed: 'Grua',
   kommune: 'Lunner',
-  fylke: 'Innlandet',
-  gnr: 86, bnr: 43,
   areal_m2: 1000,
-  pris: 950000,
-  koordinater: { lat: 60.3705, lng: 10.5675 },
-  status: 'Til salgs' as const,
-  finn_url: 'https://www.finn.no/realestate/plots/ad.html?finnkode=444623623',
-  bilder: BILDER,
-  husmodeller: HUSMODELLER,
-  tidsplan: TIDSPLAN,
-
-  terreng: {
-    type: 'Skrånende',
-    grunnforhold: 'Morene / fjell',
-    kvikkleire: 'Ikke påvist',
-    stabilitet: 'Tilfredsstillende',
-  },
-
-  infrastruktur: {
-    vann: 'Kommunalt',
-    avlop: 'Kommunalt',
-    strom: 'Tilgjengelig',
-    vei: 'Myllavegen (privat vei med veirett) fra fylkesvei',
-    avkjorsel: 'Avkjøringstillatelse foreligger',
-  },
-
-  nokkeltall: {
-    tomteareal: '~1 000 m²',
-    maks_bya_prosent: '30%',
-    maks_bya_m2: '300 m²',
-    bya_etter_parkering_enebolig: '264 m² (etter 2 p-plasser)',
-    bya_etter_parkering_tomannsbolig: '228 m² (etter 4 p-plasser)',
-    tomannsbolig: 'Mulig',
-  },
+  gnr: 86, bnr: 43,
+  senterpunkt: { lat: 60.3705, lng: 10.5675 },
 
   regulering: {
-    plan: 'Reguleringsplan Schiongsvingen',
-    formal: 'Boligbebyggelse',
-    status: 'Fradeling godkjent av Lunner kommune',
-    utnyttelse: '30 % BYA',
-    fradeling: 'Godkjent – parsell ca. 1 000 m²',
+    arealformaal: 'Boligbebyggelse – frittliggende småhusbebyggelse',
+    utnyttelsesgrad_bya: 30,
+    maks_hoyde_m: 9,
+    maks_etasjer: 2,
+    byggegrense_m: 4,
+    hensynssoner: [] as { type: string; beskrivelse: string; konsekvens: 'lav' | 'medium' | 'hoy' }[],
+    bestemmelser: [
+      'Maks BYA 30% (300 m²)',
+      'Tomannsbolig er reguleringsmessig mulig',
+      'Fradeling godkjent av Lunner kommune',
+      'Veirett og avkjøringstillatelse foreligger',
+      'Kommunalt vann og avløp tilgjengelig',
+    ],
+    plannavn: 'Reguleringsplan Schiongsvingen',
   },
 
   risikoanalyse: {
     total_risiko: 'lav' as const,
     faktorer: [
-      { kategori: 'Regulering', beskrivelse: 'Fradelt til boligformål – godkjent', sannsynlighet: 1 as const, konsekvens: 1 as const },
-      { kategori: 'Grunnforhold', beskrivelse: 'Skrånende tomt, morene/fjell', sannsynlighet: 2 as const, konsekvens: 2 as const },
-      { kategori: 'VA-tilknytning', beskrivelse: 'Kommunalt VA tilgjengelig', sannsynlighet: 1 as const, konsekvens: 1 as const },
-      { kategori: 'Adkomst', beskrivelse: 'Veirett og avkjøringstillatelse foreligger', sannsynlighet: 1 as const, konsekvens: 1 as const },
-      { kategori: 'Radon', beskrivelse: 'Aktsomhetsområde – håndterbart via TEK17', sannsynlighet: 2 as const, konsekvens: 1 as const },
+      { kategori: 'Regulering', beskrivelse: 'Fradelt til boligformål – godkjent', sannsynlighet: 1, konsekvens: 1, risikoverdi: 1, tiltak: 'Fradeling allerede godkjent' },
+      { kategori: 'Grunnforhold', beskrivelse: 'Skrånende tomt, morene/fjell', sannsynlighet: 2, konsekvens: 2, risikoverdi: 4, tiltak: 'Grunnarbeider estimert i budsjett' },
+      { kategori: 'VA-tilknytning', beskrivelse: 'Kommunalt VA tilgjengelig', sannsynlighet: 1, konsekvens: 1, risikoverdi: 1, tiltak: 'Kommunalt VA bekreftet' },
+      { kategori: 'Adkomst', beskrivelse: 'Veirett og avkjøringstillatelse foreligger', sannsynlighet: 1, konsekvens: 1, risikoverdi: 1, tiltak: 'Tillatelse foreligger' },
+      { kategori: 'Radon', beskrivelse: 'Aktsomhetsområde – håndterbart via TEK17', sannsynlighet: 2, konsekvens: 1, risikoverdi: 2, tiltak: 'Radonsikring iht. TEK17' },
     ],
     anbefalinger: [
       'Fradeling allerede godkjent – lav reguleringsrisiko',
@@ -319,21 +297,14 @@ const DATA = {
     ],
   },
 
-  om: `Myllavegen 58 er en fradelt boligtomt på ca. 1 000 m² i etablert boligområde i Grua, Lunner kommune.
-
-Tomten er godkjent fradelt til boligformål og ligger innenfor reguleringsplan Schiongsvingen. Med 30% BYA (300 m² maksimal bebygd areal) har tomten et betydelig utviklingspotensial – enten som romslig enebolig eller som tomannsbolig.
-
-Terrenget er skrånende ned fra Myllavegen, noe som gir mulighet for underetasje/sokkeletasje, utsikt og gode lysforhold. Adkomst er avklart med veirett via privat vei og avkjøringstillatelse fra fylkesvei.`,
-
-  utviklingspotensial: {
-    enebolig: {
-      maks_bya: '264 m² BYA etter parkering (2 plasser)',
-      beskrivelse: 'Stor enebolig med garasje. Fleksibel grunnflate.',
-    },
-    tomannsbolig: {
-      maks_bya: '228 m² BYA etter parkering (4 plasser)',
-      beskrivelse: '2 x ~114 m² grunnflate. Mulighet for underetasje. Sterk økonomi.',
-    },
+  nabolag: {
+    beskrivelse: 'Etablert boligområde i Grua, Lunner kommune. Skrånende tomt med gode lysforhold. Ca. 45 min til Oslo med bil via E16.',
+    punkter: [
+      { kategori: 'Kollektivtransport', navn: 'Bussholdeplass', avstand_m: 400, gangminutter: 5 },
+      { kategori: 'Skole', navn: 'Grua skole', avstand_m: 650, gangminutter: 8 },
+      { kategori: 'Dagligvare', navn: 'Dagligvare Grua', avstand_m: 550, gangminutter: 7 },
+      { kategori: 'Park/friområde', navn: 'Skog og turområder', avstand_m: 150, gangminutter: 2 },
+    ],
   },
 
   dokumenter: [
@@ -345,6 +316,94 @@ Terrenget er skrånende ned fra Myllavegen, noe som gir mulighet for underetasje
   ],
 }
 
-export default function MyllavGenPage() {
-  return <TomtSide data={DATA} />
+const TIDSPLAN = [
+  { tid: 'Uke 1', tittel: 'Kjøp av tomt', beskrivelse: 'Avtale signeres. Overtakelse etter nærmere avtale.' },
+  { tid: 'Uke 2–3', tittel: 'Velg husmodell', beskrivelse: 'Gjennomgang av husmodeller med Tomtly. Kontakt med husleverandør.' },
+  { tid: 'Uke 3–4', tittel: 'Tegning og søknad', beskrivelse: 'Tegnebua utarbeider tegninger og sender byggesøknad til Lunner kommune.' },
+  { tid: 'Uke 4–12', tittel: 'Saksbehandling', beskrivelse: 'Kommunal behandling. Typisk 6–8 uker i Lunner.' },
+  { tid: 'Uke 12–14', tittel: 'Produksjon starter', beskrivelse: 'Husleverandør starter produksjon. Grunnarbeid forberedes.' },
+  { tid: 'Uke 14–40', tittel: 'Bygging', beskrivelse: 'Huset monteres og ferdigstilles. Tidsbruk varierer med leverandør.' },
+]
+
+export default function Myllavegen58() {
+  return (
+    <div className="bg-white">
+      <TomtHero adresse={TOMT.adresse} poststed={TOMT.poststed} kommune={TOMT.kommune} areal_m2={TOMT.areal_m2} gnr={TOMT.gnr} bnr={TOMT.bnr} />
+
+      <nav className="sticky top-16 z-40 bg-white border-b border-brand-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex gap-6 overflow-x-auto py-3 text-sm">
+            {[
+              { href: '#husmodeller', label: 'Husmodeller' },
+              { href: '#tegnebua', label: 'Tegning og søknad' },
+              { href: '#tidsplan', label: 'Tidsplan' },
+              { href: '#regulering', label: 'Regulering' },
+              { href: '#bilder', label: 'Bilder' },
+              { href: '#nabolag', label: 'Nabolag' },
+              { href: '#dokumenter', label: 'Dokumenter' },
+              { href: '#risiko', label: 'Risiko' },
+            ].map((l) => (
+              <a key={l.href} href={l.href} className="whitespace-nowrap text-brand-500 hover:text-tomtly-accent transition-colors font-medium">{l.label}</a>
+            ))}
+          </div>
+        </div>
+      </nav>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <div className="lg:col-span-2 space-y-16">
+            <section id="husmodeller"><TomtHusmodeller modeller={HUSMODELLER as any} tomtType="skra" tomtNavn="Myllavegen 58 (skråtomt)" /></section>
+            <section id="bilder"><TomtBildegalleri bilder={BILDER} adresse={TOMT.adresse} /></section>
+            <section id="tegnebua"><TomtTegnebua valgte_husmodeller={1} /></section>
+
+            <section id="tidsplan">
+              <h2 className="font-display text-2xl font-bold text-tomtly-dark mb-2">Tidsplan</h2>
+              <p className="text-brand-600 mb-6">Fra tomtekjøp til innflytting.</p>
+              <div className="space-y-4">
+                {TIDSPLAN.map((s, idx) => (
+                  <div key={idx} className="flex gap-4">
+                    <div className="flex flex-col items-center">
+                      <div className="w-3 h-3 rounded-full bg-tomtly-accent mt-1.5" />
+                      {idx < TIDSPLAN.length - 1 && <div className="w-0.5 flex-1 bg-brand-200 mt-1" />}
+                    </div>
+                    <div className="pb-6">
+                      <p className="text-xs font-semibold text-tomtly-accent uppercase tracking-wide">{s.tid}</p>
+                      <h3 className="font-semibold text-tomtly-dark mt-0.5">{s.tittel}</h3>
+                      <p className="text-sm text-brand-600 mt-0.5">{s.beskrivelse}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section id="regulering"><TomtRegulering regulering={TOMT.regulering} /></section>
+            <section id="nabolag"><TomtNabolag punkter={TOMT.nabolag.punkter} nabolag_beskrivelse={TOMT.nabolag.beskrivelse} /></section>
+
+            <section id="dokumenter">
+              <h2 className="font-display text-2xl font-bold text-tomtly-dark mb-2">Dokumenter</h2>
+              <p className="text-brand-600 mb-6">Komplett dokumentasjon for tomten.</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {TOMT.dokumenter.map((dok) => (
+                  <a key={dok.navn} href={dok.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 bg-brand-50 border border-brand-200 rounded-lg p-3 hover:bg-brand-100 transition-colors">
+                    <FileText className="w-5 h-5 text-red-500 flex-shrink-0" />
+                    <span className="text-sm text-brand-700 flex-1">{dok.navn}</span>
+                    <Download className="w-4 h-4 text-brand-400" />
+                  </a>
+                ))}
+              </div>
+            </section>
+
+            <section id="risiko"><TomtRisiko risikoanalyse={TOMT.risikoanalyse} /></section>
+          </div>
+          <div className="lg:col-span-1">
+            <div className="sticky top-36 space-y-6">
+              <TomtKart lat={TOMT.senterpunkt.lat} lng={TOMT.senterpunkt.lng} adresse={TOMT.adresse} zoom={17} />
+              <TomtKontakt />
+              <TomtDeling adresse={TOMT.adresse} tomteId="myllavegen-58" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 }
