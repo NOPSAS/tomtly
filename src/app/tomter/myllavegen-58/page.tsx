@@ -37,7 +37,7 @@ const ETTER = (grunnarbeid: number) => [
 
 const HUSMODELLER = [
   {
-    id: 'arwen-skra', navn: 'Arwen Skrå', leverandor: 'ABChus',
+    id: 'arwen-skra', grunnmur_inkludert: true, navn: 'Arwen Skrå', leverandor: 'ABChus',
     leverandor_url: 'https://abchus.no/ferdighus/funkishus/arwen-for-skra-tomt/',
     beskrivelse: 'Funkishus spesialdesignet for skråtomt. Moderne uttrykk med store vindusflater, åpen stue/kjøkken i hovedetasje og 3 soverom + hybeldel i underetasje. Smarthus og Drømmekjøkken inkludert.',
     bra_m2: 161, soverom: 4, bad: '2', etasjer: 2,
@@ -55,7 +55,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'nelly-skra', navn: 'Nelly Skrå', leverandor: 'ABChus',
+    id: 'nelly-skra', grunnmur_inkludert: true, navn: 'Nelly Skrå', leverandor: 'ABChus',
     leverandor_url: 'https://abchus.no/ferdighus/moderne-hus/nelly-tilpasset-skratomt/',
     beskrivelse: 'Moderne enebolig med mønetak tilpasset skrånende tomt. 4 soverom, vaskerom og TV-stue med utgang til hage. Inngang fra begge plan.',
     bra_m2: 161, soverom: 4, bad: '1 + WC', etasjer: 2,
@@ -73,7 +73,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'wide-skra', navn: 'Wide Skrå', leverandor: 'ABChus',
+    id: 'wide-skra', grunnmur_inkludert: true, navn: 'Wide Skrå', leverandor: 'ABChus',
     leverandor_url: 'https://abchus.no/ferdighus/funkishus/wide-skra/',
     beskrivelse: 'Stor og romslig funkisbolig for skråtomt. Wide-serien er ABChus\' mest populære funkishus, her tilpasset skrånende terreng med inngang fra øvre plan.',
     bra_m2: 193, soverom: 4, bad: '2', etasjer: 2,
@@ -91,7 +91,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'signatur-305', navn: 'Signatur 305', leverandor: 'Mesterhus',
+    id: 'signatur-305', grunnmur_inkludert: false, navn: 'Signatur 305', leverandor: 'Mesterhus',
     leverandor_url: 'https://www.mesterhus.no/hus/signatur-305-bestselger',
     beskrivelse: 'Mesterhus\' bestselger – en romslig familievilla med moderne uttrykk. Stor stue/kjøkken, 4 soverom, 2 bad og praktisk vaskerom. Leveres med lokal Mesterhus-forhandler.',
     bra_m2: 175, soverom: 4, bad: '2', etasjer: 2,
@@ -109,7 +109,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'signatur-308', navn: 'Signatur 308', leverandor: 'Mesterhus',
+    id: 'signatur-308', grunnmur_inkludert: false, navn: 'Signatur 308', leverandor: 'Mesterhus',
     leverandor_url: 'https://www.mesterhus.no/hus/signatur-308-moderne-funkishus-tilpasset-skra-tomt',
     beskrivelse: 'Moderne funkishus fra Mesterhus spesialdesignet for skråtomt. Flatt tak, store vindusflater og romslig planløsning over to plan.',
     bra_m2: 170, soverom: 4, bad: '2', etasjer: 2,
@@ -127,7 +127,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'selma-kjeller', navn: 'Selma med kjeller', leverandor: 'Älvsbyhus + Tegnebua',
+    id: 'selma-kjeller', grunnmur_inkludert: true, navn: 'Selma med kjeller', leverandor: 'Älvsbyhus + Tegnebua',
     leverandor_url: 'https://tegnebua.no/konsepter/alvsbyhus-kjeller',
     beskrivelse: 'Älvsbyhus Selma med Tegnebuas kjellerkonsept – gir mye ekstra areal til lav kostnad. Hovedetasje fra Älvsbyhus, kjeller prosjektert av Tegnebua. Perfekt for skråtomt.',
     bra_m2: 180, soverom: 4, bad: '2', etasjer: 2,
@@ -142,7 +142,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'skogly', navn: 'Skogly', leverandor: 'Hedalm-Anebyhus',
+    id: 'skogly', grunnmur_inkludert: false, navn: 'Skogly', leverandor: 'Hedalm-Anebyhus',
     leverandor_url: 'https://www.hedalm-anebyhus.no/hus/skogly/',
     beskrivelse: 'Kompakt og effektiv bolig med inngang fra begge plan – perfekt for skrånende tomt. Innglassert balkong, åpen stue/kjøkken og 3 soverom.',
     bra_m2: 137, soverom: 3, bad: '2', etasjer: 2,
@@ -160,7 +160,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'moholt', navn: 'Moholt', leverandor: 'Systemhus',
+    id: 'moholt', grunnmur_inkludert: false, navn: 'Moholt', leverandor: 'Systemhus',
     leverandor_url: 'https://www.systemhus.no/hus/enebolig-moholt',
     beskrivelse: 'Moderne enebolig fra Systemhus med smart planløsning. Passer godt til skråtomt med mulighet for sokkeletasje.',
     bra_m2: 155, soverom: 3, bad: '2', etasjer: 2,
@@ -178,7 +178,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'mira', navn: 'Mira', leverandor: 'Nordbohus',
+    id: 'mira', grunnmur_inkludert: false, navn: 'Mira', leverandor: 'Nordbohus',
     leverandor_url: 'https://www.nordbohus.no/hus/mira',
     beskrivelse: 'Romslig og moderne familiebolig fra Nordbohus. Gjennomtenkt planløsning med god plass til hele familien.',
     bra_m2: 170, soverom: 4, bad: '2', etasjer: 2,
@@ -196,7 +196,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'sammen', navn: 'Sammen', leverandor: 'Nordbohus',
+    id: 'sammen', grunnmur_inkludert: false, navn: 'Sammen', leverandor: 'Nordbohus',
     leverandor_url: 'https://www.nordbohus.no/hus/sammen',
     beskrivelse: 'Nordbohus\' premium-modell – stor og eksklusiv enebolig med romslig planløsning. Passer for den som ønsker mye plass og høy standard.',
     bra_m2: 210, soverom: 5, bad: '2 + WC', etasjer: 2,
@@ -214,7 +214,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'haugli', navn: 'Haugli', leverandor: 'Norgeshus',
+    id: 'haugli', grunnmur_inkludert: false, navn: 'Haugli', leverandor: 'Norgeshus',
     leverandor_url: 'https://norgeshus.no/bygge-hus/haugli',
     beskrivelse: 'Klassisk og romslig enebolig fra Norgeshus. God planløsning med fokus på hverdagsfunksjonalitet.',
     bra_m2: 165, soverom: 4, bad: '2', etasjer: 2,
@@ -232,7 +232,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'horisont', navn: 'Horisont', leverandor: 'Norgeshus',
+    id: 'horisont', grunnmur_inkludert: false, navn: 'Horisont', leverandor: 'Norgeshus',
     leverandor_url: 'https://www.norgeshus.no/bygge-hus/horisont',
     beskrivelse: 'Norgeshus\' flaggskip – stor og eksklusiv villa med moderne arkitektur. Svært romslig planløsning over to plan med premium materialvalg.',
     bra_m2: 250, soverom: 5, bad: '3', etasjer: 2,

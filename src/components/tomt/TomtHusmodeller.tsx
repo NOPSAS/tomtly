@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { CheckCircle2, ExternalLink, Home, BedDouble, Bath, Layers, Ruler, TrendingUp } from 'lucide-react'
+import { useState, useMemo } from 'react'
+import { CheckCircle2, ExternalLink, Home, BedDouble, Bath, Layers, Ruler, TrendingUp, AlertCircle } from 'lucide-react'
 import { formatNOK } from '@/lib/utils'
 
 // ============================================================
@@ -41,6 +41,9 @@ export interface HusmodellDetalj {
   verdi_m2_pris: number
   verdi_total: number
 
+  // Grunnmur
+  grunnmur_inkludert?: boolean
+
   // Inkludert
   inkludert: string[]
 
@@ -71,37 +74,78 @@ export function TomtHusmodeller({ modeller, tomtType, tomtNavn }: Props) {
   const totalBudsjett = tomtType === 'skra' && aktiv.total_budsjett_skra ? aktiv.total_budsjett_skra : aktiv.total_budsjett
   const braMm2 = tomtType === 'skra' && aktiv.bra_m2_alt ? aktiv.bra_m2_alt : aktiv.bra_m2
 
+  // Grupper etter leverandør, sortert på pris innad i gruppen
+  const harGrunnmurFelt = modeller.some(m => m.grunnmur_inkludert !== undefined)
+  const gruppert = useMemo(() => {
+    const map = new Map<string, typeof modeller>()
+    const sorted = [...modeller].sort((a, b) => {
+      const ba = tomtType === 'skra' && a.total_budsjett_skra ? a.total_budsjett_skra : a.total_budsjett
+      const bb = tomtType === 'skra' && b.total_budsjett_skra ? b.total_budsjett_skra : b.total_budsjett
+      return ba - bb
+    })
+    for (const m of sorted) {
+      const key = m.leverandor
+      if (!map.has(key)) map.set(key, [])
+      map.get(key)!.push(m)
+    }
+    return map
+  }, [modeller, tomtType])
+
   return (
     <div>
       <h2 className="font-display text-2xl font-bold text-tomtly-dark mb-2">
         Velg husmodell
       </h2>
-      <p className="text-brand-600 mb-6">
+      <p className="text-brand-600 mb-2">
         {modeller.length} husmodeller med komplett kostnadsoverslag for {tomtNavn}.
       </p>
 
-      {/* Modell-tabs */}
-      <div className={`grid grid-cols-2 gap-3 mb-8 ${modeller.length <= 4 ? 'md:grid-cols-4' : 'md:grid-cols-3 lg:grid-cols-5'}`}>
-        {modeller.map((m, idx) => {
-          const mBudsjett = tomtType === 'skra' && m.total_budsjett_skra ? m.total_budsjett_skra : m.total_budsjett
-          return (
-            <button
-              key={m.id}
-              onClick={() => setAktivModell(idx)}
-              className={`text-left p-3 lg:p-4 rounded-xl border-2 transition-all ${
-                aktivModell === idx
-                  ? 'border-tomtly-accent bg-forest-50 shadow-sm'
-                  : 'border-brand-200 hover:border-brand-300'
-              }`}
-            >
-              <p className="font-semibold text-tomtly-dark text-sm truncate">{m.navn}</p>
-              <p className="text-[11px] text-brand-500 truncate">{m.leverandor}</p>
-              <p className="text-sm font-bold text-tomtly-accent mt-1">
-                {(mBudsjett / 1000000).toFixed(1)} MNOK
-              </p>
-            </button>
-          )
-        })}
+      {/* Grunnmur-forklaring */}
+      {harGrunnmurFelt && (
+        <div className="flex flex-wrap gap-3 mb-6 text-xs">
+          <span className="flex items-center gap-1.5 bg-green-50 text-green-700 border border-green-200 rounded-full px-3 py-1 font-medium">
+            <CheckCircle2 className="w-3.5 h-3.5" /> Grunnmur inkludert i pris
+          </span>
+          <span className="flex items-center gap-1.5 bg-amber-50 text-amber-700 border border-amber-200 rounded-full px-3 py-1 font-medium">
+            <AlertCircle className="w-3.5 h-3.5" /> + 200–300 000 kr grunnmur tilkommer
+          </span>
+        </div>
+      )}
+
+      {/* Modell-tabs – gruppert etter leverandør, sortert på pris */}
+      <div className="space-y-4 mb-8">
+        {Array.from(gruppert.entries()).map(([leverandor, gruppe]) => (
+          <div key={leverandor}>
+            <p className="text-[11px] font-bold text-brand-400 uppercase tracking-widest mb-2">{leverandor}</p>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+              {gruppe.map((m) => {
+                const idx = modeller.indexOf(m)
+                const mBudsjett = tomtType === 'skra' && m.total_budsjett_skra ? m.total_budsjett_skra : m.total_budsjett
+                return (
+                  <button
+                    key={m.id}
+                    onClick={() => setAktivModell(idx)}
+                    className={`text-left p-3 rounded-xl border-2 transition-all ${
+                      aktivModell === idx
+                        ? 'border-tomtly-accent bg-forest-50 shadow-sm'
+                        : 'border-brand-200 hover:border-brand-300'
+                    }`}
+                  >
+                    <p className="font-semibold text-tomtly-dark text-sm truncate">{m.navn}</p>
+                    <p className="text-sm font-bold text-tomtly-accent mt-1">
+                      {(mBudsjett / 1000000).toFixed(1)} MNOK
+                    </p>
+                    {harGrunnmurFelt && (
+                      <p className={`text-[10px] mt-1 font-medium ${m.grunnmur_inkludert ? 'text-green-600' : 'text-amber-600'}`}>
+                        {m.grunnmur_inkludert ? '✓ Grunnmur inkl.' : '+ grunnmur'}
+                      </p>
+                    )}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* ---- Aktiv modell ---- */}
@@ -213,7 +257,19 @@ export function TomtHusmodeller({ modeller, tomtType, tomtNavn }: Props) {
             Kostnadsoverslag – {aktiv.navn}
             {tomtType === 'skra' && aktiv.kostnader_skra ? ' (skrå tomt)' : tomtType === 'flat' ? ' (flat tomt)' : ''}
           </h4>
-          <p className="text-xs text-brand-500 mb-4">Realistisk estimat basert på innhentede tilbud og kjente kostnader per februar 2025.</p>
+          <p className="text-xs text-brand-500 mb-3">Realistisk estimat basert på innhentede tilbud og kjente kostnader per februar 2025.</p>
+          {harGrunnmurFelt && !aktiv.grunnmur_inkludert && (
+            <div className="flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 mb-4 text-xs text-amber-800">
+              <AlertCircle className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" />
+              <p><strong>Grunnmur ikke inkludert</strong> – {aktiv.leverandor} leverer ikke grunnmur/fundamentering. Legg til estimert <strong>200 000–300 000 kr</strong> i budsjettet avhengig av grunnforhold og valgt løsning.</p>
+            </div>
+          )}
+          {harGrunnmurFelt && aktiv.grunnmur_inkludert && (
+            <div className="flex items-center gap-2 bg-green-50 border border-green-200 rounded-lg px-4 py-3 mb-4 text-xs text-green-800">
+              <CheckCircle2 className="w-4 h-4 text-green-600 flex-shrink-0" />
+              <p><strong>Grunnmur inkludert</strong> – {aktiv.leverandor} inkluderer støpt plate/grunnmur i husmodellprisen.</p>
+            </div>
+          )}
 
           <div className="bg-brand-50 rounded-xl border border-brand-200 overflow-hidden mb-6">
             <div className="divide-y divide-brand-200">
