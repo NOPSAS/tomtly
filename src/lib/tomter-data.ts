@@ -78,6 +78,18 @@ export const ALLE_TOMTER: TomtListing[] = [
     ],
   },
   {
+    id: 'gamle-dalsveg-16', adresse: 'Gamle Dalsveg 16', poststed: 'Maura',
+    kommune: 'Nannestad', areal_m2: 905, pris: 2300000, type: 'Eneboligtomt',
+    bilde: '/tomter/gamle-dalsveg-16/luftig-fasade-1.jpg',
+    lat: 60.24963, lng: 11.02455,
+    poi: [
+      { type: 'bus', navn: 'Buss mot Jessheim/Oslo', avstand: '5 min gange' },
+      { type: 'skole', navn: 'Maura skole', avstand: '9 min gange' },
+      { type: 'butikk', navn: 'Dagligvare', avstand: '8 min gange' },
+      { type: 'natur', navn: 'Skog og turområder', avstand: '3 min gange' },
+    ],
+  },
+  {
     id: 'myllavegen-58', adresse: 'Myllavegen 58', poststed: 'Grua',
     kommune: 'Lunner', areal_m2: 1000, pris: 950000, type: 'Eneboligtomt',
     bilde: '/tomter/myllavegen-58/situasjonskart.png',
