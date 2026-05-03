@@ -91,7 +91,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'signatur-305', grunnmur_inkludert: false, navn: 'Signatur 305', leverandor: 'Mesterhus',
+    id: 'signatur-305', grunnmur_inkludert: true, navn: 'Signatur 305', leverandor: 'Mesterhus',
     leverandor_url: 'https://www.mesterhus.no/hus/signatur-305-bestselger',
     beskrivelse: 'Mesterhus\' bestselger – en romslig familievilla med moderne uttrykk. Stor stue/kjøkken, 4 soverom, 2 bad og praktisk vaskerom. Leveres med lokal Mesterhus-forhandler.',
     bra_m2: 175, soverom: 4, bad: '2', etasjer: 2,
@@ -109,7 +109,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'signatur-308', grunnmur_inkludert: false, navn: 'Signatur 308', leverandor: 'Mesterhus',
+    id: 'signatur-308', grunnmur_inkludert: true, navn: 'Signatur 308', leverandor: 'Mesterhus',
     leverandor_url: 'https://www.mesterhus.no/hus/signatur-308-moderne-funkishus-tilpasset-skra-tomt',
     beskrivelse: 'Moderne funkishus fra Mesterhus spesialdesignet for skråtomt. Flatt tak, store vindusflater og romslig planløsning over to plan.',
     bra_m2: 170, soverom: 4, bad: '2', etasjer: 2,
@@ -160,7 +160,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'moholt', grunnmur_inkludert: false, navn: 'Moholt', leverandor: 'Systemhus',
+    id: 'moholt', grunnmur_inkludert: true, navn: 'Moholt', leverandor: 'Systemhus',
     leverandor_url: 'https://www.systemhus.no/hus/enebolig-moholt',
     beskrivelse: 'Moderne enebolig fra Systemhus med smart planløsning. Passer godt til skråtomt med mulighet for sokkeletasje.',
     bra_m2: 155, soverom: 3, bad: '2', etasjer: 2,
@@ -178,7 +178,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'mira', grunnmur_inkludert: false, navn: 'Mira', leverandor: 'Nordbohus',
+    id: 'mira', grunnmur_inkludert: true, navn: 'Mira', leverandor: 'Nordbohus',
     leverandor_url: 'https://www.nordbohus.no/hus/mira',
     beskrivelse: 'Romslig og moderne familiebolig fra Nordbohus. Gjennomtenkt planløsning med god plass til hele familien.',
     bra_m2: 170, soverom: 4, bad: '2', etasjer: 2,
@@ -196,7 +196,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'sammen', grunnmur_inkludert: false, navn: 'Sammen', leverandor: 'Nordbohus',
+    id: 'sammen', grunnmur_inkludert: true, navn: 'Sammen', leverandor: 'Nordbohus',
     leverandor_url: 'https://www.nordbohus.no/hus/sammen',
     beskrivelse: 'Nordbohus\' premium-modell – stor og eksklusiv enebolig med romslig planløsning. Passer for den som ønsker mye plass og høy standard.',
     bra_m2: 210, soverom: 5, bad: '2 + WC', etasjer: 2,
@@ -214,7 +214,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'haugli', grunnmur_inkludert: false, navn: 'Haugli', leverandor: 'Norgeshus',
+    id: 'haugli', grunnmur_inkludert: true, navn: 'Haugli', leverandor: 'Norgeshus',
     leverandor_url: 'https://norgeshus.no/bygge-hus/haugli',
     beskrivelse: 'Klassisk og romslig enebolig fra Norgeshus. God planløsning med fokus på hverdagsfunksjonalitet.',
     bra_m2: 165, soverom: 4, bad: '2', etasjer: 2,
@@ -232,7 +232,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'horisont', grunnmur_inkludert: false, navn: 'Horisont', leverandor: 'Norgeshus',
+    id: 'horisont', grunnmur_inkludert: true, navn: 'Horisont', leverandor: 'Norgeshus',
     leverandor_url: 'https://www.norgeshus.no/bygge-hus/horisont',
     beskrivelse: 'Norgeshus\' flaggskip – stor og eksklusiv villa med moderne arkitektur. Svært romslig planløsning over to plan med premium materialvalg.',
     bra_m2: 250, soverom: 5, bad: '3', etasjer: 2,
