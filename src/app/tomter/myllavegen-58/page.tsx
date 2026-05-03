@@ -13,14 +13,8 @@ import { FileText, Download } from 'lucide-react'
 const IMG = '/tomter/myllavegen-58'
 
 const BILDER = [
-  { id: 'h1', url: `${IMG}/hero.jpg`, alt: 'Myllavegen 58 – oversiktsbilde', kategori: 'tomt' as const },
-  { id: 'h2', url: `${IMG}/situasjonskart.jpg`, alt: 'Situasjonskart', kategori: 'tomt' as const },
-  { id: 'h3', url: `${IMG}/arwen-situasjon.jpg`, alt: 'Arwen plassert på tomt', kategori: 'annet' as const },
-  { id: 'h4', url: `${IMG}/nelly-situasjon.jpg`, alt: 'Nelly plassert på tomt', kategori: 'annet' as const },
-  { id: 'h5', url: `${IMG}/wide-situasjon.jpg`, alt: 'Wide Skrå plassert på tomt', kategori: 'annet' as const },
-  { id: 'h6', url: `${IMG}/signatur-305-situasjon.jpg`, alt: 'Signatur 305 plassert på tomt', kategori: 'annet' as const },
-  { id: 'h7', url: `${IMG}/skogly-situasjon.jpg`, alt: 'Skogly plassert på tomt', kategori: 'annet' as const },
-  { id: 'h8', url: `${IMG}/moholt-situasjon.jpg`, alt: 'Moholt plassert på tomt', kategori: 'annet' as const },
+  { id: 'h1', url: `${IMG}/situasjonskart.png`, alt: 'Situasjonskart – Myllavegen 58', kategori: 'tomt' as const },
+  { id: 'h2', url: `${IMG}/deleplan.png`, alt: 'Deleplan – parsell Myllavegen 58', kategori: 'tomt' as const },
 ]
 
 const FELLES = [
@@ -260,7 +254,7 @@ const TOMT = {
   kommune: 'Lunner',
   areal_m2: 1000,
   gnr: 86, bnr: 43,
-  senterpunkt: { lat: 60.3705, lng: 10.5675 },
+  senterpunkt: { lat: 60.25414, lng: 10.64675 },
 
   regulering: {
     arealformaal: 'Boligbebyggelse – frittliggende småhusbebyggelse',
@@ -397,7 +391,7 @@ export default function Myllavegen58() {
           </div>
           <div className="lg:col-span-1">
             <div className="sticky top-36 space-y-6">
-              <TomtKart lat={TOMT.senterpunkt.lat} lng={TOMT.senterpunkt.lng} adresse={TOMT.adresse} zoom={17} />
+              <TomtKart lat={TOMT.senterpunkt.lat} lng={TOMT.senterpunkt.lng} adresse="Myllavegen 58, 2742 Grua" zoom={17} />
               <TomtKontakt />
               <TomtDeling adresse={TOMT.adresse} tomteId="myllavegen-58" />
             </div>

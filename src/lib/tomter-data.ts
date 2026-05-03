@@ -80,8 +80,8 @@ export const ALLE_TOMTER: TomtListing[] = [
   {
     id: 'myllavegen-58', adresse: 'Myllavegen 58', poststed: 'Grua',
     kommune: 'Lunner', areal_m2: 1000, pris: 950000, type: 'Eneboligtomt',
-    bilde: '/tomter/myllavegen-58/hero.jpg',
-    lat: 60.3705, lng: 10.5675,
+    bilde: '/tomter/myllavegen-58/situasjonskart.png',
+    lat: 60.25414, lng: 10.64675,
     poi: [
       { type: 'bus', navn: 'Bussholdeplass', avstand: '5 min gange' },
       { type: 'skole', navn: 'Grua skole', avstand: '8 min gange' },
