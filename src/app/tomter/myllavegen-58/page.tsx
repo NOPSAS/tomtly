@@ -15,6 +15,12 @@ const IMG = '/tomter/myllavegen-58'
 const BILDER = [
   { id: 'h1', url: `${IMG}/situasjonskart.png`, alt: 'Situasjonskart – Myllavegen 58', kategori: 'tomt' as const },
   { id: 'h2', url: `${IMG}/deleplan.png`, alt: 'Deleplan – parsell Myllavegen 58', kategori: 'tomt' as const },
+  { id: 'h3', url: `${IMG}/arwen-fasade-1.jpg`, alt: 'Arwen Skrå – fasade', kategori: 'annet' as const },
+  { id: 'h4', url: `${IMG}/nelly-fasade-1.jpg`, alt: 'Nelly Skrå – fasade', kategori: 'annet' as const },
+  { id: 'h5', url: `${IMG}/wide-fasade-1.jpg`, alt: 'Wide Skrå – fasade', kategori: 'annet' as const },
+  { id: 'h6', url: `${IMG}/skogly-fasade-1.png`, alt: 'Skogly – fasade', kategori: 'annet' as const },
+  { id: 'h7', url: `${IMG}/moholt-fasade-1.jpg`, alt: 'Moholt – fasade', kategori: 'annet' as const },
+  { id: 'h8', url: `${IMG}/mira-fasade-1.jpg`, alt: 'Mira – fasade', kategori: 'annet' as const },
 ]
 
 const FELLES = [
@@ -61,8 +67,8 @@ const HUSMODELLER = [
     bilder: {
       fasade: [`${IMG}/nelly-fasade-1.jpg`],
       plantegninger: [
-        { url: `${IMG}/nelly-plan-hovedetasje.jpg`, label: 'Hovedetasje – stue, kjøkken, soverom 1, bad' },
         { url: `${IMG}/nelly-plan-underetasje.jpg`, label: 'Underetasje – 3 soverom, TV-stue, vaskerom' },
+        { url: `${IMG}/nelly-plan-hovedetasje.jpg`, label: 'Hovedetasje – stue, kjøkken, soverom 1, bad' },
       ],
     },
   },
@@ -113,10 +119,10 @@ const HUSMODELLER = [
     verdi_bra_m2: 170, verdi_m2_pris: 50000, verdi_total: 8500000,
     inkludert: ['Komplett hus ferdig montert', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse', 'Rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/signatur-308-fasade-1.jpg`],
+      fasade: [`${IMG}/signatur-308-fasade-1.webp`],
       plantegninger: [
-        { url: `${IMG}/signatur-308-plan-1etg.jpg`, label: '1. etasje' },
-        { url: `${IMG}/signatur-308-plan-2etg.jpg`, label: '2. etasje' },
+        { url: `${IMG}/signatur-308-plan-1etg.webp`, label: '1. etasje' },
+        { url: `${IMG}/signatur-308-plan-2etg.webp`, label: '2. etasje' },
       ],
     },
   },
@@ -131,11 +137,8 @@ const HUSMODELLER = [
     verdi_bra_m2: 180, verdi_m2_pris: 50000, verdi_total: 9000000,
     inkludert: ['Hus levert på tomt', 'Kjeller med full takhøyde', 'Parkett', 'Flislagte våtrom', 'Kjøkken med hvitevarer', 'El-leveranse', 'Rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/selma-fasade-1.jpg`],
-      plantegninger: [
-        { url: `${IMG}/selma-plan-hovedetasje.jpg`, label: 'Hovedetasje – stue, kjøkken, soverom' },
-        { url: `${IMG}/selma-plan-kjeller.jpg`, label: 'Kjeller – ekstra soverom, bad, bod' },
-      ],
+      fasade: ['https://www.alvsbyhus.no/AdaptiveImages/optimizely/b59d9cfb-4e83-469f-b6e5-f94378e5bd45/ah_2022_selma_38g_no.jpg'],
+      plantegninger: [],
     },
   },
   {
@@ -149,10 +152,10 @@ const HUSMODELLER = [
     verdi_bra_m2: 137, verdi_m2_pris: 50000, verdi_total: 6850000,
     inkludert: ['Parkett', 'Flislagt entré og våtrom', 'Pipe og peisovn', 'Komplett el-leveranse', 'Komplett rørleveranse', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Lyskilder inne/ute', 'Innglassert balkong'],
     bilder: {
-      fasade: [`${IMG}/skogly-fasade-1.jpg`],
+      fasade: [`${IMG}/skogly-fasade-1.png`],
       plantegninger: [
-        { url: `${IMG}/skogly-plan-hovedetasje.jpg`, label: 'Hovedetasje – stue, kjøkken, bad, soverom 1' },
-        { url: `${IMG}/skogly-plan-underetasje.jpg`, label: 'Underetasje – 3 soverom, bad, sportsbod' },
+        { url: `${IMG}/skogly-plan-hovedetasje.png`, label: 'Hovedetasje – stue, kjøkken, bad, soverom 1' },
+        { url: `${IMG}/skogly-plan-underetasje.png`, label: 'Underetasje – 3 soverom, bad, sportsbod' },
       ],
     },
   },
@@ -169,8 +172,8 @@ const HUSMODELLER = [
     bilder: {
       fasade: [`${IMG}/moholt-fasade-1.jpg`],
       plantegninger: [
-        { url: `${IMG}/moholt-plan-1etg.jpg`, label: '1. etasje' },
-        { url: `${IMG}/moholt-plan-2etg.jpg`, label: '2. etasje' },
+        { url: `${IMG}/moholt-plan-1etg.webp`, label: '1. etasje' },
+        { url: `${IMG}/moholt-plan-2etg.webp`, label: '2. etasje' },
       ],
     },
   },
@@ -187,8 +190,8 @@ const HUSMODELLER = [
     bilder: {
       fasade: [`${IMG}/mira-fasade-1.jpg`],
       plantegninger: [
-        { url: `${IMG}/mira-plan-1etg.jpg`, label: '1. etasje' },
-        { url: `${IMG}/mira-plan-2etg.jpg`, label: '2. etasje' },
+        { url: `${IMG}/mira-plan-1etg.webp`, label: '1. etasje' },
+        { url: `${IMG}/mira-plan-2etg.webp`, label: '2. etasje' },
       ],
     },
   },
@@ -205,8 +208,8 @@ const HUSMODELLER = [
     bilder: {
       fasade: [`${IMG}/sammen-fasade-1.jpg`],
       plantegninger: [
-        { url: `${IMG}/sammen-plan-1etg.jpg`, label: '1. etasje' },
-        { url: `${IMG}/sammen-plan-2etg.jpg`, label: '2. etasje' },
+        { url: `${IMG}/sammen-plan-1etg.webp`, label: '1. etasje' },
+        { url: `${IMG}/sammen-plan-2etg.webp`, label: '2. etasje' },
       ],
     },
   },
@@ -243,6 +246,7 @@ const HUSMODELLER = [
       plantegninger: [
         { url: `${IMG}/horisont-plan-1etg.jpg`, label: '1. etasje' },
         { url: `${IMG}/horisont-plan-2etg.jpg`, label: '2. etasje' },
+        { url: `${IMG}/horisont-plan-3etg.jpg`, label: '3. etasje / kjeller' },
       ],
     },
   },
