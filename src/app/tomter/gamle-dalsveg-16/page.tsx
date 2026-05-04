@@ -8,6 +8,7 @@ import { TomtKontakt } from '@/components/tomt/TomtKontakt'
 import { TomtNabolag } from '@/components/tomt/TomtNabolag'
 import { TomtDeling } from '@/components/tomt/TomtDeling'
 import { TomtTegnebua } from '@/components/tomt/TomtTegnebua'
+import { TomtSammendrag } from '@/components/tomt/TomtSammendrag'
 import { FileText, Download } from 'lucide-react'
 
 const IMG = '/tomter/gamle-dalsveg-16'
@@ -20,6 +21,13 @@ const BILDER = [
   { id: 'b5', url: `${IMG}/perla-fasade-1.jpg`, alt: 'Norgeshus Perla – fasade', kategori: 'annet' as const },
   { id: 'b6', url: `${IMG}/vipp-fasade-1.jpg`, alt: 'Norgeshus Vipp – fasade', kategori: 'annet' as const },
   { id: 'b7', url: `${IMG}/rognheim-fasade-1.jpg`, alt: 'Norgeshus Rognheim – fasade', kategori: 'annet' as const },
+  { id: 'b8', url: `${IMG}/all-tid-nordbohus-visualisering.png`, alt: 'All-tid Nordbohus – visualisering på tomt', kategori: 'annet' as const },
+  { id: 'b9', url: `${IMG}/lilly-abchus-visualisering.png`, alt: 'Lilly ABChus – visualisering på tomt', kategori: 'annet' as const },
+  { id: 'b10', url: `${IMG}/nelly-abchus-visualisering.png`, alt: 'Nelly ABChus – visualisering på tomt', kategori: 'annet' as const },
+  { id: 'b11', url: `${IMG}/perla-norgeshus-visualisering.png`, alt: 'Perla Norgeshus – visualisering på tomt', kategori: 'annet' as const },
+  { id: 'b12', url: `${IMG}/vipp-norgeshus-visualisering.png`, alt: 'Vipp Norgeshus – visualisering på tomt', kategori: 'annet' as const },
+  { id: 'b13', url: `${IMG}/skansen-fasade-1.jpg`, alt: 'Skansen Mesterhus – fasade', kategori: 'annet' as const },
+  { id: 'b14', url: `${IMG}/arwen-a-fasade-1.jpg`, alt: 'Arwen A ABChus – fasade', kategori: 'annet' as const },
 ]
 
 const FELLES = [
@@ -568,7 +576,7 @@ const HUSMODELLER = [
     bra_m2: 137, soverom: 3, bad: '1 + WC', etasjer: 2,
     ekstra: { 'BYA': '95 m²', 'Balkong': 'Stor 2. etasje', 'Carport': 'Inkludert' },
     pris_hus: 3298000, total_budsjett: 6444324,
-    kostnader: [...FELLES, { post: 'Apollis – nøkkelferdig fra Hedalm-Anebyhus', belop: 3298000 }, ...ETTER],
+    kostnader: [...FELLES, { post: 'Apollis – nøkkelferdig fra Hedalm-Anebyhus', belop: 3298000 }, { post: 'Grunnmur/fundamentering (estimat)', belop: 250000 }, ...ETTER],
     verdi_bra_m2: 137, verdi_m2_pris: 53000, verdi_total: 7261000,
     inkludert: ['Parkett', 'Flislagte våtrom', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Lyskilder inne/ute', 'Komplett el-leveranse', 'Komplett rørleveranse'],
     bilder: {
@@ -585,7 +593,7 @@ const HUSMODELLER = [
     bra_m2: 146, soverom: 4, bad: '1', etasjer: 2,
     ekstra: { 'BYA': '88 m²', 'Stue': 'Vinkelstue' },
     pris_hus: 3908000, total_budsjett: 7054324,
-    kostnader: [...FELLES, { post: 'Frankis – nøkkelferdig fra Hedalm-Anebyhus', belop: 3908000 }, ...ETTER],
+    kostnader: [...FELLES, { post: 'Frankis – nøkkelferdig fra Hedalm-Anebyhus', belop: 3908000 }, { post: 'Grunnmur/fundamentering (estimat)', belop: 250000 }, ...ETTER],
     verdi_bra_m2: 146, verdi_m2_pris: 53000, verdi_total: 7738000,
     inkludert: ['Parkett', 'Flislagte våtrom', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Lyskilder inne/ute', 'Komplett el-leveranse', 'Komplett rørleveranse'],
     bilder: {
@@ -602,7 +610,7 @@ const HUSMODELLER = [
     bra_m2: 150, soverom: 4, bad: '1', etasjer: 2,
     ekstra: { 'BYA': '91 m²', 'Loftstue': 'Ja' },
     pris_hus: 4098000, total_budsjett: 7244324,
-    kostnader: [...FELLES, { post: 'Rønningen – nøkkelferdig fra Hedalm-Anebyhus', belop: 4098000 }, ...ETTER],
+    kostnader: [...FELLES, { post: 'Rønningen – nøkkelferdig fra Hedalm-Anebyhus', belop: 4098000 }, { post: 'Grunnmur/fundamentering (estimat)', belop: 250000 }, ...ETTER],
     verdi_bra_m2: 150, verdi_m2_pris: 53000, verdi_total: 7950000,
     inkludert: ['Parkett', 'Flislagte våtrom', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Lyskilder inne/ute', 'Komplett el-leveranse', 'Komplett rørleveranse'],
     bilder: {
@@ -619,7 +627,7 @@ const HUSMODELLER = [
     bra_m2: 155, soverom: 4, bad: '1', etasjer: 2,
     ekstra: { 'BYA': '88 m²', 'Loftstue': 'Ja', 'Vaskerom': 'Ja' },
     pris_hus: 4258000, total_budsjett: 7404324,
-    kostnader: [...FELLES, { post: 'Lyris – nøkkelferdig fra Hedalm-Anebyhus', belop: 4258000 }, ...ETTER],
+    kostnader: [...FELLES, { post: 'Lyris – nøkkelferdig fra Hedalm-Anebyhus', belop: 4258000 }, { post: 'Grunnmur/fundamentering (estimat)', belop: 250000 }, ...ETTER],
     verdi_bra_m2: 155, verdi_m2_pris: 53000, verdi_total: 8215000,
     inkludert: ['Parkett', 'Flislagte våtrom', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Lyskilder inne/ute', 'Komplett el-leveranse', 'Komplett rørleveranse'],
     bilder: {
@@ -689,8 +697,7 @@ const TOMT = {
     { navn: 'Vedtak om fradeling', url: '/documents/gamle-dalsveg-16/vedtak-fradeling.pdf' },
     { navn: 'Geoteknisk rapport', url: '/documents/gamle-dalsveg-16/geoteknisk-rapport.pdf' },
     { navn: 'VA-kart', url: '/documents/gamle-dalsveg-16/va-kart.pdf' },
-    { navn: 'Avkjøringstillatelse', url: '/documents/gamle-dalsveg-16/avkoringstillatelse.pdf' },
-    { navn: 'DOK-analyse', url: '/documents/gamle-dalsveg-16/dok-analyse.pdf' },
+    { navn: 'DOK-analyse (naturfare/grunnforhold)', url: '/documents/gamle-dalsveg-16/dok-analyse.pdf' },
   ],
 }
 
@@ -772,6 +779,25 @@ export default function GamleDalsveg16() {
             </section>
 
             <section id="risiko"><TomtRisiko risikoanalyse={TOMT.risikoanalyse} /></section>
+
+            <TomtSammendrag
+              adresse="Gamle Dalsveg 16"
+              kommune="Nannestad"
+              pris={2300000}
+              areal_m2={905}
+              antall_husmodeller={34}
+              laveste_budsjett={6240324}
+              hoyeste_budsjett={10815324}
+              anbefaling="Gamle Dalsveg 16 i Maura er en fradelt boligtomt med avklart infrastruktur og lav gjennomføringsrisiko. Med 34 husmodeller fra 7 leverandører – og alle med grunnmur inkludert hos de fleste – er dette et sjeldent bredt utvalg for en enkelt tomt. Nærheten til Jessheim (5 min) og Oslo via E6 gjør eiendommen attraktiv for barnefamilier og pendlere."
+              fordeler={[
+                'Fradeling vedtatt av Nannestad kommune',
+                'Kommunalt VA tilgjengelig – tilkoblingskostnad kjent (98 824 kr)',
+                'Geoteknisk rapport utarbeidet – stabil grunn bekreftet',
+                '34 husmodeller fra 7 leverandører – grunnmur inkl. hos de fleste',
+                '5 min til Jessheim, 30 min til Oslo via E6',
+                'Pris: 2,3 MNOK – laveste inngangstomt i Romerike-regionen',
+              ]}
+            />
           </div>
           <div className="lg:col-span-1">
             <div className="sticky top-36 space-y-6">

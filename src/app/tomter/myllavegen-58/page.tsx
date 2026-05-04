@@ -8,11 +8,13 @@ import { TomtKontakt } from '@/components/tomt/TomtKontakt'
 import { TomtNabolag } from '@/components/tomt/TomtNabolag'
 import { TomtDeling } from '@/components/tomt/TomtDeling'
 import { TomtTegnebua } from '@/components/tomt/TomtTegnebua'
+import { TomtSammendrag } from '@/components/tomt/TomtSammendrag'
 import { FileText, Download } from 'lucide-react'
 
 const IMG = '/tomter/myllavegen-58'
 
 const BILDER = [
+  { id: 'h0', url: `${IMG}/hero.png`, alt: 'Wide Skrå plassert på Myllavegen 58 – flyfoto', kategori: 'tomt' as const },
   { id: 'h1', url: `${IMG}/situasjonskart.png`, alt: 'Situasjonskart – Myllavegen 58', kategori: 'tomt' as const },
   { id: 'h2', url: `${IMG}/deleplan.png`, alt: 'Deleplan – parsell Myllavegen 58', kategori: 'tomt' as const },
   { id: 'h3', url: `${IMG}/arwen-fasade-1.jpg`, alt: 'Arwen Skrå – fasade', kategori: 'annet' as const },
@@ -21,6 +23,11 @@ const BILDER = [
   { id: 'h6', url: `${IMG}/skogly-fasade-1.png`, alt: 'Skogly – fasade', kategori: 'annet' as const },
   { id: 'h7', url: `${IMG}/moholt-fasade-1.jpg`, alt: 'Moholt – fasade', kategori: 'annet' as const },
   { id: 'h8', url: `${IMG}/mira-fasade-1.jpg`, alt: 'Mira – fasade', kategori: 'annet' as const },
+  { id: 'h9', url: `${IMG}/wide-visualisering.png`, alt: 'Wide Skrå visualisering på tomt', kategori: 'annet' as const },
+  { id: 'h10', url: `${IMG}/haugli-fasade-1.jpg`, alt: 'Haugli – fasade', kategori: 'annet' as const },
+  { id: 'h11', url: `${IMG}/horisont-fasade-1.jpg`, alt: 'Horisont – fasade', kategori: 'annet' as const },
+  { id: 'h12', url: `${IMG}/signatur-305-fasade-1.jpg`, alt: 'Signatur 305 – fasade', kategori: 'annet' as const },
+  { id: 'h13', url: `${IMG}/nelly-fasade-1.jpg`, alt: 'Nelly Skrå – fasade', kategori: 'annet' as const },
 ]
 
 const FELLES = [
@@ -132,13 +139,13 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'selma-kjeller', grunnmur_inkludert: true, navn: 'Selma med kjeller', leverandor: 'Älvsbyhus + Tegnebua',
+    id: 'selma-kjeller', grunnmur_inkludert: false, navn: 'Selma med kjeller', leverandor: 'Älvsbyhus + Tegnebua',
     leverandor_url: 'https://tegnebua.no/konsepter/alvsbyhus-kjeller',
     beskrivelse: 'Älvsbyhus Selma med Tegnebuas kjellerkonsept – gir mye ekstra areal til lav kostnad. Hovedetasje fra Älvsbyhus, kjeller prosjektert av Tegnebua. Perfekt for skråtomt.',
     bra_m2: 180, soverom: 4, bad: '2', etasjer: 2,
     ekstra: { 'BYA': '~95 m²', 'Utnyttelse': '9,5%', 'Kjeller': 'Tegnebua-konsept', 'Husbank': 'Kvalifiserer' },
-    pris_hus: 3200000, total_budsjett: 5119000,
-    kostnader: [...FELLES, { post: 'Selma – hus fra Älvsbyhus', belop: 3200000 }, { post: 'Kjeller (prosjektert av Tegnebua)', belop: 500000 }, ...ETTER(700000)],
+    pris_hus: 3200000, total_budsjett: 5369000,
+    kostnader: [...FELLES, { post: 'Selma – hus fra Älvsbyhus', belop: 3200000 }, { post: 'Kjeller (prosjektert av Tegnebua)', belop: 500000 }, { post: 'Grunnmur/fundamentering (estimat)', belop: 250000 }, ...ETTER(700000)],
     verdi_bra_m2: 180, verdi_m2_pris: 40000, verdi_total: 7200000,
     inkludert: ['Hus levert på tomt', 'Kjeller med full takhøyde', 'Parkett', 'Flislagte våtrom', 'Kjøkken med hvitevarer', 'El-leveranse', 'Rørleveranse'],
     bilder: {
@@ -153,8 +160,8 @@ const HUSMODELLER = [
     beskrivelse: 'Kompakt og effektiv bolig med inngang fra begge plan – perfekt for skrånende tomt. Innglassert balkong, åpen stue/kjøkken og 3 soverom.',
     bra_m2: 137, soverom: 3, bad: '2', etasjer: 2,
     ekstra: { 'BYA': '80,5 m²', 'Utnyttelse': '8,1%', 'Innglassert balkong': 'Ja' },
-    pris_hus: 3580000, total_budsjett: 4749000,
-    kostnader: [...FELLES, { post: 'Skogly – ferdig hus fra Hedalm-Anebyhus', belop: 3580000 }, ...ETTER(650000)],
+    pris_hus: 3580000, total_budsjett: 4999000,
+    kostnader: [...FELLES, { post: 'Skogly – ferdig hus fra Hedalm-Anebyhus', belop: 3580000 }, { post: 'Grunnmur/fundamentering (estimat)', belop: 250000 }, ...ETTER(650000)],
     verdi_bra_m2: 137, verdi_m2_pris: 40000, verdi_total: 5480000,
     inkludert: ['Parkett', 'Flislagt entré og våtrom', 'Pipe og peisovn', 'Komplett el-leveranse', 'Komplett rørleveranse', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Lyskilder inne/ute', 'Innglassert balkong'],
     bilder: {
@@ -318,8 +325,8 @@ const TOMT = {
 
   dokumenter: [
     { navn: 'Situasjonsplan', url: '/documents/myllavegen-58/situasjonsplan.pdf' },
-    { navn: 'Reguleringsbestemmelser', url: '/documents/myllavegen-58/reguleringsbestemmelser.pdf' },
-    { navn: 'Fradelingsvedtak', url: '/documents/myllavegen-58/fradelingsvedtak.pdf' },
+    { navn: 'Kommuneplanbestemmelser Lunner 2023–2040', url: '/documents/myllavegen-58/kommuneplanbestemmelser.pdf' },
+    { navn: 'Fradelingssamtykke', url: '/documents/myllavegen-58/fradelingsvedtak.pdf' },
     { navn: 'Avkjøringstillatelse', url: '/documents/myllavegen-58/avkjoringstillatelse.pdf' },
     { navn: 'FINN-annonse', url: 'https://www.finn.no/realestate/plots/ad.html?finnkode=444623623' },
   ],
@@ -403,6 +410,25 @@ export default function Myllavegen58() {
             </section>
 
             <section id="risiko"><TomtRisiko risikoanalyse={TOMT.risikoanalyse} /></section>
+
+            <TomtSammendrag
+              adresse="Myllavegen 58"
+              kommune="Lunner"
+              pris={950000}
+              areal_m2={1000}
+              antall_husmodeller={12}
+              laveste_budsjett={4749000}
+              hoyeste_budsjett={10417000}
+              anbefaling="Myllavegen 58 er en fradelt boligtomt med lav reguleringsrisiko og avklart infrastruktur. Kommunalt VA er på plass, veirett og avkjøringstillatelse foreligger. Skrånende terreng gir mulighet for underetasje eller sokkeletasje som gir ekstra areal til lav kostnad. Tomannsbolig er reguleringsmessig mulig."
+              fordeler={[
+                'Fradeling godkjent av Lunner kommune',
+                'Kommunalt vann og avløp tilgjengelig',
+                'Veirett og avkjøringstillatelse foreligger',
+                '12 husmodeller – fra 5,0 til 10,4 MNOK totalbudsjett',
+                'Skrånende tomt – perfekt for underetasje/sokkeletasje',
+                'Tomannsbolig er reguleringsmessig mulig (BYA 30%)',
+              ]}
+            />
           </div>
           <div className="lg:col-span-1">
             <div className="sticky top-36 space-y-6">

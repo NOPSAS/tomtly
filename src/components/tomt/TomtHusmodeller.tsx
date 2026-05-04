@@ -85,6 +85,44 @@ export function TomtHusmodeller({ modeller, tomtType, tomtNavn }: Props) {
         {modeller.length} husmodeller med komplett kostnadsoverslag for {tomtNavn}. Priser per mai 2026.
       </p>
 
+      {/* ── Topp 3 mest lønnsomt ── */}
+      {(() => {
+        const sorted = [...modeller]
+          .map(m => ({ m, profitt: m.verdi_total - m.total_budsjett }))
+          .sort((a, b) => b.profitt - a.profitt)
+          .slice(0, 3)
+        return (
+          <div className="mb-6">
+            <p className="text-xs font-bold text-brand-500 uppercase tracking-widest mb-2">Topp 3 – best fortjenestepotensial</p>
+            <div className="grid grid-cols-3 gap-2">
+              {sorted.map(({ m, profitt }, i) => {
+                const mBudsjett = tomtType === 'skra' && m.total_budsjett_skra ? m.total_budsjett_skra : m.total_budsjett
+                const medalje = ['🥇', '🥈', '🥉'][i]
+                return (
+                  <button
+                    key={m.id}
+                    onClick={() => setAktivModell(modeller.indexOf(m))}
+                    className={`text-left p-3 rounded-xl border-2 transition-all ${
+                      aktivModell === modeller.indexOf(m)
+                        ? 'border-tomtly-accent bg-forest-50 shadow-sm'
+                        : 'border-green-200 bg-green-50 hover:border-green-300'
+                    }`}
+                  >
+                    <p className="text-base mb-0.5">{medalje}</p>
+                    <p className="font-semibold text-tomtly-dark text-sm truncate">{m.navn}</p>
+                    <p className="text-[10px] text-brand-400 truncate">{m.leverandor}</p>
+                    <p className="text-xs font-bold text-green-700 mt-1">
+                      +{(profitt / 1000000).toFixed(1)} MNOK
+                    </p>
+                    <p className="text-[10px] text-brand-400">{(mBudsjett / 1000000).toFixed(1)} MNOK budsjett</p>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        )
+      })()}
+
       {/* Grunnmur-forklaring */}
       {harGrunnmurFelt && modeller.some(m => !m.grunnmur_inkludert) && (
         <div className="flex flex-wrap gap-3 mb-5 text-xs">

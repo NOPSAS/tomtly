@@ -366,7 +366,7 @@ function FremhevedeTomter() {
     },
     {
       href: '/tomter/myllavegen-58',
-      bilde: '/tomter/myllavegen-58/arwen-fasade-1.jpg',
+      bilde: '/tomter/myllavegen-58/hero.png',
       adresse: 'Myllavegen 58',
       sted: 'Grua, Lunner',
       areal: '1 000 m²',
