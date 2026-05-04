@@ -715,6 +715,25 @@ export default function GamleDalsveg16() {
     <div className="bg-white">
       <TomtHero adresse={TOMT.adresse} poststed={TOMT.poststed} kommune={TOMT.kommune} areal_m2={TOMT.areal_m2} gnr={TOMT.gnr} bnr={TOMT.bnr} />
 
+      <TomtSammendrag
+        adresse="Gamle Dalsveg 16"
+        kommune="Nannestad"
+        pris={2300000}
+        areal_m2={905}
+        antall_husmodeller={34}
+        laveste_budsjett={6240324}
+        hoyeste_budsjett={10815324}
+        anbefaling="Gamle Dalsveg 16 i Maura er en fradelt boligtomt med avklart infrastruktur og lav gjennomføringsrisiko. Med 34 husmodeller fra 7 leverandører – og alle med grunnmur inkludert hos de fleste – er dette et sjeldent bredt utvalg for en enkelt tomt. Nærheten til Jessheim (5 min) og Oslo via E6 gjør eiendommen attraktiv for barnefamilier og pendlere."
+        fordeler={[
+          'Fradeling vedtatt av Nannestad kommune',
+          'Kommunalt VA tilgjengelig – tilkoblingskostnad kjent (98 824 kr)',
+          'Geoteknisk rapport utarbeidet – stabil grunn bekreftet',
+          '34 husmodeller fra 7 leverandører – grunnmur inkl. hos de fleste',
+          '5 min til Jessheim, 30 min til Oslo via E6',
+          'Pris: 2,3 MNOK – laveste inngangstomt i Romerike-regionen',
+        ]}
+      />
+
       <nav className="sticky top-16 z-40 bg-white border-b border-brand-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex gap-6 overflow-x-auto py-3 text-sm">

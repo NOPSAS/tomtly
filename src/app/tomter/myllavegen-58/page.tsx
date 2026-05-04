@@ -347,6 +347,25 @@ export default function Myllavegen58() {
     <div className="bg-white">
       <TomtHero adresse={TOMT.adresse} poststed={TOMT.poststed} kommune={TOMT.kommune} areal_m2={TOMT.areal_m2} gnr={TOMT.gnr} bnr={TOMT.bnr} />
 
+      <TomtSammendrag
+        adresse="Myllavegen 58"
+        kommune="Lunner"
+        pris={950000}
+        areal_m2={1000}
+        antall_husmodeller={12}
+        laveste_budsjett={4749000}
+        hoyeste_budsjett={10417000}
+        anbefaling="Myllavegen 58 er en fradelt boligtomt med lav reguleringsrisiko og avklart infrastruktur. Kommunalt VA er på plass, veirett og avkjøringstillatelse foreligger. Skrånende terreng gir mulighet for underetasje eller sokkeletasje som gir ekstra areal til lav kostnad. Tomannsbolig er reguleringsmessig mulig."
+        fordeler={[
+          'Fradeling godkjent av Lunner kommune',
+          'Kommunalt vann og avløp tilgjengelig',
+          'Veirett og avkjøringstillatelse foreligger',
+          '12 husmodeller – fra 5,0 til 10,4 MNOK totalbudsjett',
+          'Skrånende tomt – perfekt for underetasje/sokkeletasje',
+          'Tomannsbolig er reguleringsmessig mulig (BYA 30%)',
+        ]}
+      />
+
       <nav className="sticky top-16 z-40 bg-white border-b border-brand-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex gap-6 overflow-x-auto py-3 text-sm">
