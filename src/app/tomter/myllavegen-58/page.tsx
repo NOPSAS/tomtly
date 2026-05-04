@@ -51,6 +51,7 @@ const HUSMODELLER = [
       plantegninger: [
         { url: `${IMG}/arwen-plan-hovedetasje.jpg`, label: 'Hovedetasje – stue, kjøkken, WC, veranda' },
         { url: `${IMG}/arwen-plan-underetasje.jpg`, label: 'Underetasje – 3 soverom, hybel, bad, bod' },
+        { url: `${IMG}/arwen-situasjonskart.png`, label: 'Tomtekart – plassering på tomt' },
       ],
     },
   },
@@ -69,6 +70,7 @@ const HUSMODELLER = [
       plantegninger: [
         { url: `${IMG}/nelly-plan-underetasje.jpg`, label: 'Underetasje – 3 soverom, TV-stue, vaskerom' },
         { url: `${IMG}/nelly-plan-hovedetasje.jpg`, label: 'Hovedetasje – stue, kjøkken, soverom 1, bad' },
+        { url: `${IMG}/nelly-situasjonskart.png`, label: 'Tomtekart – plassering på tomt' },
       ],
     },
   },
@@ -87,6 +89,7 @@ const HUSMODELLER = [
       plantegninger: [
         { url: `${IMG}/wide-plan-hovedetasje.jpg`, label: 'Hovedetasje – stue, kjøkken, bad, entré' },
         { url: `${IMG}/wide-plan-underetasje.jpg`, label: 'Underetasje – soverom, hybel, bad 2, bod' },
+        { url: `${IMG}/wide-situasjonskart.png`, label: 'Tomtekart – plassering på tomt' },
       ],
     },
   },
@@ -105,6 +108,7 @@ const HUSMODELLER = [
       plantegninger: [
         { url: `${IMG}/signatur-305-plan-1etg.jpg`, label: '1. etasje' },
         { url: `${IMG}/signatur-305-plan-2etg.jpg`, label: '2. etasje' },
+        { url: `${IMG}/signatur-305-situasjonskart.png`, label: 'Tomtekart – plassering på tomt' },
       ],
     },
   },
@@ -123,6 +127,7 @@ const HUSMODELLER = [
       plantegninger: [
         { url: `${IMG}/signatur-308-plan-1etg.webp`, label: '1. etasje' },
         { url: `${IMG}/signatur-308-plan-2etg.webp`, label: '2. etasje' },
+        { url: `${IMG}/signatur-308-situasjonskart.png`, label: 'Tomtekart – plassering på tomt' },
       ],
     },
   },
@@ -137,8 +142,9 @@ const HUSMODELLER = [
     verdi_bra_m2: 180, verdi_m2_pris: 50000, verdi_total: 9000000,
     inkludert: ['Hus levert på tomt', 'Kjeller med full takhøyde', 'Parkett', 'Flislagte våtrom', 'Kjøkken med hvitevarer', 'El-leveranse', 'Rørleveranse'],
     bilder: {
-      fasade: ['https://www.alvsbyhus.no/AdaptiveImages/optimizely/b59d9cfb-4e83-469f-b6e5-f94378e5bd45/ah_2022_selma_38g_no.jpg'],
-      plantegninger: [],
+      fasade: [`${IMG}/selma-fasade-1.png`],
+      plantegninger: [
+        { url: `${IMG}/selma-situasjonskart.png`, label: 'Tomtekart – plassering på tomt' },],
     },
   },
   {
@@ -156,6 +162,7 @@ const HUSMODELLER = [
       plantegninger: [
         { url: `${IMG}/skogly-plan-hovedetasje.png`, label: 'Hovedetasje – stue, kjøkken, bad, soverom 1' },
         { url: `${IMG}/skogly-plan-underetasje.png`, label: 'Underetasje – 3 soverom, bad, sportsbod' },
+        { url: `${IMG}/skogly-situasjonskart.png`, label: 'Tomtekart – plassering på tomt' },
       ],
     },
   },
@@ -174,6 +181,7 @@ const HUSMODELLER = [
       plantegninger: [
         { url: `${IMG}/moholt-plan-1etg.webp`, label: '1. etasje' },
         { url: `${IMG}/moholt-plan-2etg.webp`, label: '2. etasje' },
+        { url: `${IMG}/moholt-situasjonskart.png`, label: 'Tomtekart – plassering på tomt' },
       ],
     },
   },
@@ -192,6 +200,7 @@ const HUSMODELLER = [
       plantegninger: [
         { url: `${IMG}/mira-plan-1etg.webp`, label: '1. etasje' },
         { url: `${IMG}/mira-plan-2etg.webp`, label: '2. etasje' },
+        { url: `${IMG}/mira-situasjonskart.png`, label: 'Tomtekart – plassering på tomt' },
       ],
     },
   },
@@ -228,6 +237,7 @@ const HUSMODELLER = [
       plantegninger: [
         { url: `${IMG}/haugli-plan-1etg.jpg`, label: '1. etasje' },
         { url: `${IMG}/haugli-plan-2etg.jpg`, label: '2. etasje' },
+        { url: `${IMG}/haugli-situasjonskart.png`, label: 'Tomtekart – plassering på tomt' },
       ],
     },
   },
@@ -247,6 +257,7 @@ const HUSMODELLER = [
         { url: `${IMG}/horisont-plan-1etg.jpg`, label: '1. etasje' },
         { url: `${IMG}/horisont-plan-2etg.jpg`, label: '2. etasje' },
         { url: `${IMG}/horisont-plan-3etg.jpg`, label: '3. etasje / kjeller' },
+        { url: `${IMG}/horisont-situasjonskart.png`, label: 'Tomtekart – plassering på tomt' },
       ],
     },
   },
