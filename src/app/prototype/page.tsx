@@ -376,6 +376,8 @@ function PrototypeContent() {
   const [norkartData, setNorkartData] = useState<any>(null)
   const [norkartLoading, setNorkartLoading] = useState(false)
   const [lillestromPlaner, setLillestromPlaner] = useState<any>(null)
+  const [aiOppsummering, setAiOppsummering] = useState<any>(null)
+  const [aiOppsummeringLoading, setAiOppsummeringLoading] = useState(false)
   const kartCanvasRef = useRef<HTMLCanvasElement>(null)
   const [steps, setSteps] = useState<Step[]>([])
 
@@ -660,6 +662,8 @@ function PrototypeContent() {
     setNorkartData(null)
     setNorkartLoading(false)
     setLillestromPlaner(null)
+    setAiOppsummering(null)
+    setAiOppsummeringLoading(true)
 
     const { lat, lon } = adr.representasjonspunkt
     const knr = adr.kommunenummer
@@ -1378,6 +1382,40 @@ function PrototypeContent() {
     })
   }
 
+  // ─── AI-oppsummering – trigger når analyse er ferdig ───────────────
+
+  useEffect(() => {
+    if (!valgtAdresse || analysing || !eiendomsAnalyse) return
+    const knr = valgtAdresse.kommunenummer
+    const dokMedFunn = dokDatasets.filter(d => {
+      const s = (d.status || d.dekning || '').toLowerCase()
+      return s.includes('med funn') || s.includes('grundig kartlagt')
+    }).map(d => ({ tittel: d.tittel, tema: d.tema }))
+
+    fetch('/api/tomte-oppsummering', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        adresse: valgtAdresse.adressetekst,
+        kommunenavn: valgtAdresse.kommunenavn,
+        kommunenummer: knr,
+        areal_m2: eiendomsAnalyse.arealM2,
+        planer: plans.map(p => ({ plannavn: p.plannavn, plantype: p.plantype, planstatus: p.planstatus })),
+        dok_med_funn: dokMedFunn,
+        dok_uten_funn_count: dokDatasets.length - dokMedFunn.length,
+        bya_prosent: eiendomsAnalyse.byaProsent,
+        gesims_m: eiendomsAnalyse.gesimshoydeM,
+        mone_m: eiendomsAnalyse.monehoydeM,
+        maks_etasjer: eiendomsAnalyse.maksEtasjer,
+      }),
+    })
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { if (d?.success) setAiOppsummering(d) })
+      .catch(() => {})
+      .finally(() => setAiOppsummeringLoading(false))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [valgtAdresse?.adressetekst, analysing, eiendomsAnalyse])
+
   // ─── DOK summary counts ────────────────────────────────────────────
 
   const dokStatusCounts = dokDatasets.reduce<Record<string, number>>((acc, ds) => {
@@ -1569,6 +1607,58 @@ function PrototypeContent() {
                 <InfoBox label="Koordinater" value={`${valgtAdresse.representasjonspunkt.lat.toFixed(5)}, ${valgtAdresse.representasjonspunkt.lon.toFixed(5)}`} />
               </div>
             </div>
+
+            {/* AI-oppsummering */}
+            {(aiOppsummeringLoading || aiOppsummering) && (
+              <div className="bg-tomtly-dark rounded-2xl p-6 md:p-8 text-white">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-xl">✦</span>
+                  <h2 className="font-display text-lg font-bold">Oppsummering av analysen</h2>
+                  <span className="ml-auto bg-tomtly-accent/30 text-tomtly-accent text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider">KI-generert</span>
+                </div>
+
+                {aiOppsummeringLoading && !aiOppsummering && (
+                  <div className="flex items-center gap-3 text-brand-300">
+                    <Loader2 className="w-4 h-4 animate-spin text-tomtly-accent" />
+                    <span className="text-sm">Analyserer tomten og lager oppsummering…</span>
+                  </div>
+                )}
+
+                {aiOppsummering && (
+                  <>
+                    {aiOppsummering.ingress && (
+                      <p className="text-brand-200 text-sm leading-relaxed mb-5">{aiOppsummering.ingress}</p>
+                    )}
+                    {aiOppsummering.funn?.length > 0 && (
+                      <div className="grid sm:grid-cols-2 gap-3">
+                        {aiOppsummering.funn.map((funn: any, i: number) => (
+                          <div
+                            key={i}
+                            className={`rounded-xl p-4 border ${
+                              funn.type === 'positiv'
+                                ? 'bg-forest-900/50 border-forest-700'
+                                : funn.type === 'kritisk'
+                                ? 'bg-red-900/30 border-red-700/50'
+                                : 'bg-amber-900/30 border-amber-700/50'
+                            }`}
+                          >
+                            <div className="flex items-start gap-2 mb-1">
+                              <span className="text-base shrink-0 mt-0.5">
+                                {funn.type === 'positiv' ? '✓' : funn.type === 'kritisk' ? '✕' : '△'}
+                              </span>
+                              <p className={`text-sm font-semibold ${
+                                funn.type === 'positiv' ? 'text-forest-300' : funn.type === 'kritisk' ? 'text-red-300' : 'text-amber-300'
+                              }`}>{funn.tittel}</p>
+                            </div>
+                            <p className="text-xs text-brand-300 leading-relaxed pl-6">{funn.forklaring}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            )}
 
             {/* Tomtekart */}
             {valgtAdresse && (
