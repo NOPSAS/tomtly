@@ -281,7 +281,8 @@ export function TomtHusmodeller({ modeller, tomtType, tomtNavn }: Props) {
           </div>
 
           {/* Verdivurdering */}
-          <h4 className="text-sm font-semibold text-brand-700 mb-3">Hva er boligen verdt etterpå?</h4>
+          <h4 className="text-sm font-semibold text-brand-700 mb-1">Hva er boligen verdt etterpå?</h4>
+          <p className="text-[10px] text-brand-400 mb-3">Kilde: Krogsveen, mai 2026</p>
           <div className="bg-forest-50 rounded-xl p-6 border border-forest-100">
             <div className="grid grid-cols-3 gap-4 text-center mb-4">
               <div>
