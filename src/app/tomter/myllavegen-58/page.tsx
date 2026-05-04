@@ -44,7 +44,7 @@ const HUSMODELLER = [
     ekstra: { 'BYA': '~115 m²', 'Utnyttelse': '11,5%', 'Hybel': 'Ja', 'Smarthus': 'Inkludert', 'Grunnmur': 'Inkludert' },
     pris_hus: 5302000, total_budsjett: 6471000,
     kostnader: [...FELLES, { post: 'Arwen Skrå – nøkkelferdig fra ABChus', belop: 5302000 }, ...ETTER(650000)],
-    verdi_bra_m2: 161, verdi_m2_pris: 50000, verdi_total: 8050000,
+    verdi_bra_m2: 161, verdi_m2_pris: 40000, verdi_total: 6440000,
     inkludert: ['Støpt plate/grunnmur', 'Smarthus', 'Drømmekjøkkenet', 'Siemens hvitevarer', 'Parkett', 'Flislagte bad m/varmekabler', 'Komplett el-leveranse', 'Komplett rørleveranse'],
     bilder: {
       fasade: [`${IMG}/arwen-fasade-1.jpg`],
@@ -63,7 +63,7 @@ const HUSMODELLER = [
     ekstra: { 'BYA': '~90 m²', 'Utnyttelse': '9,0%', 'Vaskerom': 'Ja', 'TV-stue': 'Ja' },
     pris_hus: 4935000, total_budsjett: 6104000,
     kostnader: [...FELLES, { post: 'Nelly Skrå – nøkkelferdig fra ABChus', belop: 4935000 }, ...ETTER(650000)],
-    verdi_bra_m2: 161, verdi_m2_pris: 50000, verdi_total: 8050000,
+    verdi_bra_m2: 161, verdi_m2_pris: 40000, verdi_total: 6440000,
     inkludert: ['Støpt plate/grunnmur', 'Parkett', 'Flislagt entré og våtrom', 'Pipe og peisovn', 'Komplett el-leveranse', 'Komplett rørleveranse', 'Kjøkken med hvitevarer', 'Baderomsinnredning'],
     bilder: {
       fasade: [`${IMG}/nelly-fasade-1.jpg`],
@@ -82,7 +82,7 @@ const HUSMODELLER = [
     ekstra: { 'BYA': '~120 m²', 'Utnyttelse': '12,0%', 'Hybel': 'Ja', 'Smarthus': 'Inkludert', 'Grunnmur': 'Inkludert' },
     pris_hus: 6504000, total_budsjett: 7673000,
     kostnader: [...FELLES, { post: 'Wide Skrå – nøkkelferdig fra ABChus', belop: 6504000 }, ...ETTER(650000)],
-    verdi_bra_m2: 193, verdi_m2_pris: 50000, verdi_total: 9650000,
+    verdi_bra_m2: 193, verdi_m2_pris: 40000, verdi_total: 7720000,
     inkludert: ['Støpt plate/grunnmur', 'Smarthus', 'Drømmekjøkkenet', 'Siemens hvitevarer', 'Parkett', 'Trapperingen trapp', 'Malte gipsvegger', 'Flislagte bad m/varmekabler'],
     bilder: {
       fasade: [`${IMG}/wide-fasade-1.jpg`],
@@ -101,7 +101,7 @@ const HUSMODELLER = [
     ekstra: { 'BYA': '~105 m²', 'Utnyttelse': '10,5%', 'Vaskerom': 'Ja' },
     pris_hus: 6870000, total_budsjett: 8039000,
     kostnader: [...FELLES, { post: 'Signatur 305 – fra Mesterhus', belop: 6870000 }, ...ETTER(650000)],
-    verdi_bra_m2: 175, verdi_m2_pris: 50000, verdi_total: 8750000,
+    verdi_bra_m2: 175, verdi_m2_pris: 40000, verdi_total: 7000000,
     inkludert: ['Komplett hus ferdig montert', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse', 'Rørleveranse'],
     bilder: {
       fasade: [`${IMG}/signatur-305-fasade-1.jpg`],
@@ -120,7 +120,7 @@ const HUSMODELLER = [
     ekstra: { 'BYA': '~100 m²', 'Utnyttelse': '10,0%', 'Tilpasset': 'Skråtomt' },
     pris_hus: 5740000, total_budsjett: 6909000,
     kostnader: [...FELLES, { post: 'Signatur 308 – fra Mesterhus', belop: 5740000 }, ...ETTER(650000)],
-    verdi_bra_m2: 170, verdi_m2_pris: 50000, verdi_total: 8500000,
+    verdi_bra_m2: 170, verdi_m2_pris: 40000, verdi_total: 6800000,
     inkludert: ['Komplett hus ferdig montert', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse', 'Rørleveranse'],
     bilder: {
       fasade: [`${IMG}/signatur-308-fasade-1.webp`],
@@ -139,7 +139,7 @@ const HUSMODELLER = [
     ekstra: { 'BYA': '~95 m²', 'Utnyttelse': '9,5%', 'Kjeller': 'Tegnebua-konsept', 'Husbank': 'Kvalifiserer' },
     pris_hus: 3200000, total_budsjett: 5119000,
     kostnader: [...FELLES, { post: 'Selma – hus fra Älvsbyhus', belop: 3200000 }, { post: 'Kjeller (prosjektert av Tegnebua)', belop: 500000 }, ...ETTER(700000)],
-    verdi_bra_m2: 180, verdi_m2_pris: 50000, verdi_total: 9000000,
+    verdi_bra_m2: 180, verdi_m2_pris: 40000, verdi_total: 7200000,
     inkludert: ['Hus levert på tomt', 'Kjeller med full takhøyde', 'Parkett', 'Flislagte våtrom', 'Kjøkken med hvitevarer', 'El-leveranse', 'Rørleveranse'],
     bilder: {
       fasade: [`${IMG}/selma-fasade-1.png`],
@@ -155,7 +155,7 @@ const HUSMODELLER = [
     ekstra: { 'BYA': '80,5 m²', 'Utnyttelse': '8,1%', 'Innglassert balkong': 'Ja' },
     pris_hus: 3580000, total_budsjett: 4749000,
     kostnader: [...FELLES, { post: 'Skogly – ferdig hus fra Hedalm-Anebyhus', belop: 3580000 }, ...ETTER(650000)],
-    verdi_bra_m2: 137, verdi_m2_pris: 50000, verdi_total: 6850000,
+    verdi_bra_m2: 137, verdi_m2_pris: 40000, verdi_total: 5480000,
     inkludert: ['Parkett', 'Flislagt entré og våtrom', 'Pipe og peisovn', 'Komplett el-leveranse', 'Komplett rørleveranse', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Lyskilder inne/ute', 'Innglassert balkong'],
     bilder: {
       fasade: [`${IMG}/skogly-fasade-1.png`],
@@ -174,7 +174,7 @@ const HUSMODELLER = [
     ekstra: { 'BYA': '~90 m²', 'Utnyttelse': '9,0%' },
     pris_hus: 4510000, total_budsjett: 5679000,
     kostnader: [...FELLES, { post: 'Moholt – fra Systemhus', belop: 4510000 }, ...ETTER(650000)],
-    verdi_bra_m2: 155, verdi_m2_pris: 50000, verdi_total: 7750000,
+    verdi_bra_m2: 155, verdi_m2_pris: 40000, verdi_total: 6200000,
     inkludert: ['Komplett hus', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse'],
     bilder: {
       fasade: [`${IMG}/moholt-fasade-1.jpg`],
@@ -193,7 +193,7 @@ const HUSMODELLER = [
     ekstra: { 'BYA': '~100 m²', 'Utnyttelse': '10,0%' },
     pris_hus: 6817000, total_budsjett: 7986000,
     kostnader: [...FELLES, { post: 'Mira – fra Nordbohus', belop: 6817000 }, ...ETTER(650000)],
-    verdi_bra_m2: 170, verdi_m2_pris: 50000, verdi_total: 8500000,
+    verdi_bra_m2: 170, verdi_m2_pris: 40000, verdi_total: 6800000,
     inkludert: ['Komplett hus ferdig montert', 'Kjøkken', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom'],
     bilder: {
       fasade: [`${IMG}/mira-fasade-1.jpg`],
@@ -212,7 +212,7 @@ const HUSMODELLER = [
     ekstra: { 'BYA': '~130 m²', 'Utnyttelse': '13,0%' },
     pris_hus: 8490000, total_budsjett: 9659000,
     kostnader: [...FELLES, { post: 'Sammen – fra Nordbohus', belop: 8490000 }, ...ETTER(650000)],
-    verdi_bra_m2: 210, verdi_m2_pris: 50000, verdi_total: 10500000,
+    verdi_bra_m2: 210, verdi_m2_pris: 40000, verdi_total: 8400000,
     inkludert: ['Komplett hus ferdig montert', 'Kjøkken', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom'],
     bilder: {
       fasade: [`${IMG}/sammen-fasade-1.jpg`],
@@ -230,7 +230,7 @@ const HUSMODELLER = [
     ekstra: { 'BYA': '~100 m²', 'Utnyttelse': '10,0%' },
     pris_hus: 5728000, total_budsjett: 6897000,
     kostnader: [...FELLES, { post: 'Haugli – fra Norgeshus', belop: 5728000 }, ...ETTER(650000)],
-    verdi_bra_m2: 165, verdi_m2_pris: 50000, verdi_total: 8250000,
+    verdi_bra_m2: 165, verdi_m2_pris: 40000, verdi_total: 6600000,
     inkludert: ['Komplett hus', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse'],
     bilder: {
       fasade: [`${IMG}/haugli-fasade-1.jpg`],
@@ -249,7 +249,7 @@ const HUSMODELLER = [
     ekstra: { 'BYA': '~140 m²', 'Utnyttelse': '14,0%' },
     pris_hus: 9248000, total_budsjett: 10417000,
     kostnader: [...FELLES, { post: 'Horisont – fra Norgeshus', belop: 9248000 }, ...ETTER(650000)],
-    verdi_bra_m2: 250, verdi_m2_pris: 50000, verdi_total: 12500000,
+    verdi_bra_m2: 250, verdi_m2_pris: 40000, verdi_total: 10000000,
     inkludert: ['Komplett hus', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse'],
     bilder: {
       fasade: [`${IMG}/horisont-fasade-1.jpg`],
