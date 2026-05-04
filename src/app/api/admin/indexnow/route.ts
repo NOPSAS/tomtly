@@ -8,8 +8,9 @@ const HOST = 'tomtly.no'
 
 const CORE_URLS = [
   '', '/for-tomteeiere', '/for-meglere', '/tomteanalyse', '/fradeling',
-  '/verdivurdering', '/tomter', '/tomter/alvaern-65', '/kart', '/demo',
-  '/samarbeidspartnere', '/aktuelt', '/kommune',
+  '/verdivurdering', '/tomter', '/tomter/alvaern-65',
+  '/tomter/myllavegen-58', '/tomter/gamle-dalsveg-16',
+  '/kart', '/demo', '/samarbeidspartnere', '/aktuelt', '/kommune',
 ]
 
 const ARTICLE_URLS = [
