@@ -80,7 +80,7 @@ export const ALLE_TOMTER: TomtListing[] = [
   {
     id: 'gamle-dalsveg-16', adresse: 'Gamle Dalsveg 16', poststed: 'Maura',
     kommune: 'Nannestad', areal_m2: 905, pris: 2300000, type: 'Eneboligtomt',
-    bilde: '/tomter/gamle-dalsveg-16/luftig-fasade-1.jpg',
+    bilde: '/tomter/gamle-dalsveg-16/perla-norgeshus-visualisering.png',
     lat: 60.24963, lng: 11.02455,
     poi: [
       { type: 'bus', navn: 'Buss mot Jessheim/Oslo', avstand: '5 min gange' },

@@ -144,8 +144,8 @@ const HUSMODELLER = [
     beskrivelse: 'Älvsbyhus Selma med Tegnebuas kjellerkonsept – gir mye ekstra areal til lav kostnad. Hovedetasje fra Älvsbyhus, kjeller prosjektert av Tegnebua. Perfekt for skråtomt.',
     bra_m2: 180, soverom: 4, bad: '2', etasjer: 2,
     ekstra: { 'BYA': '~95 m²', 'Utnyttelse': '9,5%', 'Kjeller': 'Tegnebua-konsept', 'Husbank': 'Kvalifiserer' },
-    pris_hus: 3200000, total_budsjett: 5369000,
-    kostnader: [...FELLES, { post: 'Selma – hus fra Älvsbyhus', belop: 3200000 }, { post: 'Kjeller (prosjektert av Tegnebua)', belop: 500000 }, { post: 'Grunnmur/fundamentering (estimat)', belop: 250000 }, ...ETTER(700000)],
+    pris_hus: 3200000, total_budsjett: 6269000,
+    kostnader: [...FELLES, { post: 'Selma – hus fra Älvsbyhus', belop: 3200000 }, { post: 'Kjeller (prosjektert av Tegnebua)', belop: 500000 }, { post: 'Grunnmur/fundamentering (estimat)', belop: 700000 }, ...ETTER(700000)],
     verdi_bra_m2: 180, verdi_m2_pris: 40000, verdi_total: 7200000,
     inkludert: ['Hus levert på tomt', 'Kjeller med full takhøyde', 'Parkett', 'Flislagte våtrom', 'Kjøkken med hvitevarer', 'El-leveranse', 'Rørleveranse'],
     bilder: {
@@ -328,6 +328,7 @@ const TOMT = {
     { navn: 'Kommuneplanbestemmelser Lunner 2023–2040', url: '/documents/myllavegen-58/kommuneplanbestemmelser.pdf' },
     { navn: 'Fradelingssamtykke', url: '/documents/myllavegen-58/fradelingsvedtak.pdf' },
     { navn: 'Avkjøringstillatelse', url: '/documents/myllavegen-58/avkjoringstillatelse.pdf' },
+    { navn: 'DOK-analyse (naturfare/grunnforhold)', url: '/documents/myllavegen-58/dok-analyse.pdf' },
     { navn: 'FINN-annonse', url: 'https://www.finn.no/realestate/plots/ad.html?finnkode=444623623' },
   ],
 }
