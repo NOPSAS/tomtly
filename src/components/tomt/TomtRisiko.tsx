@@ -40,9 +40,9 @@ export function TomtRisiko({ risikoanalyse: ra }: Props) {
               <tr className="border-b border-brand-200">
                 <th className="text-left py-2 text-brand-500 font-medium">Kategori</th>
                 <th className="text-left py-2 text-brand-500 font-medium">Beskrivelse</th>
-                <th className="text-center py-2 text-brand-500 font-medium">S</th>
-                <th className="text-center py-2 text-brand-500 font-medium">K</th>
-                <th className="text-center py-2 text-brand-500 font-medium">Risiko</th>
+                <th className="text-center py-2 text-brand-500 font-medium">Sannsynlighet<br/><span className="text-[10px] font-normal">(1–5)</span></th>
+                <th className="text-center py-2 text-brand-500 font-medium">Konsekvens<br/><span className="text-[10px] font-normal">(1–5)</span></th>
+                <th className="text-center py-2 text-brand-500 font-medium">Risiko<br/><span className="text-[10px] font-normal">(S × K)</span></th>
                 <th className="text-left py-2 text-brand-500 font-medium">Tiltak</th>
               </tr>
             </thead>
@@ -68,7 +68,7 @@ export function TomtRisiko({ risikoanalyse: ra }: Props) {
             </tbody>
           </table>
         </div>
-        <p className="text-xs text-brand-400 mt-2">S = Sannsynlighet (1-5), K = Konsekvens (1-5), Risiko = S × K</p>
+        <p className="text-xs text-brand-400 mt-2">Skala 1–5 der 1 = svært lav og 5 = svært høy. Risikoverdi = Sannsynlighet × Konsekvens.</p>
       </div>
 
       {/* Anbefalinger */}

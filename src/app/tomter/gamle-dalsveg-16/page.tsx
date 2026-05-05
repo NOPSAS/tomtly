@@ -14,7 +14,7 @@ import { FileText, Download } from 'lucide-react'
 const IMG = '/tomter/gamle-dalsveg-16'
 
 const BILDER = [
-  { id: 'b1', url: `${IMG}/situasjonskart.png`, alt: 'Situasjonskart – Gamle Dalsveg 16', kategori: 'tomt' as const },
+  { id: 'b1', url: `${IMG}/situasjonskart.png`, alt: 'Situasjonskart – Gamle Dalsveg 16 A', kategori: 'tomt' as const },
   { id: 'b2', url: `${IMG}/deleplan.png`, alt: 'Deleplan – fradelt parsell', kategori: 'tomt' as const },
   { id: 'b3', url: `${IMG}/va-kart.png`, alt: 'VA-kart', kategori: 'tomt' as const },
   { id: 'b4', url: `${IMG}/luftig-fasade-1.jpg`, alt: 'Nordbohus Luftig – fasade', kategori: 'annet' as const },
@@ -640,10 +640,10 @@ const HUSMODELLER = [
 ]
 
 const TOMT = {
-  adresse: 'Gamle Dalsveg 16',
+  adresse: 'Gamle Dalsveg 16 A',
   poststed: 'Maura',
   kommune: 'Nannestad',
-  areal_m2: 905,
+  areal_m2: 564,
   gnr: 148, bnr: 166,
   senterpunkt: { lat: 60.24963, lng: 11.02455 },
 
@@ -660,6 +660,7 @@ const TOMT = {
       'VA-tilknytning bekreftet (vann + avløp)',
       'Avkjøringstillatelse foreligger',
       'Geoteknisk rapport utarbeidet',
+      'Delt innkjørsel med naboeiendom',
     ],
     plannavn: 'Kommuneplanens arealdel – Nannestad 2024–2040',
   },
@@ -676,14 +677,14 @@ const TOMT = {
     anbefalinger: [
       'Fradeling er vedtatt – lav reguleringsrisiko',
       'Geoteknisk rapport bekrefter stabil grunn til tross for kvikkleire-aktsomhetsområde',
-      'Alle 8 husmodeller har grunnmur inkludert i husmodellprisen',
+      'De fleste husleverandørene (5 av 7) inkluderer grunnmur i husmodellprisen',
       'Kommunalt VA bekreftet med kjente tilkoblingskostnader (98 824 kr)',
-      'Avkjøringstillatelse fra Gamle Dalsveg foreligger',
+      'Avkjøringstillatelse fra Gamle Dalsveg 16 A foreligger – delt innkjørsel med naboeiendom',
     ],
   },
 
   nabolag: {
-    beskrivelse: 'Etablert boligområde i Maura, Nannestad kommune. Ca. 5 min til Jessheim og E6. Kort vei til barnehage, skole og dagligvare.',
+    beskrivelse: 'Etablert boligområde i Maura, Nannestad kommune. Ca. 12 min til Jessheim og E6. Kort vei til barnehage, skole og dagligvare.',
     punkter: [
       { kategori: 'Kollektivtransport', navn: 'Buss mot Jessheim/Oslo', avstand_m: 400, gangminutter: 5 },
       { kategori: 'Skole', navn: 'Maura skole', avstand_m: 700, gangminutter: 9 },
@@ -714,23 +715,23 @@ const TIDSPLAN = [
 export default function GamleDalsveg16() {
   return (
     <div className="bg-white">
-      <TomtHero adresse={TOMT.adresse} poststed={TOMT.poststed} kommune={TOMT.kommune} areal_m2={TOMT.areal_m2} gnr={TOMT.gnr} bnr={TOMT.bnr} />
+      <TomtHero adresse={TOMT.adresse} poststed={TOMT.poststed} kommune={TOMT.kommune} areal_m2={TOMT.areal_m2} gnr={TOMT.gnr} bnr={TOMT.bnr} bakgrunnsbilde="/tomter/gamle-dalsveg-16/perla-norgeshus-visualisering.png" />
 
       <TomtSammendrag
-        adresse="Gamle Dalsveg 16"
+        adresse="Gamle Dalsveg 16 A"
         kommune="Nannestad"
         pris={2300000}
-        areal_m2={905}
+        areal_m2={564}
         antall_husmodeller={34}
         laveste_budsjett={6240324}
         hoyeste_budsjett={10815324}
-        anbefaling="Gamle Dalsveg 16 i Maura er en fradelt boligtomt med avklart infrastruktur og lav gjennomføringsrisiko. Med 34 husmodeller fra 7 leverandører – og alle med grunnmur inkludert hos de fleste – er dette et sjeldent bredt utvalg for en enkelt tomt. Nærheten til Jessheim (5 min) og Oslo via E6 gjør eiendommen attraktiv for barnefamilier og pendlere."
+        anbefaling="Gamle Dalsveg 16 A i Maura er en fradelt boligtomt med avklart infrastruktur og lav gjennomføringsrisiko. Med 34 husmodeller fra 7 leverandører – og alle med grunnmur inkludert hos de fleste – er dette et sjeldent bredt utvalg for en enkelt tomt. Nærheten til Jessheim (5 min) og Oslo via E6 gjør eiendommen attraktiv for barnefamilier og pendlere."
         fordeler={[
           'Fradeling vedtatt av Nannestad kommune',
           'Kommunalt VA tilgjengelig – tilkoblingskostnad kjent (98 824 kr)',
           'Geoteknisk rapport utarbeidet – stabil grunn bekreftet',
           '34 husmodeller fra 7 leverandører – grunnmur inkl. hos de fleste',
-          '5 min til Jessheim, 30 min til Oslo via E6',
+          '12 min til Jessheim, 30 min til Oslo via E6',
           'Pris: 2,3 MNOK – laveste inngangstomt i Romerike-regionen',
         ]}
       />
@@ -757,7 +758,7 @@ export default function GamleDalsveg16() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2 space-y-16">
-            <section id="husmodeller"><TomtHusmodeller modeller={HUSMODELLER as any} tomtType="flat" tomtNavn="Gamle Dalsveg 16" /></section>
+            <section id="husmodeller"><TomtHusmodeller modeller={HUSMODELLER as any} tomtType="flat" tomtNavn="Gamle Dalsveg 16 A" /></section>
             <section id="bilder"><TomtBildegalleri bilder={BILDER} adresse={TOMT.adresse} /></section>
             <section id="tegnebua"><TomtTegnebua valgte_husmodeller={1} /></section>
 
@@ -801,27 +802,27 @@ export default function GamleDalsveg16() {
             <section id="risiko"><TomtRisiko risikoanalyse={TOMT.risikoanalyse} /></section>
 
             <TomtSammendrag
-              adresse="Gamle Dalsveg 16"
+              adresse="Gamle Dalsveg 16 A"
               kommune="Nannestad"
               pris={2300000}
-              areal_m2={905}
+              areal_m2={564}
               antall_husmodeller={34}
               laveste_budsjett={6240324}
               hoyeste_budsjett={10815324}
-              anbefaling="Gamle Dalsveg 16 i Maura er en fradelt boligtomt med avklart infrastruktur og lav gjennomføringsrisiko. Med 34 husmodeller fra 7 leverandører – og alle med grunnmur inkludert hos de fleste – er dette et sjeldent bredt utvalg for en enkelt tomt. Nærheten til Jessheim (5 min) og Oslo via E6 gjør eiendommen attraktiv for barnefamilier og pendlere."
+              anbefaling="Gamle Dalsveg 16 A i Maura er en fradelt boligtomt med avklart infrastruktur og lav gjennomføringsrisiko. Med 34 husmodeller fra 7 leverandører – og alle med grunnmur inkludert hos de fleste – er dette et sjeldent bredt utvalg for en enkelt tomt. Nærheten til Jessheim (5 min) og Oslo via E6 gjør eiendommen attraktiv for barnefamilier og pendlere."
               fordeler={[
                 'Fradeling vedtatt av Nannestad kommune',
                 'Kommunalt VA tilgjengelig – tilkoblingskostnad kjent (98 824 kr)',
                 'Geoteknisk rapport utarbeidet – stabil grunn bekreftet',
                 '34 husmodeller fra 7 leverandører – grunnmur inkl. hos de fleste',
-                '5 min til Jessheim, 30 min til Oslo via E6',
+                '12 min til Jessheim, 30 min til Oslo via E6',
                 'Pris: 2,3 MNOK – laveste inngangstomt i Romerike-regionen',
               ]}
             />
           </div>
           <div className="lg:col-span-1">
             <div className="sticky top-36 space-y-6">
-              <TomtKart lat={TOMT.senterpunkt.lat} lng={TOMT.senterpunkt.lng} adresse="Gamle Dalsveg 16, 2032 Maura" zoom={17} />
+              <TomtKart lat={TOMT.senterpunkt.lat} lng={TOMT.senterpunkt.lng} adresse="Gamle Dalsveg 16 A, 2032 Maura" zoom={17} />
               <TomtKontakt />
               <TomtDeling adresse={TOMT.adresse} tomteId="gamle-dalsveg-16" />
             </div>

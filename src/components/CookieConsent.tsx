@@ -21,7 +21,7 @@ export default function CookieConsent() {
   if (!visible) return null
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-brand-200 shadow-lg">
+    <div className="fixed bottom-0 left-0 right-0 z-[9999] bg-white border-t border-brand-200 shadow-lg">
       <div className="max-w-5xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
         <p className="text-sm text-brand-600 text-center sm:text-left">
           Vi bruker informasjonskapsler for å forbedre opplevelsen din.
