@@ -337,15 +337,16 @@ const TIDSPLAN = [
   { tid: 'Uke 1', tittel: 'Kjøp av tomt', beskrivelse: 'Avtale signeres. Overtakelse etter nærmere avtale.' },
   { tid: 'Uke 2–3', tittel: 'Velg husmodell', beskrivelse: 'Gjennomgang av husmodeller med Tomtly. Kontakt med husleverandør.' },
   { tid: 'Uke 3–4', tittel: 'Tegning og søknad', beskrivelse: 'Tegnebua utarbeider tegninger og sender byggesøknad til Lunner kommune.' },
-  { tid: 'Uke 4–12', tittel: 'Saksbehandling', beskrivelse: 'Kommunal behandling. Typisk 6–8 uker i Lunner.' },
-  { tid: 'Uke 12–14', tittel: 'Produksjon starter', beskrivelse: 'Husleverandør starter produksjon. Grunnarbeid forberedes.' },
-  { tid: 'Uke 14–40', tittel: 'Bygging', beskrivelse: 'Huset monteres og ferdigstilles. Tidsbruk varierer med leverandør.' },
+  { tid: 'Uke 4–6', tittel: 'Nabovarsling', beskrivelse: 'Naboer varsles. 14 dagers varslingsfrist. Eventuelle merknader behandles.' },
+  { tid: 'Uke 6–20', tittel: 'Saksbehandling', beskrivelse: 'Kommunal behandling. Typisk 8–12 uker. Tillatelse innvilges.' },
+  { tid: 'Uke 20–30', tittel: 'Produksjon starter', beskrivelse: 'Husleverandør starter produksjon. Grunnarbeider forberedes og utføres.' },
+  { tid: 'Uke 30–52', tittel: 'Bygging og innflytting', beskrivelse: 'Huset monteres og ferdigstilles. Fra kjøp til nøkkel ca. 12 måneder.' },
 ]
 
 export default function Myllavegen58() {
   return (
     <div className="bg-white">
-      <TomtHero adresse={TOMT.adresse} poststed={TOMT.poststed} kommune={TOMT.kommune} areal_m2={TOMT.areal_m2} gnr={TOMT.gnr} bnr={TOMT.bnr} />
+      <TomtHero adresse={TOMT.adresse} poststed={TOMT.poststed} kommune={TOMT.kommune} areal_m2={TOMT.areal_m2} gnr={TOMT.gnr} bnr={TOMT.bnr} bakgrunnsbilde="/tomter/myllavegen-58/hero.png" />
 
       <TomtSammendrag
         adresse="Myllavegen 58"

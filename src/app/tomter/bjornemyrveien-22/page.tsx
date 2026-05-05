@@ -187,13 +187,13 @@ const TOMT = {
 }
 
 const TIDSPLAN = [
-  { tid: 'Mars 2026', tittel: 'Kjøp av tomt', beskrivelse: 'Avtale signeres. Overtakelse estimert 1. mai 2026.' },
-  { tid: 'Uke 1 etter kjøp', tittel: 'Tegninger og nabovarsling klar', beskrivelse: 'Tegningsgrunnlag ferdigstilles og nabovarsler sendes ut.' },
-  { tid: 'Uke 1–3', tittel: 'Nabovarslingsperiode', beskrivelse: '14 dagers nabovarsling. Søknadsdokumenter forberedes.' },
-  { tid: 'Ca. 1. april 2026', tittel: 'Byggesøknad sendes', beskrivelse: 'Komplett søknad sendes kommunen.' },
-  { tid: 'Mai 2026', tittel: 'Byggetillatelse innvilget', beskrivelse: 'Estimert 3 ukers saksbehandling.' },
-  { tid: 'Juni 2026', tittel: 'Byggestart', beskrivelse: 'Grunnarbeider starter. Hus leveres og monteres.' },
-  { tid: 'Nov/des 2026', tittel: 'Ferdigstillelse og innflytting', beskrivelse: 'Fra kjøp til nøkkel på under ett år.' },
+  { tid: 'Uke 1', tittel: 'Kjøp av tomt', beskrivelse: 'Avtale signeres. Overtakelse etter nærmere avtale.' },
+  { tid: 'Uke 2–3', tittel: 'Velg husmodell og tegning', beskrivelse: 'Gjennomgang av husmodeller med Tomtly. Tegnebua utarbeider tegninger.' },
+  { tid: 'Uke 3–4', tittel: 'Søknad ferdigstilles', beskrivelse: 'Komplett byggesøknad sendes Nesodden kommune.' },
+  { tid: 'Uke 4–6', tittel: 'Nabovarsling', beskrivelse: 'Naboer varsles. 14 dagers varslingsfrist. Eventuelle merknader behandles.' },
+  { tid: 'Uke 6–20', tittel: 'Saksbehandling', beskrivelse: 'Kommunal behandling. Typisk 8–12 uker. Tillatelse innvilges.' },
+  { tid: 'Uke 20–30', tittel: 'Produksjon starter', beskrivelse: 'Husleverandør starter produksjon. Grunnarbeider forberedes og utføres.' },
+  { tid: 'Uke 30–52', tittel: 'Bygging og innflytting', beskrivelse: 'Huset monteres og ferdigstilles. Fra kjøp til nøkkel ca. 12 måneder.' },
 ]
 
 export default function Bjornemyrveien22() {

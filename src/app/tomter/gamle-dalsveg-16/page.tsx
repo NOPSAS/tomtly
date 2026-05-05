@@ -705,9 +705,10 @@ const TIDSPLAN = [
   { tid: 'Uke 1', tittel: 'Kjøp av tomt', beskrivelse: 'Avtale signeres. Overtakelse etter nærmere avtale.' },
   { tid: 'Uke 2–3', tittel: 'Velg husmodell', beskrivelse: 'Gjennomgang av husmodeller med Tomtly. Kontakt med Nordbohus eller Norgeshus.' },
   { tid: 'Uke 3–4', tittel: 'Tegning og søknad', beskrivelse: 'Tegnebua utarbeider tegninger og sender byggesøknad til Nannestad kommune.' },
-  { tid: 'Uke 4–16', tittel: 'Saksbehandling', beskrivelse: 'Kommunal behandling. Typisk 8–12 uker i Nannestad.' },
-  { tid: 'Uke 16–18', tittel: 'Produksjon starter', beskrivelse: 'Husleverandør starter produksjon. Grunnarbeid forberedes.' },
-  { tid: 'Uke 18–44', tittel: 'Bygging', beskrivelse: 'Huset monteres og ferdigstilles. Fra kjøp til nøkkel ca. 12 måneder.' },
+  { tid: 'Uke 4–6', tittel: 'Nabovarsling', beskrivelse: 'Naboer varsles. 14 dagers varslingsfrist. Eventuelle merknader behandles.' },
+  { tid: 'Uke 6–20', tittel: 'Saksbehandling', beskrivelse: 'Kommunal behandling. Typisk 8–12 uker i Nannestad. Tillatelse innvilges.' },
+  { tid: 'Uke 20–30', tittel: 'Produksjon starter', beskrivelse: 'Husleverandør starter produksjon. Grunnarbeider forberedes og utføres.' },
+  { tid: 'Uke 30–52', tittel: 'Bygging og innflytting', beskrivelse: 'Huset monteres og ferdigstilles. Fra kjøp til nøkkel ca. 12 måneder.' },
 ]
 
 export default function GamleDalsveg16() {

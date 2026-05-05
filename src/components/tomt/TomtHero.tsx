@@ -9,6 +9,7 @@ interface TomtHeroProps {
   gnr: number
   bnr: number
   skjulAdresse?: boolean
+  bakgrunnsbilde?: string
 }
 
 export function TomtHero({
@@ -19,21 +20,33 @@ export function TomtHero({
   gnr,
   bnr,
   skjulAdresse = false,
+  bakgrunnsbilde,
 }: TomtHeroProps) {
   const visningsAdresse = skjulAdresse ? `${poststed}, ${kommune}` : adresse
 
   return (
     <section className="relative bg-tomtly-dark">
-      {/* Background – i produksjon: drone-bilde eller 3D-visualisering */}
-      <div className="absolute inset-0 bg-gradient-to-r from-tomtly-dark via-tomtly-dark/90 to-tomtly-dark/60" />
-      <div
-        className="absolute inset-0 opacity-20"
-        style={{
-          backgroundImage:
-            'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)',
-          backgroundSize: '32px 32px',
-        }}
-      />
+      {bakgrunnsbilde ? (
+        <>
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${bakgrunnsbilde})` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-tomtly-dark/95 via-tomtly-dark/80 to-tomtly-dark/50" />
+        </>
+      ) : (
+        <>
+          <div className="absolute inset-0 bg-gradient-to-r from-tomtly-dark via-tomtly-dark/90 to-tomtly-dark/60" />
+          <div
+            className="absolute inset-0 opacity-20"
+            style={{
+              backgroundImage:
+                'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)',
+              backgroundSize: '32px 32px',
+            }}
+          />
+        </>
+      )}
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
