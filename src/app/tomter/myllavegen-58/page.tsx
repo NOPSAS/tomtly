@@ -27,7 +27,7 @@ const BILDER = [
   { id: 'h10', url: `${IMG}/haugli-visualisering.png`, alt: 'Haugli – KI-visualisering på tomt', kategori: 'annet' as const },
   { id: 'h11', url: `${IMG}/horisont-visualisering.png`, alt: 'Horisont – KI-visualisering på tomt', kategori: 'annet' as const },
   { id: 'h12', url: `${IMG}/signatur-308-visualisering.png`, alt: 'Signatur 308 – KI-visualisering på tomt', kategori: 'annet' as const },
-  { id: 'h13', url: `${IMG}/skogly-fasade-1.png`, alt: 'Skogly – fasade', kategori: 'annet' as const },
+  { id: 'h13', url: `${IMG}/skogly-visualisering.png`, alt: 'Skogly – KI-visualisering på tomt', kategori: 'annet' as const },
 ]
 
 const FELLES = [
@@ -165,7 +165,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 137, verdi_m2_pris: 40000, verdi_total: 5480000,
     inkludert: ['Parkett', 'Flislagt entré og våtrom', 'Pipe og peisovn', 'Komplett el-leveranse', 'Komplett rørleveranse', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Lyskilder inne/ute', 'Innglassert balkong'],
     bilder: {
-      fasade: [`${IMG}/skogly-fasade-1.png`],
+      fasade: [`${IMG}/skogly-visualisering.png`, `${IMG}/skogly-fasade-1.png`],
       plantegninger: [
         { url: `${IMG}/skogly-plan-hovedetasje.png`, label: 'Hovedetasje – stue, kjøkken, bad, soverom 1' },
         { url: `${IMG}/skogly-plan-underetasje.png`, label: 'Underetasje – 3 soverom, bad, sportsbod' },
