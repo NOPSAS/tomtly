@@ -112,7 +112,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 151, verdi_m2_pris: 53000, verdi_total: 8003000,
     inkludert: ['Grunnmur inkludert', 'Komplett hus innflyttingsklart', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse'],
     bilder: {
-      fasade: [`${IMG}/vipp-fasade-1.jpg`],
+      fasade: [`${IMG}/vipp-visualisering.png`, `${IMG}/vipp-fasade-1.jpg`],
       plantegninger: [
         { url: `${IMG}/vipp-plan-1etg.jpg`, label: '1. etasje' },
         { url: `${IMG}/vipp-plan-2etg.jpg`, label: '2. etasje' },
@@ -170,7 +170,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 157, verdi_m2_pris: 53000, verdi_total: 8321000,
     inkludert: ['Grunnmur inkludert', 'Komplett hus innflyttingsklart', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse'],
     bilder: {
-      fasade: [`${IMG}/perla-fasade-1.jpg`],
+      fasade: [`${IMG}/perla-visualisering.png`, `${IMG}/perla-fasade-1.jpg`],
       plantegninger: [
         { url: `${IMG}/perla-plan-1etg.jpg`, label: '1. etasje' },
         { url: `${IMG}/perla-plan-2etg.jpg`, label: '2. etasje / loft' },
@@ -208,7 +208,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 135, verdi_m2_pris: 53000, verdi_total: 7155000,
     inkludert: ['Grunnmur inkludert', 'Parkett', 'Flislagte våtrom', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Pipe og peisovn', 'Komplett el-leveranse', 'Komplett rørleveranse'],
     bilder: {
-      fasade: ['https://alvsbyhus.no/AdaptiveImages/optimizely/04b32cd6-45da-4f0a-92f7-51793039df15/ah_2022_ase_38g_no.jpg'],
+      fasade: [`${IMG}/astrid-ase-visualisering.png`, 'https://alvsbyhus.no/AdaptiveImages/optimizely/04b32cd6-45da-4f0a-92f7-51793039df15/ah_2022_ase_38g_no.jpg'],
       plantegninger: [],
     },
   },
@@ -223,7 +223,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 135, verdi_m2_pris: 53000, verdi_total: 7155000,
     inkludert: ['Grunnmur inkludert', 'Parkett', 'Flislagte våtrom', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Pipe og peisovn', 'Komplett el-leveranse', 'Komplett rørleveranse'],
     bilder: {
-      fasade: ['https://www.alvsbyhus.no/AdaptiveImages/optimizely/46c7a558-1719-42f4-9988-6355dfbc8e37/ah_2022_astrid_38g_no.jpg'],
+      fasade: [`${IMG}/astrid-ase-visualisering.png`, 'https://www.alvsbyhus.no/AdaptiveImages/optimizely/46c7a558-1719-42f4-9988-6355dfbc8e37/ah_2022_astrid_38g_no.jpg'],
       plantegninger: [],
     },
   },
@@ -238,7 +238,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 135, verdi_m2_pris: 53000, verdi_total: 7155000,
     inkludert: ['Grunnmur inkludert', 'Parkett', 'Flislagte våtrom', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Pipe og peisovn', 'Komplett el-leveranse', 'Komplett rørleveranse'],
     bilder: {
-      fasade: ['https://alvsbyhus.no/AdaptiveImages/optimizely/03f982b1-2c90-4a36-bf52-d915a0605b5c/ah_2022_fanny_38g_no.jpg'],
+      fasade: [`${IMG}/fanny-visualisering.png`, 'https://alvsbyhus.no/AdaptiveImages/optimizely/03f982b1-2c90-4a36-bf52-d915a0605b5c/ah_2022_fanny_38g_no.jpg'],
       plantegninger: [],
     },
   },
@@ -284,7 +284,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 144, verdi_m2_pris: 53000, verdi_total: 7632000,
     inkludert: ['Støpt plate/grunnmur', 'Smarthus', 'Parkett', 'Flislagte bad', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Komplett el-leveranse', 'Komplett rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/lilly-fasade-1.jpg`],
+      fasade: [`${IMG}/lilly-visualisering.png`, `${IMG}/lilly-fasade-1.jpg`],
       plantegninger: [],
     },
   },
@@ -299,7 +299,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 171, verdi_m2_pris: 53000, verdi_total: 9063000,
     inkludert: ['Støpt plate/grunnmur', 'Parkett', 'Flislagte bad', 'Pipe og peisovn', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Komplett el-leveranse', 'Komplett rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/nelly-fasade-1.jpg`],
+      fasade: [`${IMG}/nelly-visualisering.png`, `${IMG}/nelly-hvit-visualisering.png`, `${IMG}/nelly-fasade-1.jpg`],
       plantegninger: [],
     },
   },
@@ -507,7 +507,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 201, verdi_m2_pris: 53000, verdi_total: 10653000,
     inkludert: ['Grunnmur og støpt plate', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse', 'Rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/alltid-fasade-1.jpg`],
+      fasade: [`${IMG}/alltid-visualisering.png`, `${IMG}/alltid-fasade-1.jpg`],
       plantegninger: [
         { url: `${IMG}/alltid-plan-1etg.webp`, label: '1. etasje' },
         { url: `${IMG}/alltid-plan-2etg.webp`, label: '2. etasje' },
@@ -580,7 +580,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 137, verdi_m2_pris: 53000, verdi_total: 7261000,
     inkludert: ['Parkett', 'Flislagte våtrom', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Lyskilder inne/ute', 'Komplett el-leveranse', 'Komplett rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/apollis-fasade-1.jpg`],
+      fasade: [`${IMG}/apollis-visualisering.png`, `${IMG}/apollis-fasade-1.jpg`],
       plantegninger: [
         { url: `${IMG}/apollis-plan-1etg.jpg`, label: 'Plantegning' },
       ],
@@ -597,7 +597,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 146, verdi_m2_pris: 53000, verdi_total: 7738000,
     inkludert: ['Parkett', 'Flislagte våtrom', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Lyskilder inne/ute', 'Komplett el-leveranse', 'Komplett rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/frankis-fasade-1.jpg`],
+      fasade: [`${IMG}/frankis-visualisering.png`, `${IMG}/frankis-fasade-1.jpg`],
       plantegninger: [
         { url: `${IMG}/frankis-plan-1etg.jpg`, label: 'Plantegning' },
       ],
@@ -631,7 +631,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 155, verdi_m2_pris: 53000, verdi_total: 8215000,
     inkludert: ['Parkett', 'Flislagte våtrom', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Lyskilder inne/ute', 'Komplett el-leveranse', 'Komplett rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/lyris-fasade-1.jpg`],
+      fasade: [`${IMG}/lyris-visualisering.png`, `${IMG}/lyris-fasade-1.jpg`],
       plantegninger: [
         { url: `${IMG}/lyris-plan-1etg.jpg`, label: 'Plantegning' },
       ],
