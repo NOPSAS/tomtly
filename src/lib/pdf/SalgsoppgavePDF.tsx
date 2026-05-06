@@ -1,359 +1,365 @@
 import React from 'react'
-import {
-  Document, Page, View, Text, Image, StyleSheet, Font,
-} from '@react-pdf/renderer'
-import type { SalgsoppgaveTomt } from '../salgsoppgave-data'
+import { Document, Page, View, Text, Image, StyleSheet } from '@react-pdf/renderer'
+import type { SalgsoppgaveTomt, HusmodellPDF } from '../salgsoppgave-data'
 
-// Farger
-const DARK = '#1a1a1a'
 const GREEN = '#2d5a3d'
+const GREEN2 = '#3a7a52'
 const GREEN_LIGHT = '#e8f0eb'
-const GOLD = '#c4a35a'
+const DARK = '#1a1a1a'
 const GREY = '#6b7280'
 const LIGHT = '#f9fafb'
 const WHITE = '#ffffff'
 const BORDER = '#e5e7eb'
+const GOLD = '#c4a35a'
+const AMBER = '#fef3c7'
+const AMBER_BORDER = '#d97706'
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
   page: { fontFamily: 'Helvetica', backgroundColor: WHITE, color: DARK },
 
-  // ─── Cover ───────────────────────────────────────────────────
-  coverHero: { width: '100%', height: 340, objectFit: 'cover' },
-  coverOverlay: {
-    position: 'absolute', top: 0, left: 0, right: 0, height: 340,
-    backgroundColor: '#000000', opacity: 0.38,
-  },
-  coverHeader: {
-    position: 'absolute', top: 24, left: 32, right: 32,
-    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
-  },
-  coverBrand: { fontSize: 18, fontFamily: 'Helvetica-Bold', color: WHITE, letterSpacing: 1 },
-  coverTagline: { fontSize: 8, color: 'rgba(255,255,255,0.7)', marginTop: 2 },
-  coverMeta: { fontSize: 7, color: 'rgba(255,255,255,0.6)', textAlign: 'right' },
-  coverBottom: { position: 'absolute', bottom: 24, left: 32, right: 32 },
-  coverAddress: { fontSize: 28, fontFamily: 'Helvetica-Bold', color: WHITE, marginBottom: 4 },
-  coverSub: { fontSize: 12, color: 'rgba(255,255,255,0.85)', marginBottom: 16 },
-  coverPillRow: { flexDirection: 'row', gap: 8 },
-  coverPill: {
-    backgroundColor: GREEN, paddingHorizontal: 12, paddingVertical: 5,
-    borderRadius: 4, marginRight: 6,
-  },
-  coverPillText: { fontSize: 9, fontFamily: 'Helvetica-Bold', color: WHITE },
+  // ─── Forside ──────────────────────────────────────────────────────
+  heroImg: { width: '100%', height: 240, objectFit: 'cover' },
+  heroOverlay: { position: 'absolute', top: 0, left: 0, right: 0, height: 240, backgroundColor: '#000', opacity: 0.35 },
+  heroBar: { position: 'absolute', top: 20, left: 28, right: 28, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
+  heroBrand: { fontSize: 20, fontFamily: 'Helvetica-Bold', color: WHITE, letterSpacing: 1.5 },
+  heroTagline: { fontSize: 7.5, color: 'rgba(255,255,255,0.7)', marginTop: 2 },
+  heroDato: { fontSize: 7.5, color: 'rgba(255,255,255,0.6)' },
+  heroBottom: { position: 'absolute', bottom: 18, left: 28, right: 28 },
+  heroAdresse: { fontSize: 26, fontFamily: 'Helvetica-Bold', color: WHITE, marginBottom: 4 },
+  heroSted: { fontSize: 12, color: 'rgba(255,255,255,0.85)', marginBottom: 12 },
+  heroPills: { flexDirection: 'row' },
+  pill: { backgroundColor: GREEN, paddingHorizontal: 10, paddingVertical: 4, borderRadius: 4, marginRight: 6 },
+  pillTxt: { fontSize: 8.5, fontFamily: 'Helvetica-Bold', color: WHITE },
 
-  // ─── Section header ──────────────────────────────────────────
-  sectionHeader: {
-    backgroundColor: GREEN, paddingHorizontal: 32, paddingVertical: 10,
-    flexDirection: 'row', alignItems: 'center',
-  },
-  sectionHeaderText: { fontSize: 13, fontFamily: 'Helvetica-Bold', color: WHITE },
-  sectionHeaderNum: {
-    fontSize: 9, color: GOLD, fontFamily: 'Helvetica-Bold',
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    paddingHorizontal: 6, paddingVertical: 2, borderRadius: 3, marginRight: 10,
-  },
+  // Bildestribe under hero
+  imgStripe: { flexDirection: 'row', height: 110 },
+  stripeImg: { flex: 1, objectFit: 'cover' },
 
-  // ─── Body ────────────────────────────────────────────────────
-  body: { paddingHorizontal: 32, paddingVertical: 20 },
-  mb4: { marginBottom: 4 },
-  mb8: { marginBottom: 8 },
-  mb16: { marginBottom: 16 },
-  mb24: { marginBottom: 24 },
+  // Nøkkelfakta-boks på forsiden
+  faktaStripe: { backgroundColor: GREEN, paddingHorizontal: 24, paddingVertical: 14, flexDirection: 'row', flexWrap: 'wrap', gap: 0 },
+  faktaItem: { width: '25%', paddingHorizontal: 8, paddingVertical: 4 },
+  faktaLabel: { fontSize: 6.5, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', marginBottom: 2 },
+  faktaVerdi: { fontSize: 10, fontFamily: 'Helvetica-Bold', color: WHITE },
 
-  // ─── Fakta-grid ──────────────────────────────────────────────
-  faktaGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 20 },
-  faktaBox: {
-    width: '22%', backgroundColor: GREEN_LIGHT, borderRadius: 5,
-    padding: 10, border: `1 solid ${BORDER}`,
-  },
-  faktaLabel: { fontSize: 7, color: GREEN, fontFamily: 'Helvetica-Bold', textTransform: 'uppercase', marginBottom: 3 },
-  faktaVerdi: { fontSize: 11, fontFamily: 'Helvetica-Bold', color: DARK },
+  // Anbefalingsboks forside
+  anbefalingStripe: { backgroundColor: LIGHT, borderLeft: `4 solid ${GOLD}`, marginHorizontal: 24, marginTop: 16, padding: 14, borderRadius: 4 },
+  anbefalingTxt: { fontSize: 9.5, color: DARK, lineHeight: 1.6 },
 
-  // ─── Fordeler ────────────────────────────────────────────────
-  fordelerGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginBottom: 20 },
-  fordelerItem: {
-    flexDirection: 'row', alignItems: 'flex-start',
-    width: '48%',
-  },
+  // ─── Seksjonshode ─────────────────────────────────────────────────
+  secHead: { backgroundColor: DARK, paddingHorizontal: 28, paddingVertical: 9, flexDirection: 'row', alignItems: 'center' },
+  secNum: { fontSize: 8, fontFamily: 'Helvetica-Bold', color: GOLD, backgroundColor: 'rgba(255,255,255,0.12)', paddingHorizontal: 6, paddingVertical: 2, borderRadius: 3, marginRight: 10 },
+  secTittel: { fontSize: 12, fontFamily: 'Helvetica-Bold', color: WHITE },
+
+  // ─── Body ──────────────────────────────────────────────────────────
+  body: { paddingHorizontal: 28, paddingVertical: 18 },
+  leder: { fontSize: 9.5, color: DARK, lineHeight: 1.65, marginBottom: 16 },
+  overskrift: { fontSize: 8, fontFamily: 'Helvetica-Bold', color: GREEN, textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 8 },
+
+  // Fakta-grid (side 2)
+  faktaGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 7, marginBottom: 18 },
+  faktaBoks: { width: '22.5%', backgroundColor: GREEN_LIGHT, borderRadius: 4, padding: 9, border: `1 solid ${BORDER}` },
+  faktaBoksLabel: { fontSize: 6.5, color: GREEN, fontFamily: 'Helvetica-Bold', textTransform: 'uppercase', marginBottom: 3 },
+  faktaBoksVerdi: { fontSize: 10, fontFamily: 'Helvetica-Bold', color: DARK },
+
+  // Fordeler
+  fordelerGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 5, marginBottom: 18 },
+  fordelerItem: { flexDirection: 'row', alignItems: 'flex-start', width: '48%' },
   fordelerBullet: { fontSize: 10, color: GREEN, fontFamily: 'Helvetica-Bold', marginRight: 5, marginTop: 1 },
-  fordelerText: { fontSize: 9, color: DARK, flex: 1, lineHeight: 1.5 },
+  fordelerTxt: { fontSize: 8.5, color: DARK, flex: 1, lineHeight: 1.5 },
 
-  // ─── Anbefaling ──────────────────────────────────────────────
-  anbefalingBox: {
-    backgroundColor: GREEN_LIGHT, borderLeft: `4 solid ${GREEN}`,
-    padding: 14, borderRadius: 4, marginBottom: 20,
-  },
-  anbefalingText: { fontSize: 9.5, color: DARK, lineHeight: 1.6 },
+  // Regulering boks
+  regBoks: { backgroundColor: GREEN_LIGHT, padding: 12, borderRadius: 4, marginBottom: 14 },
+  regGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, marginTop: 8 },
+  regItem: { marginRight: 12 },
+  regLabel: { fontSize: 7, color: GREY },
+  regVerdi: { fontSize: 10, fontFamily: 'Helvetica-Bold', color: DARK },
 
-  // ─── Husmodell-tabell ────────────────────────────────────────
-  tableHeader: { flexDirection: 'row', backgroundColor: DARK, paddingVertical: 7, paddingHorizontal: 10 },
-  tableHeaderCell: { fontSize: 7.5, fontFamily: 'Helvetica-Bold', color: WHITE },
-  tableRow: { flexDirection: 'row', paddingVertical: 7, paddingHorizontal: 10, borderBottom: `1 solid ${BORDER}` },
-  tableRowAlt: { flexDirection: 'row', paddingVertical: 7, paddingHorizontal: 10, backgroundColor: LIGHT, borderBottom: `1 solid ${BORDER}` },
-  tableCell: { fontSize: 9, color: DARK },
-  colNavn: { width: '25%' },
-  colLev: { width: '20%' },
-  colBra: { width: '12%' },
-  colBudsjett: { width: '22%' },
-  colVerdi: { width: '21%' },
+  // ─── Visualiseringsgalleri ─────────────────────────────────────────
+  galleriRad: { flexDirection: 'row', gap: 6, marginBottom: 6 },
+  galleriItem: { flex: 1, position: 'relative' },
+  galleriImg: { width: '100%', height: 110, objectFit: 'cover', borderRadius: 3 },
+  galleriLabel: { fontSize: 6.5, color: WHITE, fontFamily: 'Helvetica-Bold', backgroundColor: 'rgba(0,0,0,0.55)', paddingHorizontal: 5, paddingVertical: 2, position: 'absolute', bottom: 0, left: 0, right: 0, borderBottomLeftRadius: 3, borderBottomRightRadius: 3 },
 
-  // ─── Bildegrid ───────────────────────────────────────────────
-  imageGrid: { flexDirection: 'row', gap: 8, marginBottom: 16 },
-  imageBox: { flex: 1, height: 160, backgroundColor: LIGHT, borderRadius: 4, overflow: 'hidden' },
-  imageFull: { width: '100%', height: '100%', objectFit: 'cover' },
+  // ─── Husmodelltabell ────────────────────────────────────────────────
+  thead: { flexDirection: 'row', backgroundColor: DARK, paddingVertical: 6, paddingHorizontal: 8 },
+  theadCell: { fontSize: 6.5, fontFamily: 'Helvetica-Bold', color: WHITE },
+  trow: { flexDirection: 'row', paddingVertical: 5, paddingHorizontal: 8, borderBottom: `1 solid ${BORDER}` },
+  trowAlt: { flexDirection: 'row', paddingVertical: 5, paddingHorizontal: 8, backgroundColor: LIGHT, borderBottom: `1 solid ${BORDER}` },
+  tcell: { fontSize: 7.5, color: DARK },
+  cNavn: { width: '16%' },
+  cLev: { width: '13%' },
+  cBra: { width: '8%' },
+  cBya: { width: '8%' },
+  cBud: { width: '16%' },
+  cVerdi: { width: '16%' },
+  cSov: { width: '7%' },
+  cBad: { width: '9%' },
+  cHybel: { width: '7%' },
 
-  // ─── Kontakt ─────────────────────────────────────────────────
-  kontaktBox: {
-    backgroundColor: GREEN, padding: 24, borderRadius: 6, marginBottom: 16,
-  },
-  kontaktNavn: { fontSize: 14, fontFamily: 'Helvetica-Bold', color: WHITE, marginBottom: 4 },
-  kontaktTittel: { fontSize: 9, color: GOLD, marginBottom: 12 },
-  kontaktRow: { flexDirection: 'row', gap: 24, marginBottom: 4 },
-  kontaktLabel: { fontSize: 8, color: 'rgba(255,255,255,0.6)', marginBottom: 2 },
-  kontaktVerdi: { fontSize: 10, fontFamily: 'Helvetica-Bold', color: WHITE },
-  omTomtly: { fontSize: 8.5, color: 'rgba(255,255,255,0.75)', lineHeight: 1.6, marginTop: 16, borderTop: '1 solid rgba(255,255,255,0.2)', paddingTop: 12 },
+  // Märke: grunnmur ikke inkl.
+  merkBoks: { backgroundColor: AMBER, border: `1 solid ${AMBER_BORDER}`, borderRadius: 3, padding: 8, marginTop: 8 },
+  merkTxt: { fontSize: 7.5, color: '#92400e' },
 
-  // ─── Footer ──────────────────────────────────────────────────
-  footer: {
-    position: 'absolute', bottom: 14, left: 32, right: 32,
-    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
-    borderTop: `1 solid ${BORDER}`, paddingTop: 8,
-  },
-  footerText: { fontSize: 7, color: GREY },
+  // ─── Kontakt ──────────────────────────────────────────────────────
+  kontaktBoks: { backgroundColor: GREEN, padding: 22, borderRadius: 6, marginBottom: 14 },
+  kontaktNavn: { fontSize: 16, fontFamily: 'Helvetica-Bold', color: WHITE, marginBottom: 3 },
+  kontaktTittel: { fontSize: 8.5, color: GOLD, marginBottom: 12 },
+  kontaktRad: { flexDirection: 'row', gap: 28, marginBottom: 3 },
+  kLabel: { fontSize: 7.5, color: 'rgba(255,255,255,0.55)', marginBottom: 2 },
+  kVerdi: { fontSize: 10.5, fontFamily: 'Helvetica-Bold', color: WHITE },
+  omTomtly: { fontSize: 8, color: 'rgba(255,255,255,0.7)', lineHeight: 1.6, marginTop: 14, borderTop: '1 solid rgba(255,255,255,0.2)', paddingTop: 10 },
 
-  // ─── Dokumenter ──────────────────────────────────────────────
-  dokRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: 5, borderBottom: `1 solid ${BORDER}` },
-  dokBullet: { fontSize: 8, color: GREEN, marginRight: 8 },
-  dokText: { fontSize: 9, color: DARK },
-  dokUrl: { fontSize: 7, color: GREY, marginLeft: 'auto' },
+  // Dokumenter
+  dokRad: { flexDirection: 'row', alignItems: 'center', paddingVertical: 5, borderBottom: `1 solid ${BORDER}` },
+  dokBullet: { fontSize: 8, color: GREEN, marginRight: 7, fontFamily: 'Helvetica-Bold' },
+  dokTxt: { fontSize: 8.5, color: DARK },
+  dokUrl: { fontSize: 6.5, color: GREY, marginLeft: 'auto' },
+
+  // ─── Footer ──────────────────────────────────────────────────────
+  footer: { position: 'absolute', bottom: 12, left: 28, right: 28, flexDirection: 'row', justifyContent: 'space-between', borderTop: `1 solid ${BORDER}`, paddingTop: 6 },
+  footerTxt: { fontSize: 6.5, color: GREY },
 })
 
 function Pill({ label }: { label: string }) {
-  return (
-    <View style={styles.coverPill}>
-      <Text style={styles.coverPillText}>{label}</Text>
-    </View>
-  )
+  return <View style={s.pill}><Text style={s.pillTxt}>{label}</Text></View>
 }
-
-function SectionHeader({ num, title }: { num: string; title: string }) {
-  return (
-    <View style={styles.sectionHeader}>
-      <Text style={styles.sectionHeaderNum}>{num}</Text>
-      <Text style={styles.sectionHeaderText}>{title}</Text>
-    </View>
-  )
+function SecHead({ num, title }: { num: string; title: string }) {
+  return <View style={s.secHead}><Text style={s.secNum}>{num}</Text><Text style={s.secTittel}>{title}</Text></View>
 }
-
 function Footer({ adresse, side }: { adresse: string; side: string }) {
   return (
-    <View style={styles.footer} fixed>
-      <Text style={styles.footerText}>Tomtly – {adresse}</Text>
-      <Text style={styles.footerText}>hey@nops.no · 40603908 · tomtly.no</Text>
-      <Text style={styles.footerText}>Side {side}</Text>
+    <View style={s.footer} fixed>
+      <Text style={s.footerTxt}>Tomtly · {adresse}</Text>
+      <Text style={s.footerTxt}>hey@nops.no · 40 60 39 08 · tomtly.no</Text>
+      <Text style={s.footerTxt}>Side {side}</Text>
     </View>
   )
 }
-
-function fmt(n: number) {
-  return 'kr ' + n.toLocaleString('nb-NO')
+function fmt(n: number) { return 'kr ' + n.toLocaleString('nb-NO') }
+function chunk<T>(arr: T[], size: number): T[][] {
+  const out: T[][] = []
+  for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size))
+  return out
 }
 
 export function SalgsoppgavePDF({ tomt }: { tomt: SalgsoppgaveTomt }) {
   const dato = new Date().toLocaleDateString('nb-NO', { day: 'numeric', month: 'long', year: 'numeric' })
+  const vis3 = tomt.visualiseringer.slice(0, 3)
+  const visRest = tomt.visualiseringer.slice(3)
+  const alleVis = tomt.visualiseringer
+  const visRader = chunk(alleVis, 3)
+  const husRader = chunk(tomt.husmodeller, 15) // maks 15 per side
 
   return (
-    <Document
-      title={`Salgsoppgave – ${tomt.adresse}`}
-      author="Tomtly (NOPS AS)"
-      subject={`Boligtomt til salgs – ${tomt.adresse}, ${tomt.poststed}`}
-      keywords="tomt, boligtomt, salg, tomtly"
-    >
-      {/* ═══ SIDE 1: FORSIDE ════════════════════════════════════════ */}
-      <Page size="A4" style={styles.page}>
-        {/* Hero-bilde med overlay */}
-        <Image src={tomt.heroImage} style={styles.coverHero} />
-        <View style={styles.coverOverlay} />
+    <Document title={`Salgsoppgave – ${tomt.adresse}`} author="Tomtly (NOPS AS)" subject={`Boligtomt til salgs – ${tomt.adresse}, ${tomt.poststed}`}>
 
-        {/* Header */}
-        <View style={styles.coverHeader}>
-          <View>
-            <Text style={styles.coverBrand}>TOMTLY</Text>
-            <Text style={styles.coverTagline}>Tomteanalyse og salg</Text>
-          </View>
-          <Text style={styles.coverMeta}>{dato}</Text>
+      {/* ══════════════════ SIDE 1: FORSIDE ══════════════════════════ */}
+      <Page size="A4" style={s.page}>
+        {/* Hero */}
+        <Image src={tomt.heroImage} style={s.heroImg} />
+        <View style={s.heroOverlay} />
+        <View style={s.heroBar}>
+          <View><Text style={s.heroBrand}>TOMTLY</Text><Text style={s.heroTagline}>Tomteanalyse og salg</Text></View>
+          <Text style={s.heroDato}>{dato}</Text>
         </View>
-
-        {/* Tittel og fakta */}
-        <View style={styles.coverBottom}>
-          <Text style={styles.coverAddress}>{tomt.adresse}</Text>
-          <Text style={styles.coverSub}>{tomt.poststed}, {tomt.kommune} · {tomt.areal_m2.toLocaleString('nb-NO')} m² · {fmt(tomt.pris)}</Text>
-          <View style={styles.coverPillRow}>
+        <View style={s.heroBottom}>
+          <Text style={s.heroAdresse}>{tomt.adresse}</Text>
+          <Text style={s.heroSted}>{tomt.poststed}, {tomt.kommune}</Text>
+          <View style={s.heroPills}>
             <Pill label={`${tomt.areal_m2} m²`} />
             <Pill label={fmt(tomt.pris)} />
             <Pill label={`GNR ${tomt.gnr} / BNR ${tomt.bnr}`} />
           </View>
         </View>
 
+        {/* Bildestribe – 3 visualiseringer under hero */}
+        {vis3.length > 0 && (
+          <View style={s.imgStripe}>
+            {vis3.map((v, i) => <Image key={i} src={v.url} style={s.stripeImg} />)}
+          </View>
+        )}
+
+        {/* Nøkkelfakta-stripe */}
+        <View style={s.faktaStripe}>
+          {tomt.nokkelFakta.slice(0, 8).map((f, i) => (
+            <View key={i} style={s.faktaItem}>
+              <Text style={s.faktaLabel}>{f.label}</Text>
+              <Text style={s.faktaVerdi}>{f.verdi}</Text>
+            </View>
+          ))}
+        </View>
+
+        {/* Anbefaling */}
+        <View style={s.anbefalingStripe}>
+          <Text style={[s.overskrift, { marginBottom: 5 }]}>Tomtekonsulentens anbefaling</Text>
+          <Text style={s.anbefalingTxt}>{tomt.anbefaling}</Text>
+        </View>
+
         <Footer adresse={tomt.adresse} side="1" />
       </Page>
 
-      {/* ═══ SIDE 2: NØKKELFAKTA + ANBEFALING ══════════════════════ */}
-      <Page size="A4" style={styles.page}>
-        <SectionHeader num="01" title="Om tomten" />
-        <View style={styles.body}>
-          {/* Nøkkelfakta */}
-          <Text style={[styles.faktaLabel, styles.mb8]}>Nøkkelfakta</Text>
-          <View style={styles.faktaGrid}>
+      {/* ══════════════════ SIDE 2: OM TOMTEN ════════════════════════ */}
+      <Page size="A4" style={s.page}>
+        <SecHead num="01" title="Om tomten" />
+        <View style={s.body}>
+          <Text style={s.leder}>{tomt.detaljertBeskrivelse}</Text>
+
+          <Text style={s.overskrift}>Nøkkelfakta</Text>
+          <View style={s.faktaGrid}>
             {tomt.nokkelFakta.map((f, i) => (
-              <View key={i} style={styles.faktaBox}>
-                <Text style={styles.faktaLabel}>{f.label}</Text>
-                <Text style={styles.faktaVerdi}>{f.verdi}</Text>
+              <View key={i} style={s.faktaBoks}>
+                <Text style={s.faktaBoksLabel}>{f.label}</Text>
+                <Text style={s.faktaBoksVerdi}>{f.verdi}</Text>
               </View>
             ))}
           </View>
 
-          {/* Anbefaling */}
-          <Text style={[styles.faktaLabel, styles.mb8]}>Tomtekonsulentens anbefaling</Text>
-          <View style={styles.anbefalingBox}>
-            <Text style={styles.anbefalingText}>{tomt.anbefaling}</Text>
-          </View>
-
-          {/* Fordeler */}
-          <Text style={[styles.faktaLabel, styles.mb8]}>Hvorfor denne tomten?</Text>
-          <View style={styles.fordelerGrid}>
+          <Text style={s.overskrift}>Fordeler og muligheter</Text>
+          <View style={s.fordelerGrid}>
             {tomt.fordeler.map((f, i) => (
-              <View key={i} style={styles.fordelerItem}>
-                <Text style={styles.fordelerBullet}>✓</Text>
-                <Text style={styles.fordelerText}>{f}</Text>
+              <View key={i} style={s.fordelerItem}>
+                <Text style={s.fordelerBullet}>✓</Text>
+                <Text style={s.fordelerTxt}>{f}</Text>
               </View>
             ))}
           </View>
 
-          {/* Nabolag */}
-          <Text style={[styles.faktaLabel, styles.mb8]}>Beliggenhet og nabolag</Text>
-          <Text style={{ fontSize: 9.5, color: DARK, lineHeight: 1.6 }}>{tomt.nabolag}</Text>
+          <Text style={s.overskrift}>Reguleringsbestemmelser</Text>
+          <View style={s.regBoks}>
+            <Text style={{ fontSize: 8.5, color: DARK, lineHeight: 1.55 }}>{tomt.regulering.beskrivelse}</Text>
+            <View style={s.regGrid}>
+              {[
+                { l: 'Plan', v: tomt.regulering.plannavn },
+                { l: 'Maks BYA', v: `${tomt.regulering.bya_prosent}%` },
+                { l: 'Maks gesimshøyde', v: `${tomt.regulering.maks_hoyde_m} m` },
+                { l: 'Maks etasjer', v: `${tomt.regulering.maks_etasjer}` },
+              ].map((r, i) => (
+                <View key={i} style={s.regItem}>
+                  <Text style={s.regLabel}>{r.l}</Text>
+                  <Text style={s.regVerdi}>{r.v}</Text>
+                </View>
+              ))}
+            </View>
+          </View>
+
+          <Text style={s.overskrift}>Beliggenhet og nabolag</Text>
+          <Text style={{ fontSize: 9, color: DARK, lineHeight: 1.6 }}>{tomt.nabolag}</Text>
         </View>
         <Footer adresse={tomt.adresse} side="2" />
       </Page>
 
-      {/* ═══ SIDE 3: VISUALISERINGER ════════════════════════════════ */}
-      {tomt.visualiseringer.length > 0 && (
-        <Page size="A4" style={styles.page}>
-          <SectionHeader num="02" title="Husmodeller visualisert på tomten" />
-          <View style={[styles.body, { paddingTop: 16 }]}>
-            <Text style={{ fontSize: 9, color: GREY, marginBottom: 14, lineHeight: 1.5 }}>
-              Bildene nedenfor er KI-genererte illustrasjoner som viser eksempler på hvordan utvalgte husmodeller kan se ut plassert på tomten. De er ment som illustrasjoner – endelig utseende avhenger av valgt husmodell og prosjektering.
-            </Text>
-            <View style={styles.imageGrid}>
-              {tomt.visualiseringer.slice(0, 3).map((url, i) => (
-                <View key={i} style={styles.imageBox}>
-                  <Image src={url} style={styles.imageFull} />
+      {/* ══════════════════ SIDE 3+: VISUALISERINGER ════════════════ */}
+      <Page size="A4" style={s.page}>
+        <SecHead num="02" title={`Alle ${alleVis.length} husmodeller visualisert på tomten`} />
+        <View style={[s.body, { paddingTop: 14 }]}>
+          <Text style={{ fontSize: 8.5, color: GREY, marginBottom: 12, lineHeight: 1.5 }}>
+            KI-genererte illustrasjoner som viser utvalgte husmodeller plassert på den faktiske tomten. Bildene er ment som illustrasjoner – endelig utseende avhenger av valgt husmodell og prosjektering.
+          </Text>
+          {visRader.map((rad, ri) => (
+            <View key={ri} style={s.galleriRad}>
+              {rad.map((v, vi) => (
+                <View key={vi} style={s.galleriItem}>
+                  <Image src={v.url} style={s.galleriImg} />
+                  <Text style={s.galleriLabel}>{v.navn}</Text>
                 </View>
               ))}
-            </View>
-          </View>
-          <Footer adresse={tomt.adresse} side="3" />
-        </Page>
-      )}
-
-      {/* ═══ SIDE 4: HUSMODELLER ════════════════════════════════════ */}
-      <Page size="A4" style={styles.page}>
-        <SectionHeader num="03" title={`Analyserte husmodeller (topp ${tomt.topHusmodeller.length})`} />
-        <View style={[styles.body, { paddingTop: 14 }]}>
-          <Text style={{ fontSize: 9, color: GREY, marginBottom: 14, lineHeight: 1.5 }}>
-            Tomtly har analysert {tomt.slug === 'myllavegen-58' ? '12' : '34'} husmodeller fra ulike leverandører og beregnet fullstendig totalbudsjett inkl. tomt, dokumentavgift, grunnarbeider, kommunale gebyrer og mer. Tabellen under viser et utvalg.
-          </Text>
-
-          {/* Tabell */}
-          <View style={styles.tableHeader}>
-            <Text style={[styles.tableHeaderCell, styles.colNavn]}>Husmodell</Text>
-            <Text style={[styles.tableHeaderCell, styles.colLev]}>Leverandør</Text>
-            <Text style={[styles.tableHeaderCell, styles.colBra]}>BRA m²</Text>
-            <Text style={[styles.tableHeaderCell, styles.colBudsjett]}>Totalbudsjett</Text>
-            <Text style={[styles.tableHeaderCell, styles.colVerdi]}>Est. boligverdi</Text>
-          </View>
-          {tomt.topHusmodeller.map((m, i) => (
-            <View key={i} style={i % 2 === 0 ? styles.tableRow : styles.tableRowAlt}>
-              <Text style={[styles.tableCell, styles.colNavn, { fontFamily: 'Helvetica-Bold' }]}>{m.navn}{!m.grunnmur_inkludert ? ' *' : ''}</Text>
-              <Text style={[styles.tableCell, styles.colLev]}>{m.leverandor}</Text>
-              <Text style={[styles.tableCell, styles.colBra]}>{m.bra_m2}</Text>
-              <Text style={[styles.tableCell, styles.colBudsjett]}>{fmt(m.total_budsjett)}</Text>
-              <Text style={[styles.tableCell, styles.colVerdi]}>{fmt(m.verdi_total)}</Text>
+              {/* Fyll tomme plasser */}
+              {rad.length < 3 && Array(3 - rad.length).fill(0).map((_, k) => <View key={k} style={s.galleriItem} />)}
             </View>
           ))}
-          <Text style={{ fontSize: 7.5, color: GREY, marginTop: 8 }}>
-            * Grunnmur ikke inkludert i husmodellpris – legg til estimat kr 200 000–300 000.{'\n'}
-            Totalbudsjett inkl. tomt, dokumentavgift, frakt, grunnarbeider, kommunale gebyrer og tilkoblingsavgifter. Alle priser inkl. mva. Kilde: Tomtly, mai 2026.
-          </Text>
-
-          {/* Regulering */}
-          <View style={{ marginTop: 24, backgroundColor: GREEN_LIGHT, padding: 14, borderRadius: 5 }}>
-            <Text style={[styles.faktaLabel, { marginBottom: 8 }]}>Reguleringsbestemmelser</Text>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
-              {[
-                { l: 'Plan', v: tomt.regulering.plannavn },
-                { l: 'Maks BYA', v: `${tomt.regulering.bya_prosent}%` },
-                { l: 'Maks høyde', v: `${tomt.regulering.maks_hoyde_m} m` },
-                { l: 'Maks etasjer', v: `${tomt.regulering.maks_etasjer}` },
-              ].map((r, i) => (
-                <View key={i} style={{ marginRight: 16 }}>
-                  <Text style={{ fontSize: 7.5, color: GREY }}>{r.l}</Text>
-                  <Text style={{ fontSize: 9.5, fontFamily: 'Helvetica-Bold', color: DARK }}>{r.v}</Text>
-                </View>
-              ))}
-            </View>
-          </View>
         </View>
-        <Footer adresse={tomt.adresse} side="4" />
+        <Footer adresse={tomt.adresse} side="3" />
       </Page>
 
-      {/* ═══ SIDE 5: DOKUMENTER + KONTAKT ══════════════════════════ */}
-      <Page size="A4" style={styles.page}>
-        <SectionHeader num="04" title="Dokumenter og kontakt" />
-        <View style={styles.body}>
-          {/* Dokumenter */}
-          <Text style={[styles.faktaLabel, styles.mb8]}>Tilgjengelig dokumentasjon</Text>
-          <View style={{ marginBottom: 24 }}>
+      {/* ══════════════════ SIDE 4+: HUSMODELLER ════════════════════ */}
+      {husRader.map((rader, pageIdx) => (
+        <Page key={pageIdx} size="A4" style={s.page}>
+          <SecHead num={`0${3 + pageIdx + 1}`} title={`Analyserte husmodeller${husRader.length > 1 ? ` (${pageIdx + 1}/${husRader.length})` : ''}`} />
+          <View style={[s.body, { paddingTop: 12 }]}>
+            {pageIdx === 0 && (
+              <Text style={{ fontSize: 8.5, color: GREY, marginBottom: 10, lineHeight: 1.5 }}>
+                Totalbudsjett inkl. tomt, dokumentavgift, grunnarbeider, frakt, kommunale gebyrer og tilkoblingsavgifter (alle estimater inkl. mva). Boligverdi beregnet ut fra estimert markedspris per m² BRA. * = Grunnmur ikke inkl. i husmodellpris.
+              </Text>
+            )}
+            {/* Tabell */}
+            <View style={s.thead}>
+              <Text style={[s.theadCell, s.cNavn]}>Husmodell</Text>
+              <Text style={[s.theadCell, s.cLev]}>Leverandør</Text>
+              <Text style={[s.theadCell, s.cBra]}>BRA m²</Text>
+              <Text style={[s.theadCell, s.cBya]}>BYA m²</Text>
+              <Text style={[s.theadCell, s.cBud]}>Totalbudsjett</Text>
+              <Text style={[s.theadCell, s.cVerdi]}>Est. boligverdi</Text>
+              <Text style={[s.theadCell, s.cSov]}>Sov</Text>
+              <Text style={[s.theadCell, s.cBad]}>Bad</Text>
+              <Text style={[s.theadCell, s.cHybel]}>Hybel</Text>
+            </View>
+            {rader.map((m: HusmodellPDF, i: number) => {
+              const profitt = m.verdi_total - m.total_budsjett
+              const Row = i % 2 === 0 ? s.trow : s.trowAlt
+              return (
+                <View key={i} style={Row}>
+                  <Text style={[s.tcell, s.cNavn, { fontFamily: 'Helvetica-Bold' }]}>{m.navn}{!m.grunnmur_inkludert ? ' *' : ''}</Text>
+                  <Text style={[s.tcell, s.cLev]}>{m.leverandor}</Text>
+                  <Text style={[s.tcell, s.cBra]}>{m.bra_m2}</Text>
+                  <Text style={[s.tcell, s.cBya]}>{m.bya_m2}</Text>
+                  <Text style={[s.tcell, s.cBud]}>{fmt(m.total_budsjett)}</Text>
+                  <Text style={[s.tcell, s.cVerdi, { color: profitt > 0 ? GREEN2 : DARK }]}>{fmt(m.verdi_total)}</Text>
+                  <Text style={[s.tcell, s.cSov]}>{m.soverom}</Text>
+                  <Text style={[s.tcell, s.cBad]}>{m.bad}</Text>
+                  <Text style={[s.tcell, s.cHybel]}>{m.hybel ? 'Ja' : '–'}</Text>
+                </View>
+              )
+            })}
+            {pageIdx === husRader.length - 1 && (
+              <View style={s.merkBoks}>
+                <Text style={s.merkTxt}>
+                  * Grunnmur / fundamentering ikke inkludert i husmodellprisen. Legg til estimat kr 200 000–300 000 (betongplate/ringmur) eller kr 500 000–700 000 (kjellermur). Tomtly anbefaler å innhente tilbud fra lokalt grunnentreprenør.{'\n'}
+                  Boligverdi beregnet på grunnlag av estimert salgspris for nye boliger i området. Priser pr. mai 2026. Alle beløp er estimater og kan avvike fra faktiske kostnader.
+                </Text>
+              </View>
+            )}
+          </View>
+          <Footer adresse={tomt.adresse} side={`${3 + pageIdx + 1}`} />
+        </Page>
+      ))}
+
+      {/* ══════════════════ SISTE SIDE: DOKUMENTER + KONTAKT ════════ */}
+      <Page size="A4" style={s.page}>
+        <SecHead num="05" title="Dokumenter og kontakt" />
+        <View style={s.body}>
+          <Text style={[s.overskrift, { marginBottom: 8 }]}>Tilgjengelig dokumentasjon</Text>
+          <View style={{ marginBottom: 22 }}>
             {tomt.dokumenter.map((d, i) => (
-              <View key={i} style={styles.dokRow}>
-                <Text style={styles.dokBullet}>›</Text>
-                <Text style={styles.dokText}>{d.navn}</Text>
-                <Text style={styles.dokUrl}>{d.url}</Text>
+              <View key={i} style={s.dokRad}>
+                <Text style={s.dokBullet}>›</Text>
+                <Text style={s.dokTxt}>{d.navn}</Text>
+                <Text style={s.dokUrl}>{d.url}</Text>
               </View>
             ))}
           </View>
 
-          {/* Kontakt */}
-          <View style={styles.kontaktBox}>
-            <Text style={styles.kontaktNavn}>Jakob Bjøndal</Text>
-            <Text style={styles.kontaktTittel}>Tomtekonsulent · Tomtly (NOPS AS)</Text>
-            <View style={styles.kontaktRow}>
-              <View>
-                <Text style={styles.kontaktLabel}>Telefon</Text>
-                <Text style={styles.kontaktVerdi}>40 60 39 08</Text>
-              </View>
-              <View>
-                <Text style={styles.kontaktLabel}>E-post</Text>
-                <Text style={styles.kontaktVerdi}>hey@nops.no</Text>
-              </View>
-              <View>
-                <Text style={styles.kontaktLabel}>Nettside</Text>
-                <Text style={styles.kontaktVerdi}>tomtly.no</Text>
-              </View>
+          <View style={s.kontaktBoks}>
+            <Text style={s.kontaktNavn}>Jakob Bjøndal</Text>
+            <Text style={s.kontaktTittel}>Tomtekonsulent · Tomtly (NOPS AS)</Text>
+            <View style={s.kontaktRad}>
+              <View><Text style={s.kLabel}>Telefon</Text><Text style={s.kVerdi}>40 60 39 08</Text></View>
+              <View><Text style={s.kLabel}>E-post</Text><Text style={s.kVerdi}>hey@nops.no</Text></View>
+              <View><Text style={s.kLabel}>Nettside</Text><Text style={s.kVerdi}>tomtly.no</Text></View>
             </View>
-            <Text style={styles.omTomtly}>
-              Tomtly er en analyseplattform og markedsføringskanal for tomtesalg. Vi viser kjøpere hva som kan bygges på tomten ved hjelp av husmodeller fra alle de store husleverandørene, komplett kostnadsanalyse og digitale verktøy. Tomteeier selger selv – Tomtly bistår med analyse, markedsføring og oppgjør via samarbeidspartner Proff Oppgjør AS.{'\n\n'}
-              NOPS AS · Org.nr. 933 819 086 · Salgsoppgaven er utarbeidet av Tomtly som markedsføringskanal. Alle priser er estimater og kan avvike. Interessenter oppfordres til å foreta egne undersøkelser.
+            <Text style={s.omTomtly}>
+              Tomtly er en analyseplattform og markedsføringskanal for tomtesalg. Vi viser kjøpere hva som kan bygges på tomten ved hjelp av husmodeller fra alle de store husleverandørene, komplett kostnadsanalyse og digitale verktøy. Tomteeier selger selv – Tomtly bistår med analyse, markedsføring og salgsoppgjør via samarbeidspartner Proff Oppgjør AS.{'\n\n'}
+              NOPS AS · Org.nr. 933 819 086 · Denne salgsoppgaven er utarbeidet av Tomtly som markedsføringskanal og informasjonsdokument. Alle priser er estimater. Interessenter oppfordres til å foreta egne undersøkelser og innhente tilbud.
             </Text>
           </View>
 
-          {/* Tomtly-logo-tekst */}
-          <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8 }}>
-            <Text style={{ fontSize: 20, fontFamily: 'Helvetica-Bold', color: GREEN, letterSpacing: 2 }}>TOMTLY</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
+            <Text style={{ fontSize: 22, fontFamily: 'Helvetica-Bold', color: GREEN, letterSpacing: 2 }}>TOMTLY</Text>
           </View>
-          <Text style={{ fontSize: 8, color: GREY, textAlign: 'center', marginTop: 4 }}>tomtly.no · hey@nops.no · 40 60 39 08</Text>
+          <Text style={{ fontSize: 7.5, color: GREY, textAlign: 'center', marginTop: 4 }}>
+            tomtly.no · hey@nops.no · 40 60 39 08
+          </Text>
         </View>
-        <Footer adresse={tomt.adresse} side="5" />
+        <Footer adresse={tomt.adresse} side="siste" />
       </Page>
     </Document>
   )
