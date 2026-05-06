@@ -75,7 +75,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 143, verdi_m2_pris: 53000, verdi_total: 7579000,
     inkludert: ['Grunnmur inkludert', 'Komplett hus innflyttingsklart', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse'],
     bilder: {
-      fasade: [`${IMG}/fiks-fasade-1.jpg`],
+      fasade: [`${IMG}/fiks-visualisering.png`, `${IMG}/fiks-fasade-1.jpg`],
       plantegninger: [
         { url: `${IMG}/fiks-plan-1etg.jpg`, label: '1. etasje' },
         { url: `${IMG}/fiks-plan-2etg.jpg`, label: '2. etasje / kjeller' },
@@ -94,7 +94,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 113, verdi_m2_pris: 53000, verdi_total: 5989000,
     inkludert: ['Grunnmur inkludert', 'Komplett hus innflyttingsklart', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse'],
     bilder: {
-      fasade: [`${IMG}/stolt-fasade-1.jpg`],
+      fasade: [`${IMG}/stolt-visualisering.png`, `${IMG}/stolt-fasade-1.jpg`],
       plantegninger: [
         { url: `${IMG}/stolt-plan-1etg.jpg`, label: 'Plan – begge etasjer' },
       ],
@@ -189,7 +189,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 146, verdi_m2_pris: 53000, verdi_total: 7738000,
     inkludert: ['Grunnmur inkludert', 'Komplett hus innflyttingsklart', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse'],
     bilder: {
-      fasade: [`${IMG}/rognheim-fasade-1.jpg`],
+      fasade: [`${IMG}/rognheim-visualisering.png`, `${IMG}/rognheim-fasade-1.jpg`],
       plantegninger: [
         { url: `${IMG}/rognheim-plan-1etg.jpg`, label: '1. etasje' },
         { url: `${IMG}/rognheim-plan-2etg.jpg`, label: '2. etasje' },
@@ -614,7 +614,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 150, verdi_m2_pris: 53000, verdi_total: 7950000,
     inkludert: ['Parkett', 'Flislagte våtrom', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Lyskilder inne/ute', 'Komplett el-leveranse', 'Komplett rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/ronningen-fasade-1.jpg`],
+      fasade: [`${IMG}/ronningen-visualisering.jpg`, `${IMG}/ronningen-fasade-1.jpg`],
       plantegninger: [
         { url: `${IMG}/ronningen-plan-1etg.jpg`, label: 'Plantegning' },
       ],
