@@ -1390,7 +1390,31 @@ function PrototypeContent() {
     const dokMedFunn = dokDatasets.filter(d => {
       const s = (d.status || d.dekning || '').toLowerCase()
       return s.includes('med funn') || s.includes('grundig kartlagt')
-    }).map(d => ({ tittel: d.tittel, tema: d.tema }))
+    }).map(d => ({ tittel: d.tittel, tema: d.tema, status: d.status || d.dekning }))
+
+    // Reguleringsbestemmelser-lenker fra arealplaner.no
+    const regBestDocs: { plannavn: string; url: string }[] = []
+    for (const ap of arealplaner) {
+      const pType = typeof ap.planType === 'string' ? ap.planType : (ap.planType as any)?.beskrivelse || ''
+      if (pType.toLowerCase().includes('kommune')) continue
+      for (const dok of ap.dokumenter || []) {
+        const isBest = dok.dokumenttypeId === 5 || (dok.dokumenttype || '').toLowerCase().includes('bestemmelse') || (dok.dokumentnavn || '').toLowerCase().includes('bestemmelse')
+        const url = dok.direkteUrl || dok.url
+        if (isBest && url && (dok.tilgang === 'Alle' || !dok.tilgang)) {
+          regBestDocs.push({ plannavn: ap.planNavn, url })
+          break
+        }
+      }
+    }
+
+    // Kommuneplanbestemmelser-lenker fra dynamisk kommuneplan
+    const kpBestDocs: { navn: string; url: string }[] = []
+    for (const d of dynamiskKommuneplan?.kommuneplan?.dokumenter || []) {
+      const navn = (d.navn || '').toLowerCase()
+      if ((navn.includes('bestemmelse') || navn.includes('arealdel')) && d.url) {
+        kpBestDocs.push({ navn: d.navn, url: d.url })
+      }
+    }
 
     fetch('/api/tomte-oppsummering', {
       method: 'POST',
@@ -1407,6 +1431,8 @@ function PrototypeContent() {
         gesims_m: eiendomsAnalyse.gesimshoydeM,
         mone_m: eiendomsAnalyse.monehoydeM,
         maks_etasjer: eiendomsAnalyse.maksEtasjer,
+        reg_best_docs: regBestDocs.slice(0, 3),
+        kp_best_docs: kpBestDocs.slice(0, 2),
       }),
     })
       .then(r => r.ok ? r.json() : null)
@@ -1630,7 +1656,7 @@ function PrototypeContent() {
                       <p className="text-brand-200 text-sm leading-relaxed mb-5">{aiOppsummering.ingress}</p>
                     )}
                     {aiOppsummering.funn?.length > 0 && (
-                      <div className="grid sm:grid-cols-2 gap-3">
+                      <div className="grid sm:grid-cols-2 gap-3 mb-5">
                         {aiOppsummering.funn.map((funn: any, i: number) => (
                           <div
                             key={i}
@@ -1657,6 +1683,120 @@ function PrototypeContent() {
                     )}
                   </>
                 )}
+
+                {/* Reguleringsbestemmelser – dokumentlenker + KI-tolkning */}
+                {(() => {
+                  const regDocs: { plannavn: string; url: string }[] = []
+                  for (const ap of arealplaner) {
+                    const pType = typeof ap.planType === 'string' ? ap.planType : (ap.planType as any)?.beskrivelse || ''
+                    if (pType.toLowerCase().includes('kommune')) continue
+                    for (const dok of ap.dokumenter || []) {
+                      const isBest = dok.dokumenttypeId === 5 || (dok.dokumenttype || '').toLowerCase().includes('bestemmelse') || (dok.dokumentnavn || '').toLowerCase().includes('bestemmelse')
+                      const url = dok.direkteUrl || dok.url
+                      if (isBest && url && (dok.tilgang === 'Alle' || !dok.tilgang)) { regDocs.push({ plannavn: ap.planNavn, url }); break }
+                    }
+                  }
+                  const kpDocs: { navn: string; url: string }[] = (dynamiskKommuneplan?.kommuneplan?.dokumenter || [])
+                    .filter((d: any) => (d.navn || '').toLowerCase().includes('bestemmelse') && d.url)
+                    .map((d: any) => ({ navn: d.navn, url: d.url }))
+
+                  const hasDocs = regDocs.length > 0 || kpDocs.length > 0
+                  const hasBest = bestemmelseAnalyser.length > 0
+
+                  if (!hasDocs && !hasBest && !analyseringBestemmelser) return null
+                  return (
+                    <div className="border-t border-white/10 pt-5 space-y-4">
+                      {/* Dokumentlenker */}
+                      {hasDocs && (
+                        <div>
+                          <p className="text-[10px] text-brand-400 uppercase tracking-wider mb-2">Planbestemmelser</p>
+                          <div className="flex flex-wrap gap-2">
+                            {regDocs.map((d, i) => (
+                              <a key={i} href={d.url} target="_blank" rel="noopener noreferrer"
+                                className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-lg text-xs text-white transition-colors">
+                                <FileText className="w-3.5 h-3.5 shrink-0" />
+                                Reguleringsbestemmelser – {d.plannavn.length > 35 ? d.plannavn.slice(0, 35) + '…' : d.plannavn}
+                              </a>
+                            ))}
+                            {kpDocs.map((d, i) => (
+                              <a key={i} href={d.url} target="_blank" rel="noopener noreferrer"
+                                className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-lg text-xs text-white transition-colors">
+                                <FileText className="w-3.5 h-3.5 shrink-0" />
+                                {d.navn}
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* KI-tolkning av reguleringsbestemmelser */}
+                      {analyseringBestemmelser && !hasBest && (
+                        <div className="flex items-center gap-2 text-brand-400 text-xs">
+                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                          KI tolker reguleringsbestemmelsene…
+                        </div>
+                      )}
+                      {hasBest && bestemmelseAnalyser.map((ba, i) => (
+                        <div key={i} className="bg-white/5 rounded-xl p-4 border border-white/10">
+                          <p className="text-[10px] text-brand-400 uppercase tracking-wider mb-1">KI-tolkning – {ba.planNavn || 'Reguleringsbestemmelser'}</p>
+                          {ba.sammendrag && <p className="text-xs text-brand-200 leading-relaxed mb-3">{ba.sammendrag}</p>}
+                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-3">
+                            {ba.utnyttelsesgrad?.bya_prosent && (
+                              <div className="bg-white/5 rounded-lg px-3 py-2">
+                                <p className="text-[10px] text-brand-400">Maks BYA</p>
+                                <p className="text-sm font-semibold text-white">{ba.utnyttelsesgrad.bya_prosent}%</p>
+                              </div>
+                            )}
+                            {ba.hoyder?.['gesimshøyde_m'] && (
+                              <div className="bg-white/5 rounded-lg px-3 py-2">
+                                <p className="text-[10px] text-brand-400">Gesimshøyde</p>
+                                <p className="text-sm font-semibold text-white">{ba.hoyder['gesimshøyde_m']} m</p>
+                              </div>
+                            )}
+                            {ba.hoyder?.['mønehøyde_m'] && (
+                              <div className="bg-white/5 rounded-lg px-3 py-2">
+                                <p className="text-[10px] text-brand-400">Mønehøyde</p>
+                                <p className="text-sm font-semibold text-white">{ba.hoyder['mønehøyde_m']} m</p>
+                              </div>
+                            )}
+                            {ba.etasjer?.maks_etasjer && (
+                              <div className="bg-white/5 rounded-lg px-3 py-2">
+                                <p className="text-[10px] text-brand-400">Maks etasjer</p>
+                                <p className="text-sm font-semibold text-white">{ba.etasjer.maks_etasjer}</p>
+                              </div>
+                            )}
+                            {ba.byggegrenser?.mot_nabo_m && (
+                              <div className="bg-white/5 rounded-lg px-3 py-2">
+                                <p className="text-[10px] text-brand-400">Avstand nabo</p>
+                                <p className="text-sm font-semibold text-white">{ba.byggegrenser.mot_nabo_m} m</p>
+                              </div>
+                            )}
+                          </div>
+                          {ba.viktige_bestemmelser && ba.viktige_bestemmelser.length > 0 && (
+                            <ul className="space-y-1">
+                              {ba.viktige_bestemmelser.slice(0, 5).map((b, j) => (
+                                <li key={j} className="flex items-start gap-2 text-xs text-brand-300">
+                                  <span className="text-tomtly-accent mt-0.5 shrink-0">›</span>
+                                  {b}
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                          {ba.restriksjoner && ba.restriksjoner.length > 0 && (
+                            <ul className="space-y-1 mt-2">
+                              {ba.restriksjoner.slice(0, 3).map((r, j) => (
+                                <li key={j} className="flex items-start gap-2 text-xs text-amber-300">
+                                  <span className="shrink-0 mt-0.5">△</span>
+                                  {r}
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )
+                })()}
               </div>
             )}
 
