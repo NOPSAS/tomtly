@@ -454,6 +454,14 @@ export default function Myllavegen58() {
           <div className="lg:col-span-1">
             <div className="sticky top-36 space-y-6">
               <TomtKart lat={TOMT.senterpunkt.lat} lng={TOMT.senterpunkt.lng} adresse="Myllavegen 58, 2742 Grua" zoom={17} />
+              <a
+                href="/api/salgsoppgave/myllavegen-58"
+                download
+                className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-tomtly-accent text-white font-medium rounded-xl hover:bg-forest-700 transition-colors text-sm"
+              >
+                <Download className="w-4 h-4" />
+                Last ned salgsoppgave (PDF)
+              </a>
               <TomtKontakt />
               <TomtDeling adresse={TOMT.adresse} tomteId="myllavegen-58" />
             </div>
