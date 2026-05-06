@@ -57,12 +57,27 @@ export async function POST(request: NextRequest) {
 
       const tidspunkt = new Date().toLocaleString('nb-NO', { timeZone: 'Europe/Oslo' })
 
+      // ─── typeLabels (brukes i begge e-poster) ────────────────
+      const typeLabels: Record<string, string> = {
+        'verdivurdering-lead': 'verdivurdering',
+        'prototype-analyse': 'tomteanalyse',
+        'tomteanalyse-lead': 'tomteanalyse',
+        'tomtesok-lead': 'tomtevarsling',
+        'hva-kan-jeg-bygge': 'tomtesjekk',
+        'finn-integrasjon': 'FINN-integrasjon',
+        'tomt-varsling': 'tomtevarsel',
+        'widget-megler': 'widget-tilgang',
+        'meglerpartner': 'partnerforespørsel',
+        'tomt_henvendelse': 'tomtehenvendelse',
+      }
+      const typeLabel = typeLabels[type] || type
+
       // ─── 1. Send varsel til Tomtly (hey@nops.no) ─────────────
       const adminHtml = `
         <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:600px;margin:0 auto;">
           <div style="background:#1a2332;padding:24px 32px;border-radius:12px 12px 0 0;">
             <h1 style="color:#ffffff;font-size:20px;margin:0;">Ny henvendelse fra Tomtly</h1>
-            <p style="color:#94a3b8;font-size:14px;margin:8px 0 0;">${type}</p>
+            <p style="color:#94a3b8;font-size:14px;margin:8px 0 0;">${typeLabel}</p>
           </div>
           <div style="background:#ffffff;padding:24px 32px;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 12px 12px;">
             <table style="width:100%;border-collapse:collapse;">
@@ -84,25 +99,13 @@ export async function POST(request: NextRequest) {
           body: JSON.stringify({
             from: 'Tomtly <hey@nops.no>',
             to: 'hey@nops.no',
-            subject: `Ny henvendelse: ${type} – ${navn || email}`,
+            subject: `Ny henvendelse: ${typeLabel || type} – ${navn || email}`,
             html: adminHtml,
           }),
         })
       } catch {}
 
       // ─── 2. Send bekreftelse til kunden ───────────────────────
-      const typeLabels: Record<string, string> = {
-        'verdivurdering-lead': 'verdivurdering',
-        'prototype-analyse': 'tomteanalyse',
-        'tomtesok-lead': 'tomtevarsling',
-        'hva-kan-jeg-bygge': 'tomtesjekk',
-        'finn-integrasjon': 'FINN-integrasjon',
-        'tomt-varsling': 'tomtevarsel',
-        'widget-megler': 'widget-tilgang',
-        'meglerpartner': 'partnerforespørsel',
-      }
-      const typeLabel = typeLabels[type] || type
-
       const kundeHtml = `
         <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:600px;margin:0 auto;">
           <div style="background:#2d5a3d;padding:24px 32px;border-radius:12px 12px 0 0;">

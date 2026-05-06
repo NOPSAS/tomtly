@@ -418,7 +418,8 @@ function PrototypeContent() {
     const base = typeof window !== 'undefined' ? window.location.origin : ''
     const gnr = valgtAdresse.gardsnummer
     const bnr = valgtAdresse.bruksnummer
-    return `${base}/prototype?knr=${valgtAdresse.kommunenummer}&gnr=${gnr}&bnr=${bnr}`
+    const path = isIntern ? '/prototype' : '/tomteanalyse'
+    return `${base}${path}?knr=${valgtAdresse.kommunenummer}&gnr=${gnr}&bnr=${bnr}`
   }
 
   async function copyShareLink() {
@@ -617,7 +618,8 @@ function PrototypeContent() {
 
     // Update URL for sharing
     if (adr.gardsnummer && adr.bruksnummer) {
-      const url = `/prototype?knr=${adr.kommunenummer}&gnr=${adr.gardsnummer}&bnr=${adr.bruksnummer}`
+      const basePath = isIntern ? '/prototype' : '/tomteanalyse'
+      const url = `${basePath}?knr=${adr.kommunenummer}&gnr=${adr.gardsnummer}&bnr=${adr.bruksnummer}`
       window.history.replaceState({}, '', url)
     }
 
@@ -628,7 +630,7 @@ function PrototypeContent() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          type: 'prototype-analyse',
+          type: 'tomteanalyse-lead',
           navn: leadNavn,
           epost: leadEpost,
           telefon: leadTelefon,

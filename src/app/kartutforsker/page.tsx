@@ -447,7 +447,7 @@ function Kartutforsker() {
             {/* Actions */}
             <div className="space-y-2 pt-2 border-t border-brand-200">
               <Link
-                href={`/prototype?knr=${eiendom.knr}&gnr=${eiendom.gnr}&bnr=${eiendom.bnr}`}
+                href={`/tomteanalyse?knr=${eiendom.knr}&gnr=${eiendom.gnr}&bnr=${eiendom.bnr}`}
                 className="flex items-center justify-center gap-2 w-full py-2.5 bg-tomtly-accent text-white text-sm font-medium rounded-lg hover:bg-forest-700 transition-colors"
               >
                 <Search className="w-4 h-4" />

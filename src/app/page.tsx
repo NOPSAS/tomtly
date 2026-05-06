@@ -356,12 +356,12 @@ function FremhevedeTomter() {
     },
     {
       href: '/tomter/gamle-dalsveg-16',
-      bilde: '/tomter/gamle-dalsveg-16/luftig-fasade-1.jpg',
-      adresse: 'Gamle Dalsveg 16',
+      bilde: '/tomter/gamle-dalsveg-16/perla-norgeshus-visualisering.png',
+      adresse: 'Gamle Dalsveg 16 A',
       sted: 'Maura, Nannestad',
-      areal: '905 m²',
+      areal: '564 m²',
       pris: '2 300 000 kr',
-      husmodeller: 8,
+      husmodeller: 34,
       type: 'Eneboligtomt',
     },
     {
