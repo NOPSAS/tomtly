@@ -1636,17 +1636,17 @@ function PrototypeContent() {
               </div>
             </div>
 
-            {/* AI-oppsummering */}
-            {(aiOppsummeringLoading || aiOppsummering) && (
+            {/* AI-oppsummering – vises alltid når analyse er ferdig */}
+            {(!analysing && valgtAdresse) && (
               <div className="bg-tomtly-dark rounded-2xl p-6 md:p-8 text-white">
                 <div className="flex items-center gap-2 mb-4">
                   <span className="text-xl">✦</span>
-                  <h2 className="font-display text-lg font-bold">Oppsummering av analysen</h2>
+                  <h2 className="font-display text-lg font-bold">Hva vi fant – oppsummering for {valgtAdresse.adressetekst}</h2>
                   <span className="ml-auto bg-tomtly-accent/30 text-tomtly-accent text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider">KI-generert</span>
                 </div>
 
                 {aiOppsummeringLoading && !aiOppsummering && (
-                  <div className="flex items-center gap-3 text-brand-300">
+                  <div className="flex items-center gap-3 text-brand-300 mb-4">
                     <Loader2 className="w-4 h-4 animate-spin text-tomtly-accent" />
                     <span className="text-sm">Analyserer tomten og lager oppsummering…</span>
                   </div>
@@ -1657,34 +1657,129 @@ function PrototypeContent() {
                     {aiOppsummering.ingress && (
                       <p className="text-brand-200 text-sm leading-relaxed mb-5">{aiOppsummering.ingress}</p>
                     )}
-                    {aiOppsummering.funn?.length > 0 && (
-                      <div className="grid sm:grid-cols-2 gap-3 mb-5">
-                        {aiOppsummering.funn.map((funn: any, i: number) => (
-                          <div
-                            key={i}
-                            className={`rounded-xl p-4 border ${
-                              funn.type === 'positiv'
-                                ? 'bg-forest-900/50 border-forest-700'
-                                : funn.type === 'kritisk'
-                                ? 'bg-red-900/30 border-red-700/50'
-                                : 'bg-amber-900/30 border-amber-700/50'
-                            }`}
-                          >
-                            <div className="flex items-start gap-2 mb-1">
-                              <span className="text-base shrink-0 mt-0.5">
-                                {funn.type === 'positiv' ? '✓' : funn.type === 'kritisk' ? '✕' : '△'}
-                              </span>
-                              <p className={`text-sm font-semibold ${
-                                funn.type === 'positiv' ? 'text-forest-300' : funn.type === 'kritisk' ? 'text-red-300' : 'text-amber-300'
-                              }`}>{funn.tittel}</p>
-                            </div>
-                            <p className="text-xs text-brand-300 leading-relaxed pl-6">{funn.forklaring}</p>
-                          </div>
-                        ))}
-                      </div>
-                    )}
                   </>
                 )}
+
+                {/* Nøkkeltall-strip – vises så snart eiendomsanalysen er klar */}
+                {eiendomsAnalyse && (
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-5">
+                    <div className="bg-white/8 rounded-xl px-3 py-2.5">
+                      <p className="text-[10px] text-brand-400 uppercase tracking-wide mb-1">Tomtestørrelse</p>
+                      <p className="text-sm font-bold text-white">{eiendomsAnalyse.arealM2 > 0 ? `${eiendomsAnalyse.arealM2.toLocaleString('nb-NO')} m²` : 'Ikke beregnet'}</p>
+                      <p className="text-[10px] text-brand-500 mt-0.5">registrert areal</p>
+                    </div>
+                    {eiendomsAnalyse.byaProsent && (
+                      <div className="bg-white/8 rounded-xl px-3 py-2.5">
+                        <p className="text-[10px] text-brand-400 uppercase tracking-wide mb-1">Maks BYA</p>
+                        <p className="text-sm font-bold text-white">{eiendomsAnalyse.byaProsent}%</p>
+                        <p className="text-[10px] text-brand-500 mt-0.5">= {Math.round((eiendomsAnalyse.arealM2 * eiendomsAnalyse.byaProsent) / 100)} m² tillatt</p>
+                      </div>
+                    )}
+                    {eiendomsAnalyse.gesimshoydeM && (
+                      <div className="bg-white/8 rounded-xl px-3 py-2.5">
+                        <p className="text-[10px] text-brand-400 uppercase tracking-wide mb-1">Gesimshøyde</p>
+                        <p className="text-sm font-bold text-white">{eiendomsAnalyse.gesimshoydeM} m</p>
+                        <p className="text-[10px] text-brand-500 mt-0.5">maks veggtopp</p>
+                      </div>
+                    )}
+                    {eiendomsAnalyse.maksEtasjer && (
+                      <div className="bg-white/8 rounded-xl px-3 py-2.5">
+                        <p className="text-[10px] text-brand-400 uppercase tracking-wide mb-1">Etasjer</p>
+                        <p className="text-sm font-bold text-white">{eiendomsAnalyse.maksEtasjer}</p>
+                        <p className="text-[10px] text-brand-500 mt-0.5">maks tillatt</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* AI-funn */}
+                {aiOppsummering?.funn?.length > 0 && (
+                  <div className="grid sm:grid-cols-2 gap-3 mb-5">
+                    {aiOppsummering.funn.map((funn: any, i: number) => (
+                      <div
+                        key={i}
+                        className={`rounded-xl p-4 border ${
+                          funn.type === 'positiv'
+                            ? 'bg-forest-900/50 border-forest-700'
+                            : funn.type === 'kritisk'
+                            ? 'bg-red-900/30 border-red-700/50'
+                            : 'bg-amber-900/30 border-amber-700/50'
+                        }`}
+                      >
+                        <div className="flex items-start gap-2 mb-1">
+                          <span className="text-base shrink-0 mt-0.5">
+                            {funn.type === 'positiv' ? '✓' : funn.type === 'kritisk' ? '✕' : '△'}
+                          </span>
+                          <p className={`text-sm font-semibold ${
+                            funn.type === 'positiv' ? 'text-forest-300' : funn.type === 'kritisk' ? 'text-red-300' : 'text-amber-300'
+                          }`}>{funn.tittel}</p>
+                        </div>
+                        <p className="text-xs text-brand-300 leading-relaxed pl-6">{funn.forklaring}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* DOK-risikooppsummering */}
+                {dokDatasets.length > 0 && (() => {
+                  const medFunn = dokDatasets.filter(d => {
+                    const s = (d.status || d.dekning || '').toLowerCase()
+                    return s.includes('med funn') || s.includes('grundig kartlagt')
+                  })
+                  const farlige = medFunn.filter(d => /strandsone|kvikkleire|flom|skred|ras|kulturmin|forurens/i.test(d.tittel || ''))
+                  if (medFunn.length === 0) return (
+                    <div className="mb-5 bg-forest-900/40 border border-forest-700 rounded-xl p-4">
+                      <p className="text-xs font-semibold text-forest-300 mb-1">Naturfare og grunnforhold</p>
+                      <p className="text-xs text-brand-300 leading-relaxed">Ingen registrerte naturfarefunn på denne tomten. {dokDatasets.length} datasett er sjekket – flom, skred, kvikkleire, radon og kulturminner er vurdert.</p>
+                    </div>
+                  )
+                  return (
+                    <div className="mb-5 bg-amber-900/30 border border-amber-700/50 rounded-xl p-4">
+                      <p className="text-xs font-semibold text-amber-300 mb-1">△ Naturfare og grunnforhold – {medFunn.length} funn</p>
+                      <p className="text-xs text-brand-300 leading-relaxed mb-2">
+                        Analysen fant {medFunn.length} datasett med registrerte funn på eller nær denne tomten. Dette betyr ikke nødvendigvis at tomten ikke kan bebygges, men at det bør undersøkes nærmere.
+                      </p>
+                      {farlige.length > 0 && (
+                        <ul className="space-y-0.5">
+                          {farlige.map((d, i) => (
+                            <li key={i} className="text-xs text-amber-200 flex items-start gap-1.5">
+                              <span className="shrink-0 mt-0.5">·</span>{d.tittel}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  )
+                })()}
+
+                {/* Kommuneplan-sammendrag */}
+                {(() => {
+                  const kp = valgtAdresse ? getKommuneplanSammendrag(valgtAdresse.kommunenummer) : null
+                  const auto = autoSammendrag
+                  const sammendrag = kp?.sammendrag || auto?.sammendrag
+                  if (!sammendrag) return null
+                  return (
+                    <div className="mb-5 bg-white/5 border border-white/10 rounded-xl p-4">
+                      <p className="text-[10px] text-brand-400 uppercase tracking-wider mb-2">Kommuneplanens arealdel – {valgtAdresse?.kommunenavn}</p>
+                      <p className="text-xs text-brand-200 leading-relaxed mb-3">{sammendrag}</p>
+                      {(kp?.nokkeltall || auto?.nokkeltall)?.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                          {(kp?.nokkeltall || auto?.nokkeltall).slice(0, 6).map((n: any, i: number) => (
+                            <span key={i} className="text-[10px] bg-white/10 rounded px-2 py-1 text-brand-300">
+                              <strong className="text-white">{n.label}:</strong> {n.verdi}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      {(auto?.tomtedeling || (kp as any)?.tomtedeling) && (
+                        <div className="mt-3 pt-3 border-t border-white/10">
+                          <p className="text-[10px] text-brand-400 uppercase tracking-wider mb-1">Tomtedeling / fradeling</p>
+                          <p className="text-xs text-brand-300 leading-relaxed">{auto?.tomtedeling || (kp as any)?.tomtedeling}</p>
+                        </div>
+                      )}
+                    </div>
+                  )
+                })()}
 
                 {/* Reguleringsbestemmelser – dokumentlenker + KI-tolkning */}
                 {(() => {
@@ -1811,6 +1906,40 @@ function PrototypeContent() {
                     </div>
                   )
                 })()}
+
+                {/* CTA – book møte */}
+                <div className="mt-6 border-t border-white/10 pt-6">
+                  <div className="bg-gradient-to-r from-tomtly-accent/30 to-forest-800/40 border border-tomtly-accent/40 rounded-2xl p-5 md:p-6">
+                    <div className="flex flex-col md:flex-row md:items-center gap-4">
+                      <div className="flex-1">
+                        <p className="text-base font-bold text-white mb-1">Vil du gå videre med denne tomten?</p>
+                        <p className="text-sm text-brand-300 leading-relaxed mb-2">
+                          Book et møte med Tomtly – vi går gjennom mulighetene på akkurat din tomt. Du får en skisse på kart og en mulighetsstudie som viser hva du faktisk kan bygge.
+                        </p>
+                        <div className="flex flex-wrap gap-2 text-xs text-brand-400">
+                          <span className="bg-white/10 rounded px-2 py-1">✓ Møte med tomtekonsulent</span>
+                          <span className="bg-white/10 rounded px-2 py-1">✓ Skisse på kart</span>
+                          <span className="bg-white/10 rounded px-2 py-1">✓ Mulighetsstudie</span>
+                          <span className="bg-tomtly-accent/30 border border-tomtly-accent/50 rounded px-2 py-1 text-tomtly-accent font-semibold">Kr 2 000,–</span>
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-2 shrink-0">
+                        <a
+                          href={`mailto:hey@nops.no?subject=${encodeURIComponent('Mulighetsstudie – ' + (valgtAdresse?.adressetekst || 'min tomt'))}&body=${encodeURIComponent('Hei,\n\nJeg ønsker å booke et møte og mulighetsstudie for ' + (valgtAdresse?.adressetekst || 'min tomt') + ' i ' + (valgtAdresse?.kommunenavn || '') + '.\n\nMitt navn:\nTelefon:\n\nAnalyse-lenke: ' + getShareUrl())}`}
+                          className="flex items-center justify-center gap-2 px-5 py-3 bg-tomtly-accent text-white text-sm font-semibold rounded-xl hover:bg-forest-600 transition-colors"
+                        >
+                          Book møte – kr 2 000
+                        </a>
+                        <a
+                          href="tel:+4740603908"
+                          className="flex items-center justify-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/15 text-white text-sm font-medium rounded-xl transition-colors"
+                        >
+                          Ring 40 60 39 08
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
 
