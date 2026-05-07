@@ -73,19 +73,21 @@ Returner et JSON-objekt:
   "mua": {
     "min_m2_per_boenhet": <tall i m² eller null>,
     "prosent_av_bra": <tall 0-100 eller null>,
-    "beskrivelse": "f.eks. MUA min 50 m² per boenhet"
+    "beskrivelse": "f.eks. MUA min 50 m² per boenhet, balkong/terrasse kan medregnes"
   },
   "parkering": {
     "antall_per_boenhet": <tall eller null>,
-    "beskrivelse": "f.eks. Min 2 plasser per boenhet"
+    "beskrivelse": "f.eks. Min 2 plasser per boenhet for enebolig, 1,5 for leilighet"
   },
   "byggegrenser": {
     "mot_vei_m": <tall eller null>,
     "mot_nabo_m": <tall eller null>,
     "beskrivelse": "f.eks. 4m mot nabo, 6m mot vei"
   },
-  "viktige_bestemmelser": ["bestemmelse 1", "bestemmelse 2"],
-  "restriksjoner": ["restriksjon 1"]
+  "tomtedeling": "Krav til tomtedeling og opprettelse av ny tomt i henhold til planen: min. tomtestørrelse for fradeling, krav til adkomst/vei, VA-tilknytning, avstand til nabogrense. Hva kreves av reguleringsplan for deling? Eller null.",
+  "unntak_plankrav": "Tiltak eller delinger som er unntatt krav om reguleringsplan etter denne planen: hvilke vilkår gjelder, ev. hvilke paragrafer. Eller null.",
+  "viktige_bestemmelser": ["6-10 konkrete bestemmelser som påvirker bygging, tomtedeling og utnyttelse"],
+  "restriksjoner": ["reelle hindringer eller særlige krav"]
 }
 
 Returner KUN JSON. Bruk null der verdien ikke finnes i dokumentet.`

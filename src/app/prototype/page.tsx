@@ -1784,6 +1784,18 @@ function PrototypeContent() {
                               ))}
                             </ul>
                           )}
+                          {(ba as any).tomtedeling && (
+                            <div className="mt-2 bg-white/5 rounded-lg px-3 py-2">
+                              <p className="text-[10px] text-brand-400 mb-1">Tomtedeling</p>
+                              <p className="text-xs text-brand-200 leading-relaxed">{(ba as any).tomtedeling}</p>
+                            </div>
+                          )}
+                          {(ba as any).unntak_plankrav && (
+                            <div className="mt-2 bg-white/5 rounded-lg px-3 py-2">
+                              <p className="text-[10px] text-brand-400 mb-1">Unntak fra plankrav</p>
+                              <p className="text-xs text-brand-200 leading-relaxed">{(ba as any).unntak_plankrav}</p>
+                            </div>
+                          )}
                           {ba.restriksjoner && ba.restriksjoner.length > 0 && (
                             <ul className="space-y-1 mt-2">
                               {ba.restriksjoner.slice(0, 3).map((r, j) => (
@@ -1915,8 +1927,32 @@ function PrototypeContent() {
                     ))}
                   </ul>
 
+                  {(kp as any).tomtedeling && (
+                    <div className="mt-4 bg-forest-50 border border-forest-200 rounded-xl p-4">
+                      <h4 className="text-xs font-semibold text-forest-800 uppercase tracking-wide mb-2">Tomtedeling og opprettelse av ny tomt</h4>
+                      <p className="text-xs text-forest-700 leading-relaxed">{(kp as any).tomtedeling}</p>
+                    </div>
+                  )}
+                  {(kp as any).mua && (
+                    <div className="mt-4 bg-brand-50 border border-brand-200 rounded-xl p-4">
+                      <h4 className="text-xs font-semibold text-brand-700 uppercase tracking-wide mb-2">Minste uteoppholdsareal (MUA)</h4>
+                      <p className="text-xs text-brand-600 leading-relaxed">{(kp as any).mua}</p>
+                    </div>
+                  )}
+                  {(kp as any).parkering && (
+                    <div className="mt-4 bg-brand-50 border border-brand-200 rounded-xl p-4">
+                      <h4 className="text-xs font-semibold text-brand-700 uppercase tracking-wide mb-2">Parkeringskrav</h4>
+                      <p className="text-xs text-brand-600 leading-relaxed">{(kp as any).parkering}</p>
+                    </div>
+                  )}
+                  {(kp as any).unntakPlankrav && (
+                    <div className="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-4">
+                      <h4 className="text-xs font-semibold text-amber-800 uppercase tracking-wide mb-2">Unntak fra krav om reguleringsplan</h4>
+                      <p className="text-xs text-amber-700 leading-relaxed">{(kp as any).unntakPlankrav}</p>
+                    </div>
+                  )}
                   {kp.lnfr && (
-                    <div className="mt-5 bg-amber-50 border border-amber-200 rounded-xl p-4">
+                    <div className="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-4">
                       <h4 className="text-xs font-semibold text-amber-800 uppercase tracking-wide mb-2">LNFR-områder (uregulerte tomter)</h4>
                       <p className="text-xs text-amber-700 leading-relaxed">{kp.lnfr}</p>
                     </div>
@@ -1951,13 +1987,45 @@ function PrototypeContent() {
 
                   {(auto.minTomtestorrelse || auto.maksBya_prosent || auto.maksBra || auto.maksBya) && (
                     <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-5">
-                      <h4 className="text-xs font-semibold text-blue-800 uppercase tracking-wide mb-2">Bestemmelser fra bestemmelsene</h4>
+                      <h4 className="text-xs font-semibold text-blue-800 uppercase tracking-wide mb-2">Utleda nøkkeltall</h4>
                       <div className="space-y-1 text-xs text-blue-900">
-                        {auto.minTomtestorrelse && <p><strong>Min. tomtestørrelse:</strong> {auto.minTomtestorrelse}</p>}
+                        {auto.minTomtestorrelse && <p><strong>Min. tomtestørrelse (bygg):</strong> {auto.minTomtestorrelse}</p>}
                         {auto.maksBya_prosent && <p><strong>Maks %-BYA:</strong> {auto.maksBya_prosent}</p>}
                         {auto.maksBya && <p><strong>Maks BYA:</strong> {auto.maksBya}</p>}
                         {auto.maksBra && <p><strong>Maks BRA:</strong> {auto.maksBra}</p>}
                       </div>
+                    </div>
+                  )}
+
+                  {/* Tomtedeling */}
+                  {auto.tomtedeling && (
+                    <div className="bg-forest-50 border border-forest-200 rounded-xl p-4 mb-4">
+                      <h4 className="text-xs font-semibold text-forest-800 uppercase tracking-wide mb-2">Tomtedeling og opprettelse av ny tomt</h4>
+                      <p className="text-xs text-forest-700 leading-relaxed">{auto.tomtedeling}</p>
+                    </div>
+                  )}
+
+                  {/* MUA */}
+                  {auto.mua && (
+                    <div className="bg-brand-50 border border-brand-200 rounded-xl p-4 mb-4">
+                      <h4 className="text-xs font-semibold text-brand-700 uppercase tracking-wide mb-2">Minste uteoppholdsareal (MUA)</h4>
+                      <p className="text-xs text-brand-600 leading-relaxed">{auto.mua}</p>
+                    </div>
+                  )}
+
+                  {/* Parkering */}
+                  {auto.parkering && (
+                    <div className="bg-brand-50 border border-brand-200 rounded-xl p-4 mb-4">
+                      <h4 className="text-xs font-semibold text-brand-700 uppercase tracking-wide mb-2">Parkeringskrav</h4>
+                      <p className="text-xs text-brand-600 leading-relaxed">{auto.parkering}</p>
+                    </div>
+                  )}
+
+                  {/* Unntak fra plankrav */}
+                  {auto.unntakPlankrav && (
+                    <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-4">
+                      <h4 className="text-xs font-semibold text-amber-800 uppercase tracking-wide mb-2">Unntak fra krav om reguleringsplan</h4>
+                      <p className="text-xs text-amber-700 leading-relaxed">{auto.unntakPlankrav}</p>
                     </div>
                   )}
 
