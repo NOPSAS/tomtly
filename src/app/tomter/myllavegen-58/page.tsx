@@ -26,8 +26,9 @@ const BILDER = [
   { id: 'h9', url: `${IMG}/sammen-visualisering.png`, alt: 'Samen – KI-visualisering på tomt', kategori: 'annet' as const },
   { id: 'h10', url: `${IMG}/haugli-visualisering.png`, alt: 'Haugli – KI-visualisering på tomt', kategori: 'annet' as const },
   { id: 'h11', url: `${IMG}/horisont-visualisering.png`, alt: 'Horisont – KI-visualisering på tomt', kategori: 'annet' as const },
-  { id: 'h12', url: `${IMG}/signatur-308-visualisering.png`, alt: 'Signatur 308 – KI-visualisering på tomt', kategori: 'annet' as const },
-  { id: 'h13', url: `${IMG}/skogly-visualisering.png`, alt: 'Skogly – KI-visualisering på tomt', kategori: 'annet' as const },
+  { id: 'h12', url: `${IMG}/signatur-305-visualisering.png`, alt: 'Signatur 305 – KI-visualisering på tomt', kategori: 'annet' as const },
+  { id: 'h13', url: `${IMG}/signatur-308-visualisering.png`, alt: 'Signatur 308 – KI-visualisering på tomt', kategori: 'annet' as const },
+  { id: 'h14', url: `${IMG}/skogly-visualisering.png`, alt: 'Skogly – KI-visualisering på tomt', kategori: 'annet' as const },
 ]
 
 const FELLES = [

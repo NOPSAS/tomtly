@@ -14,20 +14,50 @@ import { FileText, Download } from 'lucide-react'
 const IMG = '/tomter/gamle-dalsveg-16'
 
 const BILDER = [
+  { id: 'b0', url: `${IMG}/perla-visualisering.png`, alt: 'Perla Norgeshus – KI-visualisering på tomt', kategori: 'tomt' as const },
   { id: 'b1', url: `${IMG}/situasjonskart.png`, alt: 'Situasjonskart – Gamle Dalsveg 16 A', kategori: 'tomt' as const },
   { id: 'b2', url: `${IMG}/deleplan.png`, alt: 'Deleplan – fradelt parsell', kategori: 'tomt' as const },
   { id: 'b3', url: `${IMG}/va-kart.png`, alt: 'VA-kart', kategori: 'tomt' as const },
-  { id: 'b4', url: `${IMG}/luftig-fasade-1.jpg`, alt: 'Nordbohus Luftig – fasade', kategori: 'annet' as const },
-  { id: 'b5', url: `${IMG}/perla-fasade-1.jpg`, alt: 'Norgeshus Perla – fasade', kategori: 'annet' as const },
-  { id: 'b6', url: `${IMG}/vipp-fasade-1.jpg`, alt: 'Norgeshus Vipp – fasade', kategori: 'annet' as const },
-  { id: 'b7', url: `${IMG}/rognheim-fasade-1.jpg`, alt: 'Norgeshus Rognheim – fasade', kategori: 'annet' as const },
-  { id: 'b8', url: `${IMG}/all-tid-nordbohus-visualisering.png`, alt: 'All-tid Nordbohus – visualisering på tomt', kategori: 'annet' as const },
-  { id: 'b9', url: `${IMG}/lilly-abchus-visualisering.png`, alt: 'Lilly ABChus – visualisering på tomt', kategori: 'annet' as const },
-  { id: 'b10', url: `${IMG}/nelly-abchus-visualisering.png`, alt: 'Nelly ABChus – visualisering på tomt', kategori: 'annet' as const },
-  { id: 'b11', url: `${IMG}/perla-norgeshus-visualisering.png`, alt: 'Perla Norgeshus – visualisering på tomt', kategori: 'annet' as const },
-  { id: 'b12', url: `${IMG}/vipp-norgeshus-visualisering.png`, alt: 'Vipp Norgeshus – visualisering på tomt', kategori: 'annet' as const },
-  { id: 'b13', url: `${IMG}/skansen-fasade-1.jpg`, alt: 'Skansen Mesterhus – fasade', kategori: 'annet' as const },
-  { id: 'b14', url: `${IMG}/arwen-a-fasade-1.jpg`, alt: 'Arwen A ABChus – fasade', kategori: 'annet' as const },
+  // Nordbohus
+  { id: 'v1', url: `${IMG}/alltid-visualisering.png`, alt: 'All-tid – Nordbohus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v2', url: `${IMG}/luftig-visualisering.png`, alt: 'Luftig – Nordbohus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v3', url: `${IMG}/astro-visualisering.png`, alt: 'Astro – Nordbohus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v4', url: `${IMG}/atlas-visualisering.png`, alt: 'Atlas – Nordbohus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v5', url: `${IMG}/bias-visualisering.png`, alt: 'Bias – Nordbohus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v6', url: `${IMG}/festlig-visualisering.png`, alt: 'Festlig – Nordbohus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v7', url: `${IMG}/komplett-visualisering.png`, alt: 'Komplett – Nordbohus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v8', url: `${IMG}/kuba-visualisering.png`, alt: 'Kuba – Nordbohus – KI-visualisering', kategori: 'annet' as const },
+  // Norgeshus
+  { id: 'v9', url: `${IMG}/perla-visualisering.png`, alt: 'Perla – Norgeshus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v10', url: `${IMG}/vipp-visualisering.png`, alt: 'Vipp – Norgeshus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v11', url: `${IMG}/fiks-visualisering.png`, alt: 'Fiks – Norgeshus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v12', url: `${IMG}/stolt-visualisering.png`, alt: 'Stolt – Norgeshus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v13', url: `${IMG}/draapen-visualisering.png`, alt: 'Dråpen Moderne – Norgeshus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v14', url: `${IMG}/eden-visualisering.png`, alt: 'Eden – Norgeshus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v15', url: `${IMG}/rognheim-visualisering.png`, alt: 'Rognheim – Norgeshus – KI-visualisering', kategori: 'annet' as const },
+  // ABChus
+  { id: 'v16', url: `${IMG}/lilly-visualisering.png`, alt: 'Lilly – ABChus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v17', url: `${IMG}/nelly-visualisering.png`, alt: 'Nelly – ABChus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v18', url: `${IMG}/arwen-a-visualisering.png`, alt: 'Arwen A – ABChus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v19', url: `${IMG}/nevie-visualisering.png`, alt: 'Nevie – ABChus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v20', url: `${IMG}/noomi-visualisering.png`, alt: 'Noomi – ABChus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v21', url: `${IMG}/vindy-visualisering.png`, alt: 'Vindy – ABChus – KI-visualisering', kategori: 'annet' as const },
+  // Mesterhus
+  { id: 'v22', url: `${IMG}/nordstrand-visualisering.png`, alt: 'Nordstrand – Mesterhus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v23', url: `${IMG}/skansen-visualisering.png`, alt: 'Skansen – Mesterhus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v24', url: `${IMG}/drobak-visualisering.png`, alt: 'Drøbak – Mesterhus – KI-visualisering', kategori: 'annet' as const },
+  // Älvsbyhus
+  { id: 'v25', url: `${IMG}/astrid-ase-visualisering.png`, alt: 'Åse / Astrid – Älvsbyhus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v26', url: `${IMG}/fanny-visualisering.png`, alt: 'Fanny – Älvsbyhus – KI-visualisering', kategori: 'annet' as const },
+  // Systemhus
+  { id: 'v27', url: `${IMG}/oslo-visualisering.png`, alt: 'Oslo – Systemhus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v28', url: `${IMG}/trend-visualisering.png`, alt: 'Trend – Systemhus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v29', url: `${IMG}/selvik-visualisering.png`, alt: 'Selvik – Systemhus – KI-visualisering', kategori: 'annet' as const },
+  // Hedalm-Anebyhus
+  { id: 'v30', url: `${IMG}/apollis-visualisering.png`, alt: 'Apollis – Hedalm-Anebyhus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v31', url: `${IMG}/frankis-visualisering.png`, alt: 'Frankis – Hedalm-Anebyhus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v32', url: `${IMG}/ronningen-visualisering.jpg`, alt: 'Rønningen – Hedalm-Anebyhus – KI-visualisering', kategori: 'annet' as const },
+  { id: 'v33', url: `${IMG}/lyris-visualisering.png`, alt: 'Lyris – Hedalm-Anebyhus – KI-visualisering', kategori: 'annet' as const },
 ]
 
 const FELLES = [
