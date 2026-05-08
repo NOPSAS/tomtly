@@ -56,7 +56,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 166, verdi_m2_pris: 58000, verdi_total: 9628000,
     inkludert: ['Grunnmur og støpt plate', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse', 'Rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/luftig-fasade-1.jpg`],
+      fasade: [`${IMG}/luftig-visualisering.png`, `${IMG}/luftig-fasade-1.jpg`],
       plantegninger: [
         { url: `${IMG}/luftig-plan-1etg.webp`, label: '1. etasje' },
         { url: `${IMG}/luftig-plan-2etg.webp`, label: '2. etasje' },
@@ -131,7 +131,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 140, verdi_m2_pris: 58000, verdi_total: 8120000,
     inkludert: ['Grunnmur inkludert', 'Komplett hus innflyttingsklart', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse'],
     bilder: {
-      fasade: [`${IMG}/draapen-fasade-1.jpg`],
+      fasade: [`${IMG}/draapen-visualisering.png`, `${IMG}/draapen-fasade-1.jpg`],
       plantegninger: [
         { url: `${IMG}/draapen-plan-1etg.jpg`, label: '1. etasje' },
         { url: `${IMG}/draapen-plan-2etg.jpg`, label: '2. etasje' },
@@ -150,7 +150,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 161, verdi_m2_pris: 58000, verdi_total: 9338000,
     inkludert: ['Grunnmur inkludert', 'Komplett hus innflyttingsklart', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse'],
     bilder: {
-      fasade: [`${IMG}/eden-fasade-1.jpg`],
+      fasade: [`${IMG}/eden-visualisering.png`, `${IMG}/eden-fasade-1.jpg`],
       plantegninger: [
         { url: `${IMG}/eden-plan-1etg.jpg`, label: '1. etasje' },
         { url: `${IMG}/eden-plan-2etg.jpg`, label: '2. etasje' },
@@ -254,7 +254,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 107, verdi_m2_pris: 58000, verdi_total: 6206000,
     inkludert: ['Støpt plate/grunnmur', 'Parkett', 'Flislagte bad', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Komplett el-leveranse', 'Komplett rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/vindy-fasade-1.jpg`],
+      fasade: [`${IMG}/vindy-visualisering.png`, `${IMG}/vindy-fasade-1.jpg`],
       plantegninger: [],
     },
   },
@@ -269,7 +269,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 143, verdi_m2_pris: 58000, verdi_total: 8294000,
     inkludert: ['Støpt plate/grunnmur', 'Smarthus', 'Parkett', 'Flislagte bad', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Komplett el-leveranse', 'Komplett rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/noomi-fasade-1.jpg`],
+      fasade: [`${IMG}/noomi-visualisering.png`, `${IMG}/noomi-fasade-1.jpg`],
       plantegninger: [],
     },
   },
@@ -299,7 +299,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 171, verdi_m2_pris: 58000, verdi_total: 9918000,
     inkludert: ['Støpt plate/grunnmur', 'Parkett', 'Flislagte bad', 'Pipe og peisovn', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Komplett el-leveranse', 'Komplett rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/nelly-visualisering.png`, `${IMG}/nelly-hvit-visualisering.png`, `${IMG}/nelly-fasade-1.jpg`],
+      fasade: [`${IMG}/nelly-visualisering.png`, `${IMG}/nelly2-visualisering.png`, `${IMG}/nelly-fasade-1.jpg`],
       plantegninger: [],
     },
   },
@@ -314,7 +314,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 169, verdi_m2_pris: 58000, verdi_total: 9802000,
     inkludert: ['Støpt plate/grunnmur', 'Smarthus', 'Parkett', 'Flislagte bad', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Komplett el-leveranse', 'Komplett rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/arwen-a-fasade-1.jpg`],
+      fasade: [`${IMG}/arwen-a-visualisering.png`, `${IMG}/arwen-a-fasade-1.jpg`],
       plantegninger: [],
     },
   },
@@ -329,7 +329,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 179, verdi_m2_pris: 58000, verdi_total: 10382000,
     inkludert: ['Støpt plate/grunnmur', 'Parkett', 'Flislagte bad', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Komplett el-leveranse', 'Komplett rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/nevie-fasade-1.jpg`],
+      fasade: [`${IMG}/nevie-visualisering.png`, `${IMG}/nevie-fasade-1.jpg`],
       plantegninger: [],
     },
   },
@@ -345,7 +345,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 158, verdi_m2_pris: 58000, verdi_total: 9164000,
     inkludert: ['Støpt plate/grunnmur', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse', 'Rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/nordstrand-fasade-1.jpg`],
+      fasade: [`${IMG}/nordstrand-visualisering.png`, `${IMG}/nordstrand-fasade-1.jpg`],
       plantegninger: [
         { url: `${IMG}/nordstrand-plan-1etg.jpg`, label: '1. etasje' },
         { url: `${IMG}/nordstrand-plan-2etg.jpg`, label: '2. etasje' },
@@ -363,7 +363,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 148, verdi_m2_pris: 58000, verdi_total: 8584000,
     inkludert: ['Støpt plate/grunnmur', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse', 'Rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/skansen-fasade-1.jpg`],
+      fasade: [`${IMG}/skansen-visualisering.png`, `${IMG}/skansen-fasade-1.jpg`],
       plantegninger: [
         { url: `${IMG}/skansen-plan-1etg.webp`, label: '1. etasje' },
         { url: `${IMG}/skansen-plan-2etg.webp`, label: '2. etasje' },
@@ -381,7 +381,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 179, verdi_m2_pris: 58000, verdi_total: 10382000,
     inkludert: ['Støpt plate/grunnmur', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse', 'Rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/drobak-fasade-1.jpg`],
+      fasade: [`${IMG}/drobak-visualisering.png`, `${IMG}/drobak-fasade-1.jpg`],
       plantegninger: [
         { url: `${IMG}/drobak-plan-1etg.webp`, label: '1. etasje' },
         { url: `${IMG}/drobak-plan-2etg.webp`, label: '2. etasje' },
@@ -400,7 +400,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 108, verdi_m2_pris: 58000, verdi_total: 6264000,
     inkludert: ['Grunnmur og støpt plate', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse', 'Rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/festlig-fasade-1.webp`],
+      fasade: [`${IMG}/festlig-visualisering.png`, `${IMG}/festlig-fasade-1.webp`],
       plantegninger: [
         { url: `${IMG}/festlig-plan-1etg.webp`, label: 'Planløsning' },
       ],
@@ -417,7 +417,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 145, verdi_m2_pris: 58000, verdi_total: 8410000,
     inkludert: ['Grunnmur og støpt plate', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse', 'Rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/bias-fasade-1.jpg`],
+      fasade: [`${IMG}/bias-visualisering.png`, `${IMG}/bias-fasade-1.jpg`],
       plantegninger: [
         { url: `${IMG}/bias-plan-1etg.webp`, label: '1. etasje' },
         { url: `${IMG}/bias-plan-2etg.webp`, label: '2. etasje' },
@@ -435,7 +435,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 149, verdi_m2_pris: 58000, verdi_total: 8642000,
     inkludert: ['Grunnmur og støpt plate', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse', 'Rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/komplett-fasade-1.jpg`],
+      fasade: [`${IMG}/komplett-visualisering.png`, `${IMG}/komplett-fasade-1.jpg`],
       plantegninger: [
         { url: `${IMG}/komplett-plan-1etg.webp`, label: '1. etasje' },
         { url: `${IMG}/komplett-plan-2etg.webp`, label: '2. etasje' },
@@ -453,7 +453,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 159, verdi_m2_pris: 58000, verdi_total: 9222000,
     inkludert: ['Grunnmur og støpt plate', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse', 'Rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/atlas-fasade-1.jpg`],
+      fasade: [`${IMG}/atlas-visualisering.png`, `${IMG}/atlas-fasade-1.jpg`],
       plantegninger: [
         { url: `${IMG}/atlas-plan-1etg.webp`, label: '1. etasje' },
         { url: `${IMG}/atlas-plan-2etg.webp`, label: '2. etasje' },
@@ -471,7 +471,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 161, verdi_m2_pris: 58000, verdi_total: 9338000,
     inkludert: ['Grunnmur og støpt plate', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse', 'Rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/kuba-fasade-1.jpg`],
+      fasade: [`${IMG}/kuba-visualisering.png`, `${IMG}/kuba-fasade-1.jpg`],
       plantegninger: [
         { url: `${IMG}/kuba-plan-1etg.webp`, label: '1. etasje' },
         { url: `${IMG}/kuba-plan-2etg.webp`, label: '2. etasje' },
@@ -489,7 +489,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 160, verdi_m2_pris: 58000, verdi_total: 9280000,
     inkludert: ['Grunnmur og støpt plate', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse', 'Rørleveranse'],
     bilder: {
-      fasade: [`${IMG}/astro-fasade-1.jpg`],
+      fasade: [`${IMG}/astro-visualisering.png`, `${IMG}/astro-fasade-1.jpg`],
       plantegninger: [
         { url: `${IMG}/astro-plan-1etg.webp`, label: 'Kjellerplan' },
         { url: `${IMG}/astro-plan-2etg.webp`, label: '1. etasje' },
@@ -526,7 +526,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 110, verdi_m2_pris: 58000, verdi_total: 6380000,
     inkludert: ['Støpt plate og grunnmur', 'Komplett hus innflyttingsklart', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse'],
     bilder: {
-      fasade: [`${IMG}/oslo-fasade-1.webp`],
+      fasade: [`${IMG}/oslo-visualisering.png`, `${IMG}/oslo-fasade-1.webp`],
       plantegninger: [
         { url: `${IMG}/oslo-plan-1etg.webp`, label: '1. etasje' },
         { url: `${IMG}/oslo-plan-2etg.webp`, label: '2. etasje' },
@@ -544,7 +544,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 141, verdi_m2_pris: 58000, verdi_total: 8178000,
     inkludert: ['Støpt plate og grunnmur', 'Komplett hus innflyttingsklart', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse'],
     bilder: {
-      fasade: [`${IMG}/trend-fasade-1.webp`],
+      fasade: [`${IMG}/trend-visualisering.png`, `${IMG}/trend-fasade-1.webp`],
       plantegninger: [
         { url: `${IMG}/trend-plan-1etg.webp`, label: '1. etasje' },
         { url: `${IMG}/trend-plan-2etg.webp`, label: '2. etasje' },
@@ -562,7 +562,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 165, verdi_m2_pris: 58000, verdi_total: 9570000,
     inkludert: ['Støpt plate og grunnmur', 'Komplett hus innflyttingsklart', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Parkett', 'Flislagte våtrom', 'El-leveranse'],
     bilder: {
-      fasade: [`${IMG}/selvik-fasade-1.jpg`],
+      fasade: [`${IMG}/selvik-visualisering.png`, `${IMG}/selvik-fasade-1.jpg`],
       plantegninger: [
         { url: `${IMG}/selvik-plan-1etg.webp`, label: '1. etasje' },
       ],
