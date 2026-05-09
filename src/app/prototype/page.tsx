@@ -1642,7 +1642,67 @@ function PrototypeContent() {
                 <div className="flex items-center gap-2 mb-4">
                   <span className="text-xl">✦</span>
                   <h2 className="font-display text-lg font-bold">Hva vi fant – oppsummering for {valgtAdresse.adressetekst}</h2>
-                  <span className="ml-auto bg-tomtly-accent/30 text-tomtly-accent text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider">KI-generert</span>
+                  <span className="bg-tomtly-accent/30 text-tomtly-accent text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider">KI-generert</span>
+                  <button
+                    onClick={async () => {
+                      const kp = getKommuneplanSammendrag(valgtAdresse.kommunenummer)
+                      const auto = autoSammendrag
+                      const kpData = kp || auto ? {
+                        sammendrag: kp?.sammendrag || auto?.sammendrag,
+                        nokkeltall: kp?.nokkeltall || auto?.nokkeltall,
+                        tomtedeling: (kp as any)?.tomtedeling || auto?.tomtedeling,
+                        mua: (kp as any)?.mua || auto?.mua,
+                        parkering: (kp as any)?.parkering || auto?.parkering,
+                        unntakPlankrav: (kp as any)?.unntakPlankrav || auto?.unntakPlankrav,
+                        planNavn: kp?.planNavn || auto?.planNavn,
+                      } : undefined
+                      const body = {
+                        adresse: valgtAdresse.adressetekst,
+                        kommunenavn: valgtAdresse.kommunenavn,
+                        kommunenummer: valgtAdresse.kommunenummer,
+                        dato: new Date().toLocaleDateString('nb-NO', { day: 'numeric', month: 'long', year: 'numeric' }),
+                        areal_m2: eiendomsAnalyse?.arealM2,
+                        bya_prosent: eiendomsAnalyse?.byaProsent ?? undefined,
+                        gesims_m: eiendomsAnalyse?.gesimshoydeM ?? undefined,
+                        mone_m: eiendomsAnalyse?.monehoydeM ?? undefined,
+                        maks_etasjer: eiendomsAnalyse?.maksEtasjer ?? undefined,
+                        gnr: valgtAdresse.gardsnummer,
+                        bnr: valgtAdresse.bruksnummer,
+                        ai_ingress: aiOppsummering?.ingress,
+                        ai_funn: aiOppsummering?.funn,
+                        dok_med_funn: dokDatasets.filter(d => { const s = (d.status || d.dekning || '').toLowerCase(); return s.includes('med funn') || s.includes('grundig kartlagt') }).map(d => ({ tittel: d.tittel || '' })),
+                        dok_uten_funn_count: dokDatasets.filter(d => { const s = (d.status || d.dekning || '').toLowerCase(); return !s.includes('med funn') && !s.includes('grundig kartlagt') }).length,
+                        planer: plans.map(p => ({ plannavn: p.plannavn || '', plantype: p.plantype || '', planstatus: p.planstatus || '' })),
+                        kommuneplan: kpData,
+                        bestemmelseAnalyser: bestemmelseAnalyser.map(ba => ({
+                          planNavn: ba.planNavn,
+                          sammendrag: ba.sammendrag,
+                          bya_prosent: ba.utnyttelsesgrad?.bya_prosent ?? undefined,
+                          gesims_m: ba.hoyder?.['gesimshøyde_m'] ?? undefined,
+                          mone_m: ba.hoyder?.['mønehøyde_m'] ?? undefined,
+                          maks_etasjer: ba.etasjer?.maks_etasjer ?? undefined,
+                          parkering: ba.parkering ? `${ba.parkering.antall_per_boenhet ?? ''} plasser. ${ba.parkering.krav ?? ''}`.trim() : undefined,
+                          mua: ba.mua ? `${ba.mua.min_m2_per_boenhet ? ba.mua.min_m2_per_boenhet + ' m²' : ''}${ba.mua.prosent_av_bra ? ' / ' + ba.mua.prosent_av_bra + '% av BRA' : ''}`.trim() : undefined,
+                          tomtedeling: (ba as any).tomtedeling,
+                          viktige_bestemmelser: ba.viktige_bestemmelser,
+                        })),
+                      }
+                      const res = await fetch('/api/analyse-pdf', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+                      if (!res.ok) return
+                      const blob = await res.blob()
+                      const url = URL.createObjectURL(blob)
+                      const a = document.createElement('a')
+                      a.href = url
+                      a.download = `Tomtly-Analyse-${valgtAdresse.adressetekst.replace(/[\s,]+/g, '-')}.pdf`
+                      a.click()
+                      URL.revokeObjectURL(url)
+                    }}
+                    className="ml-auto flex items-center gap-1.5 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-lg text-xs text-white font-medium transition-colors"
+                    title="Last ned analyse som PDF"
+                  >
+                    <FileText className="w-3.5 h-3.5" />
+                    Last ned PDF
+                  </button>
                 </div>
 
                 {aiOppsummeringLoading && !aiOppsummering && (
