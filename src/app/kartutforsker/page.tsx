@@ -475,7 +475,7 @@ function Kartutforsker() {
         <div className="flex items-center gap-3 px-4 py-2.5">
           <Link href="/" className="shrink-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.svg" alt="Tomtly" className="h-6 invert" />
+            <img src="/logo-white.svg" alt="Tomtly" className="h-6" />
           </Link>
 
           {/* Search */}

@@ -14,18 +14,25 @@ interface ScoreInput {
   avstand_butikk_km: number
   avstand_kollektiv_km: number
   solforhold_timer: number // sol-timer midt på dagen, sommer
+  avstand_barnehage_km?: number   // barnehage nærhet
+  avstand_lege_km?: number        // helsetjenester nærhet
+  sjo_eller_skog_nae?: boolean    // sjø/skog innenfor 500m
 
   // Regulering
   utnyttelsesgrad_bya: number
   maks_etasjer: number
   antall_hensynssoner: number
   reguleringsfleksibilitet: 1 | 2 | 3 | 4 | 5
+  er_strandsone?: boolean          // strandsone-begrensning (100m)
+  har_kulturminner?: boolean       // kulturminner på eiendommen
 
   // Topografi
   helning_prosent: number
   grunnforhold: 'fjell' | 'morene' | 'leire' | 'kvikkleire'
   flomfare: boolean
   stormfare: boolean
+  skredfare?: boolean              // skred/ras-fare
+  radon_hoy?: boolean             // høy radon-aktsomhet
 
   // Infrastruktur
   vei_tilgang: boolean
@@ -87,20 +94,33 @@ export function beregnTomtescore(input: ScoreInput): Tomtescore {
 function beregnBeliggenhet(i: ScoreInput): number {
   let score = 0
 
-  // Avstand til sentrum (0-25p) – under 2km = full score
-  score += Math.max(0, 25 - (i.avstand_sentrum_km * 5))
+  // Avstand til sentrum (0-20p) – under 2km = full score
+  score += Math.max(0, 20 - (i.avstand_sentrum_km * 4))
 
-  // Avstand til skole (0-20p) – under 1km = full score
-  score += Math.max(0, 20 - (i.avstand_skole_km * 10))
+  // Avstand til skole (0-18p) – under 1km = full score
+  score += Math.max(0, 18 - (i.avstand_skole_km * 9))
 
-  // Avstand til butikk (0-20p)
-  score += Math.max(0, 20 - (i.avstand_butikk_km * 15))
+  // Avstand til butikk (0-18p)
+  score += Math.max(0, 18 - (i.avstand_butikk_km * 12))
 
   // Avstand til kollektiv (0-15p)
   score += Math.max(0, 15 - (i.avstand_kollektiv_km * 10))
 
-  // Solforhold (0-20p) – 8+ timer = full score
-  score += Math.min(20, (i.solforhold_timer / 8) * 20)
+  // Solforhold (0-15p) – 8+ timer = full score
+  score += Math.min(15, (i.solforhold_timer / 8) * 15)
+
+  // Barnehage nærhet (0-7p) – bonus for barnefamilier
+  if (i.avstand_barnehage_km != null) {
+    score += Math.max(0, 7 - (i.avstand_barnehage_km * 5))
+  }
+
+  // Lege nærhet (0-5p)
+  if (i.avstand_lege_km != null) {
+    score += Math.max(0, 5 - (i.avstand_lege_km * 3))
+  }
+
+  // Sjø eller skog i nærheten (bonus 2p)
+  if (i.sjo_eller_skog_nae) score += 2
 
   return Math.min(100, Math.max(0, Math.round(score)))
 }
@@ -108,17 +128,23 @@ function beregnBeliggenhet(i: ScoreInput): number {
 function beregnRegulering(i: ScoreInput): number {
   let score = 0
 
-  // Utnyttelsesgrad (0-30p) – høyere = bedre for utvikling
-  score += Math.min(30, i.utnyttelsesgrad_bya * 0.75)
+  // Utnyttelsesgrad (0-28p) – høyere = bedre for utvikling
+  score += Math.min(28, i.utnyttelsesgrad_bya * 0.7)
 
-  // Maks etasjer (0-20p)
-  score += Math.min(20, i.maks_etasjer * 5)
+  // Maks etasjer (0-18p)
+  score += Math.min(18, i.maks_etasjer * 4.5)
 
-  // Hensynssoner (0-20p) – færre = bedre
-  score += Math.max(0, 20 - (i.antall_hensynssoner * 7))
+  // Hensynssoner (0-18p) – færre = bedre
+  score += Math.max(0, 18 - (i.antall_hensynssoner * 6))
 
-  // Reguleringsfleksibilitet (0-30p)
-  score += i.reguleringsfleksibilitet * 6
+  // Reguleringsfleksibilitet (0-26p)
+  score += i.reguleringsfleksibilitet * 5.2
+
+  // Strandsone-begrensning – trekk fra (100m-beltet gir strenge begrensninger)
+  if (i.er_strandsone) score -= 15
+
+  // Kulturminner på eiendommen – kan begrense utbygging
+  if (i.har_kulturminner) score -= 10
 
   return Math.min(100, Math.max(0, Math.round(score)))
 }
@@ -131,17 +157,19 @@ function beregnTopografi(i: ScoreInput): number {
   else if (i.helning_prosent > 20) score -= 25
   else if (i.helning_prosent > 10) score -= 10
 
-  // Grunnforhold
+  // Grunnforhold – direkte påvirker fundamenteringskostnad og risiko
   switch (i.grunnforhold) {
     case 'fjell': score += 10; break
     case 'morene': score += 5; break
     case 'leire': score -= 10; break
-    case 'kvikkleire': score -= 30; break
+    case 'kvikkleire': score -= 35; break  // Kvikkleire er svært alvorlig
   }
 
   // Naturfare
   if (i.flomfare) score -= 20
   if (i.stormfare) score -= 10
+  if (i.skredfare) score -= 20    // Skred er like alvorlig som flom
+  if (i.radon_hoy) score -= 8    // Radon krever tiltak men er ikke bygge-hinder
 
   return Math.min(100, Math.max(0, Math.round(score)))
 }

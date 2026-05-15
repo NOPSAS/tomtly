@@ -134,6 +134,28 @@ const SPESIFIKKE_KILDER: Record<string, KartInnsynKilde[]> = {
     sokeUrl: () => `https://od2.pbe.oslo.kommune.no/hvagjelder/`,
     harDokAnalyse: false, harPlanrapport: true, type: 'innsyn',
   }],
+
+  // Nesodden – Geocortex (VertiGIS WebViewer)
+  '3212': [{
+    kommune: 'Nesodden', navn: 'Nesodden Kartinnsyn (Geocortex)',
+    url: 'https://apps.geocortex.com/webviewer/?app=dde94e10d4de41bb9cef88511d07acd8',
+    sokeUrl: () => 'https://apps.geocortex.com/webviewer/?app=dde94e10d4de41bb9cef88511d07acd8',
+    harDokAnalyse: false, harPlanrapport: true, type: 'kartinnsyn',
+  }],
+
+  // Frogn – ArcGIS + KommuneGIS
+  '3214': [{
+    kommune: 'Frogn', navn: 'Frogn Kartinnsyn (ArcGIS)',
+    url: 'https://frogn-kom.maps.arcgis.com/apps/instant/sidebar/index.html?appid=ef28dfe46cf345c18a7afdd551e905de',
+    sokeUrl: () => 'https://frogn-kom.maps.arcgis.com/apps/instant/sidebar/index.html?appid=ef28dfe46cf345c18a7afdd551e905de',
+    harDokAnalyse: false, harPlanrapport: false, type: 'kartinnsyn',
+  }, {
+    kommune: 'Frogn', navn: 'Frogn KommuneGIS',
+    url: 'https://frogn.kommunegis.no/publikum',
+    sokeUrl: () => 'https://frogn.kommunegis.no/publikum',
+    harDokAnalyse: true, harPlanrapport: true, type: 'kartinnsyn',
+  }],
+
   '3205': [{
     kommune: 'Lillestrøm', navn: 'Lillestrøm Planinnsyn',
     url: 'https://kartutside.lillestrom.kommune.no/planinnsyn/',
@@ -144,6 +166,142 @@ const SPESIFIKKE_KILDER: Record<string, KartInnsynKilde[]> = {
     url: 'https://lillestroem.kommunegis.no/',
     sokeUrl: () => `https://lillestroem.kommunegis.no/`,
     harDokAnalyse: true, harPlanrapport: true, type: 'kartinnsyn',
+  }],
+
+  // Bergen – eget kartportal (KommuneGIS-basert)
+  '4601': [{
+    kommune: 'Bergen', navn: 'Bergen Kart',
+    url: 'https://kart.bergen.kommune.no',
+    sokeUrl: () => 'https://kart.bergen.kommune.no',
+    harDokAnalyse: false, harPlanrapport: true, type: 'kartinnsyn',
+  }],
+
+  // Trondheim – eget kartportal
+  '5001': [{
+    kommune: 'Trondheim', navn: 'Trondheim Kart',
+    url: 'https://kart.trondheim.kommune.no',
+    sokeUrl: () => 'https://kart.trondheim.kommune.no',
+    harDokAnalyse: false, harPlanrapport: true, type: 'kartinnsyn',
+  }],
+
+  // Stavanger – eget kartportal
+  '1103': [{
+    kommune: 'Stavanger', navn: 'Stavanger Kart',
+    url: 'https://kart.stavanger.kommune.no',
+    sokeUrl: () => 'https://kart.stavanger.kommune.no',
+    harDokAnalyse: false, harPlanrapport: true, type: 'kartinnsyn',
+  }],
+
+  // Bærum – eget kartportal
+  '3201': [{
+    kommune: 'Bærum', navn: 'Bærum Kart',
+    url: 'https://www.baerum.kommune.no/kart',
+    sokeUrl: () => 'https://www.baerum.kommune.no/kart',
+    harDokAnalyse: false, harPlanrapport: true, type: 'kartinnsyn',
+  }],
+
+  // Kristiansand – eget kartportal
+  '4204': [{
+    kommune: 'Kristiansand', navn: 'Kristiansand Kart',
+    url: 'https://kart.kristiansand.kommune.no',
+    sokeUrl: () => 'https://kart.kristiansand.kommune.no',
+    harDokAnalyse: false, harPlanrapport: true, type: 'kartinnsyn',
+  }],
+
+  // Fredrikstad – eget kartportal
+  '3107': [{
+    kommune: 'Fredrikstad', navn: 'Fredrikstad Kart',
+    url: 'https://kart.fredrikstad.kommune.no',
+    sokeUrl: () => 'https://kart.fredrikstad.kommune.no',
+    harDokAnalyse: false, harPlanrapport: true, type: 'kartinnsyn',
+  }],
+
+  // Tromsø – eget kartportal
+  '5501': [{
+    kommune: 'Tromsø', navn: 'Tromsø Kart',
+    url: 'https://kart.tromso.kommune.no',
+    sokeUrl: () => 'https://kart.tromso.kommune.no',
+    harDokAnalyse: false, harPlanrapport: true, type: 'kartinnsyn',
+  }],
+
+  // Drammen – eget kartportal
+  '3301': [{
+    kommune: 'Drammen', navn: 'Drammen Kart',
+    url: 'https://kart.drammen.kommune.no',
+    sokeUrl: () => 'https://kart.drammen.kommune.no',
+    harDokAnalyse: false, harPlanrapport: true, type: 'kartinnsyn',
+  }],
+
+  // Asker – eget kartportal
+  '3203': [{
+    kommune: 'Asker', navn: 'Asker Kart',
+    url: 'https://kart.asker.kommune.no',
+    sokeUrl: () => 'https://kart.asker.kommune.no',
+    harDokAnalyse: false, harPlanrapport: true, type: 'kartinnsyn',
+  }],
+
+  // Nordre Follo – eget kartportal
+  '3207': [{
+    kommune: 'Nordre Follo', navn: 'Nordre Follo Kart',
+    url: 'https://kart.nordrefollo.kommune.no',
+    sokeUrl: () => 'https://kart.nordrefollo.kommune.no',
+    harDokAnalyse: false, harPlanrapport: true, type: 'kartinnsyn',
+  }],
+
+  // Lørenskog – eget kartportal
+  '3222': [{
+    kommune: 'Lørenskog', navn: 'Lørenskog Kart',
+    url: 'https://kart.lorenskog.kommune.no',
+    sokeUrl: () => 'https://kart.lorenskog.kommune.no',
+    harDokAnalyse: false, harPlanrapport: true, type: 'kartinnsyn',
+  }],
+
+  // Bodø – eget kartportal
+  '1804': [{
+    kommune: 'Bodø', navn: 'Bodø Kart',
+    url: 'https://kart.bodo.kommune.no',
+    sokeUrl: () => 'https://kart.bodo.kommune.no',
+    harDokAnalyse: false, harPlanrapport: true, type: 'kartinnsyn',
+  }],
+
+  // Ålesund – eget kartportal
+  '1508': [{
+    kommune: 'Ålesund', navn: 'Ålesund Kart',
+    url: 'https://kart.alesund.kommune.no',
+    sokeUrl: () => 'https://kart.alesund.kommune.no',
+    harDokAnalyse: false, harPlanrapport: true, type: 'kartinnsyn',
+  }],
+
+  // Sandefjord – eget kartportal
+  '3907': [{
+    kommune: 'Sandefjord', navn: 'Sandefjord Kart',
+    url: 'https://kart.sandefjord.kommune.no',
+    sokeUrl: () => 'https://kart.sandefjord.kommune.no',
+    harDokAnalyse: false, harPlanrapport: true, type: 'kartinnsyn',
+  }],
+
+  // Tønsberg – eget kartportal
+  '3905': [{
+    kommune: 'Tønsberg', navn: 'Tønsberg Kart',
+    url: 'https://kart.tonsberg.kommune.no',
+    sokeUrl: () => 'https://kart.tonsberg.kommune.no',
+    harDokAnalyse: false, harPlanrapport: true, type: 'kartinnsyn',
+  }],
+
+  // Sarpsborg – eget kartportal
+  '3105': [{
+    kommune: 'Sarpsborg', navn: 'Sarpsborg Kart',
+    url: 'https://kart.sarpsborg.kommune.no',
+    sokeUrl: () => 'https://kart.sarpsborg.kommune.no',
+    harDokAnalyse: false, harPlanrapport: true, type: 'kartinnsyn',
+  }],
+
+  // Halden – eget kartportal
+  '3101': [{
+    kommune: 'Halden', navn: 'Halden Kart',
+    url: 'https://kart.halden.kommune.no',
+    sokeUrl: () => 'https://kart.halden.kommune.no',
+    harDokAnalyse: false, harPlanrapport: true, type: 'kartinnsyn',
   }],
 }
 

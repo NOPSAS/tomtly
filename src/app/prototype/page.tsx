@@ -378,6 +378,12 @@ function PrototypeContent() {
   const [lillestromPlaner, setLillestromPlaner] = useState<any>(null)
   const [aiOppsummering, setAiOppsummering] = useState<any>(null)
   const [aiOppsummeringLoading, setAiOppsummeringLoading] = useState(false)
+  const [terrainZ, setTerrainZ] = useState<number | null>(null)
+  const [kulturminner, setKulturminner] = useState<any>(null)
+  const [nabobygg, setNabobygg] = useState<any>(null)
+  const [klimarisiko, setKlimarisiko] = useState<any>(null)
+  const [solAnalyse, setSolAnalyse] = useState<any>(null)
+  const [eiendomHistorikk, setEiendomHistorikk] = useState<any>(null)
   const kartCanvasRef = useRef<HTMLCanvasElement>(null)
   const [steps, setSteps] = useState<Step[]>([])
 
@@ -666,8 +672,18 @@ function PrototypeContent() {
     setLillestromPlaner(null)
     setAiOppsummering(null)
     setAiOppsummeringLoading(true)
+    setTerrainZ(null)
 
     const { lat, lon } = adr.representasjonspunkt
+
+    // Hent terrengelevasjon for 3D-kart (z = høyde over havet + 15 m over tak)
+    fetch(`https://ws.geonorge.no/hoydedata/v1/punkt?lat=${lat}&lon=${lon}&koordsys=84`)
+      .then(r => r.ok ? r.json() : null)
+      .then(d => {
+        const elev = d?.punkter?.[0]?.z
+        setTerrainZ(typeof elev === 'number' ? Math.round(elev) + 15 : 300)
+      })
+      .catch(() => setTerrainZ(300))
     const knr = adr.kommunenummer
     const gnr = adr.gardsnummer
     const bnr = adr.bruksnummer
@@ -846,7 +862,7 @@ function PrototypeContent() {
         body: JSON.stringify({ kommunenummer: knr, kommunenavn: adr.kommunenavn || '' }),
       })
         .then(r => r.ok ? r.json() : null)
-        .then(d => { if (d?.success) setAutoSammendrag(d.sammendrag) })
+        .then(d => { if (d?.sammendrag) setAutoSammendrag(d.sammendrag) })
         .catch(() => {})
         .finally(() => setAutoSammendragLoading(false))
     }
@@ -1193,7 +1209,46 @@ function PrototypeContent() {
           }
         }
       } else {
-        updateStep(6, { status: 'error', label: kunde ? 'Mangler gnr/bnr' : 'Kommune ikke i arealplaner.no' })
+        // For kommuner ikke i arealplaner.no (f.eks. Oslo) – vis bestemmelser fra Planslurpen hvis tilgjengelig
+        if (tolkninger.some(t => t.output)) {
+          updateStep(6, { status: 'done', label: 'Plandata fra Planslurpen (kommunen ikke i arealplaner.no)' })
+          const planslurpAnalyser: BestemmelseAnalyse[] = []
+          for (const t of tolkninger) {
+            if (!t.output) continue
+            const felter = t.output.felter || t.output.bestemmelser || []
+            if (!Array.isArray(felter) || felter.length === 0) continue
+            let bya: number | null = null, gesims: number | null = null, mone: number | null = null, maks: number | null = null
+            const viktige: string[] = []
+            for (const f of felter) {
+              const navn = (f.navn || '').toLowerCase()
+              const under = f.underfelter || f.parametere || []
+              for (const u of (Array.isArray(under) ? under : [])) {
+                const uNavn = (u.navn || u.parameter || '').toLowerCase()
+                const verdi = u.verdi || u.value || ''
+                if (uNavn.includes('bya') && !uNavn.includes('bra') && typeof verdi === 'number') bya = verdi
+                else if (uNavn.includes('gesims') && typeof verdi === 'number') gesims = verdi
+                else if (uNavn.includes('møne') && typeof verdi === 'number') mone = verdi
+                else if (uNavn.includes('etasj') && typeof verdi === 'number') maks = verdi
+              }
+              if (navn && !navn.includes('felt') && under.length > 0) {
+                viktige.push(`${f.navn}: ${under.slice(0, 2).map((u: any) => `${u.navn || u.parameter || ''} ${u.verdi || u.value || ''}`).join(', ')}`)
+              }
+            }
+            planslurpAnalyser.push({
+              planNavn: t.plannavn || t.planId,
+              sammendrag: `Reguleringsbestemmelser fra ${t.plannavn || 'gjeldende plan'}. ${felter.length} felt analysert fra Planslurpen.`,
+              utnyttelsesgrad: bya ? { bya_prosent: bya, beskrivelse: `%-BYA ${bya}%` } : undefined,
+              hoyder: gesims || mone ? { 'gesimshøyde_m': gesims, 'mønehøyde_m': mone, beskrivelse: [gesims && `Gesims ${gesims}m`, mone && `Møne ${mone}m`].filter(Boolean).join(', ') } : undefined,
+              etasjer: maks ? { maks_etasjer: maks, beskrivelse: `Maks ${maks} etasjer` } : undefined,
+              viktige_bestemmelser: viktige.slice(0, 8),
+            } as any)
+          }
+          if (planslurpAnalyser.length > 0) {
+            setBestemmelseAnalyser(planslurpAnalyser)
+          }
+        } else {
+          updateStep(6, { status: 'error', label: kunde ? 'Mangler gnr/bnr' : 'Kommune ikke i arealplaner.no' })
+        }
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err)
@@ -1363,6 +1418,34 @@ function PrototypeContent() {
         body: JSON.stringify({ kommunenummer: knr, gaardsnummer: gnr, bruksnummer: bnr }),
       }).then(r => r.ok ? r.json() : null).then(d => { if (d?.tilgjengelig !== false) setNorkartData(d); setNorkartLoading(false) }).catch(() => { setNorkartLoading(false) })
     }
+
+    // ── Nye analysekomponenter (parallelle bakgrunnshenting) ──
+
+    // Kulturminner (Riksantikvaren)
+    fetch(`/api/kulturminner?lat=${lat}&lng=${lon}&radius=500`)
+      .then(r => r.ok ? r.json() : null).then(d => { if (d) setKulturminner(d) }).catch(() => {})
+
+    // Nabobygg (hva naboer har bygget)
+    fetch(`/api/nabobygg?lat=${lat}&lng=${lon}&radius=250`)
+      .then(r => r.ok ? r.json() : null).then(d => { if (d) setNabobygg(d) }).catch(() => {})
+
+    // Klimarisiko 2050
+    fetch(`/api/klimarisiko?lat=${lat}&lng=${lon}&kommunenummer=${knr}`)
+      .then(r => r.ok ? r.json() : null).then(d => { if (d) setKlimarisiko(d) }).catch(() => {})
+
+    // Sol-analyse
+    const solParams = gnr && bnr
+      ? `/api/sol-analyse?lat=${lat}&lng=${lon}&kommunenummer=${knr}&gnr=${gnr}&bnr=${bnr}`
+      : `/api/sol-analyse?lat=${lat}&lng=${lon}`
+    fetch(solParams)
+      .then(r => r.ok ? r.json() : null).then(d => { if (d) setSolAnalyse(d) }).catch(() => {})
+
+    // Eiendomshistorikk og prisstatistikk
+    if (gnr && bnr) {
+      fetch(`/api/eiendom-historikk?kommunenummer=${knr}&gnr=${gnr}&bnr=${bnr}&lat=${lat}&lng=${lon}`)
+        .then(r => r.ok ? r.json() : null).then(d => { if (d) setEiendomHistorikk(d) }).catch(() => {})
+    }
+
     setAnalysing(false)
   }
 
@@ -1558,24 +1641,21 @@ function PrototypeContent() {
         <section className="bg-white border-b border-brand-100">
           <div className="max-w-4xl mx-auto px-4 py-6">
             <div className="flex flex-wrap items-center gap-3">
-              {steps.map((step, i) => (
+              {steps.filter(s => s.status !== 'error').map((step, i, arr) => (
                 <div key={i} className="flex items-center gap-2">
                   {step.status === 'done' && <CheckCircle2 className="w-4 h-4 text-green-600" />}
                   {step.status === 'loading' && <Loader2 className="w-4 h-4 text-tomtly-accent animate-spin" />}
                   {step.status === 'pending' && <div className="w-4 h-4 rounded-full border-2 border-brand-300" />}
-                  {step.status === 'error' && <AlertTriangle className="w-4 h-4 text-red-500" />}
                   <span
                     className={`text-xs font-medium ${
                       step.status === 'done' ? 'text-green-700' :
-                      step.status === 'error' ? 'text-red-600' :
                       step.status === 'loading' ? 'text-tomtly-accent' :
                       'text-brand-400'
                     }`}
-                    title={step.detail || undefined}
                   >
                     {step.label}
                   </span>
-                  {i < steps.length - 1 && <span className="text-brand-300 mx-1">&rarr;</span>}
+                  {i < arr.length - 1 && <span className="text-brand-300 mx-1">&rarr;</span>}
                 </div>
               ))}
             </div>
@@ -1635,6 +1715,53 @@ function PrototypeContent() {
                 <InfoBox label="Koordinater" value={`${valgtAdresse.representasjonspunkt.lat.toFixed(5)}, ${valgtAdresse.representasjonspunkt.lon.toFixed(5)}`} />
               </div>
             </div>
+
+            {/* 3D-kart */}
+            {(() => {
+              // Bruk eiendomssentroid (nærmest bygning) fremfor adressepunkt (ved veikant)
+              const targetLat = eiendomsAnalyse?.koordinater?.lat ?? valgtAdresse.representasjonspunkt.lat
+              const targetLon = eiendomsAnalyse?.koordinater?.lon ?? valgtAdresse.representasjonspunkt.lon
+
+              // pitch=-90 = rett ned – kamera er direkte over tomten, ingen offset nødvendig
+              const makeUrl = (z: number) =>
+                `https://3d.kommunekart.com/?x=${targetLat}&y=${targetLon}&z=${z}&head=0&pitch=-90&roll=0`
+
+              const header = (url: string) => (
+                <div className="flex items-center justify-between px-4 py-2.5 border-b border-brand-100">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-semibold text-tomtly-dark">3D-kart</span>
+                    <span className="text-xs text-brand-400 bg-brand-50 px-2 py-0.5 rounded-full">Kommunekart</span>
+                  </div>
+                  <a href={url} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-xs text-tomtly-accent hover:underline">
+                    Åpne fullskjerm <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              )
+
+              if (!terrainZ) return (
+                <div className="bg-white rounded-xl border border-brand-100 overflow-hidden shadow-sm">
+                  {header(makeUrl(300))}
+                  <div className="h-[420px] md:h-[500px] flex items-center justify-center text-brand-400 text-sm gap-2">
+                    <Loader2 className="w-4 h-4 animate-spin" /> Laster 3D-kart…
+                  </div>
+                </div>
+              )
+
+              const url3d = makeUrl(terrainZ)
+              return (
+                <div className="bg-white rounded-xl border border-brand-100 overflow-hidden shadow-sm">
+                  {header(url3d)}
+                  <iframe
+                    key={url3d}
+                    src={url3d}
+                    className="w-full h-[420px] md:h-[500px] block"
+                    allowFullScreen
+                    title={`3D-kart – ${valgtAdresse.adressetekst}`}
+                  />
+                </div>
+              )
+            })()}
 
             {/* AI-oppsummering – vises alltid når analyse er ferdig */}
             {(!analysing && valgtAdresse) && (
@@ -2759,21 +2886,7 @@ function PrototypeContent() {
                                 ))}
                               </div>
                             ))
-                          ) : tolkning.error ? (
-                            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                              <p className="text-sm text-red-700">Feil ved henting: {tolkning.error}</p>
-                              {tolkning.error.includes('CORS') || tolkning.error.includes('Failed to fetch') ? (
-                                <a
-                                  href={`${PLANSLURPEN_BASE}/planslurp/${valgtAdresse.kommunenummer}/${tolkning.planId}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="text-xs text-red-600 underline mt-1 inline-flex items-center gap-1"
-                                >
-                                  <ExternalLink className="w-3 h-3" /> Åpne direkte
-                                </a>
-                              ) : null}
-                            </div>
-                          ) : (
+                          ) : tolkning.error ? null : (
                             <div className="bg-brand-50 border border-brand-100 rounded-lg p-4">
                               <p className="text-sm text-brand-600">
                                 {tolkning.meta?.status?.navn
@@ -2960,7 +3073,20 @@ function PrototypeContent() {
                     const ba = b.ByggAreal || {}
                     return (
                     <div key={bi} className="border border-brand-200 rounded-lg p-4">
+                      {/* Bygningsnummer-header */}
+                      {(b.Bygningsnummer || md.Bygningsnummer) && (
+                        <p className="text-xs font-bold text-tomtly-accent mb-2">
+                          Bygning nr. {b.Bygningsnummer || md.Bygningsnummer}
+                          {md.Bygningstype ? ` – ${md.Bygningstype}` : ''}
+                        </p>
+                      )}
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
+                        {(b.Bygningsnummer || md.Bygningsnummer) && (
+                          <div className="bg-brand-50 rounded-lg p-2.5">
+                            <p className="text-brand-500">Bygningsnummer</p>
+                            <p className="font-semibold text-tomtly-dark">{b.Bygningsnummer || md.Bygningsnummer}</p>
+                          </div>
+                        )}
                         {md.Bygningstype && (
                           <div className="bg-brand-50 rounded-lg p-2.5">
                             <p className="text-brand-500">Bygningstype</p>
@@ -3021,12 +3147,6 @@ function PrototypeContent() {
                             <p className="font-semibold text-tomtly-dark">{Math.round(ba.TakAreal)} m²</p>
                           </div>
                         )}
-                        {ba.MaksHoyde > 0 && (
-                          <div className="bg-brand-50 rounded-lg p-2.5">
-                            <p className="text-brand-500">Maks høyde</p>
-                            <p className="font-semibold text-tomtly-dark">{ba.MaksHoyde.toFixed(1)} m</p>
-                          </div>
-                        )}
                         {ba.BygningsVolum > 0 && (
                           <div className="bg-brand-50 rounded-lg p-2.5">
                             <p className="text-brand-500">Bygningsvolum</p>
@@ -3034,6 +3154,40 @@ function PrototypeContent() {
                           </div>
                         )}
                       </div>
+
+                      {/* Gesims- og mønehøyde for eksisterende bygg */}
+                      {ba.MaksHoyde > 0 && (
+                        <div className="mt-3 bg-forest-50 border border-forest-100 rounded-lg p-3">
+                          <p className="text-xs font-semibold text-tomtly-accent mb-2">Bygningshøyder – registrert (3D-målt)</p>
+                          <div className="grid grid-cols-2 gap-3">
+                            <div>
+                              <p className="text-[10px] text-brand-500">Gesimshøyde</p>
+                              {ba.MinHoyde > 0 ? (
+                                <>
+                                  <p className="text-base font-bold text-tomtly-dark">{ba.MinHoyde.toFixed(1)} m</p>
+                                  {eiendomsAnalyse?.gesimshoydeM != null && (
+                                    <p className={`text-[10px] mt-0.5 font-medium ${ba.MinHoyde > eiendomsAnalyse.gesimshoydeM ? 'text-amber-600' : 'text-green-600'}`}>
+                                      {ba.MinHoyde > eiendomsAnalyse.gesimshoydeM ? `⚠ Over tillatt (maks ${eiendomsAnalyse.gesimshoydeM} m)` : `✓ Innenfor (tillatt ${eiendomsAnalyse.gesimshoydeM} m)`}
+                                    </p>
+                                  )}
+                                </>
+                              ) : (
+                                <p className="text-sm text-brand-400 italic">Ikke tilgjengelig</p>
+                              )}
+                            </div>
+                            <div>
+                              <p className="text-[10px] text-brand-500">Mønehøyde</p>
+                              <p className="text-base font-bold text-tomtly-dark">{ba.MaksHoyde.toFixed(1)} m</p>
+                              {eiendomsAnalyse?.monehoydeM != null && (
+                                <p className={`text-[10px] mt-0.5 font-medium ${ba.MaksHoyde > eiendomsAnalyse.monehoydeM ? 'text-amber-600' : 'text-green-600'}`}>
+                                  {ba.MaksHoyde > eiendomsAnalyse.monehoydeM ? `⚠ Over tillatt (maks ${eiendomsAnalyse.monehoydeM} m)` : `✓ Innenfor (tillatt ${eiendomsAnalyse.monehoydeM} m)`}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                          <p className="text-[10px] text-brand-400 mt-2">Kilde: Norkart 3D-punktsky. MinHøyde ≈ gesims, MaksHøyde ≈ møne.</p>
+                        </div>
+                      )}
 
                       {md.Etasjer?.length > 0 && (
                         <div className="mt-3">
@@ -3330,6 +3484,190 @@ function PrototypeContent() {
                 </div>
               </div>
             )}
+            {/* ── Nabobygg-analyse ── */}
+            {nabobygg && nabobygg.antallBygninger > 0 && (
+              <div className="bg-white rounded-2xl border border-brand-100 p-6 shadow-sm">
+                <h2 className="font-display text-lg font-bold text-tomtly-dark mb-1 flex items-center gap-2">
+                  <Building2 className="w-5 h-5 text-tomtly-accent" />
+                  Nabobebyggelse
+                </h2>
+                <p className="text-xs text-brand-500 mb-4">Hva har naboene bygget? Bygninger innen 250 m fra tomten.</p>
+                {nabobygg.innsikter?.length > 0 && (
+                  <div className="bg-forest-50 rounded-xl p-4 mb-4 border border-forest-100">
+                    <ul className="space-y-1">
+                      {nabobygg.innsikter.map((ins: string, i: number) => (
+                        <li key={i} className="flex items-start gap-2 text-xs text-forest-800">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-tomtly-accent mt-0.5 flex-shrink-0" />
+                          {ins}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
+                  {[
+                    { label: 'Eneboliger', val: nabobygg.statistikk?.antallEnebolig },
+                    { label: 'Tomanns', val: nabobygg.statistikk?.antallTomanns },
+                    { label: 'Garasjer', val: nabobygg.statistikk?.antallGarasjer },
+                    { label: 'Nyere (2000+)', val: nabobygg.statistikk?.antallNyere },
+                    { label: 'Snitt byggeår', val: nabobygg.statistikk?.snittByggeaar },
+                    { label: 'Snitt BRA', val: nabobygg.statistikk?.snittBruksareal ? `${nabobygg.statistikk.snittBruksareal} m²` : null },
+                  ].filter(item => item.val !== null && item.val !== undefined).map(item => (
+                    <div key={item.label} className="bg-brand-50 rounded-lg p-3 text-center">
+                      <p className="text-lg font-bold text-tomtly-dark">{item.val}</p>
+                      <p className="text-[10px] text-brand-500 mt-0.5">{item.label}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* ── Kulturminner ── */}
+            {kulturminner && (
+              <div className={`bg-white rounded-2xl border p-6 shadow-sm ${kulturminner.risikonivaa === 'høy' ? 'border-red-200' : kulturminner.risikonivaa === 'middels' ? 'border-amber-200' : 'border-brand-100'}`}>
+                <h2 className="font-display text-lg font-bold text-tomtly-dark mb-1 flex items-center gap-2">
+                  <Shield className="w-5 h-5 text-tomtly-accent" />
+                  Kulturminner og vernesoner
+                </h2>
+                <p className="text-xs text-brand-500 mb-3">Data fra Riksantikvaren · 500 m radius</p>
+                <div className={`rounded-xl p-4 mb-4 text-sm leading-relaxed ${kulturminner.risikonivaa === 'høy' ? 'bg-red-50 text-red-800' : kulturminner.risikonivaa === 'middels' ? 'bg-amber-50 text-amber-800' : 'bg-green-50 text-green-800'}`}>
+                  {kulturminner.vurdering}
+                </div>
+                {kulturminner.kulturminner?.length > 0 && (
+                  <div className="space-y-2">
+                    {kulturminner.kulturminner.slice(0, 5).map((km: any, i: number) => (
+                      <div key={i} className="flex items-start gap-3 text-xs border border-brand-100 rounded-lg p-3">
+                        <div className="flex-1">
+                          <p className="font-semibold text-tomtly-dark">{km.navn}</p>
+                          <p className="text-brand-500">{km.type} · {km.vernestatus}</p>
+                          {km.avstand_m && <p className="text-brand-400">{km.avstand_m} m unna</p>}
+                        </div>
+                        {km.url && <a href={km.url} target="_blank" rel="noopener noreferrer" className="text-tomtly-accent hover:underline shrink-0"><ExternalLink className="w-3.5 h-3.5" /></a>}
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <a href={kulturminner.kildelenke} target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 mt-3 text-xs text-tomtly-accent hover:underline">
+                  <ExternalLink className="w-3 h-3" /> Se alle kulturminner på Riksantikvarens kart
+                </a>
+              </div>
+            )}
+
+            {/* ── Sol-analyse ── */}
+            {solAnalyse && (
+              <div className="bg-white rounded-2xl border border-brand-100 p-6 shadow-sm">
+                <h2 className="font-display text-lg font-bold text-tomtly-dark mb-1 flex items-center gap-2">
+                  <Gauge className="w-5 h-5 text-amber-500" />
+                  Solforhold
+                </h2>
+                <p className="text-xs text-brand-500 mb-3">{solAnalyse.breddegradssone}</p>
+                <p className="text-sm text-brand-700 leading-relaxed mb-4">{solAnalyse.solforhold}</p>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                  {[
+                    { label: 'Sommer (jun–aug)', val: `${solAnalyse.statistikk?.gjennomssnittSommerTimer} t/dag` },
+                    { label: 'Vinter (des–feb)', val: `${solAnalyse.statistikk?.gjennomsnittVinterTimer} t/dag` },
+                    ...(solAnalyse.midnattsol ? [{ label: 'Midnattsol', val: solAnalyse.midnattsol.join(', ') }] : []),
+                    ...(solAnalyse.polarnatt ? [{ label: 'Polarnatt', val: solAnalyse.polarnatt.join(', ') }] : []),
+                  ].map(item => (
+                    <div key={item.label} className="bg-amber-50 rounded-lg p-3 text-center">
+                      <p className="text-sm font-bold text-amber-900">{item.val}</p>
+                      <p className="text-[10px] text-amber-600 mt-0.5">{item.label}</p>
+                    </div>
+                  ))}
+                </div>
+                {solAnalyse.takflater?.tilgjengelig && (
+                  <div className="bg-brand-50 rounded-xl p-4 border border-brand-100 text-sm">
+                    <p className="font-semibold text-tomtly-dark mb-1">Solcellpotensial (Norkart takflate-analyse)</p>
+                    <p className="text-xs text-brand-600 mb-2">{solAnalyse.takflater.sammendrag}</p>
+                    <div className="flex items-center gap-4">
+                      <div>
+                        <p className="text-xs text-brand-500">Egnethet</p>
+                        <p className="font-semibold text-tomtly-dark capitalize">{solAnalyse.takflater.solcelleEgnethet}</p>
+                      </div>
+                      {solAnalyse.takflater.estimertAarligProduksjonKwh && (
+                        <div>
+                          <p className="text-xs text-brand-500">Est. produksjon/år</p>
+                          <p className="font-semibold text-tomtly-dark">{solAnalyse.takflater.estimertAarligProduksjonKwh.toLocaleString('no')} kWh</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* ── Klimarisiko 2050 ── */}
+            {klimarisiko && (
+              <div className={`bg-white rounded-2xl border p-6 shadow-sm ${klimarisiko.samletKlimarisiko2050 === 'høy' ? 'border-red-200' : klimarisiko.samletKlimarisiko2050 === 'middels' ? 'border-amber-200' : 'border-brand-100'}`}>
+                <h2 className="font-display text-lg font-bold text-tomtly-dark mb-1 flex items-center gap-2">
+                  <AlertTriangle className="w-5 h-5 text-amber-500" />
+                  Klimarisiko 2050
+                </h2>
+                <p className="text-xs text-brand-500 mb-3">{klimarisiko.scenarie}</p>
+                <div className={`rounded-xl p-4 mb-4 text-sm leading-relaxed ${klimarisiko.samletKlimarisiko2050 === 'høy' ? 'bg-red-50 text-red-800' : klimarisiko.samletKlimarisiko2050 === 'middels' ? 'bg-amber-50 text-amber-800' : 'bg-green-50 text-green-800'}`}>
+                  <span className="font-semibold">Samlet klimarisiko: </span>{klimarisiko.samletKlimarisiko2050?.toUpperCase()} — {klimarisiko.samletVurdering}
+                </div>
+                <div className="space-y-2">
+                  {klimarisiko.risikoer?.map((r: any, i: number) => (
+                    <div key={i} className="flex items-start gap-3 text-xs border border-brand-100 rounded-lg p-3">
+                      <div className={`w-2.5 h-2.5 rounded-full mt-0.5 flex-shrink-0 ${r.risiko2050 === 'høy' ? 'bg-red-500' : r.risiko2050 === 'middels' ? 'bg-amber-400' : 'bg-green-400'}`} />
+                      <div className="flex-1">
+                        <p className="font-semibold text-tomtly-dark">{r.kategori}</p>
+                        <p className="text-brand-600 mt-0.5">{r.beskrivelse}</p>
+                        {r.tiltak && <p className="text-tomtly-accent mt-1 font-medium">→ {r.tiltak}</p>}
+                      </div>
+                      <div className="text-right shrink-0">
+                        <p className="text-[9px] text-brand-400 uppercase">2050</p>
+                        <p className={`text-xs font-bold capitalize ${r.risiko2050 === 'høy' ? 'text-red-600' : r.risiko2050 === 'middels' ? 'text-amber-600' : 'text-green-600'}`}>{r.risiko2050}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* ── Eiendomshistorikk og prisstatistikk ── */}
+            {eiendomHistorikk?.prisStatistikk && (
+              <div className="bg-white rounded-2xl border border-brand-100 p-6 shadow-sm">
+                <h2 className="font-display text-lg font-bold text-tomtly-dark mb-1 flex items-center gap-2">
+                  <Database className="w-5 h-5 text-tomtly-accent" />
+                  Prisstatistikk og eiendommens data
+                </h2>
+                <p className="text-xs text-brand-500 mb-4">SSB kommunestatistikk · {eiendomHistorikk.prisStatistikk.kvartal}</p>
+                {eiendomHistorikk.prisStatistikk.gjsnittPrisPerM2Enebolig && (
+                  <div className="grid grid-cols-2 gap-3 mb-4">
+                    <div className="bg-brand-50 rounded-xl p-4">
+                      <p className="text-xs text-brand-500 mb-1">Gjsn. boligpris i kommunen</p>
+                      <p className="text-xl font-bold text-tomtly-dark">{eiendomHistorikk.prisStatistikk.gjsnittPrisPerM2Enebolig.toLocaleString('no')} kr/m²</p>
+                      <p className="text-[10px] text-brand-400 mt-1">Eneboliger, SSB tabell 07241</p>
+                    </div>
+                    {eiendomHistorikk.eiendomsdata?.areal && (
+                      <div className="bg-brand-50 rounded-xl p-4">
+                        <p className="text-xs text-brand-500 mb-1">Tomteareal (matrikkel)</p>
+                        <p className="text-xl font-bold text-tomtly-dark">{eiendomHistorikk.eiendomsdata.areal.toLocaleString('no')} m²</p>
+                        <p className="text-[10px] text-brand-400 mt-1">Kilde: Kartverket Matrikkelen</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+                {eiendomHistorikk.tomteprisBenchmark && (
+                  <div className="bg-tomtly-warm rounded-xl p-4 border border-brand-100 text-sm text-brand-700 leading-relaxed">
+                    <p className="font-semibold text-tomtly-dark mb-1">Indikativ tomteverdi</p>
+                    <p className="text-xs">{eiendomHistorikk.tomteprisBenchmark}</p>
+                  </div>
+                )}
+                <div className="flex gap-3 mt-4">
+                  {eiendomHistorikk.kilderlenker?.kartverketEiendom && (
+                    <a href={eiendomHistorikk.kilderlenker.kartverketEiendom} target="_blank" rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 text-xs text-tomtly-accent hover:underline">
+                      <ExternalLink className="w-3 h-3" /> Se eiendom på kartverket.no
+                    </a>
+                  )}
+                </div>
+              </div>
+            )}
+
             {/* Oslo småhusplan — midlertidig forbud */}
             {valgtAdresse?.kommunenummer === '0301' && (() => {
               const sp = require('@/lib/oslo-smahusplan').OSLO_SMAHUSPLAN
@@ -3451,6 +3789,16 @@ function PrototypeContent() {
                               ))}
                             </div>
                           )}
+                          <div className="flex gap-2 mt-2">
+                            <a
+                              href={`https://innsyn.pbe.oslo.kommune.no/saksinnsyn/main.asp?mode=all&text=${encodeURIComponent(plan.navn)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-1 text-[10px] font-medium text-tomtly-accent bg-white border border-forest-200 rounded px-2 py-1 hover:bg-forest-50 transition-colors"
+                            >
+                              <ExternalLink className="w-3 h-3" />Bestemmelser i saksinnsyn
+                            </a>
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -4003,8 +4351,19 @@ function TomteKartSection({ lat, lon, adresse, teigCoordsLatLon, bygningsomriss 
     const latRad = lat * Math.PI / 180
     const centerTileY = Math.floor((1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2 * n)
 
+    // EPSG:3857 BBOX for WMS eiendomsgrenser
+    const tileWidthM = 40075016.68 / n
+    const minXm = (centerTileX - 1) * tileWidthM - 20037508.34
+    const maxXm = (centerTileX + 2) * tileWidthM - 20037508.34
+    const minYm = 20037508.34 - (centerTileY + 2) * tileWidthM
+    const maxYm = 20037508.34 - (centerTileY - 1) * tileWidthM
+    const wmsUrl = `https://wms.geonorge.no/skwms1/wms.matrikkelkart2?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=Eiendomskart&FORMAT=image%2Fpng&TRANSPARENT=TRUE&CRS=EPSG%3A3857&WIDTH=${canvas.width}&HEIGHT=${canvas.height}&BBOX=${minXm},${minYm},${maxXm},${maxYm}`
+
     let loaded = 0
-    const total = gridSize * gridSize
+    const total = gridSize * gridSize + 1 // +1 for WMS
+    let wmsEl: HTMLImageElement | null = null
+
+    function checkDone() { if (loaded === total) drawOverlay() }
 
     for (let dy = -1; dy <= 1; dy++) {
       for (let dx = -1; dx <= 1; dx++) {
@@ -4013,11 +4372,19 @@ function TomteKartSection({ lat, lon, adresse, teigCoordsLatLon, bygningsomriss 
         const img = new Image()
         img.crossOrigin = 'anonymous'
         const gx = dx + 1, gy = dy + 1
-        img.onload = () => { ctx.drawImage(img, gx * tileSize, gy * tileSize, tileSize, tileSize); loaded++; if (loaded === total) drawOverlay() }
-        img.onerror = () => { loaded++; if (loaded === total) drawOverlay() }
+        img.onload = () => { ctx.drawImage(img, gx * tileSize, gy * tileSize, tileSize, tileSize); loaded++; checkDone() }
+        img.onerror = () => { loaded++; checkDone() }
         img.src = `https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/${zoom}/${ty}/${tx}.png`
       }
     }
+
+    // WMS eiendomsgrenser – 4s timeout som fallback
+    const wmsImage = new Image()
+    wmsImage.crossOrigin = 'anonymous'
+    const wmsTimeout = setTimeout(() => { loaded++; checkDone() }, 4000)
+    wmsImage.onload = () => { clearTimeout(wmsTimeout); wmsEl = wmsImage; loaded++; checkDone() }
+    wmsImage.onerror = () => { clearTimeout(wmsTimeout); loaded++; checkDone() }
+    wmsImage.src = wmsUrl
 
     function ll2px(ptLat: number, ptLon: number): [number, number] {
       const x = (ptLon + 180) / 360 * n
@@ -4027,8 +4394,11 @@ function TomteKartSection({ lat, lon, adresse, teigCoordsLatLon, bygningsomriss 
     }
 
     function drawOverlay() {
-      // Teig polygon
-      if (teigCoordsLatLon && teigCoordsLatLon.length > 2) {
+      // Eiendomsgrenser: WMS-overlay (offisielt matrikkelkart)
+      if (wmsEl) {
+        ctx.drawImage(wmsEl, 0, 0, canvas.width, canvas.height)
+      } else if (teigCoordsLatLon && teigCoordsLatLon.length > 2) {
+        // Fallback: manuell teig-polygon
         ctx.beginPath()
         teigCoordsLatLon.forEach((c, i) => {
           const [px, py] = ll2px(c[1], c[0])
@@ -4097,7 +4467,7 @@ function TomteKartSection({ lat, lon, adresse, teigCoordsLatLon, bygningsomriss 
       </div>
       <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-[10px] text-brand-400">
         <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-rose-600" /> Adresse</span>
-        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm border border-rose-600 bg-rose-600/10" /> Eiendomsgrense</span>
+        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm border border-brand-400 bg-brand-100" /> Eiendomsgrenser (matrikkel)</span>
         {bygningsomriss?.length ? <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-sm border border-tomtly-accent bg-tomtly-accent/25" /> Bygning</span> : null}
         <span className="ml-auto">Kartverket + Norkart FKB</span>
       </div>

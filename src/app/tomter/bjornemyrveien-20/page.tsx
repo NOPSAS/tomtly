@@ -13,11 +13,12 @@ import { TomtSjekkliste } from '@/components/tomt/TomtSjekkliste'
 import { FileText, Download, Clock } from 'lucide-react'
 
 // ============================================================
-// BJØRNEMYRVEIEN 20 (Parsell B) – FLAT TOMT
+// BJØRNEMYRVEIEN 20 (Parsell B) – FLAT TOMT – 6 husmodeller
 // All data fra tegnebua.no/prosjekter/bjornemyrveien-tomter
 // ============================================================
 
 const IMG = '/tomter/bjornemyrveien-shared'
+const IMG20 = '/tomter/bjornemyrveien-20'
 
 const BILDER = [
   { id: 'b1', url: `${IMG}/skogly-fasade-1.png`, alt: 'Skogly – fasade', kategori: 'tomt' as const, bildetekst: 'Husmodellen Skogly fra Hedalm-Anebyhus plassert på Parsell B.' },
@@ -28,6 +29,8 @@ const BILDER = [
   { id: 'b5', url: `${IMG}/oversiktsbilde.jpg`, alt: 'Oversiktsbilde Bjørnemyr', kategori: 'drone' as const, bildetekst: 'Oversikt over Bjørnemyr-området.' },
   { id: 'b6', url: `${IMG}/situasjonskart.png`, alt: 'Situasjonskart', kategori: 'tomt' as const, bildetekst: 'Situasjonskart med plassering av bolig på tomten.' },
   { id: 'b7', url: `${IMG}/tomtekart.png`, alt: 'Kart over tomtene', kategori: 'tomt' as const, bildetekst: 'Kart som viser Parsell B og C med grenser og infrastruktur.' },
+  { id: 'b9', url: `${IMG20}/kongsvik-visualisering.png`, alt: 'Kongsvik – visualisering på tomten', kategori: 'tomt' as const, bildetekst: 'Kongsvik fra Blink Hus visualisert på Bjørnemyrveien 20.' },
+  { id: 'b10', url: `${IMG20}/kongsvik-visualisering-2.png`, alt: 'Kongsvik vinkel 2 – visualisering', kategori: 'tomt' as const, bildetekst: 'Kongsvik fra Blink Hus – alternativ vinkel.' },
 ]
 
 // Felles kostnader utenom hus
@@ -45,6 +48,7 @@ const ETTER_HUS = [
 const HUSMODELLER = [
   {
     id: 'skogly',
+    grunnmur_inkludert: false,
     navn: 'Skogly',
     leverandor: 'Hedalm-Anebyhus',
     leverandor_url: 'https://www.hedalm-anebyhus.no/hus/skogly/',
@@ -66,6 +70,7 @@ const HUSMODELLER = [
   },
   {
     id: 'lasse',
+    grunnmur_inkludert: true,
     navn: 'Lasse',
     leverandor: 'Älvsbyhus',
     leverandor_url: 'https://www.alvsbyhus.no/vare-hus/1.5-etasjes-hus/lasse/',
@@ -87,6 +92,7 @@ const HUSMODELLER = [
   },
   {
     id: 'vindy',
+    grunnmur_inkludert: true,
     navn: 'Vindy',
     leverandor: 'ABChus',
     leverandor_url: 'https://www.abchus.no/hus/vindy/',
@@ -115,6 +121,7 @@ const HUSMODELLER = [
   },
   {
     id: 'emilie',
+    grunnmur_inkludert: true,
     navn: 'Emilie',
     leverandor: 'ABChus',
     leverandor_url: 'https://www.abchus.no/hus/emilie/',
@@ -143,6 +150,7 @@ const HUSMODELLER = [
   },
   {
     id: 'nordstrand',
+    grunnmur_inkludert: true,
     navn: 'Nordstrand',
     leverandor: 'Mesterhus',
     leverandor_url: 'https://www.mesterhus.no/ferdighus/nordstrand/',
@@ -168,6 +176,28 @@ const HUSMODELLER = [
         { url: `${IMG}/nordstrand-plan-1etg.png`, label: '1. etasje – 3 soverom, kontor/bod, bad, TV-stue' },
         { url: `${IMG}/nordstrand-plan-2etg.png`, label: '2. etasje – stue/kjøkken, soverom, bad, garderobe, balkong' },
       ],
+    },
+  },
+  {
+    id: 'kongsvik', grunnmur_inkludert: true, navn: 'Kongsvik', leverandor: 'Blink Hus',
+    leverandor_url: 'https://www.blink-hus.no/hus/kongsvik',
+    beskrivelse: 'Fleksibel enebolig over to plan med innebygd utleiedel – egen inngang, bad og soverom i underetasjen. Godt tilpasset flat og svakt skrånende tomt. 4 soverom totalt, store vindusflater og åpen planløsning. Grunnmur inkludert i prisen.',
+    bra_m2: 126.9, soverom: 4, bad: '2', etasjer: 2,
+    ekstra: { 'BYA': '81 m²', 'Utnyttelse': '13,4%', 'Gjenværende BYA': '40 m²', 'Utleiedel': 'Ja', 'Grunnmur': 'Inkludert' },
+    pris_hus: 4520000,
+    total_budsjett: 8622532,
+    kostnader: [
+      ...FELLES_KOSTNADER,
+      { post: 'Kongsvik – nøkkelferdig fra Blink Hus (inkl. grunnmur)', belop: 4520000 },
+      { post: 'Eventuelle tilvalg på hus', belop: 200000 },
+      { post: 'Grunnarbeider (tilbud, per tomt)', belop: 667532 },
+      { post: 'Kommunale gebyrer', belop: 160000 },
+    ],
+    verdi_bra_m2: 127, verdi_m2_pris: 79000, verdi_total: 10000000,
+    inkludert: ['Grunnmur og fundamentering inkludert', 'Laminatgulv (Pergo) i oppholdsrom', 'Flislagte våtrom med gulvvarme', 'Balansert ventilasjon med varmegjenvinning', 'Kjøkken (ca. kr 100 000)', 'Komplett røranlegg med varmtvannsbereder', 'Komplett el-anlegg (NEK400)', 'Matte hvite vinduer og dører', 'Malte gipsvegger og tak', 'Hvite innerdører med svarte håndtak', 'Separat utleiedel med egen inngang'],
+    bilder: {
+      fasade: [`${IMG20}/kongsvik-visualisering.png`, `${IMG20}/kongsvik-visualisering-2.png`, `${IMG20}/kongsvik-fasader.png`],
+      plantegninger: [],
     },
   },
 ]

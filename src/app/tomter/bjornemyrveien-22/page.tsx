@@ -12,11 +12,12 @@ import { TomtTegnebua } from '@/components/tomt/TomtTegnebua'
 import { FileText, Download } from 'lucide-react'
 
 // ============================================================
-// BJØRNEMYRVEIEN 22 (Parsell C) – SKRÅ TOMT
+// BJØRNEMYRVEIEN 22 (Parsell C) – SKRÅ TOMT – 6 husmodeller
 // All data fra tegnebua.no/prosjekter/bjornemyrveien-tomter
 // ============================================================
 
 const IMG = '/tomter/bjornemyrveien-shared'
+const IMG22 = '/tomter/bjornemyrveien-22'
 
 const BILDER = [
   { id: 'c1', url: `${IMG}/skogly-fasade-1.png`, alt: 'Skogly – fasade', kategori: 'tomt' as const, bildetekst: 'Husmodellen Skogly fra Hedalm-Anebyhus. Perfekt for skrånende tomt med inngang fra to plan.' },
@@ -26,6 +27,8 @@ const BILDER = [
   { id: 'c5', url: `${IMG}/oversiktsbilde.jpg`, alt: 'Oversiktsbilde Bjørnemyr', kategori: 'drone' as const, bildetekst: 'Oversikt over Bjørnemyr-området.' },
   { id: 'c6', url: `${IMG}/situasjonskart.png`, alt: 'Situasjonskart', kategori: 'tomt' as const, bildetekst: 'Situasjonskart med plassering av bolig på tomten.' },
   { id: 'c7', url: `${IMG}/tomtekart.png`, alt: 'Kart over tomtene', kategori: 'tomt' as const, bildetekst: 'Kart som viser Parsell B og C med grenser og infrastruktur.' },
+  { id: 'c8', url: `${IMG22}/kongsvik-visualisering.png`, alt: 'Kongsvik – visualisering på tomten', kategori: 'tomt' as const, bildetekst: 'Kongsvik fra Blink Hus visualisert på Bjørnemyrveien 22.' },
+  { id: 'c9', url: `${IMG22}/kongsvik-visualisering-2.png`, alt: 'Kongsvik vinkel 2 – visualisering', kategori: 'tomt' as const, bildetekst: 'Kongsvik fra Blink Hus – alternativ vinkel.' },
 ]
 
 // Importerer HUSMODELLER fra nr 20 – de er identiske, bare tomtType endres
@@ -42,7 +45,7 @@ const ETTER_HUS = [
 
 const HUSMODELLER = [
   {
-    id: 'skogly', navn: 'Skogly', leverandor: 'Hedalm-Anebyhus', leverandor_url: 'https://www.hedalm-anebyhus.no/hus/skogly/',
+    id: 'skogly', grunnmur_inkludert: false, navn: 'Skogly', leverandor: 'Hedalm-Anebyhus', leverandor_url: 'https://www.hedalm-anebyhus.no/hus/skogly/',
     beskrivelse: 'Moderne, kompakt bolig perfekt tilpasset skrånende tomter. Stor og åpen stue/kjøkkenløsning med balkong. To plan med inngang fra begge etasjer – ideell for Tomt C.',
     bra_m2: 126.1, soverom: 4, bad: '2', etasjer: 2,
     ekstra: { 'BRA totalt': '126,9 m²', 'BYA': '80,5 m²', 'Tomtetype': 'Flat / svakt skrånende' },
@@ -59,7 +62,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'vindy', navn: 'Vindy', leverandor: 'ABChus', leverandor_url: 'https://www.abchus.no/hus/vindy/',
+    id: 'vindy', grunnmur_inkludert: true, navn: 'Vindy', leverandor: 'ABChus', leverandor_url: 'https://www.abchus.no/hus/vindy/',
     beskrivelse: 'Moderne, arealeffektivt hus på to plan. På skrå tomt får du parkering under verandaen – en svært god løsning. Mulighet for anneks/bod på ca. 20 m².',
     bra_m2: 107, bra_m2_alt: 105, soverom: 3, bad: '1 + WC', etasjer: 2,
     pris_hus: 3720000, pris_hus_skra: 3757000,
@@ -84,7 +87,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'emilie', navn: 'Emilie', leverandor: 'ABChus', leverandor_url: 'https://www.abchus.no/hus/emilie/',
+    id: 'emilie', grunnmur_inkludert: true, navn: 'Emilie', leverandor: 'ABChus', leverandor_url: 'https://www.abchus.no/hus/emilie/',
     beskrivelse: 'Romslig og praktisk enebolig over to plan med 4 soverom, vaskerom og sportsbod. Passer begge tomter.',
     bra_m2: 140.2, soverom: 4, bad: '1 + WC', etasjer: 2,
     ekstra: { Vaskerom: 'Ja', Sportsbod: '5,6 m²' },
@@ -108,7 +111,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'nordstrand', navn: 'Nordstrand', leverandor: 'Mesterhus', leverandor_url: 'https://www.mesterhus.no/ferdighus/nordstrand/',
+    id: 'nordstrand', grunnmur_inkludert: true, navn: 'Nordstrand', leverandor: 'Mesterhus', leverandor_url: 'https://www.mesterhus.no/ferdighus/nordstrand/',
     beskrivelse: 'Flott og romslig hus over to plan med 4 soverom, 2 bad, kontor/bod og stor stue/kjøkkenløsning med balkong. Moderne arkitektur. Plantegningene tilpasses noe for skrå tomt.',
     bra_m2: 132, soverom: 4, bad: '2', etasjer: 2,
     ekstra: { 'Kontor/Bod': 'Ja' },
@@ -130,6 +133,35 @@ const HUSMODELLER = [
       plantegninger: [
         { url: `${IMG}/nordstrand-plan-1etg.png`, label: '1. etasje – 3 soverom, kontor/bod, bad, TV-stue' },
         { url: `${IMG}/nordstrand-plan-2etg.png`, label: '2. etasje – stue/kjøkken, soverom, bad, garderobe, balkong' },
+      ],
+    },
+  },
+  {
+    id: 'kongsvik', grunnmur_inkludert: true, navn: 'Kongsvik', leverandor: 'Blink Hus',
+    leverandor_url: 'https://www.blink-hus.no/hus/kongsvik',
+    beskrivelse: 'Fleksibel enebolig over to plan med innebygd utleiedel – perfekt for skrånende tomt. Egen inngang, bad og soverom i underetasjen. 4 soverom totalt, store vindusflater og åpen planløsning. Grunnmur inkludert i prisen.',
+    bra_m2: 126.9, soverom: 4, bad: '2', etasjer: 2,
+    ekstra: { 'BYA': '81 m²', 'Utnyttelse': '13,2%', 'Gjenværende BYA': '41,6 m²', 'Utleiedel': 'Ja', 'Grunnmur': 'Inkludert' },
+    pris_hus: 4520000,
+    total_budsjett: 8622532,
+    kostnader: [
+      ...FELLES_KOSTNADER,
+      { post: 'Kongsvik – nøkkelferdig fra Blink Hus (inkl. grunnmur)', belop: 4520000 },
+      { post: 'Eventuelle tilvalg på hus', belop: 200000 },
+      { post: 'Grunnarbeider (tilbud, per tomt)', belop: 667532 },
+      { post: 'Kommunale gebyrer', belop: 160000 },
+    ],
+    verdi_bra_m2: 127, verdi_m2_pris: 79000, verdi_total: 10000000,
+    inkludert: ['Grunnmur og fundamentering inkludert', 'Laminatgulv (Pergo) i oppholdsrom', 'Flislagte våtrom med gulvvarme', 'Balansert ventilasjon med varmegjenvinning', 'Kjøkken (ca. kr 100 000)', 'Komplett røranlegg med varmtvannsbereder', 'Komplett el-anlegg (NEK400)', 'Matte hvite vinduer og dører', 'Malte gipsvegger og tak', 'Hvite innerdører med svarte håndtak', 'Separat utleiedel med egen inngang'],
+    bilder: {
+      fasade: [`${IMG22}/kongsvik-visualisering.png`, `${IMG22}/kongsvik-visualisering-2.png`, `${IMG22}/kongsvik-fasader.png`],
+      plantegninger: [],
+    },
+    bilder_skra: {
+      fasade: [`${IMG22}/kongsvik-visualisering.png`, `${IMG22}/kongsvik-visualisering-2.png`, `${IMG22}/kongsvik-fasader.png`],
+      plantegninger: [
+        { url: `${IMG22}/kongsvik-plan-1-skra.png`, label: 'Plan 1 – underetasje (utleiedel med soverom, bad og inngang)' },
+        { url: `${IMG22}/kongsvik-plan-2-skra.png`, label: 'Plan 2 – hovedetasje (stue, kjøkken, soverom og bad)' },
       ],
     },
   },

@@ -1,7 +1,40 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-// Områdeanalyse: nærservice, grunnforhold, kulturminner, prisstatistikk
+// Områdeanalyse: nærservice, grunnforhold, prisstatistikk
 // POST { lat, lon, radius? }
+
+export const maxDuration = 45
+
+// Overpass API speil-liste – prøver i rekkefølge ved feil
+// Noen speil blokkerer Vercel-IP-er. private.coffee og kumi er mest stabile.
+const OVERPASS_MIRRORS = [
+  'https://overpass.private.coffee/api/interpreter',
+  'https://overpass.kumi.systems/api/interpreter',
+  'https://overpass-api.de/api/interpreter',
+  'https://overpass.openstreetmap.ru/api/interpreter',
+]
+
+async function fetchOverpass(query: string): Promise<any> {
+  for (const mirror of OVERPASS_MIRRORS) {
+    try {
+      const res = await fetch(mirror, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'data=' + encodeURIComponent(query),
+        signal: AbortSignal.timeout(12000),
+      })
+      if (res.ok) {
+        const contentType = res.headers.get('content-type') || ''
+        if (contentType.includes('json')) {
+          return await res.json()
+        }
+      }
+    } catch {
+      // Prøv neste speil
+    }
+  }
+  return null
+}
 
 export async function POST(request: NextRequest) {
   let body: any = {}
@@ -14,41 +47,57 @@ export async function POST(request: NextRequest) {
 
   // ── 1. Nærservice fra OpenStreetMap (Overpass API) ──
   let naerservice: { type: string; navn: string; avstand: number; kategori: string }[] = []
+  let overpassFeilet = false
+
   try {
+    // Utvidet med barnehager, leger, apotek, treningsstudio, natur og mer
     const query = `[out:json][timeout:10];
 (
-  node["amenity"~"school|kindergarten|pharmacy|doctors|dentist|hospital|clinic|library|place_of_worship|community_centre|bus_station"](around:${radius},${lat},${lon});
-  way["amenity"~"school|kindergarten"](around:${radius},${lat},${lon});
-  node["shop"~"supermarket|convenience|bakery"](around:${radius},${lat},${lon});
+  node["amenity"~"school|kindergarten|pharmacy|doctors|dentist|hospital|clinic|library|place_of_worship|community_centre|bus_station|fire_station|police"](around:${radius},${lat},${lon});
+  way["amenity"~"school|kindergarten|hospital"](around:${radius},${lat},${lon});
+  node["shop"~"supermarket|convenience|bakery|butcher|greengrocer|mall"](around:${radius},${lat},${lon});
   way["shop"~"supermarket|mall|department_store"](around:${radius},${lat},${lon});
-  node["leisure"~"playground|sports_centre|fitness_centre|swimming_pool"](around:${radius},${lat},${lon});
+  node["leisure"~"playground|sports_centre|fitness_centre|swimming_pool|park|nature_reserve|beach_resort|marina"](around:${radius},${lat},${lon});
+  way["leisure"~"park|nature_reserve|swimming_pool|sports_centre|fitness_centre"](around:${radius},${lat},${lon});
   node["public_transport"="stop_position"](around:${radius},${lat},${lon});
   node["highway"="bus_stop"](around:${radius},${lat},${lon});
+  node["railway"~"station|halt|tram_stop"](around:${radius},${lat},${lon});
+  node["natural"~"beach|water|wood"](around:${radius},${lat},${lon});
+  way["natural"~"beach|water|wood"](around:${radius},${lat},${lon});
+  node["landuse"~"forest|recreation_ground"](around:${radius},${lat},${lon});
 );
-out center 50;`
+out center 80;`
 
-    const res = await fetch('https://overpass-api.de/api/interpreter', {
-      method: 'POST',
-      body: 'data=' + encodeURIComponent(query),
-      signal: AbortSignal.timeout(12000),
-    })
-    if (res.ok) {
-      const data = await res.json()
-      naerservice = (data.elements || []).map((e: any) => {
+    const data = await fetchOverpass(query)
+    if (data && data.elements) {
+      naerservice = data.elements.map((e: any) => {
         const tags = e.tags || {}
         const elat = e.lat || e.center?.lat
         const elon = e.lon || e.center?.lon
         const dist = elat && elon ? haversine(lat, lon, elat, elon) : 9999
 
+        const amenity = tags.amenity || ''
+        const shop = tags.shop || ''
+        const leisure = tags.leisure || ''
+        const railway = tags.railway || ''
+        const natural = tags.natural || ''
+        const landuse = tags.landuse || ''
+        const transport = tags.public_transport || tags.highway || ''
+
         let kategori = 'Annet'
-        const type = tags.amenity || tags.shop || tags.leisure || tags.public_transport || tags.highway || ''
-        if (['school'].includes(type)) kategori = 'Skole'
-        else if (['kindergarten'].includes(type)) kategori = 'Barnehage'
-        else if (['supermarket', 'convenience', 'bakery', 'mall'].includes(type)) kategori = 'Dagligvare'
-        else if (['pharmacy', 'doctors', 'dentist', 'hospital', 'clinic'].includes(type)) kategori = 'Helse'
-        else if (['bus_stop', 'stop_position', 'bus_station'].includes(type)) kategori = 'Kollektiv'
-        else if (['playground', 'sports_centre', 'fitness_centre', 'swimming_pool'].includes(type)) kategori = 'Fritid'
-        else if (['library', 'community_centre'].includes(type)) kategori = 'Kultur'
+        if (['school'].includes(amenity)) kategori = 'Skole'
+        else if (['kindergarten'].includes(amenity)) kategori = 'Barnehage'
+        else if (['supermarket', 'convenience', 'bakery', 'butcher', 'greengrocer', 'mall'].includes(shop)) kategori = 'Dagligvare'
+        else if (['pharmacy', 'doctors', 'dentist', 'hospital', 'clinic'].includes(amenity)) kategori = 'Helse'
+        else if (['bus_stop', 'stop_position', 'bus_station'].includes(amenity || transport)) kategori = 'Kollektiv'
+        else if (['station', 'halt', 'tram_stop'].includes(railway)) kategori = 'Kollektiv'
+        else if (['playground', 'sports_centre', 'fitness_centre', 'swimming_pool'].includes(leisure)) kategori = 'Fritid'
+        else if (['park', 'nature_reserve', 'beach_resort', 'marina'].includes(leisure)) kategori = 'Natur'
+        else if (['beach', 'water', 'wood'].includes(natural)) kategori = 'Natur'
+        else if (['forest', 'recreation_ground'].includes(landuse)) kategori = 'Natur'
+        else if (['library', 'community_centre'].includes(amenity)) kategori = 'Kultur'
+
+        const type = amenity || shop || leisure || railway || natural || landuse || transport
 
         return {
           type,
@@ -56,19 +105,22 @@ out center 50;`
           avstand: Math.round(dist),
           kategori,
         }
-      }).filter((n: any) => n.avstand < radius).sort((a: any, b: any) => a.avstand - b.avstand)
+      }).filter((n: any) => n.avstand < radius && n.avstand > 0).sort((a: any, b: any) => a.avstand - b.avstand)
+    } else {
+      overpassFeilet = true
     }
-  } catch {}
+  } catch {
+    overpassFeilet = true
+  }
 
-  // ── 2. Grunnforhold (fra DOK-data vi allerede har – extraher nøkkelinfo) ──
-  // DOK hentes separat i /api/dok-analyse, men vi kan gi nøkkelinfo her
+  // ── 2. Grunnforhold (fra DOK-data) ──
   let grunnforhold: { faktor: string; status: string; detalj: string }[] = []
   try {
     const dokRes = await fetch('https://kartverket-ogc-api.azurewebsites.net/processes/fullstendighetsdekning/execution', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ inputs: { datasets: [], geometry: { type: 'Point', coordinates: [lon, lat] } } }),
-      signal: AbortSignal.timeout(15000),
+      signal: AbortSignal.timeout(30000),
     })
     if (dokRes.ok) {
       const dokData = await dokRes.json()
@@ -76,14 +128,16 @@ out center 50;`
 
       const keyFactors = [
         { faktor: 'Kvikkleire', keywords: ['kvikkleire'] },
-        { faktor: 'Marin leire', keywords: ['marin'] },
+        { faktor: 'Marin leire', keywords: ['marin leire', 'mulighet for marin'] },
         { faktor: 'Radon', keywords: ['radon'] },
-        { faktor: 'Grunnforurensning', keywords: ['forurens', 'grunn'] },
-        { faktor: 'Flom', keywords: ['flom', 'flomsone'] },
-        { faktor: 'Skred', keywords: ['skred'] },
+        { faktor: 'Grunnforurensning', keywords: ['forurenset grunn', 'forurens'] },
+        { faktor: 'Flom', keywords: ['flom aktsomhet', 'flomsoner', 'jord- og flomskred'] },
+        { faktor: 'Skred', keywords: ['skredfaresoner', 'skredhendelser', 'snøskred', 'steinsprang', 'fjellskred'] },
+        { faktor: 'Stormflo', keywords: ['stormflo', 'havnivå'] },
+        { faktor: 'Strandsone', keywords: ['strandsonen', 'statlige planretningslinjer for differensiert'] },
         { faktor: 'Støy', keywords: ['støy', 'støysone'] },
         { faktor: 'Kulturminner', keywords: ['kulturmin', 'fredet'] },
-        { faktor: 'Løsmasser/fjell', keywords: ['løsmasse', 'berggrunn'] },
+        { faktor: 'Løsmasser/fjell', keywords: ['løsmasser', 'berggrunn'] },
       ]
 
       for (const kf of keyFactors) {
@@ -93,26 +147,43 @@ out center 50;`
         const hasFunn = matches.some((m: any) => (m.coverageStatus || '').toLowerCase().includes('med funn'))
         const isKartlagt = matches.some((m: any) => {
           const s = (m.coverageStatus || '').toLowerCase()
-          return s.includes('kartlagt') && !s.includes('ikke kartlagt')
+          return s.includes('kartlagt') && !s.includes('ikke kartlagt') && !s.includes('med funn')
         })
+        const ikkeKartlagt = matches.length > 0 && matches.every((m: any) =>
+          (m.coverageStatus || '').toLowerCase().includes('ikke kartlagt')
+        )
+
         grunnforhold.push({
           faktor: kf.faktor,
-          status: hasFunn ? 'Funn registrert' : isKartlagt ? 'Kartlagt – OK' : 'Ikke kartlagt',
+          status: hasFunn ? 'Funn registrert' : ikkeKartlagt ? 'Ikke kartlagt' : isKartlagt ? 'Kartlagt – OK' : 'Ingen data',
           detalj: matches.map((m: any) => `${m.layerName}: ${m.coverageStatus}`).join('; ') || 'Ingen data',
         })
       }
     }
   } catch {}
 
-  // ── 3. Tomter til salgs i området (fra FINN-scraping i DB) ──
-  // For nå returnerer vi en lenke til FINN-søk
+  // ── 3. Sammendrag per kategori ──
+  const naerserviceKategorier = groupBy(naerservice, 'kategori')
+
+  // ── 4. Nærhet til natur – sjekk om det er sjø/vann/skog innenfor radius ──
+  const naturKategori = naerserviceKategorier['Natur'] || []
+  const harSjo = naturKategori.some((n: any) => ['beach', 'water', 'marina', 'beach_resort'].includes(n.type))
+  const harSkog = naturKategori.some((n: any) => ['wood', 'forest', 'nature_reserve', 'park'].includes(n.type))
+
+  // ── 5. Finn-søk i området ──
   const finnSokeUrl = `https://www.finn.no/realestate/plots/search.html?lat=${lat}&lon=${lon}&radius=5000&sort=PUBLISHED_ASC`
 
   return NextResponse.json({
     success: true,
     naerservice,
-    naerserviceKategorier: groupBy(naerservice, 'kategori'),
+    naerserviceKategorier,
     grunnforhold,
+    naturInfo: {
+      harSjoeNaerhet: harSjo,
+      harSkogNaerhet: harSkog,
+      naturPunkter: naturKategori.length,
+    },
+    overpassFeilet,
     finnTomterUrl: finnSokeUrl,
     radius,
   })
@@ -129,10 +200,39 @@ function haversine(lat1: number, lon1: number, lat2: number, lon2: number): numb
 
 function typeLabel(type: string): string {
   const labels: Record<string, string> = {
-    school: 'Skole', kindergarten: 'Barnehage', supermarket: 'Dagligvare',
-    convenience: 'Nærbutikk', pharmacy: 'Apotek', doctors: 'Lege',
-    bus_stop: 'Bussholdeplass', stop_position: 'Holdeplass',
-    playground: 'Lekeplass', library: 'Bibliotek', bakery: 'Bakeri',
+    school: 'Skole',
+    kindergarten: 'Barnehage',
+    supermarket: 'Dagligvarebutikk',
+    convenience: 'Nærbutikk',
+    bakery: 'Bakeri',
+    butcher: 'Slakter',
+    greengrocer: 'Grønnsaksbutikk',
+    pharmacy: 'Apotek',
+    doctors: 'Legekontor',
+    dentist: 'Tannlege',
+    hospital: 'Sykehus',
+    clinic: 'Klinikk',
+    bus_stop: 'Bussholdeplass',
+    stop_position: 'Holdeplass',
+    bus_station: 'Busstasjon',
+    station: 'Togstasjon',
+    halt: 'Tog holdeplass',
+    tram_stop: 'Trikkeholdeplass',
+    playground: 'Lekeplass',
+    sports_centre: 'Idrettssenter',
+    fitness_centre: 'Treningsstudio',
+    swimming_pool: 'Svømmehall',
+    park: 'Park',
+    nature_reserve: 'Naturreservat',
+    beach_resort: 'Badestrand',
+    marina: 'Marina/båthavn',
+    beach: 'Strand/badeplass',
+    water: 'Vann/innsjø',
+    wood: 'Skog',
+    forest: 'Skog',
+    recreation_ground: 'Friluftsområde',
+    library: 'Bibliotek',
+    community_centre: 'Kultursenter',
   }
   return labels[type] || type
 }

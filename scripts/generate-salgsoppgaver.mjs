@@ -24,6 +24,7 @@ const ONEDRIVE = 'C:/Users/jakob/OneDrive - Konsepthus AS/TEGNEBUA - Dokumenter/
 const TOMTER = [
   { slug: 'myllavegen-58', mappeNavn: 'Myllavegen 58' },
   { slug: 'gamle-dalsveg-16', mappeNavn: 'Gamle Dalsveg 16' },
+  { slug: 'brottenga-23', mappeNavn: 'Brottenga 23' },
 ]
 
 // Hent fra Vercel (produksjon) eller lokal dev-server

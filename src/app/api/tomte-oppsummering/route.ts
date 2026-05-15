@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
 
   const prompt = `Du er en tomteekspert som hjelper vanlige folk å forstå hva som er mulig å bygge på en tomt i Norge.
 
-Analyser denne eiendommen og lag en klar, lettfattelig oppsummering for en person uten kunnskap om planlov.
+Analyser denne eiendommen og lag en klar, lettfattelig oppsummering basert UTELUKKENDE på dataene nedenfor.
 
 ADRESSE: ${adresse}, ${kommunenavn} (kommunenr. ${kommunenummer || 'ukjent'})
 TOMTESTØRRELSE: ${areal_m2 ? `${areal_m2} m²` : 'ukjent'}
@@ -70,14 +70,12 @@ REGULERINGSDATA: ${regTekst}
 DOKUMENTER: ${regDocTekst}. ${kpDocTekst}
 DOK-DATASETT MED FUNN:
 ${dokFunnLinjer}
-DATASETT UTEN FUNN: ${dok_uten_funn_count} stk. (greit – ingen risiko der)
+DATASETT UTEN FUNN: ${dok_uten_funn_count} stk. (ingen risiko bekreftet der)
 
-VIKTIGE HENSYN:
-- Strandsone: Er tomten innenfor 100 m fra sjø/kyst/elv? Dette er svært viktig – byggeforbud gjelder normalt i 100-metersbeltet langs sjø og vassdrag.
-- Kvikkleire: Krever geoteknisk undersøkelse og kan gi krav om tiltak.
-- Flom: Kan kreve flomvurdering og begrense tillatt byggehøyde.
-- Kulturminner: Kan forsinke eller stoppe byggesak.
-- Grunnforurensning: Kan kreve grunnundersøkelse og sanering.
+ABSOLUTT REGEL – FØLG DETTE NØYE:
+Du har KUN tilgang til dataene ovenfor. Du har IKKE lov til å bruke din generelle geografiske kunnskap til å anta risikoer. Dette gjelder spesielt:
+- Strandsone/100-metersbeltet: Nevn dette BARE dersom DOK-datasettene ovenfor eksplisitt bekrefter funn med strandsone-merking. Hvis det ikke er strandsone-funn i dataene, skal du ALDRI nevne det – uavhengig av hva du vet om kommunens beliggenhet.
+- Kvikkleire, flom, kulturminner, grunnforurensning: Samme regel – kun nevnes hvis bekreftet i DOK-funn ovenfor.
 
 Skriv som om du forklarer til en vanlig huseier. Unngå fagsjargong uten forklaring. Bruk enkle ord.
 
@@ -93,7 +91,7 @@ Returner BARE dette JSON-objektet (ingen annen tekst):
   ]
 }
 
-Inkluder 3-7 funn. Bruk "positiv" for fordeler/muligheter, "advarsel" for ting man bør sjekke (strandsone, kvikkleire, osv.), "kritisk" for reelle hindringer som byggeforbud. Nevn alltid strandsone/100m-sone dersom det er funn på dette. Skriv norsk bokmål.`
+Inkluder 3-7 funn. Bruk "positiv" for fordeler/muligheter, "advarsel" for ting man bør sjekke (kun basert på bekreftet DOK-funn), "kritisk" for reelle hindringer som byggeforbud. Skriv norsk bokmål.`
 
   try {
     const client = new Anthropic({ apiKey })

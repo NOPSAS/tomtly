@@ -1,8 +1,15 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
+import { useAuth } from '@/lib/auth-context'
+
+// Email → dashboard-tilgang (én e-post per selger)
+const TOMT_TILGANG: Record<string, string> = {
+  'cato@dibb.no': 'gamle-dalsveg-16',
+  'post@italmarin.no': 'myllavegen-58',
+}
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -515,6 +522,236 @@ const CASES: Record<string, TomtCase> = {
     tomtepresentasjonLink: '#',
     shareUrl: 'tomtly.no/tomt/demo',
   },
+
+  'gamle-dalsveg-16': {
+    id: 'gamle-dalsveg-16',
+    adresse: 'Gamle Dalsveg 16 A, 2032 Maura',
+    kommune: 'Nannestad (3238)',
+    kommunenr: '3238',
+    gnr: 148,
+    bnr: 166,
+    status: 'aktiv',
+    statusLabel: 'Aktiv',
+    dagerPaaMarkedet: 31,
+    pakke: 'Analyse + Markedsføring',
+    pris: 2300000,
+    areal: 564,
+    publisert: '10.04.2026',
+    tomtescore: 8.1,
+    selger: { navn: 'Cato Olsen', epost: 'cato@dibb.no', telefon: '402 04 012' },
+    metrics: {
+      visninger: { tall: 218, endring: '+22 denne uken', trend: 'up' },
+      interessenter: { tall: 7, endring: '+2 nye siste 7 dager', trend: 'up' },
+      visningsforespørsler: { tall: 3, endring: '1 venter på svar', trend: 'neutral' },
+      tomtescore: { tall: '8.1/10', endring: 'Godt over gjennomsnittet i Nannestad', trend: 'up' },
+    },
+    interessenter: [
+      { id: 1, navn: 'Ingrid Nygaard', type: 'Privatperson', dato: '2026-05-08', status: 'ny', telefon: '916 34 712', epost: 'ingrid.nygaard@gmail.com', notat: 'Ønsker å bygge enebolig i Nannestad. Familie med tre barn.', foreslattSvar: 'Hei Ingrid! Takk for din interesse for Gamle Dalsveg 16 A. Vi har analysert 34 husmodeller for tomten og kan sende komplett rapport. Gangavstand til Maura skole og barnehage. Ønsker du rapport eller visning? Vennlig hilsen, Tomtly Tomtekonsulent' },
+      { id: 2, navn: 'Per Halvorsen', type: 'Privatperson', dato: '2026-05-06', status: 'kontaktet', telefon: '923 88 441', epost: 'per.halvorsen@outlook.com', notat: 'Spørsmål om reguleringsbestemmelser og BYA-utnyttelse.', foreslattSvar: 'Hei Per! Tomten er regulert til boligformål med 30 % BYA, som gir 169 m² tillatt bebygd areal. Kommunalt VA er tilgjengelig. Ønsker du den fullstendige tomterapporten? Vennlig hilsen, Tomtly Tomtekonsulent' },
+      { id: 3, navn: 'Familien Bjerk', type: 'Privatperson', dato: '2026-05-03', status: 'visning_avtalt', telefon: '941 22 567', epost: 'bjerk.familien@hotmail.com', notat: 'Visning avtalt lørdag 17. mai kl. 11:00.', foreslattSvar: 'Hei! Vi gleder oss til å vise dere Gamle Dalsveg 16 A lørdag 17. mai kl. 11:00. Ta med gjerne spørsmål om husmodeller og totalbudsjett – vi har analysert alt fra 6,2 til 8,9 MNOK. Vennlig hilsen, Tomtly Tomtekonsulent' },
+      { id: 4, navn: 'Thomas Engvold', type: 'Privatperson', dato: '2026-04-29', status: 'kontaktet', telefon: '977 55 312', epost: 'thomas.engvold@yahoo.no', notat: 'Interessert i nærhet til Jessheim og pendlermuligheter.', foreslattSvar: 'Hei Thomas! Fra Maura er det ca. 12 min til Jessheim og 30 min til Oslo via E6. Tomt, husmodeller og kostnadsoverslag sendes gjerne. Vennlig hilsen, Tomtly Tomtekonsulent' },
+      { id: 5, navn: 'Lena Aasberg', type: 'Privatperson', dato: '2026-04-25', status: 'ny', telefon: '904 17 238', epost: 'lena.aasberg@gmail.com', notat: 'Ønsker info om grunnforhold etter at geoteknisk rapport er utarbeidet.', foreslattSvar: 'Hei Lena! Geoteknisk rapport foreligger og bekrefter stabile grunnforhold. Tomten er i kvikkleire-aktsomhetsområde, men rapporten dokumenterer at den er byggbar. Ønsker du å motta rapporten? Vennlig hilsen, Tomtly Tomtekonsulent' },
+    ],
+    aktiviteter: [
+      { id: 1, type: 'interessent', icon: '🔔', tid: '2 dager siden', tekst: 'Ny interessent: Ingrid Nygaard har registrert interesse.', harHandling: true },
+      { id: 2, type: 'visning', icon: '👁️', tid: '3 dager siden', tekst: 'Tomten ble sett 31 ganger denne uken – over snittet for Nannestad.', harHandling: false },
+      { id: 3, type: 'interessent', icon: '🔔', tid: '5 dager siden', tekst: 'Per Halvorsen ønsker info om reguleringsbestemmelser.', harHandling: true },
+      { id: 4, type: 'interessent', icon: '🔔', tid: '8 dager siden', tekst: 'Familien Bjerk har booket visning lørdag 17. mai.', harHandling: false },
+      { id: 5, type: 'kampanje', icon: '📣', tid: '10 dager siden', tekst: 'E-postkampanje sendt til 280 registrerte kjøpere i Nannestad, Ullensaker og Nes.', harHandling: false },
+      { id: 6, type: 'system', icon: '✅', tid: '12 dager siden', tekst: 'Tomterapport oppdatert med geoteknisk rapport og VA-dokumentasjon.', harHandling: false },
+      { id: 7, type: 'interessent', icon: '🔔', tid: '2 uker siden', tekst: 'Thomas Engvold spør om pendlermuligheter og reisetid.', harHandling: false },
+      { id: 8, type: 'rapport', icon: '📈', tid: '2 uker siden', tekst: 'Ukentlig rapport: 68 visninger, 2 nye interessenter.', harHandling: false },
+      { id: 9, type: 'system', icon: '✅', tid: '3 uker siden', tekst: 'Annonsekampanje startet – målgruppe barnefamilier i Akershus.', harHandling: false },
+      { id: 10, type: 'system', icon: '✅', tid: '31 dager siden', tekst: 'Tomten ble publisert på tomtly.no med 34 analyserte husmodeller.', harHandling: false },
+    ],
+    tomtDetaljer: {
+      regulering: 'Boligbebyggelse – frittliggende enebolig',
+      utnyttelsesgrad: '30% BYA (169 m²)',
+      maksHoyde: '9,0 meter (mønehøyde)',
+      gesimshøyde: '7,0 meter',
+      etasjer: '2 etasjer',
+      terreng: 'Flatt til svakt hellende',
+      vann: 'Kommunalt – kr 98 824 inkl. mva',
+      avlop: 'Kommunalt – inkl. i VA-tilknytning',
+      adkomst: 'Avkjøringstillatelse foreligger (delt innkjørsel)',
+      grunnforhold: 'Geoteknisk rapport utarbeidet – stabile forhold',
+      solforhold: 'Gode solforhold mot sørvest',
+      støy: 'Grønn støysone – ingen tiltak nødvendig',
+      prisantydning: '2 300 000 kr',
+      kommunaleAvgifter: '14 200 kr/år (estimat)',
+      matrikkel: '3238-148/166',
+      fradelingStatus: 'Vedtatt av Nannestad kommune',
+    },
+    husmodeller: ['Perla (Norgeshus)', 'Lilly (ABChus)', 'Nordstrand (Mesterhus)', 'Nelly (ABChus)', 'Rognheim (Norgeshus)'],
+    trafikk: [
+      { dag: '12. apr', visninger: 18 },
+      { dag: '15. apr', visninger: 24 },
+      { dag: '18. apr', visninger: 31 },
+      { dag: '21. apr', visninger: 19 },
+      { dag: '24. apr', visninger: 22 },
+      { dag: '27. apr', visninger: 28 },
+      { dag: '30. apr', visninger: 16 },
+      { dag: '3. mai', visninger: 21 },
+      { dag: '6. mai', visninger: 27 },
+      { dag: '9. mai', visninger: 12 },
+    ],
+    trafikkkilder: [
+      { kilde: 'tomtly.no – direkte', prosent: 34, visninger: 74 },
+      { kilde: 'Google søk', prosent: 26, visninger: 57 },
+      { kilde: 'Facebook-annonse', prosent: 22, visninger: 48 },
+      { kilde: 'E-postkampanje', prosent: 12, visninger: 26 },
+      { kilde: 'Annet / delt lenke', prosent: 6, visninger: 13 },
+    ],
+    markedsføring: [
+      { kanal: 'tomtly.no', status: 'Publisert', detalj: '218 visninger totalt', ikon: '🌐', farge: 'bg-forest-50 border-forest-200' },
+      { kanal: 'Annonsering', status: 'Aktiv kampanje', detalj: '9 400 rekkevidde · 141 klikk', ikon: '📣', farge: 'bg-blue-50 border-blue-200' },
+      { kanal: 'E-postliste', status: 'Sendt', detalj: 'Sendt til 280 kjøpere i Nannestad/Ullensaker/Nes', ikon: '📧', farge: 'bg-purple-50 border-purple-200' },
+    ],
+    dokumenter: [
+      { navn: 'Salgsoppgave (PDF)', type: 'PDF', dato: '10. april 2026', ikon: '📄' },
+      { navn: 'Geoteknisk rapport', type: 'PDF', dato: '8. april 2026', ikon: '🔬' },
+      { navn: 'Vedtak om fradeling', type: 'PDF', dato: '1. april 2026', ikon: '📋' },
+      { navn: 'VA-kart og tilknytningskostnad', type: 'PDF', dato: '28. mars 2026', ikon: '🗺️' },
+      { navn: 'Reguleringsbestemmelser (Nannestad)', type: 'PDF', dato: '10. mars 2026', ikon: '📋' },
+    ],
+    fremdrift: [
+      { steg: 'Tomt registrert', status: 'done' },
+      { steg: 'Tomterapport ferdigstilt', status: 'done' },
+      { steg: 'Publisert på tomtly.no', status: 'done' },
+      { steg: 'Annonsekampanje startet', status: 'done' },
+      { steg: 'Motta visningsforespørsler', status: 'current' },
+      { steg: 'Gjennomfør visninger', status: 'future' },
+      { steg: 'Motta bud', status: 'future' },
+      { steg: 'Aksepter bud', status: 'future' },
+      { steg: 'Oppgjør via Proff Oppgjør', status: 'future' },
+      { steg: 'Overlevering', status: 'future' },
+    ],
+    sammenlignbare: [
+      { adresse: 'Nannestadvegen 44, Nannestad', areal: 620, pris: 2100000, dato: 'Mar 2026' },
+      { adresse: 'Mauraveien 18, Maura', areal: 598, pris: 2450000, dato: 'Jan 2026' },
+      { adresse: 'Jessheimvegen 7, Nannestad', areal: 710, pris: 2650000, dato: 'Nov 2025' },
+      { adresse: 'Granveien 3, Maura', areal: 540, pris: 1950000, dato: 'Sep 2025' },
+    ],
+    pakkeBeskrivelse: 'Fullstendig tomteanalyse og aktiv markedsføring. 34 analyserte husmodeller, komplett dokumentasjon, faglig oppfølging og Tomtekonsulent-støtte.',
+    pakkeFeatures: ['Salgsoppgave (PDF)', 'Husmodell-analyse (34 modeller)', 'Annonsering', 'Tomtekonsulent-støtte', 'Oppgjør via Proff Oppgjør AS'],
+    pakkePris: '4 990 kr',
+    pakkeProvisjon: '+ 2 % suksesshonorar + mva ved salg (min. 20 000 kr + mva)',
+    tomtepresentasjonLink: '/tomter/gamle-dalsveg-16',
+    shareUrl: 'tomtly.no/tomter/gamle-dalsveg-16',
+  },
+
+  'myllavegen-58': {
+    id: 'myllavegen-58',
+    adresse: 'Myllavegen 58, 2742 Grua',
+    kommune: 'Lunner (334)',
+    kommunenr: '3034',
+    gnr: 134,
+    bnr: 85,
+    status: 'aktiv',
+    statusLabel: 'Aktiv',
+    dagerPaaMarkedet: 57,
+    pakke: 'Analyse + Markedsføring',
+    pris: 950000,
+    areal: 1000,
+    publisert: '15.03.2026',
+    tomtescore: 7.6,
+    selger: { navn: 'Bjørn Vidar Lund', epost: 'post@italmarin.no', telefon: '—' },
+    metrics: {
+      visninger: { tall: 341, endring: '+19 denne uken', trend: 'up' },
+      interessenter: { tall: 9, endring: '+1 ny siste 7 dager', trend: 'up' },
+      visningsforespørsler: { tall: 4, endring: '2 venter på svar', trend: 'neutral' },
+      tomtescore: { tall: '7.6/10', endring: 'Over gjennomsnittet i Lunner', trend: 'up' },
+    },
+    interessenter: [
+      { id: 1, navn: 'Stein Johansen', type: 'Privatperson', dato: '2026-05-07', status: 'bud_mottatt', telefon: '935 44 128', epost: 'stein.johansen@gmail.com', notat: 'Muntlig bud mottatt: 840 000 kr. Avventer skriftlig via budskjema.', foreslattSvar: 'Hei Stein! Takk for budet på Myllavegen 58. For å gå videre trenger vi et skriftlig bud. Vi sender over budskjema straks. Vennlig hilsen, Tomtly Tomtekonsulent' },
+      { id: 2, navn: 'Marianne Berg', type: 'Privatperson', dato: '2026-05-04', status: 'visning_avtalt', telefon: '948 12 334', epost: 'marianne.berg@outlook.com', notat: 'Visning avtalt søndag 18. mai kl. 13:00.', foreslattSvar: 'Hei Marianne! Vi gleder oss til å vise deg Myllavegen 58 søndag 18. mai kl. 13:00. Vi tar med full kostnadsanalyse for alle 12 husmodellene. Vennlig hilsen, Tomtly Tomtekonsulent' },
+      { id: 3, navn: 'Kristoffer Nesse', type: 'Privatperson', dato: '2026-04-28', status: 'kontaktet', telefon: '911 77 223', epost: 'k.nesse@yahoo.no', notat: 'Interessert i stor tomt for fritidsaktiviteter og hage.', foreslattSvar: 'Hei Kristoffer! Myllavegen 58 er en romslig 1 000 m²-tomt i Grua med skog og turterreng rett ved. Vi sender tomterapport og husmodellanalyse. Ønsker du visning? Vennlig hilsen, Tomtly Tomtekonsulent' },
+      { id: 4, navn: 'Ole Sandvik', type: 'Privatperson', dato: '2026-05-09', status: 'ny', telefon: '921 56 089', epost: 'ole.sandvik@gmail.com', notat: 'Ny henvendelse – ingen detaljer ennå.', foreslattSvar: 'Hei Ole! Takk for din interesse for tomten på Myllavegen 58. Tomten er 1 000 m² i et etablert boligstrøk i Grua, Lunner. Vi har analysert 12 husmodeller med totalbudsjett fra 5,0 MNOK. Vil du motta rapport? Vennlig hilsen, Tomtly Tomtekonsulent' },
+      { id: 5, navn: 'Sigrid Haugen', type: 'Privatperson', dato: '2026-04-20', status: 'kontaktet', telefon: '903 44 512', epost: 'sigrid.haugen@hotmail.com', notat: 'Vurderer Grua pga. lav tomtepris. Pendler til Hønefoss.', foreslattSvar: 'Hei Sigrid! Med en tomtepris på 950 000 kr er Myllavegen 58 blant de mest prisgunstige alternativene i området. Totalbudsjett fra 5,0 MNOK. Reisetid til Hønefoss ca. 20 min. Vennlig hilsen, Tomtly Tomtekonsulent' },
+    ],
+    aktiviteter: [
+      { id: 1, type: 'interessent', icon: '🔔', tid: '2 dager siden', tekst: 'Ny interessent: Ole Sandvik har registrert interesse.', harHandling: true },
+      { id: 2, type: 'interessent', icon: '🔔', tid: '4 dager siden', tekst: 'Stein Johansen ga muntlig bud på 840 000 kr – avventer skriftlig.', harHandling: true },
+      { id: 3, type: 'visning', icon: '👁️', tid: '5 dager siden', tekst: 'Marianne Berg har booket visning søndag 18. mai kl. 13:00.', harHandling: false },
+      { id: 4, type: 'visning', icon: '👁️', tid: '1 uke siden', tekst: 'Tomten ble sett 48 ganger denne uken.', harHandling: false },
+      { id: 5, type: 'interessent', icon: '🔔', tid: '1 uke siden', tekst: 'Kristoffer Nesse ønsker info om stor tomt og hage.', harHandling: false },
+      { id: 6, type: 'kampanje', icon: '📣', tid: '10 dager siden', tekst: 'Annonsekampanje oppdatert – ny målgruppe: unge familier i Ringerike og Lunner.', harHandling: false },
+      { id: 7, type: 'rapport', icon: '📈', tid: '2 uker siden', tekst: 'Ukentlig rapport: 87 visninger, 2 nye interessenter.', harHandling: false },
+      { id: 8, type: 'interessent', icon: '🔔', tid: '3 uker siden', tekst: 'Sigrid Haugen interessert i pendleravstand til Hønefoss.', harHandling: false },
+      { id: 9, type: 'kampanje', icon: '📣', tid: '4 uker siden', tekst: 'E-postkampanje sendt til 310 registrerte kjøpere i Lunner, Ringerike og Jevnaker.', harHandling: false },
+      { id: 10, type: 'system', icon: '✅', tid: '57 dager siden', tekst: 'Tomten ble publisert på tomtly.no med 12 analyserte husmodeller.', harHandling: false },
+    ],
+    tomtDetaljer: {
+      regulering: 'Boligbebyggelse – frittliggende enebolig',
+      utnyttelsesgrad: '30% BYA (300 m²)',
+      maksHoyde: '9,0 meter (mønehøyde)',
+      gesimshøyde: '7,0 meter',
+      etasjer: '2 etasjer',
+      terreng: 'Svakt hellende mot sørvest',
+      vann: 'Kommunalt – tilgjengelig i vei',
+      avlop: 'Kommunalt – tilgjengelig i vei',
+      adkomst: 'Avkjøringstillatelse foreligger',
+      grunnforhold: 'God byggbarhet – morene/fjell',
+      solforhold: 'Gode solforhold, vestvendt hellning',
+      støy: 'Grønn støysone – ingen tiltak nødvendig',
+      prisantydning: '950 000 kr',
+      kommunaleAvgifter: '11 600 kr/år (estimat)',
+      matrikkel: '3034-134/85',
+      fradelingStatus: 'Vedtatt av Lunner kommune',
+    },
+    husmodeller: ['Nelly Skrå (ABChus)', 'Wide Skrå (ABChus)', 'Selma m/kjeller (Älvsbyhus)', 'Signatur 308 (Mesterhus)', 'Skogly (Hedalm)'],
+    trafikk: [
+      { dag: '17. mar', visninger: 22 },
+      { dag: '24. mar', visninger: 31 },
+      { dag: '31. mar', visninger: 28 },
+      { dag: '7. apr', visninger: 35 },
+      { dag: '14. apr', visninger: 29 },
+      { dag: '21. apr', visninger: 41 },
+      { dag: '28. apr', visninger: 37 },
+      { dag: '5. mai', visninger: 44 },
+      { dag: '9. mai', visninger: 19 },
+    ],
+    trafikkkilder: [
+      { kilde: 'tomtly.no – direkte', prosent: 32, visninger: 109 },
+      { kilde: 'Google søk', prosent: 28, visninger: 95 },
+      { kilde: 'Facebook-annonse', prosent: 24, visninger: 82 },
+      { kilde: 'E-postkampanje', prosent: 10, visninger: 34 },
+      { kilde: 'Annet / delt lenke', prosent: 6, visninger: 21 },
+    ],
+    markedsføring: [
+      { kanal: 'tomtly.no', status: 'Publisert', detalj: '341 visninger totalt', ikon: '🌐', farge: 'bg-forest-50 border-forest-200' },
+      { kanal: 'Annonsering', status: 'Aktiv kampanje', detalj: '14 200 rekkevidde · 213 klikk', ikon: '📣', farge: 'bg-blue-50 border-blue-200' },
+      { kanal: 'E-postliste', status: 'Sendt', detalj: 'Sendt til 310 kjøpere i Lunner, Ringerike og Jevnaker', ikon: '📧', farge: 'bg-purple-50 border-purple-200' },
+    ],
+    dokumenter: [
+      { navn: 'Salgsoppgave (PDF)', type: 'PDF', dato: '15. mars 2026', ikon: '📄' },
+      { navn: 'Fradelingsvedtak (Lunner)', type: 'PDF', dato: '10. mars 2026', ikon: '📋' },
+      { navn: 'Avkjøringstillatelse', type: 'PDF', dato: '8. mars 2026', ikon: '🚗' },
+      { navn: 'Reguleringsbestemmelser (Lunner)', type: 'PDF', dato: '5. mars 2026', ikon: '📋' },
+    ],
+    fremdrift: [
+      { steg: 'Tomt registrert', status: 'done' },
+      { steg: 'Tomterapport ferdigstilt', status: 'done' },
+      { steg: 'Publisert på tomtly.no', status: 'done' },
+      { steg: 'Annonsekampanje startet', status: 'done' },
+      { steg: 'Bud mottatt', status: 'current' },
+      { steg: 'Aksepter bud', status: 'future' },
+      { steg: 'Oppgjør via Proff Oppgjør', status: 'future' },
+      { steg: 'Overlevering', status: 'future' },
+    ],
+    sammenlignbare: [
+      { adresse: 'Grua sentrum tomt, Lunner', areal: 850, pris: 890000, dato: 'Feb 2026' },
+      { adresse: 'Harestua tomtefelt 2, Lunner', areal: 1100, pris: 1050000, dato: 'Des 2025' },
+      { adresse: 'Roa boligfelt, Lunner', areal: 780, pris: 820000, dato: 'Okt 2025' },
+      { adresse: 'Jevnaker tomt, Ringerike', areal: 950, pris: 780000, dato: 'Sep 2025' },
+    ],
+    pakkeBeskrivelse: 'Fullstendig tomteanalyse og aktiv markedsføring. 12 analyserte husmodeller, komplett dokumentasjon, faglig oppfølging og Tomtekonsulent-støtte.',
+    pakkeFeatures: ['Salgsoppgave (PDF)', 'Husmodell-analyse (12 modeller)', 'Annonsering', 'Tomtekonsulent-støtte', 'Oppgjør via Proff Oppgjør AS'],
+    pakkePris: '4 990 kr',
+    pakkeProvisjon: '+ 2 % suksesshonorar + mva ved salg (min. 20 000 kr + mva)',
+    tomtepresentasjonLink: '/tomter/myllavegen-58',
+    shareUrl: 'tomtly.no/tomter/myllavegen-58',
+  },
 }
 
 // ─── Shared Constants ───────────────────────────────────────────────────────
@@ -574,8 +811,25 @@ const NAV_ITEMS: { id: NavSection; label: string; ikon: string }[] = [
 
 export default function SelgerDashboard() {
   const params = useParams()
-  const tomtId = (params?.tomtId as string) || 'demo123'
-  const data = CASES[tomtId] || CASES['demo123']
+  const router = useRouter()
+  const { user, isAdmin } = useAuth()
+  const tomtId = (params?.tomtId as string) || ''
+  const data = CASES[tomtId]
+
+  // Tilgangskontroll: selger ser kun sitt eget dashboard
+  useEffect(() => {
+    if (!user) return
+    if (isAdmin) return
+    const myTomtId = TOMT_TILGANG[user.email ?? '']
+    if (myTomtId && myTomtId !== tomtId) router.replace(`/dashboard/${myTomtId}`)
+    else if (!myTomtId) router.replace('/min-side')
+  }, [user, isAdmin, tomtId, router])
+
+  if (!data) return (
+    <div className="min-h-screen bg-brand-50 flex items-center justify-center">
+      <p className="text-brand-500">Dashboard ikke funnet.</p>
+    </div>
+  )
 
   const [activeNav, setActiveNav] = useState<NavSection>('oversikt')
   const [expandedInteressent, setExpandedInteressent] = useState<number | null>(null)

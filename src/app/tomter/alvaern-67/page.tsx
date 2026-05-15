@@ -12,11 +12,12 @@ import { FileText, Download } from 'lucide-react'
 
 // ============================================================
 // GAMLE ALVÆRNVEI 67 – Alværn, Nesodden
-// 900 m² skrånende tomt, 4 husmodeller, fjordutsikt
+// 900 m² skrånende tomt, 5 husmodeller, fjordutsikt
 // Data fra tegnebua.no/prosjekter/alvaern-67
 // ============================================================
 
 const IMG = '/tomter/alvaern-shared'
+const IMG67 = '/tomter/alvaern-67'
 
 const BILDER = [
   { id: 'a1', url: `${IMG}/alvaern-render-aerial-1-DvVXdDku.jpg`, alt: 'Oversikt med fjordutsikt', kategori: 'drone' as const, bildetekst: 'Oversikt over tomten med utsikt over Oslofjorden.' },
@@ -26,7 +27,8 @@ const BILDER = [
   { id: 'a5', url: `${IMG}/alvaern-wide-interior-9F3lfWuz.png`, alt: 'Wide A – stue med fjordutsikt', kategori: 'utsikt' as const, bildetekst: 'Interiør Wide A: Stor stue med panoramautsikt over Oslofjorden.' },
   { id: 'a6', url: `${IMG}/alvaern-wide-kitchen-1-C0o_WK6D.jpg`, alt: 'Wide A – kjøkken', kategori: 'nabolag' as const, bildetekst: 'Drømmekjøkkenet med Siemens hvitevarer – inkludert i Wide A.' },
   { id: 'a7', url: `${IMG}/alvaern-wide-bedroom-DQdzvUWa.jpg`, alt: 'Wide A – soverom', kategori: 'nabolag' as const, bildetekst: 'Hovedsoverom med naturlig lys.' },
-  { id: 'a8', url: `${IMG}/alvaern-nelly-exterior-CPXNDfJf.jpg`, alt: 'Nelly – eksteriør', kategori: 'tomt' as const, bildetekst: 'Husmodellen Nelly fra ABChus – moderne design med mønetak.' },
+  { id: 'a8', url: `${IMG67}/nelly-visualisering.png`, alt: 'Nelly Skrå – visualisering på tomten', kategori: 'tomt' as const, bildetekst: 'Nelly Skrå fra ABChus visualisert på Gamle Alværnvei 67.' },
+  { id: 'a11', url: `${IMG67}/kongsvik-visualisering.png`, alt: 'Kongsvik – visualisering på tomten', kategori: 'tomt' as const, bildetekst: 'Kongsvik fra Blink Hus visualisert på Gamle Alværnvei 67.' },
   { id: 'a9', url: `${IMG}/alvaern-adele-exterior-D5dWD4fH.jpg`, alt: 'Adele – eksteriør', kategori: 'tomt' as const, bildetekst: 'Husmodellen Adele fra ABChus – herskapelig med 6 soverom.' },
   { id: 'a10', url: `${IMG}/alvaern-skogly-exterior-xL5avi0v.jpg`, alt: 'Skogly – eksteriør', kategori: 'tomt' as const, bildetekst: 'Husmodellen Skogly fra Hedalm-Anebyhus – kompakt og effektiv.' },
 ]
@@ -45,7 +47,7 @@ const ETTER = (grunnarbeid: number) => [
 
 const HUSMODELLER = [
   {
-    id: 'wide-a', navn: 'Wide A', leverandor: 'ABChus',
+    id: 'wide-a', grunnmur_inkludert: true, navn: 'Wide A', leverandor: 'ABChus',
     leverandor_url: 'https://abchus.no/ferdighus/funkishus/wide-a/',
     beskrivelse: 'Funkishus med stor stue, Drømmekjøkkenet, Siemens hvitevarer, smarthus og panoramautsikt. 3 soverom + hybel. Inkluderer støpt plate/grunnmur og 1-trinns byggesøknad.',
     bra_m2: 160.3, soverom: 4, bad: '2', etasjer: 2,
@@ -63,7 +65,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'nelly', navn: 'Nelly', leverandor: 'ABChus', leverandor_url: 'https://www.abchus.no/hus/nelly/',
+    id: 'nelly', grunnmur_inkludert: true, navn: 'Nelly', leverandor: 'ABChus', leverandor_url: 'https://www.abchus.no/hus/nelly/',
     beskrivelse: 'Moderne enebolig med mønetak i stue/kjøkken, 4 soverom, vaskerom og TV-stue med utgang til hage. Tilpasset skrånende tomter.',
     bra_m2: 160.9, soverom: 4, bad: '1 + WC', etasjer: 2,
     ekstra: { 'BYA': '~90 m²', 'Utnyttelse': '14,0%', 'Vaskerom': 'Ja', 'TV-stue': 'Ja' },
@@ -72,7 +74,7 @@ const HUSMODELLER = [
     verdi_bra_m2: 160, verdi_m2_pris: 75000, verdi_total: 12000000,
     inkludert: ['Støpt plate/grunnmur', 'Parkett', 'Flislagt entré og våtrom', 'Pipe og peisovn', 'Komplett el-leveranse', 'Komplett rørleveranse', 'Kjøkken med hvitevarer', 'Baderomsinnredning', 'Fundament inkludert'],
     bilder: {
-      fasade: [`${IMG}/alvaern-nelly-exterior-CPXNDfJf.jpg`, `${IMG}/alvaern-nelly-interior-2-D8pCvq7I.png`],
+      fasade: [`${IMG67}/nelly-visualisering.png`, `${IMG}/alvaern-nelly-interior-2-D8pCvq7I.png`],
       plantegninger: [
         { url: `${IMG}/alvaern-nelly-plan-hovedetasje-Ccwt7L9E.png`, label: 'Hovedetasje – stue/kjøkken (åpen), WC, entré, veranda' },
         { url: `${IMG}/alvaern-nelly-plan-underetasje-D5BQ8tk-.png`, label: 'Underetasje – 4 soverom, vaskerom, bad, TV-stue' },
@@ -80,7 +82,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'adele', navn: 'Adele', leverandor: 'ABChus', leverandor_url: 'https://www.abchus.no/hus/adele/',
+    id: 'adele', grunnmur_inkludert: true, navn: 'Adele', leverandor: 'ABChus', leverandor_url: 'https://www.abchus.no/hus/adele/',
     beskrivelse: 'Herskapelig enebolig over to plan med opptil 6 soverom. Størst modell med 199 m². Stor stue/kjøkken, vaskerom, hovedsoverom med eget bad og balkong.',
     bra_m2: 199.1, soverom: 6, bad: '2 + WC', etasjer: 2,
     ekstra: { 'BYA': '~120 m²', 'Utnyttelse': '17,3%', 'Hovedsoverom': 'Med eget bad', 'Balkong': 'Ja' },
@@ -97,7 +99,7 @@ const HUSMODELLER = [
     },
   },
   {
-    id: 'skogly', navn: 'Skogly', leverandor: 'Hedalm-Anebyhus', leverandor_url: 'https://www.hedalm-anebyhus.no/hus/skogly/',
+    id: 'skogly', grunnmur_inkludert: false, navn: 'Skogly', leverandor: 'Hedalm-Anebyhus', leverandor_url: 'https://www.hedalm-anebyhus.no/hus/skogly/',
     beskrivelse: 'Kompakt og effektiv bolig med inngang fra begge plan – perfekt for skrånende tomt. 3 soverom, innglassert balkong. Billigst modell med mest gjenværende BYA-kapasitet (64 m² mer kan bygges).',
     bra_m2: 136.9, soverom: 3, bad: '2', etasjer: 2,
     ekstra: { 'BYA': '80,5 m²', 'Utnyttelse': '12,9%', 'Gjenværende BYA': '64,1 m²', 'Innglassert balkong': 'Ja' },
@@ -110,6 +112,31 @@ const HUSMODELLER = [
       plantegninger: [
         { url: `${IMG}/skogly-plan-hovedetasje-DfjuW4p6.png`, label: 'Hovedetasje – stue/kjøkken, bad, soverom 1, balkong' },
         { url: `${IMG}/skogly-plan-underetasje-BV4nwuRM.png`, label: 'Underetasje – 2 soverom, bad, sportsbod' },
+      ],
+    },
+  },
+  {
+    id: 'kongsvik', grunnmur_inkludert: true, navn: 'Kongsvik', leverandor: 'Blink Hus',
+    leverandor_url: 'https://www.blink-hus.no/hus/kongsvik',
+    beskrivelse: 'Fleksibel enebolig over to plan med innebygd utleiedel – perfekt for skrånende tomt med fjordutsikt. Egen inngang, bad og soverom i underetasjen. 4 soverom totalt, store vindusflater og åpen planløsning. Grunnmur inkludert i prisen.',
+    bra_m2: 126.9, soverom: 4, bad: '2', etasjer: 2,
+    ekstra: { 'BYA': '81 m²', 'Utnyttelse': '9,0%', 'Gjenværende BYA': '99,1 m²', 'Utleiedel': 'Ja', 'Grunnmur': 'Inkludert' },
+    pris_hus: 4520000, total_budsjett: 8526175,
+    kostnader: [
+      ...FELLES,
+      { post: 'Kongsvik – nøkkelferdig fra Blink Hus (inkl. grunnmur)', belop: 4520000 },
+      { post: 'Grunnarbeider inkl. mva (tilbud S-Anlegg)', belop: 652625 },
+      { post: 'Kommunale gebyrer (VA + byggesøknad)', belop: 223550 },
+      { post: 'Byggestrøm og strømtilførsel', belop: 45000 },
+      { post: 'Uavhengig kontroll (våtrom + lufttetthet)', belop: 10000 },
+    ],
+    verdi_bra_m2: 127, verdi_m2_pris: 88000, verdi_total: 11200000,
+    inkludert: ['Grunnmur og fundamentering inkludert', 'Laminatgulv (Pergo) i oppholdsrom', 'Flislagte våtrom med gulvvarme', 'Balansert ventilasjon med varmegjenvinning', 'Kjøkken (ca. kr 100 000)', 'Komplett røranlegg med varmtvannsbereder', 'Komplett el-anlegg (NEK400)', 'Matte hvite vinduer og dører', 'Malte gipsvegger og tak', 'Hvite innerdører med svarte håndtak', 'Separat utleiedel med egen inngang'],
+    bilder: {
+      fasade: [`${IMG67}/kongsvik-visualisering.png`, `${IMG67}/kongsvik-fasader.png`],
+      plantegninger: [
+        { url: `${IMG67}/kongsvik-plan-1-skra.png`, label: 'Plan 1 – underetasje (utleiedel med soverom, bad og inngang)' },
+        { url: `${IMG67}/kongsvik-plan-2-skra.png`, label: 'Plan 2 – hovedetasje (stue, kjøkken, soverom og bad)' },
       ],
     },
   },

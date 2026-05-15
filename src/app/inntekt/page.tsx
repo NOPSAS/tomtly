@@ -215,7 +215,7 @@ export default function InntektPage() {
         <div className="max-w-7xl mx-auto flex items-center gap-4">
           <Link href="/" className="p-1 hover:bg-white/10 rounded-lg transition-colors">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.svg" alt="Tomtly" className="h-7 invert" />
+            <img src="/logo-white.svg" alt="Tomtly" className="h-7" />
           </Link>
           <div>
             <h1 className="font-display text-lg font-bold">Tomtly – Inntektsmodell</h1>

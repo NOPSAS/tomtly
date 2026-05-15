@@ -145,6 +145,37 @@ function VelgPakke() {
               Oppgjør håndteres av vår samarbeidspartner Proff Oppgjør AS (fra 9 000 kr + mva). Suksesshonoraret er 2 % av salgssum + mva, minimum 20 000 kr + mva. Gjelder i 12 måneder + 3 måneder etter eventuell oppsigelse.
             </p>
           </div>
+
+          {/* ── Tilvalg ── */}
+          <div className="mt-10 max-w-lg mx-auto">
+            <p className="text-xs font-bold text-brand-400 uppercase tracking-widest text-center mb-4">Valgfrie tilvalg</p>
+            <div className="space-y-3">
+              <div className="bg-white border-2 border-tomtly-accent rounded-xl p-5 flex items-start gap-4">
+                <Megaphone className="w-6 h-6 text-tomtly-accent flex-shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="font-semibold text-tomtly-dark">Finn.no-annonse</p>
+                    <span className="text-base font-bold text-tomtly-accent flex-shrink-0">6 500 kr</span>
+                  </div>
+                  <p className="text-xs text-brand-500 mt-1">
+                    Vi lager og publiserer en profesjonell annonse på Finn.no – med analyse, husmodeller og kostnadsoverslag. Varer i 12 måneder. Prisen er Finn.no sin egen annonsepris, videreformidlet uten påslag. Uten tilvalget kan du bruke Tomtlys materiale til å legge ut selv privat på Finn.no, eller kun benytte din Tomtly-salgsside.
+                  </p>
+                </div>
+              </div>
+              <div className="bg-white border border-brand-200 rounded-xl p-5 flex items-start gap-4">
+                <Eye className="w-6 h-6 text-tomtly-accent flex-shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="font-semibold text-tomtly-dark">Bilder og drone</p>
+                    <span className="text-base font-bold text-tomtly-accent flex-shrink-0">5 500 kr</span>
+                  </div>
+                  <p className="text-xs text-brand-500 mt-1">
+                    Profesjonelle bilder og dronefoto av tomten. Inkl. mva. Anbefales for tomter med utsikt, natur eller særtrekk.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

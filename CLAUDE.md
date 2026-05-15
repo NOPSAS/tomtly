@@ -70,6 +70,7 @@ TOMTLY er IKKE et meglerfirma. TOMTLY er en analyseplattform og markedsføringsk
 **Hovedprodukter:**
 - **Tomtly Salg oppstart:** 4 990 kr (analyse, husmodeller, annonsering, salgsdashboard, Tomtekonsulent)
 - **Suksesshonorar ved salg:** 2 % av salgssum + mva, minimum 20 000 kr + mva
+- **Finn.no-annonse (tilvalg):** ca. 6 500 kr – Tomtly lager og publiserer annonse på Finn.no. Varer 12 måneder. Prisen er Finn.no sin annonsepris, videreformidlet uten påslag (0 kr margin for Tomtly). Valgfritt: kunden kan også legge ut privat på Finn.no selv med Tomtlys materiell, eller kun ha salgsside på tomtly.no.
 - **Bilder/drone:** 5 500 kr inkl. mva
 - **Oppgjør via Proff Oppgjør AS:** 9 000 kr + mva (+ 545 kr for tinglysing av sikringsobligasjon, betales separat til Proff Oppgjør, ikke til Tomtly). Kontakt: Marie Nordhagen, marie@proffoppgjor.no, +47 915 98 990
 

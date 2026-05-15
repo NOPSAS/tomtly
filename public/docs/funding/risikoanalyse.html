@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Risikoanalyse – Tomtly</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', system-ui, sans-serif; color: #1a1a1a; line-height: 1.6; font-size: 13px; }
+  .page { max-width: 800px; margin: 0 auto; padding: 48px 56px; }
+  .header { border-bottom: 3px solid #2d5a3d; padding-bottom: 24px; margin-bottom: 32px; }
+  .header .logo { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: #2d5a3d; }
+  .header .meta { color: #666; font-size: 11px; margin-top: 6px; }
+  h1 { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: #1a1a1a; margin-bottom: 8px; line-height: 1.3; }
+  h2 { font-size: 16px; font-weight: 700; color: #2d5a3d; margin-top: 32px; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid #e8f0eb; }
+  h3 { font-size: 13px; font-weight: 700; color: #1a1a1a; margin-top: 20px; margin-bottom: 8px; }
+  p { margin-bottom: 10px; color: #333; }
+  ul, ol { margin: 8px 0 12px 20px; }
+  li { margin-bottom: 4px; color: #333; }
+  strong { color: #1a1a1a; font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 12px; }
+  th { background: #f0f5f1; color: #2d5a3d; font-weight: 600; text-align: left; padding: 8px 12px; border: 1px solid #d0e4d8; }
+  td { padding: 7px 12px; border: 1px solid #e8f0eb; vertical-align: top; }
+  tr:nth-child(even) td { background: #fafcfb; }
+  blockquote { border-left: 3px solid #2d5a3d; padding: 8px 16px; background: #f0f5f1; margin: 12px 0; border-radius: 0 6px 6px 0; }
+  code { background: #f5f0e8; padding: 2px 6px; border-radius: 3px; font-family: monospace; font-size: 11px; }
+  .badge { display: inline-block; background: #2d5a3d; color: white; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-bottom: 16px; }
+  .info-box { background: #f0f5f1; border: 1px solid #c8ddd1; border-radius: 8px; padding: 16px; margin: 16px 0; }
+  .footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid #e8f0eb; color: #999; font-size: 10px; }
+  hr { border: none; border-top: 1px solid #e8f0eb; margin: 24px 0; }
+  @media print { body { print-color-adjust: exact; -webkit-print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="logo">Tomtly</div>
+    <div class="meta">NOPS AS (Konsepthus AS) · Org.nr 933 819 086 · jakob@tegnebua.no · +47 406 03 908 · tomtly.no</div>
+    <div class="meta" style="margin-top:4px">Dokument: Risikoanalyse · Mai 2026 · Konfidensielt</div>
+  </div>
+  <div class="badge">Finansieringsdokument</div>
+  <h1>Tomtly – Risikoanalyse</h1></p><p><h2>Overordnet risikovurdering</h2></p><p>Tomtly har en <strong>lav-til-middels</strong> samlet risikoprofil. Produktet er live med betalende kunder, teknologien er demonstrert, og markedet er validert på et grunnleggende nivå. Den primære usikkerheten er knyttet til B2B-betalingsvilje og salgssyklus.</p><p><hr></p><p><h2>Risikoregister</h2></p><p><h3>Teknologirisiko</h3></p><p>| Risiko | Sanns. | Kons. | Risikoverdi | Tiltak |
+<p>|--------|--------|-------|-------------|--------|</p>
+<p>| API-endringer fra offentlige kilder (Kartverket, DiBK) | Lav | Middels | Lav | Redundante API-er; abonnerer på endringslogger; tett dialog med DiBK |</p>
+<p>| AI-hallusinasjon i reguleringstolkning | Middels | Høy | Middels | Streng prompt-engineering; faktasjekk mot strukturdata; brukertydelig usikkerhetsnivå |</p>
+<p>| Skalerings-/ytelsesutfordringer | Lav | Middels | Lav | Vercel global CDN; database-optimalisering; load testing |</p>
+<p>| Oslo PBE-system endres | Middels | Middels | Middels | Lav avhengighet; rask rekonfigurering; alternativ datakilde |</p><p><h3>Markedsrisiko</h3></p><p>| Risiko | Sanns. | Kons. | Risikoverdi | Tiltak |</p>
+<p>|--------|--------|-------|-------------|--------|</p>
+<p>| B2B betalingsvilje lavere enn forventet | Middels | Høy | Middels-høy | Tidlig prisvalidering; fleksibel prismodell; plan B (API-only) |</p>
+<p>| Lang B2B salgssyklus (spesielt banker) | Høy | Middels | Middels | Parallell validering; start pilotforhandlinger tidlig |</p>
+<p>| Konkurrent etablerer seg | Lav | Høy | Middels | Norkart-partnerskap gir distribusjonsmessig forspring; tid til marked |</p>
+<p>| Kunder foretrekker gratis offentlige løsninger | Middels | Middels | Middels | Demonstrer tidssparingsverdi klart; ROI-kalkulator for meglere |</p><p><h3>Operasjonell risiko</h3></p><p>| Risiko | Sanns. | Kons. | Risikoverdi | Tiltak |</p>
+<p>|--------|--------|-------|-------------|--------|</p>
+<p>| Nøkkelperson (Jakob) faller ut | Lav | Høy | Middels | Kjetil kan overta domene; teknologidokumentasjon; bygg team |</p>
+<p>| GDPR/personvernproblem | Lav | Høy | Middels | Kun offentlige data; GDPR-gjennomgang Q3 2026; personvernombud |</p>
+<p>| Underfinansiering (IN-søknad avslås) | Middels | Høy | Middels | Skattefunn + egne midler dekker minimum; smalere prosjektplan |</p>
+<p>| Norkart-samarbeid ikke realiseres | Middels | Middels | Middels | Direkte B2B-salg som alternativ; Placepoint-kanal |</p><p><h3>Regulatorisk risiko</h3></p><p>| Risiko | Sanns. | Kons. | Risikoverdi | Tiltak |</p>
+<p>|--------|--------|-------|-------------|--------|</p>
+<p>| Endringer i plan- og bygningsloven | Meget lav | Lav | Svært lav | Langsiktig stabilitet i planlov; teknologi er uavhengig av spesifikke bestemmelser |</p>
+<p>| Lisensiering som eiendomsmegling | Lav | Høy | Middels | Juridisk avklart: Tomtly er analyseplattform, ikke meglingsforetak; oppgjør via Proff Oppgjør AS |</p><p><hr></p><p><h2>Samlet risikovurdering</h2></p><p><strong>Gjennomsnittlig risikoprofil: MIDDELS</strong></p><p>De to viktigste risikoene å håndtere aktivt:</p>
+<li><strong>B2B betalingsvilje</strong>: Løses ved å prioritere markedsvalidering tidlig i prosjektet</li>
+<li><strong>AI-hallusinasjon</strong>: Løses ved streng prompt-engineering og fakta-verifisering mot strukturdata</li></p><p>Begge er håndterbare med riktig prioritering av ressurser i prosjektperioden.
+
+  <div class="footer">
+    Tomtly · NOPS AS (Konsepthus AS) · Org.nr 933 819 086 · Alle rettigheter forbeholdt · Mai 2026
+  </div>
+</div>
+</body>
+</html>

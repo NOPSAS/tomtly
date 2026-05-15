@@ -6,6 +6,8 @@ import { getKommuneplanSammendrag } from '@/lib/kommuneplan-sammendrag'
 // POST { lat, lon, adresse, kommune, kommunenummer, gnr, bnr }
 // Henter data fra Planslurpen og arealplaner.no + kommuneplan-sammendrag
 
+export const maxDuration = 60
+
 const PLANSLURPEN_BASE = 'https://www.planslurpen.no/api'
 const AREALPLANER_BASE = 'https://api.arealplaner.no/api'
 const AREALPLANER_TOKEN = 'D7D7FFB4-1A4A-44EA-BD15-BCDB6CEF8CA5'

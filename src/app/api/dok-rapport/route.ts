@@ -5,6 +5,8 @@ import { hentBygningerForMatrikkel, hentRosForMatrikkel, type NorkartRosData } f
 // Genererer DOK-analyse PDF-rapport med Norkart ROS-data
 // POST { lat, lon, adresse, kommune, kommunenummer, gnr, bnr }
 
+export const maxDuration = 60
+
 const DOK_API = 'https://kartverket-ogc-api.azurewebsites.net/processes/fullstendighetsdekning/execution'
 
 interface Coverage {
@@ -66,7 +68,7 @@ export async function POST(request: NextRequest) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ inputs: { datasets: [], geometry: { type: 'Point', coordinates: [lon, lat] } } }),
-      signal: AbortSignal.timeout(25000),
+      signal: AbortSignal.timeout(50000),
     })
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     const data = await res.json()

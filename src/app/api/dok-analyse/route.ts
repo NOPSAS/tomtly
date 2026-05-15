@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 // Unngår CORS/timeout-problemer fra frontend
 // POST { lat, lon }
 
-export const maxDuration = 30
+export const maxDuration = 60
 
 const DOK_API = 'https://kartverket-ogc-api.azurewebsites.net/processes/fullstendighetsdekning/execution'
 
@@ -20,7 +20,15 @@ interface RiskCategory {
   ikon: string
   farge: 'red' | 'green' | 'gray' | 'yellow'
   status: string
+  risiko: 'lav' | 'middels' | 'hoy' | 'ukjent'
   datasett: { navn: string; status: string }[]
+}
+
+// Vurder risiko basert på coverageStatus
+function vurderRisiko(hasFunn: boolean, ikkeKartlagt: boolean, ingenData: boolean): 'lav' | 'middels' | 'hoy' | 'ukjent' {
+  if (ingenData || ikkeKartlagt) return 'ukjent'
+  if (hasFunn) return 'hoy'
+  return 'lav'
 }
 
 export async function POST(request: NextRequest) {
@@ -42,7 +50,7 @@ export async function POST(request: NextRequest) {
           geometry: { type: 'Point', coordinates: [lon, lat] }
         }
       }),
-      signal: AbortSignal.timeout(25000),
+      signal: AbortSignal.timeout(55000),
     })
 
     if (!res.ok) {
@@ -53,17 +61,21 @@ export async function POST(request: NextRequest) {
     const coverages: DOKCoverage[] = data.properties?.coverages || []
 
     // Kategoriser og lag risikooversikt
+    // Utvidet med Strandsone, Stormflo, Naturtype, Høyspent, Jordvern
     const keyRisks = [
-      { kategori: 'Flom', ikon: '🌊', keywords: ['flom', 'flomsone'] },
-      { kategori: 'Overvann', ikon: '💧', keywords: ['overvann', 'oversvøm'] },
-      { kategori: 'Skred', ikon: '⛰️', keywords: ['skred', 'snøskred', 'jordskred', 'steinsprang', 'fjellskred'] },
-      { kategori: 'Kvikkleire', ikon: '🟤', keywords: ['kvikkleire', 'marin leire'] },
+      { kategori: 'Flom', ikon: '🌊', keywords: ['flom', 'flomsone', 'jord- og flomskred'] },
+      { kategori: 'Stormflo', ikon: '🌊', keywords: ['stormflo', 'havnivå'] },
+      { kategori: 'Skred', ikon: '⛰️', keywords: ['skred', 'snøskred', 'jordskred', 'steinsprang', 'fjellskred', 'skredhendelser', 'skredfaresoner'] },
+      { kategori: 'Kvikkleire', ikon: '🟤', keywords: ['kvikkleire', 'marin leire', 'mulighet for marin'] },
       { kategori: 'Radon', ikon: '☢️', keywords: ['radon'] },
-      { kategori: 'Forurensning', ikon: '⚠️', keywords: ['forurens', 'grunn'] },
-      { kategori: 'Kulturminner', ikon: '🏛️', keywords: ['kulturmin', 'fredet'] },
-      { kategori: 'Verneområde', ikon: '🌿', keywords: ['verne', 'naturreservat', 'naturvern'] },
+      { kategori: 'Forurensning', ikon: '⚠️', keywords: ['forurenset grunn', 'forurens'] },
+      { kategori: 'Strandsone', ikon: '🏖️', keywords: ['strandsonen', 'statlige planretningslinjer for differensiert forvaltning'] },
+      { kategori: 'Kulturminner', ikon: '🏛️', keywords: ['kulturmin', 'fredet', 'kulturmiljø', 'brannsmiteområder', 'verneverdig'] },
+      { kategori: 'Verneområde', ikon: '🌿', keywords: ['naturvernområder', 'naturreservat', 'verneplan', 'naturtype'] },
       { kategori: 'Støy', ikon: '🔊', keywords: ['støy', 'støysone'] },
-      { kategori: 'Kraftlinjer', ikon: '⚡', keywords: ['kraftled', 'høyspent'] },
+      { kategori: 'Kraftlinjer', ikon: '⚡', keywords: ['kraftled', 'høyspent', 'byggeforbudssoner kraftledninger'] },
+      { kategori: 'Marin grense', ikon: '📍', keywords: ['marin grense'] },
+      { kategori: 'Grunnforhold', ikon: '⛏️', keywords: ['løsmasser', 'berggrunn', 'grunnvann', 'nadag', 'grunnundersøkelser'] },
     ]
 
     const risikoer: RiskCategory[] = keyRisks.map(risk => {
@@ -73,17 +85,33 @@ export async function POST(request: NextRequest) {
       const hasFunn = matches.some(m => m.coverageStatus?.toLowerCase().includes('med funn'))
       const isKartlagt = matches.some(m => {
         const s = m.coverageStatus?.toLowerCase() || ''
-        return s.includes('kartlagt') && !s.includes('ikke kartlagt')
+        return (s.includes('kartlagt') || s.includes('relevant')) && !s.includes('ikke kartlagt') && !s.includes('med funn')
       })
       const ikkeKartlagt = matches.length > 0 && matches.every(m =>
         m.coverageStatus?.toLowerCase().includes('ikke kartlagt')
       )
+      const ingenData = matches.length === 0
+
+      const risiko = vurderRisiko(hasFunn, ikkeKartlagt, ingenData)
+
+      let farge: 'red' | 'green' | 'gray' | 'yellow'
+      if (hasFunn) farge = 'red'
+      else if (ikkeKartlagt) farge = 'yellow'
+      else if (isKartlagt) farge = 'green'
+      else farge = 'gray'
+
+      let status: string
+      if (hasFunn) status = 'Funn registrert'
+      else if (ikkeKartlagt) status = 'Ikke kartlagt'
+      else if (isKartlagt) status = 'Ingen registrert fare'
+      else status = 'Ikke relevant for området'
 
       return {
         kategori: risk.kategori,
         ikon: risk.ikon,
-        farge: hasFunn ? 'red' as const : ikkeKartlagt ? 'yellow' as const : isKartlagt ? 'green' as const : 'gray' as const,
-        status: hasFunn ? 'Funn registrert' : ikkeKartlagt ? 'Ikke kartlagt' : isKartlagt ? 'Ingen registrert fare' : 'Ikke relevant',
+        farge,
+        status,
+        risiko,
         datasett: matches.map(m => ({ navn: m.layerName, status: m.coverageStatus })),
       }
     })
@@ -93,11 +121,22 @@ export async function POST(request: NextRequest) {
     const okCount = risikoer.filter(r => r.farge === 'green').length
     const ikkeKartlagtCount = risikoer.filter(r => r.farge === 'yellow').length
 
+    // Helhetlig risiko-vurdering
+    let samletRisiko: 'lav' | 'middels' | 'hoy'
+    if (funnCount >= 4) samletRisiko = 'hoy'
+    else if (funnCount >= 2) samletRisiko = 'middels'
+    else samletRisiko = 'lav'
+
     // Statusfordeling
     const statusCounts: Record<string, number> = {}
     coverages.forEach(c => {
       statusCounts[c.coverageStatus] = (statusCounts[c.coverageStatus] || 0) + 1
     })
+
+    // Nøkkeladvarsler – de viktigste funnene
+    const noekkelAdvarsler = risikoer
+      .filter(r => r.farge === 'red')
+      .map(r => r.kategori)
 
     return NextResponse.json({
       success: true,
@@ -108,14 +147,20 @@ export async function POST(request: NextRequest) {
         okCount,
         ikkeKartlagtCount,
         totalSjekket: risikoer.length,
+        samletRisiko,
+        noekkelAdvarsler,
       },
       statusCounts,
       // Raw coverages for detail view
       coverages,
     })
   } catch (err: any) {
+    const isTimeout = err?.name === 'TimeoutError' || err?.message?.includes('timeout') || err?.message?.includes('aborted')
     return NextResponse.json({
-      error: `DOK-analyse feilet: ${err.message || 'ukjent feil'}`,
-    }, { status: 500 })
+      error: isTimeout
+        ? 'DOK-analyse tok for lang tid. Prøv igjen om litt.'
+        : `DOK-analyse feilet: ${err.message || 'ukjent feil'}`,
+      erTimeout: isTimeout,
+    }, { status: isTimeout ? 504 : 500 })
   }
 }

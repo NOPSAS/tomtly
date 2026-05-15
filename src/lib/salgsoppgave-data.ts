@@ -45,6 +45,7 @@ export interface SalgsoppgaveTomt {
 const BASE = 'https://tomtly.no'
 const M58 = `${BASE}/tomter/myllavegen-58`
 const GD16 = `${BASE}/tomter/gamle-dalsveg-16`
+const B23 = `${BASE}/tomter/brottenga-23`
 
 export const SALGSOPPGAVE_DATA: Record<string, SalgsoppgaveTomt> = {
   'myllavegen-58': {
@@ -228,5 +229,65 @@ export const SALGSOPPGAVE_DATA: Record<string, SalgsoppgaveTomt> = {
       { navn: 'VA-kart', url: `${BASE}/documents/gamle-dalsveg-16/va-kart.pdf` },
       { navn: 'DOK-analyse (naturfare og grunnforhold)', url: `${BASE}/documents/gamle-dalsveg-16/dok-analyse.pdf` },
     ],
+  },
+
+  'brottenga-23': {
+    slug: 'brottenga-23',
+    adresse: 'Brøttenga 23',
+    poststed: 'Brårud',
+    kommune: 'Nes',
+    areal_m2: 847,
+    pris: 1000000,
+    gnr: 32, bnr: 110,
+    heroImage: `${B23}/situasjonskart.png`,
+    visualiseringer: [],
+    anbefaling: 'Brøttenga 23 er en velplassert boligtomt i et etablert boligfelt i Brårud, Nes kommune. Kommunalt VA tilgjengelig, gangavstand til skole og barnehage, og 25 min til Gardermoen.',
+    detaljertBeskrivelse: 'Brøttenga 23 er en boligtomt på 847 m² beliggende i et etablert boligfelt i Brårud, Nes kommune. Tomten er del av et etablert nabolag med eksisterende infrastruktur, og kommunalt vann og avløp er tilgjengelig i veien. Adkomst via Brøttenga – en blindvei som gir et rolig og trygt bomiljø. Regulert til boligbebyggelse – frittliggende småhusbebyggelse med 30 % BYA, som på 847 m² gir 254 m² tillatt bebygd areal. Tomtly har analysert 15 husmodeller fra seks ulike leverandører og beregnet fullstendig totalbudsjett inkludert grunnarbeider, kommunale gebyrer, VA-tilknytning og mer. Totalbudsjett varierer fra kr 4,9 til 6,3 MNOK avhengig av valgt husmodell.',
+    fordeler: [
+      'Etablert boligfelt – enkel saksbehandling i Nes kommune',
+      'Kommunalt vann og avløp tilgjengelig i vei',
+      '847 m² – 30 % BYA gir 254 m² tillatt bebygd areal',
+      '15 husmodeller fra 6 leverandører – totalbudsjett fra kr 4,9 MNOK',
+      'Gangavstand til skole, barnehage og bussholdeplass',
+      '25 min til Gardermoen, 50 min til Oslo via E6',
+    ],
+    nokkelFakta: [
+      { label: 'Tomtestørrelse', verdi: '847 m²' },
+      { label: 'Pris', verdi: 'kr 1 000 000' },
+      { label: 'Dokumentavgift (2,5 %)', verdi: 'kr 25 000' },
+      { label: 'Maks BYA', verdi: '30 % = 254 m²' },
+      { label: 'Maks gesimshøyde', verdi: '8,5 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Kommunalt VA', verdi: 'Ja – tilgjengelig i vei' },
+      { label: 'Adkomst', verdi: 'Via Brøttenga (blindvei)' },
+      { label: 'GNR / BNR', verdi: '32/110, Nes' },
+      { label: 'Postnummer', verdi: '2162 Brårud' },
+    ],
+    husmodeller: [
+      { navn: 'Åse', leverandor: 'Älvsbyhus', bra_m2: 135, bya_m2: 90, total_budsjett: 4874000, verdi_total: 5400000, grunnmur_inkludert: true, soverom: 3, bad: '1 + WC', hybel: false },
+      { navn: 'Fanny', leverandor: 'Älvsbyhus', bra_m2: 135, bya_m2: 88, total_budsjett: 5030000, verdi_total: 5400000, grunnmur_inkludert: true, soverom: 3, bad: '1', hybel: false },
+      { navn: 'Lilly', leverandor: 'ABChus', bra_m2: 144, bya_m2: 92, total_budsjett: 5580000, verdi_total: 6480000, grunnmur_inkludert: true, soverom: 3, bad: '1 + WC', hybel: false },
+      { navn: 'Nelly', leverandor: 'ABChus', bra_m2: 161, bya_m2: 100, total_budsjett: 5880000, verdi_total: 7245000, grunnmur_inkludert: true, soverom: 4, bad: '1 + WC', hybel: false },
+      { navn: 'Nordstrand', leverandor: 'Mesterhus', bra_m2: 158, bya_m2: 97, total_budsjett: 5580000, verdi_total: 7110000, grunnmur_inkludert: true, soverom: 4, bad: '2', hybel: false },
+      { navn: 'Signatur 305', leverandor: 'Mesterhus', bra_m2: 175, bya_m2: 105, total_budsjett: 5980000, verdi_total: 7875000, grunnmur_inkludert: true, soverom: 4, bad: '2', hybel: false },
+      { navn: 'Mira', leverandor: 'Nordbohus', bra_m2: 170, bya_m2: 100, total_budsjett: 6280000, verdi_total: 7650000, grunnmur_inkludert: true, soverom: 4, bad: '2', hybel: false },
+      { navn: 'Komplett', leverandor: 'Nordbohus', bra_m2: 149, bya_m2: 92, total_budsjett: 5980000, verdi_total: 6705000, grunnmur_inkludert: true, soverom: 4, bad: '2', hybel: false },
+      { navn: 'Perla', leverandor: 'Norgeshus', bra_m2: 157, bya_m2: 96, total_budsjett: 5680000, verdi_total: 7065000, grunnmur_inkludert: true, soverom: 4, bad: '2', hybel: false },
+      { navn: 'Rognheim', leverandor: 'Norgeshus', bra_m2: 146, bya_m2: 90, total_budsjett: 5480000, verdi_total: 6570000, grunnmur_inkludert: true, soverom: 4, bad: '2', hybel: false },
+      { navn: 'Haugli', leverandor: 'Norgeshus', bra_m2: 165, bya_m2: 100, total_budsjett: 5630000, verdi_total: 7425000, grunnmur_inkludert: true, soverom: 4, bad: '2', hybel: false },
+      { navn: 'Selvik', leverandor: 'Systemhus', bra_m2: 165, bya_m2: 102, total_budsjett: 5880000, verdi_total: 7425000, grunnmur_inkludert: true, soverom: 4, bad: '2', hybel: false },
+      { navn: 'Trend', leverandor: 'Systemhus', bra_m2: 141, bya_m2: 88, total_budsjett: 5380000, verdi_total: 6345000, grunnmur_inkludert: true, soverom: 3, bad: '2', hybel: false },
+      { navn: 'Rønningen', leverandor: 'Hedalm-Anebyhus', bra_m2: 150, bya_m2: 91, total_budsjett: 6128000, verdi_total: 6750000, grunnmur_inkludert: false, soverom: 4, bad: '1', hybel: false },
+      { navn: 'Lyris', leverandor: 'Hedalm-Anebyhus', bra_m2: 155, bya_m2: 88, total_budsjett: 6288000, verdi_total: 6975000, grunnmur_inkludert: false, soverom: 4, bad: '1', hybel: false },
+    ],
+    regulering: {
+      bya_prosent: 30,
+      maks_hoyde_m: 8.5,
+      maks_etasjer: 2,
+      plannavn: 'Kommuneplanens arealdel – Nes',
+      beskrivelse: 'Tomten er regulert til boligbebyggelse – frittliggende småhusbebyggelse etter kommuneplanens arealdel for Nes. Maks utnyttelsesgrad er 30 % BYA, som på 847 m² gir 254 m² tillatt bebygd areal. Maksimal gesimshøyde er 8,5 m og maks 2 etasjer. Adkomst via Brøttenga blindvei.',
+    },
+    nabolag: 'Brøttenga 23 ligger i et etablert boligfelt i Brårud, Nes kommune. Brårud er et lite og rolig tettsted med enkel tilgang til Gardermoen (ca. 25 min) og Oslo via E6 (ca. 50 min). Buss mot Nes og Gardermoen er ca. 400 m unna. Brårud skole og barnehage er i gangavstand. Dagligvare finnes i nærområdet. Rik tilgang til skog og turterreng rett ved tomten, med skiløyper om vinteren.',
+    dokumenter: [],
   },
 }

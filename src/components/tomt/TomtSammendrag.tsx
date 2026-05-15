@@ -17,8 +17,8 @@ export function TomtSammendrag({
   laveste_budsjett, hoyeste_budsjett, anbefaling, fordeler,
 }: Props) {
   return (
-    <section className="bg-gradient-to-br from-tomtly-accent to-forest-800 rounded-2xl overflow-hidden text-white">
-      <div className="p-8 md:p-10">
+    <section className="bg-gradient-to-br from-tomtly-accent to-forest-800 overflow-hidden text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
         <div className="max-w-3xl">
           <p className="text-green-300 text-xs font-bold uppercase tracking-widest mb-2">Tomtly-sammendrag</p>
           <h2 className="font-display text-2xl md:text-3xl font-bold mb-4">

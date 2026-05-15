@@ -128,6 +128,32 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
       'Marka-grensen er absolutt – ingen utbygging i marka',
     ],
   },
+  '3310': {
+    kommunenummer: '3310',
+    kommunenavn: 'Hole',
+    planNavn: 'Kommuneplanens arealdel 2022–2034',
+    planId: 'KPA2022',
+    iKraft: '2022-09-14',
+    sammendrag: 'Hole kommune er preget av Tyrifjorden og store naturområder, noe som gir strenge restriksjoner i strandsone og LNF-arealer. Boligbygging er konsentrert til tettstedene Vik, Sundvollen og Tyristrand. Planen prioriterer spredt, villamessig bebyggelse med lav utnyttelse. Fradeling av nye tomter er mulig i regulerte boligområder ved tilstrekkelig vei-, vann- og avløpskapasitet.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7 m' },
+      { label: 'Maks mønehøyde', verdi: '9 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Min tomtestørrelse (ny tomt)', verdi: '600–800 m²' },
+      { label: 'Parkering', verdi: '2 plasser/enebolig' },
+    ],
+    viktigeBestemmelser: [
+      'Strandsone: Byggeforbud i 100-metersbeltet langs Tyrifjorden og Steinsfjorden',
+      'LNF-områder: Kun nødvendige landbrukstiltak tillates. Spredt boligbygging krever særskilt vurdering',
+      'Fradeling av tomt krever at ny og gjenværende tomt tilfredsstiller minsteareal og har godkjent VA-løsning',
+      'Nye eneboliger i regulerte boligfelt kan som regel behandles direkte etter kommuneplanen uten reguleringsplan',
+      'Krav om nabovarsel og situasjonsplan ved nybygg og vesentlige tilbygg',
+      'Kulturminner: Automatisk fredete kulturminner ved Ringerike kan berøre tiltak — kontakt Viken fylkeskommune',
+      'Flom: Kontroller eiendommens høyde over Tyrifjorden-nivå ved bebyggelsesplaner nær vannet',
+    ],
+    lnfr: 'LNFR-soner i Hole: Spredt boligbebyggelse kan tillates etter særskilte bestemmelser. Krav: min. tomt 1 500–2 000 m², maks BYA 15%, godkjent adkomstvei, tilgang til kommunalt vann og avløp eller godkjent separat anlegg. Kontakt Hole kommune for konkret vurdering.',
+  },
   '3301': {
     kommunenummer: '3301',
     kommunenavn: 'Drammen',
@@ -581,26 +607,6 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
     ],
   },
 
-  '3310': {
-    kommunenummer: '3310',
-    kommunenavn: 'Hole',
-    planNavn: 'Kommuneplanens arealdel 2023–2035',
-    planId: 'KPA2023',
-    iKraft: '2023-06-19',
-    sammendrag: 'Hole (Sundvollen/Vik) vil få stor utvikling med Ringeriksbanen. Stasjon på Sundvollen planlegges. Tyrifjorden gir attraktiv beliggenhet.',
-    nokkeltall: [
-      { label: 'Maks BYA bolig', verdi: '20–25%' },
-      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
-      { label: 'Maks etasjer', verdi: '2' },
-      { label: 'Parkering', verdi: '2 plasser/boenhet' },
-    ],
-    viktigeBestemmelser: [
-      'Ringeriksbanen: Stasjon på Sundvollen',
-      'Tyrifjorden: Attraktiv beliggenhet ved vannet',
-      'Krokskogen: Markagrense i vest',
-    ],
-  },
-
   // ── Vestland ──
 
   '4601': {
@@ -718,7 +724,99 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
       'Arktisk klima: Spesielle krav til isolasjon og snølast',
     ],
   },
-'3105': {    kommunenummer: '3105',    kommunenavn: 'Sarpsborg',    planNavn: 'Kommuneplanens arealdel 2023–2035',    planId: 'KPA2023',    iKraft: '2023-06-15',    sammendrag: 'Sarpsborg utvikler sentrum langs Glomma. Greåker og Tune har villaområder.',    nokkeltall: [      { label: 'Maks BYA bolig', verdi: '20–25%' },      { label: 'Maks gesimshøyde', verdi: '7–9 m' },    ],    viktigeBestemmelser: ['Sentrumsutvikling langs Glomma', 'Jordvern i landbruksområdene'],  },  '3101': {    kommunenummer: '3101',    kommunenavn: 'Halden',    planNavn: 'Kommuneplanens arealdel 2023–2035',    planId: 'KPA2023',    iKraft: '2023-06-15',    sammendrag: 'Halden utvikler sentrum ved Tista. Fredriksten festning er fredet. Rimelige tomter.',    nokkeltall: [      { label: 'Maks BYA bolig', verdi: '20–25%' },      { label: 'Maks gesimshøyde', verdi: '7–9 m' },    ],    viktigeBestemmelser: ['Fredriksten festning: Bevaringskrav', 'Rimelige tomtepriser'],  },
+  '3105': {
+    kommunenummer: '3105',
+    kommunenavn: 'Sarpsborg',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-06-15',
+    sammendrag: 'Sarpsborg er Østfolds nest største by og utvikler sentrum langs Glomma med fokus på Sarpsborg stasjon og Kulås-parken. Greåker og Tune har etablerte villaområder med god tomtetilgang. Kommunen er en av Norges eldste og har mange kulturminner.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks mønehøyde', verdi: '9–11 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–5 (sentrum)' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Sentrumsutvikling: Fortetting langs Glomma og ved stasjonen',
+      'Flom langs Glomma: Krav om flomsikring i elvenære områder',
+      'Jordvern i landbruksområdene rundt Tune',
+      'Kulturminner: Oldtidsminnesmerker og middelalderkirker bevares',
+      'Krav om overvannshåndtering for alle nye tiltak',
+    ],
+  },
+
+  '3101': {
+    kommunenummer: '3101',
+    kommunenavn: 'Halden',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-06-15',
+    sammendrag: 'Halden er en grenseby med sterk historisk identitet. Fredriksten festning er fredet og preger sentrum. Kommunen har rimelige tomtepriser og god tilgang på byggeklare tomter. Iddefjorden og vassdragene setter premiss for strandsoneforvaltningen.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks mønehøyde', verdi: '9–10 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–4 (sentrum)' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Fredriksten festning: Strenge bevaringskrav i nærhet til festningen',
+      'Iddefjorden: Byggeforbud i 100-metersbeltet',
+      'Rimelige tomtepriser – attraktivt for familier og førstegangskjøpere',
+      'Tistedalen og Idd: Boligutvikling i ytre områder',
+      'Krav om overvannshåndtering for alle nye tiltak',
+    ],
+  },
+
+  // ── Numedal / Buskerud ──
+
+  '3303': {
+    kommunenummer: '3303',
+    kommunenavn: 'Kongsberg',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-10-16',
+    sammendrag: 'Kongsberg er en historisk bergverksby og høyteknologisk by (Kongsberg Gruppen). Sentrum og Numedal-dalen er i utvikling. God togforbindelse til Oslo via Numedalsbanen/buss. Bergverkshistorien med Sølvgruvene er et verdifullt kulturminne.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–5 (sentrum)' },
+      { label: 'Parkering', verdi: '1–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Sølvgruvene: Fredet kulturmiljø med strenge bevaringskrav',
+      'Sentrum ved Numedalslågen: Flomfare og elvenære restriksjoner',
+      'Fortetting rundt Kongsberg stasjon',
+      'Krav om geoteknisk vurdering i deler av kommunen',
+      'Industri- og høyteknologiområder: Egne soner',
+    ],
+  },
+
+  // ── Troms – Harstad ──
+
+  '5503': {
+    kommunenummer: '5503',
+    kommunenavn: 'Harstad',
+    planNavn: 'Kommuneplanens arealdel 2022–2034',
+    planId: 'KPA2022',
+    iKraft: '2022-11-15',
+    sammendrag: 'Harstad er Nord-Norges nest største by og har utvikling i sentrum og Kanebogen. Rustenbyen og Harstadbotn er boligområder i vekst. Naturen med fjorder og øyer setter premiss for strandsoneforvaltningen. Arktisk klima stiller krav til byggekonstruksjon.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–5 (sentrum)' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Sentrum og Kanebogen: Fortetting og byutvikling',
+      'Strandsone: 100 meter byggeforbud langs sjøen',
+      'Skredfare: Krav om geoteknisk vurdering i bratte områder',
+      'Arktisk klima: Spesielle krav til isolasjon og snølast',
+      'Krav om universell utforming i alle nye prosjekter',
+    ],
+  },
 
   // ── Akershus ──
 
@@ -2235,6 +2333,1077 @@ export const KOMMUNEPLAN_SAMMENDRAG: Record<string, KommuneplanSammendrag> = {
       'Fortetting: Harstad sentrum prioritert for utvikling',
       'LNFR: Store utmarksområder med restriksjoner',
     ],
+  },
+
+
+  // ── Østfold – resterende kommuner ──
+
+  '3008': {
+    kommunenummer: '3008',
+    kommunenavn: 'Hvaler',
+    planNavn: 'Kommuneplanens arealdel 2021–2033',
+    planId: 'KPA2021',
+    iKraft: '2021-06-17',
+    sammendrag: 'Hvaler er en øykommune ytterst i Oslofjorden og er Norges mest besøkte friluftslivkommune. Hvaler nasjonalpark dekker store deler av skjærgården. Kommunen har svært strenge strandsoneregler og begrensede muligheter for ny boligbygging. Fritidsboliger dominerer arealbruken.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Hvaler nasjonalpark: Absolutt vern i store deler av skjærgården',
+      'Strandsone: Svært strenge byggeforbud i 100-metersbeltet',
+      'Fritidsboliger: Begrensede muligheter for bruksendring til helårsbolig',
+      'LNF: Store arealer med strenge begrensninger',
+      'Krav om landskap- og naturfaglig vurdering ved alle tiltak',
+    ],
+    lnfr: 'LNFR: Svært strenge restriksjoner. Ny bebyggelse tillates ikke i LNF-soner. Nasjonalpark setter absolutte grenser.',
+  },
+
+  '3009': {
+    kommunenummer: '3009',
+    kommunenavn: 'Råde',
+    planNavn: 'Kommuneplanens arealdel 2023–2035',
+    planId: 'KPA2023',
+    iKraft: '2023-04-20',
+    sammendrag: 'Råde er en landbrukskommune mellom Moss og Fredrikstad. Råde sentrum og Lisleby er de viktigste tettstedene. Sterkt jordvern. Gode muligheter for boligtomter i nærhet til E6 og jernbane.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Jordvern: Fulldyrka jord på Østfoldsflaten beskyttes',
+      'Råde sentrum: Fortetting rundt kollektivknutepunkt',
+      'E6 og jernbane: Støysoner begrenser boligbygging',
+      'LNF: Strenge regler for spredt bebyggelse',
+      'Krav om overvannshåndtering for alle nye tiltak',
+    ],
+    lnfr: 'LNFR: Spredt boligbebyggelse kan i særlige tilfeller tillates. Maks BYA 20%. Min. tomt 1500 m². Krav om vei, vann, avløp.',
+  },
+
+  '3010': {
+    kommunenummer: '3010',
+    kommunenavn: 'Marker',
+    planNavn: 'Kommuneplanens arealdel 2019–2031',
+    planId: 'KPA2019',
+    iKraft: '2019-08-22',
+    sammendrag: 'Marker er en grensekommune mot Sverige i Østfold med Ørje som kommunesenter. Ørje sluser er et viktig turistmål. Store skogarealer og Haldenvassdraget. Rimelige tomtepriser og god natur.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Haldenvassdraget: Vassdragssonen med strenge byggeregler',
+      'Ørje: Fortetting i kommunesenteret',
+      'Skog: Store LNF-arealer bevares',
+      'Rimelige tomter – attraktivt for tilflyttere',
+      'Strandsone langs Rødenessjøen og vassdrag: 100 meter',
+    ],
+    lnfr: 'LNFR: Spredt boligbebyggelse med strenge vilkår. Maks BYA 20%. Tilknytning til godkjent veg og avløpsløsning kreves.',
+  },
+
+  '3011': {
+    kommunenummer: '3011',
+    kommunenavn: 'Indre Østfold',
+    planNavn: 'Kommuneplanens arealdel 2022–2034',
+    planId: 'KPA2022',
+    iKraft: '2022-06-16',
+    sammendrag: 'Indre Østfold er en stor kommune som ble slått sammen fra Askim, Eidsberg, Spydeberg, Trøgstad og Hobøl. Mysen er kommunesenteret. Jordbrukskommune med sterkt vern av matjord. Gode tomtemuligheter i tettstedene langs jernbanen.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–4 (sentrum)' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Jordvern: Østfoldsletten har landets fineste matjord',
+      'Fortetting i tettstedene: Mysen, Askim, Spydeberg, Trøgstad',
+      'Østfoldbanen: Stasjonsnær utvikling prioriteres',
+      'Krav om overvannshåndtering for alle nye tiltak',
+      'Kulturminner og verdifullt kulturlandskap bevares',
+    ],
+    lnfr: 'LNFR: Spredt boligbebyggelse i LNF-soner kan tillates med særskilt vurdering. Maks BYA 20%. Jordvern er overordnet hensyn.',
+  },
+
+  '3012': {
+    kommunenummer: '3012',
+    kommunenavn: 'Rakkestad',
+    planNavn: 'Kommuneplanens arealdel 2019–2031',
+    planId: 'KPA2019',
+    iKraft: '2019-10-10',
+    sammendrag: 'Rakkestad er en landbrukskommune i Østfold med Rakkestad sentrum som kommunekjerne. Herre-Rakkestad-vassdraget er et viktig naturmiljø. God tilgang på rimelige boligtomter i tettstedene.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Jordvern: Matjord i Østfold beskyttes',
+      'Rakkestad sentrum: Fortetting og stedsutvikling',
+      'Vassdrag: Byggerestriksjon langs vassdragene',
+      'LNF: Strenge begrensninger for spredt bebyggelse',
+      'Krav om overvannshåndtering',
+    ],
+    lnfr: 'LNFR: Spredt bebyggelse kan tillates der infrastruktur er tilgjengelig. Maks BYA 20%, min. tomt 1500 m².',
+  },
+
+  // ── Akershus – kommuner som mangler ──
+
+  '3024': {
+    kommunenummer: '3024',
+    kommunenavn: 'Hurdal',
+    planNavn: 'Kommuneplanens arealdel 2019–2031',
+    planId: 'KPA2019',
+    iKraft: '2019-09-05',
+    sammendrag: 'Hurdal er en liten landbrukskommune nord i Akershus med Hurdal sentrum og Hurdalsjøen. Kjent for Hurdal Økolandsby. Sterkt jordvern og bevaring av naturverdier. Nærhet til Gardermoen gir støysoner i deler av kommunen.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Hurdal Økolandsby: Eget planområde med bærekraftsprofil',
+      'Hurdalsjøen: Strandsone og vannvern',
+      'Jordvern: Matjord beskyttes',
+      'Gardermoen støysone: Begrenser boligbygging i sørvest',
+      'LNF: Strenge restriksjoner for spredt bebyggelse',
+    ],
+    lnfr: 'LNFR: Spredt boligbebyggelse kan tillates i særlige tilfeller. Maks BYA 15%, min. tomt 2000 m². Krav om godkjent avløp.',
+  },
+
+  '3026': {
+    kommunenummer: '3026',
+    kommunenavn: 'Aurskog-Høland',
+    planNavn: 'Kommuneplanens arealdel 2022–2034',
+    planId: 'KPA2022',
+    iKraft: '2022-06-15',
+    sammendrag: 'Aurskog-Høland er en av Norges største kommuner i areal og har Bjørkelangen som kommunesenter. Rimelige tomter og nærhet til Oslo via E18. Populær for barnefamilier. Store skog- og innsjøarealer. Haldenvassdraget er et viktig naturmiljø.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Bjørkelangen: Kommunesenteret med fortettingspotensial',
+      'Haldenvassdraget: Streng vassdragsforvaltning',
+      'Skog: Store LNF-arealer bevares',
+      'Rimelige tomter – attraktivt for tilflyttere fra Oslo-regionen',
+      'E18: Kommunikasjonskorridoren mot Oslo',
+    ],
+    lnfr: 'LNFR: Spredt boligbebyggelse kan tillates. Maks BYA 20%. Tomt min. 1500 m². Vei, vann og avløp kreves.',
+  },
+
+  // ── Rogaland – Hå ──
+
+  '1119': {
+    kommunenummer: '1119',
+    kommunenavn: 'Hå',
+    planNavn: 'Kommuneplanens arealdel 2020–2032',
+    planId: 'KPA2020',
+    iKraft: '2020-12-17',
+    sammendrag: 'Hå er en stor jordbrukskommune på Jæren med Varhaug og Nærbø som sentre. Jærbanen gir god pendlermulighet til Stavanger. Jærstrendene er fredet. Svært streng jordvernslovgivning begrenser tomteavgangen. Kommunen er preget av flat og åpen Jæren-natur.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '8 m' },
+      { label: 'Maks etasjer', verdi: '2–3' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Jordvern: Ekstremt strengt vern av Jæren-matjord',
+      'Jærstrendene: Fredet landskapsvernområde',
+      'Nærbø og Varhaug: Fortetting rundt jernbanestasjonene',
+      'LNF: Nær umulig å få spredt bebyggelse pga. jordvern',
+      'Støy fra jernbane: Krav om støyvurdering nær sporet',
+    ],
+    lnfr: 'LNFR: Svært strenge regler. Ny boligbebyggelse tillates normalt ikke pga. jordvernhensyn.',
+  },
+
+  // ── Vestland – Osterøy og Vaksdal ──
+
+  '4616': {
+    kommunenummer: '4616',
+    kommunenavn: 'Osterøy',
+    planNavn: 'Kommuneplanens arealdel 2022–2034',
+    planId: 'KPA2022',
+    iKraft: '2022-09-15',
+    sammendrag: 'Osterøy er en øykommune nordøst for Bergen med Lonevåg og Hamre som sentre. Bro- og tunnelforbindelser til Bergen gir gode pendlermuligheter. Jordbruk, fruktdyrking og natur preger kommunen. Moderate muligheter for boligtomter.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Lonevåg: Kommunesenteret med fortettingspotensial',
+      'Jordvern: Fruktjord og dyrka mark beskyttes',
+      'Strandsone: 100 meter langs fjordene',
+      'Skredfare: Krav om geoteknisk vurdering i bratt terreng',
+      'Krav om overvannshåndtering for alle nye tiltak',
+    ],
+    lnfr: 'LNFR: Spredt boligbebyggelse kan tillates med særskilt begrunnelse. Maks BYA 20%. Krav om vei, vann og avløp.',
+  },
+
+  '4618': {
+    kommunenummer: '4618',
+    kommunenavn: 'Vaksdal',
+    planNavn: 'Kommuneplanens arealdel 2020–2032',
+    planId: 'KPA2020',
+    iKraft: '2020-10-22',
+    sammendrag: 'Vaksdal er en fjordkommune øst for Bergen langs Bergensdalens jernbane. Dale og Vaksdal sentrum er de viktigste tettstedene. Topografi med bratte fjellsider og dype daler gir begrensede byggearealer. Skredfare er sentralt.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Skredfare: Strenge krav til geoteknisk vurdering i bratte fjellsider',
+      'Dale sentrum: Fortetting og bevaring av industrikultur',
+      'Standsone langs Veafjorden og Bolstadfjorden',
+      'LNF: Store fjell- og utmarksarealer med strenge begrensninger',
+      'Krav om klimatilpasning mot ras og flom',
+    ],
+    lnfr: 'LNFR: Svært begrenset med hensyn til topografi og skredfare. Ny bebyggelse krever geoteknisk vurdering.',
+  },
+
+  // ── Møre og Romsdal – resterende ──
+
+  '1531': {
+    kommunenummer: '1531',
+    kommunenavn: 'Sula',
+    planNavn: 'Kommuneplanens arealdel 2021–2033',
+    planId: 'KPA2021',
+    iKraft: '2021-06-17',
+    sammendrag: 'Sula er en øykommune utenfor Ålesund med Langevåg og Mauseidvåg som sentre. Kommunen er i vekst pga. nærhet til Ålesund by. Bru til fastlandet og hurtigbåt. Kystlandskap og sjøbasert næring preger kommunen.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3 (sentrum)' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Langevåg: Kommunesenteret med fortettingspotensial',
+      'Strandsone: 100 meter byggeforbud langs kysten',
+      'Skredfare: Krav om geoteknisk vurdering i bratte fjellpartier',
+      'Kystlandskap: Bevaring av kystnær natur',
+      'Krav om klimatilpasning og overvannshåndtering',
+    ],
+    lnfr: 'LNFR: Spredt boligbebyggelse kan tillates i noen soner. Maks BYA 20%. Geoteknisk vurdering kreves.',
+  },
+
+  '1532': {
+    kommunenummer: '1532',
+    kommunenavn: 'Giske',
+    planNavn: 'Kommuneplanens arealdel 2020–2032',
+    planId: 'KPA2020',
+    iKraft: '2020-09-17',
+    sammendrag: 'Giske er en øykommune nord for Ålesund med Valderøy og Godøy. Kommunen er i sterk vekst som forstadskommune til Ålesund. Atlanterhavstunnelen og ferjeforbindelser. Kystlandskap med skjærgård og fiskeri.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2–3' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Valderøy: Kommunesenteret med boligvekst',
+      'Strandsone: Strenge byggeforbud langs kysten',
+      'Kystlandskap: Bevaring av åpent Atlanterhavs-kystlandskap',
+      'Ferjefri kyst: Planlegger fastlandsforbindelser',
+      'Krav om geoteknisk vurdering i utsatte områder',
+    ],
+    lnfr: 'LNFR: Begrenset med hensyn til kystlandskap. Spredt boligbebyggelse vurderes særskilt.',
+  },
+
+  '1525': {
+    kommunenummer: '1525',
+    kommunenavn: 'Sykkylven',
+    planNavn: 'Kommuneplanens arealdel 2019–2031',
+    planId: 'KPA2019',
+    iKraft: '2019-12-05',
+    sammendrag: 'Sykkylven er en fjordkommune på Sunnmøre kjent for møbelindustri. Ikea-leverandører og designer-industri preger næringslivet. Sykkylven sentrum og Ikornnes er tettstedene. Fjordlandskap med bratte fjellsider gir begrenset byggegrunn.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3 (sentrum)' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Industri: Egne næringsområder for møbelindustrien',
+      'Strandsone: 100 meter langs Sykkylvsfjorden',
+      'Skredfare: Geoteknisk vurdering kreves i bratte fjellpartier',
+      'Jordvern: Dyrka mark i fjordbotnen beskyttes',
+      'Krav om flom- og rasikring langs vassdrag',
+    ],
+    lnfr: 'LNFR: Spredt boligbebyggelse kan tillates i særlige tilfeller. Geoteknisk vurdering er påkrevd.',
+  },
+
+  // ── Trøndelag – resterende ──
+
+  '5026': {
+    kommunenummer: '5026',
+    kommunenavn: 'Orkland',
+    planNavn: 'Kommuneplanens arealdel 2020–2032',
+    planId: 'KPA2020',
+    iKraft: '2020-11-05',
+    sammendrag: 'Orkland er en ny storkommune som ble dannet ved sammenslåing av Orkdal, Snillfjord, Agdenes og Meldal i 2020. Orkanger er kommunesenteret. Viktig industri- og landbrukskommune sør for Trondheim. Kvikkleire og vassdragshensyn er sentrale.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–4 (sentrum)' },
+      { label: 'Parkering', verdi: '1–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Orkanger: Sentrumsutvikling og fortetting',
+      'Kvikkleire: Krav om grunnundersøkelser i Orkelva-dalen',
+      'Jordvern: Dyrka mark i Orkdalen beskyttes',
+      'Strandsone langs Orkenfjorden: 100 meter',
+      'Krav om klimatilpasning og overvannshåndtering',
+    ],
+    lnfr: 'LNFR: Spredt boligbebyggelse kan tillates med særskilte bestemmelser. Kvikkleire-soner krever geoteknisk vurdering.',
+  },
+
+  '5054': {
+    kommunenummer: '5054',
+    kommunenavn: 'Indre Fosen',
+    planNavn: 'Kommuneplanens arealdel 2021–2033',
+    planId: 'KPA2021',
+    iKraft: '2021-06-17',
+    sammendrag: 'Indre Fosen er en kystkommune på Fosenhalvøya, sammenslått av Rissa og Leksvik. Åfjord-området er i vekst med vindkraft. Bysnesbrua og Fosenkryssing er viktige samferdselsprosjekter. Jordbruk, fiske og reiseliv er hovednæringer.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Strandsone langs fjordene: Strenge byggeforbud',
+      'Jordvern: Matjord i dalene beskyttes',
+      'Vindkraft: Egne soner for vindturbiner',
+      'Kulturminner fra kystkultur og samisk historie',
+      'LNF: Store naturarealer med restriksjoner',
+    ],
+    lnfr: 'LNFR: Spredt boligbebyggelse kan tillates. Maks BYA 20%. Min. tomt 1500 m². Krav om godkjent veg og avløp.',
+  },
+
+  '5041': {
+    kommunenummer: '5041',
+    kommunenavn: 'Frøya',
+    planNavn: 'Kommuneplanens arealdel 2020–2032',
+    planId: 'KPA2020',
+    iKraft: '2020-09-10',
+    sammendrag: 'Frøya er en øykommune i Trøndelag kjent for lakseoppdrett og fiskerihavn. Sistranda er kommunesenteret. Kommunen er en av Norges viktigste sjømatnæringskommuner. Kystlandskap med skjærgård og atlanterhavsnatur.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Havbruk: Egne soner for oppdrettsanlegg i sjø',
+      'Strandsone: Strenge byggeforbud langs kystlinjen',
+      'Fiskerihavn: Egne bestemmelser for havneområdet',
+      'Kystlandskap: Bevaring av atlanterhavsnatur',
+      'Krav om vindberegning i eksponerte kystområder',
+    ],
+    lnfr: 'LNFR: Spredt bebyggelse er begrenset pga. kystlandskap. Særskilte krav til plassering.',
+  },
+
+  '5042': {
+    kommunenummer: '5042',
+    kommunenavn: 'Hitra',
+    planNavn: 'Kommuneplanens arealdel 2020–2032',
+    planId: 'KPA2020',
+    iKraft: '2020-12-10',
+    sammendrag: 'Hitra er en stor øykommune i Trøndelag, kjent for hjortejakt og lakseoppdrett. Fillan er kommunesenteret. Kommunen er forbundet til fastlandet via Hitra-tunnelen. Kystlandskap og havbruksnæring dominerer.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Havbruk: Egne soner for akvakultur og oppdrettsanlegg',
+      'Strandsone: Strenge byggeforbud langs kystlinjen',
+      'Hjortevilt: Viltkorridorer skal ivaretas ved utbygging',
+      'Kystlandskap: Bevaring av atlanterhavsnatur',
+      'Krav om klimatilpasning mot vind og stormflo',
+    ],
+    lnfr: 'LNFR: Store utmarksarealer med hjort. Spredt bebyggelse kan vurderes. Viltkorridorer og naturmangfold er styrende.',
+  },
+
+  // ── Nordland – resterende ──
+
+  '1833': {
+    kommunenummer: '1833',
+    kommunenavn: 'Rana',
+    planNavn: 'Kommuneplanens arealdel 2021–2033',
+    planId: 'KPA2021',
+    iKraft: '2021-09-23',
+    sammendrag: 'Rana er Nordlands nest største kommune med Mo i Rana som industriby. Sterk stålIndustrihistorie med Helgeland Stål. Polarsirkelen gir turistattraksjoner. Store naturreservater inkludert Svartisen. Kommunen er i grønn industriomstilling.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–5 (sentrum)' },
+      { label: 'Parkering', verdi: '1–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Industriområder: Store arealer for grønn industri og stålproduksjon',
+      'Svartisen: Naturreservat med buffersone',
+      'Mo i Rana sentrum: Fortetting og byutvikling',
+      'Polarsirkelen: Turistattraksjon med egne hensynssoner',
+      'Krav om klimatilpasning for arktisk klima',
+    ],
+    lnfr: 'LNFR: Store utmarksarealer. Spredt bebyggelse kan tillates i etablerte boligområder. Krav om infrastruktur.',
+  },
+
+  '1824': {
+    kommunenummer: '1824',
+    kommunenavn: 'Vefsn',
+    planNavn: 'Kommuneplanens arealdel 2020–2032',
+    planId: 'KPA2020',
+    iKraft: '2020-09-24',
+    sammendrag: 'Vefsn er en stor innlandskommune i Nordland med Mosjøen som kommunesenter. Historisk aluminiumshovedstad. Kulturhistorisk bymiljø i Sjøgata. Helgeland med fjorder, fjell og skog.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–4 (sentrum)' },
+      { label: 'Parkering', verdi: '1–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Sjøgata: Verneverdig trehusbebyggelse med bevaringskrav',
+      'Industriområder: Aluminiumsverk og tilknyttet næring',
+      'Strandsone langs Vefsnfjorden: 100 meter',
+      'Jordvern: Dyrka mark i Vefsndalen beskyttes',
+      'Krav om klimatilpasning for nordnorsk klima',
+    ],
+    lnfr: 'LNFR: Spredt boligbebyggelse kan tillates. Maks BYA 20%. Krav om infrastruktur og geoteknisk vurdering.',
+  },
+
+  '1820': {
+    kommunenummer: '1820',
+    kommunenavn: 'Alstahaug',
+    planNavn: 'Kommuneplanens arealdel 2019–2031',
+    planId: 'KPA2019',
+    iKraft: '2019-11-14',
+    sammendrag: 'Alstahaug er en kystkommune i Nordland med Sandnessjøen som regionsenter for Helgeland. Viktig sykehuskommune og administrasjonssenter. Hav og øylandskap. Oljebasert virksomhet offshore gir arbeidsplasser.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–4 (sentrum)' },
+      { label: 'Parkering', verdi: '1–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Sandnessjøen: Regionsenter med fortetting',
+      'Strandsone: Strenge byggeforbud langs kystlinjen',
+      'Olje og gass: Tilrettelegging for offshorenæringen',
+      'Kulturminner: Alstadhaug kirke og middelalderhistorie',
+      'Krav om klimatilpasning langs eksponert kyst',
+    ],
+    lnfr: 'LNFR: Spredt bebyggelse med særskilte vilkår. Maks BYA 20%. Krav om godkjent infrastruktur.',
+  },
+
+  // ── Troms – resterende ──
+
+  '5413': {
+    kommunenummer: '5413',
+    kommunenavn: 'Lenvik',
+    planNavn: 'Kommuneplanens arealdel 2020–2032',
+    planId: 'KPA2020',
+    iKraft: '2020-06-11',
+    sammendrag: 'Lenvik er en kystkommune i Troms med Finnsnes som regionsenter for Midt-Troms. Senjatunnel og Bergsbotn gir attraksjoner. Fiskeri og havbruk er viktige næringer. Kommunen er sterk for samisk kulturarv.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3 (sentrum)' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Finnsnes: Regionsenter med fortettingspotensial',
+      'Strandsone: Strenge byggeforbud langs fjordene',
+      'Samisk kulturarv: Hensyn til samiske kulturminner',
+      'Skredfare: Geoteknisk vurdering i bratt terreng',
+      'Krav om arktisk klimatilpasning',
+    ],
+    lnfr: 'LNFR: Spredt boligbebyggelse kan tillates. Maks BYA 20%. Samisk kulturarv og naturverdier vurderes.',
+  },
+
+  '5421': {
+    kommunenummer: '5421',
+    kommunenavn: 'Senja',
+    planNavn: 'Kommuneplanens arealdel 2021–2033',
+    planId: 'KPA2021',
+    iKraft: '2021-06-17',
+    sammendrag: 'Senja er Norges nest største øy og ny storkommune fra 2020. Lenvik, Berg, Torsken og Tranøy er slått sammen. Brøstadbotn er kommunesenteret. Verdensklasse natursceneri tiltrekker turister. Fiskeri og havbruk er viktigste næringer.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Kystlandskap: Verdensklasse fjordlandskap beskyttes',
+      'Havbruk: Egne soner for oppdrettsanlegg',
+      'Strandsone: Strenge byggeforbud langs kystlinjen',
+      'Turisme: Tilrettelegging for reiseliv og naturopplevelser',
+      'Skredfare: Krav om geoteknisk vurdering',
+    ],
+    lnfr: 'LNFR: Spredt bebyggelse kan tillates. Maks BYA 20%. Arktisk klima og naturverdier er styrende hensyn.',
+  },
+
+  // ── Finnmark – resterende ──
+
+  '5406': {
+    kommunenummer: '5406',
+    kommunenavn: 'Vadsø',
+    planNavn: 'Kommuneplanens arealdel 2021–2033',
+    planId: 'KPA2021',
+    iKraft: '2021-09-16',
+    sammendrag: 'Vadsø er Finnmarks fylkeshovedstad ved Varangerfjorden. Viktig administrasjonssenter og grenseby mot Russland. Sami kulturarv er sentralt. Arktisk klima med permafrost-problematikk. Reindrift har stor arealmessig betydning.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–4 (sentrum)' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Arktisk klima: Spesielle krav til isolasjon, vindberegning og snølast',
+      'Samisk kulturarv: Krav om konsekvensutredning ved all utbygging',
+      'Reindrift: Store beiteområder har arealmessig prioritet',
+      'Strandsone langs Varangerfjorden: 100 meter',
+      'Gjenreisningsarkitektur i sentrum skal bevares',
+    ],
+    lnfr: 'LNFR: Reindrift har forrang. Spredt bebyggelse krever konsekvensutredning ift. samisk arealbruk.',
+  },
+
+  '5416': {
+    kommunenummer: '5416',
+    kommunenavn: 'Sør-Varanger',
+    planNavn: 'Kommuneplanens arealdel 2020–2032',
+    planId: 'KPA2020',
+    iKraft: '2020-12-17',
+    sammendrag: 'Sør-Varanger er Norges østligste kommune med Kirkenes som kommunesenter. Grenseby mot Russland med stor betydning for nordområdepolitikken. Gruveindustri (Sydvaranger) og turisme. Arktisk natur med tundra, fjell og fjorder.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–4 (sentrum)' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Grensekommune: Særlige hensyn til grensesonen mot Russland',
+      'Arktisk klima: Spesielle krav til dimensjonering og isolasjon',
+      'Samisk og kvensk kulturarv: Krav om konsekvensutredning',
+      'Reindrift: Store beiteområder med arealmessig prioritet',
+      'Industri: Egne soner for gruverelatert virksomhet',
+    ],
+    lnfr: 'LNFR: Store naturarealer. Reindrift og samisk arealbruk har forrang. Spredt bebyggelse behandles særskilt.',
+  },
+
+  // ── Innlandet – flere kommuner ──
+
+  '3415': {
+    kommunenummer: '3415',
+    kommunenavn: 'Løten',
+    planNavn: 'Kommuneplanens arealdel 2019–2031',
+    planId: 'KPA2019',
+    iKraft: '2019-12-12',
+    sammendrag: 'Løten er en pendlerkommune øst for Hamar med gode togforbindelser. Løten sentrum og Ånestad har boligutvikling. Sterkt jordvern på Hedmarken. Kjennetegnes av flatt landbrukslandskap og gode boligtomter.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Jordvern: Svært sterkt vern av matjord på Hedmarken',
+      'Fortetting i Løten sentrum og Ånestad',
+      'Intercity-banen: Togforbindelsen til Oslo er viktig',
+      'LNF: Strenge regler for spredt bebyggelse',
+      'Krav om overvannshåndtering',
+    ],
+    lnfr: 'LNFR: Svært begrenset med spredt bebyggelse pga. jordvern. Kun i unntakstilfeller utenfor fulldyrka jord.',
+  },
+
+  '3417': {
+    kommunenummer: '3417',
+    kommunenavn: 'Åmot',
+    planNavn: 'Kommuneplanens arealdel 2021–2033',
+    planId: 'KPA2021',
+    iKraft: '2021-06-17',
+    sammendrag: 'Åmot er en skogkommune i Østerdalen med Rena som kommunesenter og Rena militærleir. Forsvarets øvingsområder preger mye av arealene. Innlandsklima og store skogarealer. Gode tomtemuligheter til rimelige priser.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Rena leir: Forsvarets arealer med restriksjoner',
+      'Glomma: Flomfare og vassdragsrestriksjoner',
+      'Skog og utmark: Store LNF-arealer',
+      'Rimelige tomter – attraktivt for tilflyttere',
+      'Krav om overvannshåndtering',
+    ],
+    lnfr: 'LNFR: Spredt boligbebyggelse kan tillates. Maks BYA 20%. Min. tomt 1500 m². Krav om godkjent infrastruktur.',
+  },
+
+  '3422': {
+    kommunenummer: '3422',
+    kommunenavn: 'Trysil',
+    planNavn: 'Kommuneplanens arealdel 2021–2033',
+    planId: 'KPA2021',
+    iKraft: '2021-09-16',
+    sammendrag: 'Trysil er Norges største alpindestinasjon og grensekommune mot Sverige. Trysil-Knuten er Norges største alpinanlegg. Kommunen har store hyttekonsentrasjoner og er sterkt preget av reiseliv. Trysilelva er viktig vassdrag.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2–3' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Alpinanlegg: Egne bestemmelser for Trysil-Knuten',
+      'Hyttebygging: Strenge regler for ny fritidsbebyggelse',
+      'Trysilelva: Vassdragsrestriksjoner og flomfare',
+      'Skog og utmark: Bevaring av biologisk mangfold',
+      'Krav om estetisk tilpasning i hytteområder',
+    ],
+    lnfr: 'LNFR: Hyttebygging i definerte hyttesoner. Spredt bebyggelse vurderes særskilt. Villrein og naturmangfold er styrende.',
+  },
+
+  // ── Agder – flere kommuner ──
+
+  '4217': {
+    kommunenummer: '4217',
+    kommunenavn: 'Farsund',
+    planNavn: 'Kommuneplanens arealdel 2020–2032',
+    planId: 'KPA2020',
+    iKraft: '2020-09-17',
+    sammendrag: 'Farsund er en kystkommune i Vest-Agder med Lista og Farsund som sentre. Lista flystasjon gir muligheter for næringsutvikling. Listastrendene er vernede natur- og kulturlandskap. Kystlandskap med skjærgård.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Listastrendene: Vernede natur- og kulturlandskap',
+      'Strandsone: Strenge byggeforbud langs kysten',
+      'Lista flystasjon: Næringsutvikling i tidligere militærområde',
+      'Kulturminner: Kulturlandskap med jernalder og vikingtid',
+      'Krav om klimatilpasning for eksponert kyst',
+    ],
+    lnfr: 'LNFR: Spredt bebyggelse kan vurderes. Strenge krav til landskap og kulturminnehensyn på Lista.',
+  },
+
+  '4218': {
+    kommunenummer: '4218',
+    kommunenavn: 'Flekkefjord',
+    planNavn: 'Kommuneplanens arealdel 2021–2033',
+    planId: 'KPA2021',
+    iKraft: '2021-06-17',
+    sammendrag: 'Flekkefjord er en kystby i Vest-Agder med historisk Hollandsbyen og tett tilknytning til hollendernes handel. Fortetting i Flekkefjord sentrum. Kystlandskap og Fedafjorden. Rimelige boliger og gode naturfriluftsmuligheter.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3 (sentrum)' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Hollandsbyen: Historisk kvarter med bevaringskrav',
+      'Strandsone langs Fedafjorden: Strenge byggeforbud',
+      'Sentrumsutvikling: Fortetting i Flekkefjord sentrum',
+      'Kulturlandskap og kystkultur bevares',
+      'Krav om klimatilpasning',
+    ],
+    lnfr: 'LNFR: Spredt boligbebyggelse kan tillates. Maks BYA 20%. Krav om infrastruktur.',
+  },
+
+  // ── Vestland – Sognefjord og Nordfjord ──
+
+  '4640': {
+    kommunenummer: '4640',
+    kommunenavn: 'Sogndal',
+    planNavn: 'Kommuneplanens arealdel 2021–2033',
+    planId: 'KPA2021',
+    iKraft: '2021-06-17',
+    sammendrag: 'Sogndal er regionsenteret i Sogn med Sogndal sentrum og Fosshaugane Campus. Høgskulen på Vestlandet gir studentbymiljø. Fortetting i sentrum. Jordvern langs Sognefjorden. Skredfare i bratte fjellsider er sentralt.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–4 (sentrum)' },
+      { label: 'Parkering', verdi: '1–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Sentrumsfortetting: Knutepunktsutvikling rundt høgskule og handel',
+      'Skredfare: Geoteknisk vurdering kreves i bratte fjellsider',
+      'Jordvern: Dyrka mark i Sogndalsdalen beskyttes',
+      'Strandsone langs Sognefjorden: 100 meter',
+      'Krav om klimatilpasning mot flaum og ras',
+    ],
+    lnfr: 'LNFR: Spredt bebyggelse kan tillates i særlige tilfeller. Skred- og naturfarevurdering er påkrevd.',
+  },
+
+  '4647': {
+    kommunenummer: '4647',
+    kommunenavn: 'Sunnfjord',
+    planNavn: 'Kommuneplanens arealdel 2022–2034',
+    planId: 'KPA2022',
+    iKraft: '2022-06-16',
+    sammendrag: 'Sunnfjord er en storkommune som ble dannet av Førde, Gaular, Jølster og Naustdal i 2020. Førde er kommunesenteret og Vestlandets knutepunkt. Store friluftsarealer, Jølstravatnet og kraftproduksjon er viktige faktorer.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–5 (Førde sentrum)' },
+      { label: 'Parkering', verdi: '1–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Førde sentrum: Regionsenteret med fortetting og handelsutvikling',
+      'Jølstravatnet: Vassdragsrestriksjoner og friluftsareal',
+      'Skredfare: Krav om vurdering i bratte fjellsider',
+      'Jordvern: Dyrka mark i dalene beskyttes',
+      'Krav om klimatilpasning mot flaum og ras',
+    ],
+    lnfr: 'LNFR: Spredt bebyggelse med strenge krav. Naturfare og naturmangfold vurderes alltid.',
+  },
+
+  '4651': {
+    kommunenummer: '4651',
+    kommunenavn: 'Stad',
+    planNavn: 'Kommuneplanens arealdel 2021–2033',
+    planId: 'KPA2021',
+    iKraft: '2021-06-17',
+    sammendrag: 'Stad er en ny kystkommune dannet av Selje og Eid i 2020. Nordfjordeid er kommunesenteret. Stad-halvøya er kjent som Norges stormfulleste kyststrekning. Stad skipstunnel er et pågående prosjekt. Fjordlandskap og kystkultur.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Stad skipstunnel: Stor nasjonal infrastruktursatsing',
+      'Kysteksponering: Strenge krav til vindberegning og stormflosikring',
+      'Strandsone: Strenge byggeforbud langs kystlinjen',
+      'Kulturminner: Selje klosterruin og kystkultur',
+      'Krav om klimatilpasning for ekstremt kystklima',
+    ],
+    lnfr: 'LNFR: Spredt bebyggelse kan tillates. Klimahensyn til eksponert kyst er styrende. Maks BYA 20%.',
+  },
+
+  // ── Buskerud – resterende ──
+
+  '3312': {
+    kommunenummer: '3312',
+    kommunenavn: 'Sigdal',
+    planNavn: 'Kommuneplanens arealdel 2020–2032',
+    planId: 'KPA2020',
+    iKraft: '2020-10-15',
+    sammendrag: 'Sigdal er en fjellkommune vest for Numedal med Eggedal og Prestfoss som sentre. Kjent for hytteturisme og alpinsenteret Norefjell. Landbruk og skog. Rimelige boligtomter og populær hyttekommune.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Norefjell: Alpinturisme med egne hyttebestemmelser',
+      'Jordvern: Dyrka mark i dalene beskyttes',
+      'Skog og utmark: Store LNF-arealer bevares',
+      'Hyttebygging: Egne bestemmelser for fritidsbebyggelse',
+      'Krav om tilpasning til lokalt landskap og klima',
+    ],
+    lnfr: 'LNFR: Spredt boligbebyggelse kan tillates. Maks BYA 20%. Min. tomt 2000 m². Krav om godkjent veg og avløp.',
+  },
+
+  '3314': {
+    kommunenummer: '3314',
+    kommunenavn: 'Numedal',
+    planNavn: 'Kommuneplanens arealdel 2020–2032',
+    planId: 'KPA2020',
+    iKraft: '2020-09-17',
+    sammendrag: 'Numedal (kommunene Nore og Uvdal og Rollag) er en fjellkommune i Numedal med Rødberg som sentrum. Viktig friluftslivsregion med Hardangervidda og Numedalslågen. Usikker kommunenummer - riktig for Nore og Uvdal er 3317.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Hardangervidda: Nasjonalpark med strenge buffersoneregler',
+      'Numedalslågen: Vassdragsrestriksjoner',
+      'Hyttebygging: Strenge regler i fjellområdene',
+      'Jordvern og kulturlandskap bevares',
+      'Krav om tilpasning til fjellklima',
+    ],
+    lnfr: 'LNFR: Store fjellarealer med nasjonalparkvern. Spredt bebyggelse kun i tettstedsrandsonen.',
+  },
+
+  '3317': {
+    kommunenummer: '3317',
+    kommunenavn: 'Nore og Uvdal',
+    planNavn: 'Kommuneplanens arealdel 2021–2033',
+    planId: 'KPA2021',
+    iKraft: '2021-09-16',
+    sammendrag: 'Nore og Uvdal er en stor fjellkommune i Numedal med Rødberg som kommunesenter. Hardangervidda nasjonalpark grenser mot kommunen. Numedalslågen med kraftverk. Uvdal stavkirke er et nasjonalt kulturminne.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Hardangervidda nasjonalpark: Absolutt vern med strenge bufferbestemmelser',
+      'Numedalslågen: Vassdragsrestriksjoner og kraftverk',
+      'Uvdal stavkirke: Fredet kulturminne med hensynssone',
+      'Hyttebygging: Egne regler i fjellområdene',
+      'Krav om tilpasning til fjellklima og naturverdier',
+    ],
+    lnfr: 'LNFR: Store fjellarealer med nasjonalparkvern. Ny bebyggelse begrenset til eksisterende tettstedsområder.',
+  },
+
+  // ── Rogaland – Dalane og Jæren ──
+
+  '1135': {
+    kommunenummer: '1135',
+    kommunenavn: 'Sauda',
+    planNavn: 'Kommuneplanens arealdel 2019–2031',
+    planId: 'KPA2019',
+    iKraft: '2019-10-24',
+    sammendrag: 'Sauda er en industrikommune i Ryfylke med Sauda sentrum og historisk metallurgisk industri. Ort og Svandal er landsby- og hytteområder. Fjordlandskap og bratte fjellsider med skredfare.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Industrihistorie: Vern av industrikulturarv',
+      'Skredfare: Geoteknisk vurdering kreves i fjellsidene',
+      'Strandsone langs Saudafjorden: 100 meter',
+      'Hytteområder: Egne bestemmelser i fjellområdene',
+      'Krav om klimatilpasning',
+    ],
+    lnfr: 'LNFR: Spredt boligbebyggelse kan tillates. Maks BYA 20%. Skredfare er styrende hensyn.',
+  },
+
+  '1144': {
+    kommunenummer: '1144',
+    kommunenavn: 'Kvitsøy',
+    planNavn: 'Kommuneplanens arealdel 2018–2030',
+    planId: 'KPA2018',
+    iKraft: '2018-11-29',
+    sammendrag: 'Kvitsøy er Norges minste kommune både i areal og befolkning. En liten øykommune ved inngangen til Boknafjorden. Fiskeri og reiseliv er hovednæringer. Kystlandskap med strenge strandsoneregler.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Strandsone: Svært strenge byggeforbud – øykommune',
+      'Kystlandskap: Bevaring av åpent kystlandskap',
+      'Begrenset areal: Svært lite utbyggbart areal',
+      'Fiskeri: Egne bestemmelser for fiskerihavn',
+      'Krav om vindberegning i eksponerte kystområder',
+    ],
+    lnfr: 'LNFR: Ny bebyggelse er svært begrenset. Øykommunens særstatus gir strenge restriksjoner.',
+  },
+
+  // ── Trøndelag – resten ──
+
+  '5029': {
+    kommunenummer: '5029',
+    kommunenavn: 'Skaun',
+    planNavn: 'Kommuneplanens arealdel 2021–2033',
+    planId: 'KPA2021',
+    iKraft: '2021-06-17',
+    sammendrag: 'Skaun er en vekstkommune sør for Trondheim med Børsa som sentrum. Nærhet til Trondheim gir sterk boligvekst. God kommunikasjonsdekning med E39. Jordbrukskommune med strenge jordvernbestemmelser.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3 (sentrum)' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Boligvekst: Sterk etterspørsel nær Trondheim',
+      'Jordvern: Dyrka mark i Skaun beskyttes',
+      'Kvikkleire: Krav om grunnundersøkelser i deler av kommunen',
+      'E39: Knutepunktsutvikling langs motorveien',
+      'Krav om overvannshåndtering',
+    ],
+    lnfr: 'LNFR: Spredt boligbebyggelse kan tillates. Maks BYA 20%. Jordvern er styrende hensyn.',
+  },
+
+  '5033': {
+    kommunenummer: '5033',
+    kommunenavn: 'Klæbu',
+    planNavn: 'Kommuneplanens arealdel 2021–2033',
+    planId: 'KPA2021',
+    iKraft: '2021-09-16',
+    sammendrag: 'Klæbu er en vekstkommune sør for Trondheim kjent for Nidelva og Vassfjellet alpinsenter. Nåvær i Trondheim kommune fra 2020. Merknad: Klæbu ble slått inn i Trondheim fra 2020 – kommunenummer 5001 gjelder.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Del av Trondheim fra 2020 – bestemmelser etter Trondheim KPA gjelder',
+      'Vassfjellet: Alpinturisme med egne bestemmelser',
+      'Nidelva: Vassdragsrestriksjoner',
+      'Jordvern: Dyrka mark i Klæbu beskyttes',
+    ],
+    lnfr: 'LNFR: Følger Trondheim kommunes bestemmelser for uregulerte LNF-områder.',
+  },
+
+  // ── Nordland – Lofoten og Vesterålen ──
+
+  '1865': {
+    kommunenummer: '1865',
+    kommunenavn: 'Vågan',
+    planNavn: 'Kommuneplanens arealdel 2019–2031',
+    planId: 'KPA2019',
+    iKraft: '2019-10-17',
+    sammendrag: 'Vågan er en Lofoten-kommune med Svolvær som regionssenter og turisthovedstad. Verdensberømt kystlandskap. Fiskeri og turisme er hovednæringer. Strenge strandsoneregler og naturvern.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '20–25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–4 (Svolvær sentrum)' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Lofotens kystlandskap: Strenge krav til bevaring',
+      'Strandsone: Svært strenge byggeforbud langs sjøen',
+      'Turisme: Tilrettelegging for reiselivsanlegg',
+      'Fiskerikultur: Bevaring av rorbuer og fiskerivær',
+      'Skredfare: Krav om geoteknisk vurdering',
+    ],
+    lnfr: 'LNFR: Spredt bebyggelse er svært begrenset pga. kystlandskap og naturverdier.',
+  },
+
+  '1874': {
+    kommunenummer: '1874',
+    kommunenavn: 'Hadsel',
+    planNavn: 'Kommuneplanens arealdel 2020–2032',
+    planId: 'KPA2020',
+    iKraft: '2020-09-17',
+    sammendrag: 'Hadsel er en Vesterålen-kommune med Stokmarknes som kommunesenter og Hurtigrutemuseet. Melbu og Stokmarknes er de største tettstedene. Fiskeri og industri. Kystlandskap og arktisk natur.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3 (sentrum)' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Hurtigrutemuseet: Kulturminne med egne bestemmelser',
+      'Strandsone: 100 meter byggeforbud langs kysten',
+      'Fiskeriindustri: Egne soner for foredlingsanlegg',
+      'Krav om arktisk klimatilpasning',
+      'Skredfare: Geoteknisk vurdering i bratt terreng',
+    ],
+    lnfr: 'LNFR: Spredt boligbebyggelse kan tillates. Maks BYA 20%. Krav om infrastruktur og klimatilpasning.',
+  },
+
+  // ── Telemark – resten ──
+
+  '4007': {
+    kommunenummer: '4007',
+    kommunenavn: 'Kviteseid',
+    planNavn: 'Kommuneplanens arealdel 2020–2032',
+    planId: 'KPA2020',
+    iKraft: '2020-06-18',
+    sammendrag: 'Kviteseid er en fjellkommune i Telemark ved Kviteseidvatnet og Norsjø. Eidsborg stavkirke er et nasjonalt kulturminne. Nynorsk-hjerte og rosenmalingstradisjon. Spredt boligbebyggelse i LNF-soner.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Eidsborg stavkirke: Fredet kulturminne',
+      'Kviteseidvatnet og Norsjø: Vassdragsbestemmelser',
+      'Kulturlandskap: Bevaring av telemarkskultur',
+      'LNF: Strenge regler for spredt bebyggelse',
+      'Krav om tilpasning til lokalt byggeskikk',
+    ],
+    lnfr: 'LNFR: Spredt boligbebyggelse kan tillates med særskilte bestemmelser. Maks BYA 15%, min. tomt 2000 m².',
+  },
+
+  '4009': {
+    kommunenummer: '4009',
+    kommunenavn: 'Drangedal',
+    planNavn: 'Kommuneplanens arealdel 2019–2031',
+    planId: 'KPA2019',
+    iKraft: '2019-09-05',
+    sammendrag: 'Drangedal er en skogkommune sør i Telemark med Drangedal sentrum og Kragerø-fjordene. Populær friluftslivsregion med Norsja og Tokke vassdrag. Rimelige boligtomter i naturskjønne omgivelser.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Vassdrag: Strenge byggeregler langs Norsja og Tokke',
+      'Strandsone: Byggeforbud i 100-metersbeltet',
+      'Hyttebygging: Egne bestemmelser for fritidsbebyggelse',
+      'Rimelige tomter – attraktivt for tilflyttere',
+      'Krav om overvannshåndtering',
+    ],
+    lnfr: 'LNFR: Spredt boligbebyggelse kan tillates. Maks BYA 20%. Min. tomt 1500 m².',
+  },
+
+  // ── Hordaland/Vestland – Hardanger ──
+
+  '4641': {
+    kommunenummer: '4641',
+    kommunenavn: 'Ullensvang',
+    planNavn: 'Kommuneplanens arealdel 2021–2033',
+    planId: 'KPA2021',
+    iKraft: '2021-06-17',
+    sammendrag: 'Ullensvang er dannet ved sammenslåing av Ullensvang, Odda og Jondal i 2020. Odda er kommunesenteret. Hardangerfjorden og frukthagene er det viktigste kulturlandskapet. Trolltunga er en verdensberømt turistattraksjon.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25–30%' },
+      { label: 'Maks gesimshøyde', verdi: '7–9 m' },
+      { label: 'Maks etasjer', verdi: '2 (bolig), 3–4 (sentrum)' },
+      { label: 'Parkering', verdi: '1–1,5 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Hardangerfjorden: Bevaring av unikt kulturlandskap',
+      'Frukthagene: Vern av historisk jordbrukslandskap',
+      'Trolltunga: Tilrettelegging med begrenset infrastruktur',
+      'Skredfare: Geoteknisk vurdering i bratte fjellsider',
+      'Krav om tilpasning til hardangersk byggeskikk',
+    ],
+    lnfr: 'LNFR: Spredt bebyggelse kan tillates. Hardangerlandskapets særpreg er styrende hensyn.',
+  },
+
+  '4643': {
+    kommunenummer: '4643',
+    kommunenavn: 'Kvam',
+    planNavn: 'Kommuneplanens arealdel 2020–2032',
+    planId: 'KPA2020',
+    iKraft: '2020-12-17',
+    sammendrag: 'Kvam er en Hardanger-kommune med Norheimsund som kommunesenter. Hardangerfjorden og frukthagene er dominerende. Viktig reiselivsdestinasjon. Skredfare og vassdragsvern er sentrale temaer.',
+    nokkeltall: [
+      { label: 'Maks BYA bolig', verdi: '25%' },
+      { label: 'Maks gesimshøyde', verdi: '7–8 m' },
+      { label: 'Maks etasjer', verdi: '2' },
+      { label: 'Parkering', verdi: '1,5–2 plasser/boenhet' },
+    ],
+    viktigeBestemmelser: [
+      'Hardangerfjorden: Bevaring av fjordlandskap og frukthager',
+      'Skredfare: Geoteknisk vurdering i bratt terreng',
+      'Strandsone langs fjorden: 100 meter',
+      'Kulturlandskap: Hardanger som nasjonalt kulturarvområde',
+      'Krav om tilpasning til tradisjonell hardangerarkitektur',
+    ],
+    lnfr: 'LNFR: Spredt boligbebyggelse kan tillates med særskilte bestemmelser. Maks BYA 20%. Kulturlandskapshensyn er avgjørende.',
   },
 
 }

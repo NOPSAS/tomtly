@@ -169,8 +169,8 @@ function HvaFaarDu() {
     },
     {
       ikon: Zap,
-      tittel: 'Forutsigbar kostnad',
-      beskrivelse: 'Årsavgift gir forutsigbarhet. Ingen overraskelser – dere vet nøyaktig hva det koster.',
+      tittel: 'Kun betaling ved kontrakt',
+      beskrivelse: 'Ingen abonnement eller årsavgift. Dere betaler kun 3 % av kontraktsummen dersom leaden fører til oppdrag.',
     },
   ]
 
@@ -214,30 +214,34 @@ function Prising() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
           <h2 className="font-display text-3xl lg:text-4xl font-bold text-tomtly-dark mb-4">
-            Årsavgift – forutsigbar kostnad
+            Enkel og rettferdig prising
           </h2>
-          <p className="text-brand-600">Første lead er gratis – test oss uten risiko.</p>
+          <p className="text-brand-600">Ingen abonnement. Dere betaler kun når dere vinner oppdraget.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-          <div className="bg-white rounded-2xl p-7 border border-brand-200 text-center">
-            <p className="text-sm font-medium text-brand-500 mb-2">Lokal (1-3 kommuner)</p>
-            <p className="text-3xl font-bold text-tomtly-dark mb-1">14 900 kr</p>
-            <p className="text-sm text-brand-500">per år</p>
-          </div>
-          <div className="bg-white rounded-2xl p-7 border-2 border-tomtly-accent text-center relative">
-            <div className="absolute -top-2.5 right-4 px-2 py-0.5 bg-tomtly-accent text-white text-xs rounded-full">
-              Populær
+        <div className="max-w-lg mx-auto">
+          <div className="bg-white rounded-2xl p-8 border-2 border-tomtly-accent text-center shadow-sm">
+            <p className="text-sm font-medium text-brand-500 mb-3">Provisjon ved gjennomført oppdrag</p>
+            <p className="text-6xl font-bold text-tomtly-accent mb-1">3 %</p>
+            <p className="text-base text-brand-500 mb-6">av kontraktsummen</p>
+            <div className="space-y-3 text-left border-t border-brand-100 pt-6">
+              {[
+                'Ingen oppstartskostnad eller årsavgift',
+                'Faktureres kun dersom leaden fører til kontrakt',
+                'Tomtly er aldri kontraktspart – avtalen er mellom dere og kjøper',
+                'Gjelder alle oppdragstyper: grunnarbeid, rør, el, totalentreprise m.m.',
+              ].map((punkt) => (
+                <div key={punkt} className="flex items-start gap-3 text-sm text-brand-700">
+                  <CheckCircle2 className="w-4 h-4 text-tomtly-accent flex-shrink-0 mt-0.5" />
+                  {punkt}
+                </div>
+              ))}
             </div>
-            <p className="text-sm font-medium text-brand-500 mb-2">Regional (fylke)</p>
-            <p className="text-3xl font-bold text-tomtly-dark mb-1">29 900 kr</p>
-            <p className="text-sm text-brand-500">per år</p>
           </div>
-          <div className="bg-white rounded-2xl p-7 border border-brand-200 text-center">
-            <p className="text-sm font-medium text-brand-500 mb-2">Nasjonal</p>
-            <p className="text-3xl font-bold text-tomtly-dark mb-1">49 900 kr</p>
-            <p className="text-sm text-brand-500">per år</p>
-          </div>
+
+          <p className="text-center text-xs text-brand-400 mt-4">
+            Eksempel: Grunnarbeider vinner kontrakt på 800 000 kr → Tomtly fakturerer 24 000 kr
+          </p>
         </div>
       </div>
     </section>
@@ -247,8 +251,12 @@ function Prising() {
 function FAQ() {
   const faqs = [
     {
-      sporsmal: 'Hva er inkludert i årsavgiften?',
-      svar: 'Tilgang til alle kvalifiserte prosjekter i ditt dekningsområde, komplett prosjektunderlag og direkte kontakt med kjøper.',
+      sporsmal: 'Hva koster det å registrere seg?',
+      svar: 'Ingenting. Registrering er gratis og uforpliktende. Dere betaler kun 3 % av kontraktsummen dersom en lead fra Tomtly fører til et signert oppdrag.',
+    },
+    {
+      sporsmal: 'Når faktureres provisjonen?',
+      svar: 'Provisjonen på 3 % faktureres etter at kontrakt er signert mellom dere og kjøper. Ingen betaling ved registrering eller ved mottak av forespørsel.',
     },
     {
       sporsmal: 'Hvor mange konkurrenter får hvert prosjekt?',
@@ -256,11 +264,7 @@ function FAQ() {
     },
     {
       sporsmal: 'Er Tomtly kontraktspart?',
-      svar: 'Nei. Tomtly kobler dere med kjøper. Kontrakten er direkte mellom dere og kjøper.',
-    },
-    {
-      sporsmal: 'Kan jeg teste før jeg binder meg?',
-      svar: 'Ja – første lead er gratis. Test oss og se kvaliteten på prosjektene før du bestemmer deg.',
+      svar: 'Nei. Tomtly kobler dere med kjøper. Kontrakten er direkte mellom dere og kjøper. Tomtly er aldri involvert i selve oppdraget.',
     },
   ]
 
@@ -331,7 +335,7 @@ function CTASection() {
             Registrer deg gratis
           </h2>
           <p className="text-brand-400">
-            Registrer firmaet ditt og få tilbud på første prosjekt i ditt område – helt gratis og uforpliktende.
+            Registrer firmaet ditt gratis. Vi sender dere relevante prosjekter i ditt område – dere betaler kun 3 % dersom leaden fører til kontrakt.
           </p>
         </div>
 
@@ -423,10 +427,10 @@ function CTASection() {
               disabled={sending}
               className="w-full py-3.5 bg-tomtly-accent text-white font-semibold rounded-lg hover:bg-forest-700 transition-colors disabled:opacity-50"
             >
-              {sending ? 'Registrerer...' : 'Registrer deg gratis – få første prosjekt'}
+              {sending ? 'Registrerer...' : 'Registrer deg – motta prosjekter'}
             </button>
             <p className="text-xs text-brand-400 text-center">
-              Helt gratis og uforpliktende. Du kan melde deg av når som helst.
+              Gratis å registrere seg. 3 % av kontraktsummen ved gjennomført oppdrag.
             </p>
           </form>
         )}

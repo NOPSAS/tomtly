@@ -40,7 +40,7 @@ export default function FrederikPage() {
       <div className="bg-tomtly-dark py-16">
         <div className="max-w-3xl mx-auto px-4 text-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.svg" alt="Tomtly" className="h-10 mx-auto mb-8 invert" />
+          <img src="/logo-white.svg" alt="Tomtly" className="h-10 mx-auto mb-8" />
           <h1 className="font-display text-3xl sm:text-4xl font-bold text-white mb-4">
             Frederik – bli med og selg tomter med Tomtly
           </h1>

@@ -44,9 +44,14 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/logg-inn', request.url))
   }
 
+  // Protect selger-dashboard
+  if (request.nextUrl.pathname.startsWith('/dashboard') && !user) {
+    return NextResponse.redirect(new URL('/logg-inn', request.url))
+  }
+
   return response
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/min-side/:path*'],
+  matcher: ['/admin/:path*', '/min-side/:path*', '/dashboard/:path*'],
 }

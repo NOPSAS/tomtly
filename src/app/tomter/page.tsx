@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { Search, MapPin, Phone, CheckCircle2, Loader2, Home, Wallet, Eye, ArrowRight } from 'lucide-react'
 import { formatNOK, formatM2 } from '@/lib/utils'
@@ -59,26 +59,15 @@ export default function TomtListeSide() {
 
   return (
     <div className="bg-brand-50 min-h-screen">
-      {/* Header med to kolonner: tomter + tomtesøk CTA */}
+      {/* Header */}
       <div className="bg-white border-b border-brand-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div>
-              <h1 className="font-display text-3xl font-bold text-tomtly-dark mb-1">
-                Søk tomt
-              </h1>
-              <p className="text-brand-600">
-                Vi finner tomter som ikke ligger på Finn.no – og analyserer om de er byggbare
-              </p>
-            </div>
-            <a href="#tomtesok" className="inline-flex items-center gap-3 px-5 py-3.5 bg-tomtly-dark text-white rounded-xl hover:bg-tomtly-dark/90 transition-colors group shrink-0">
-              <div>
-                <p className="text-sm font-semibold">Usikker på hva du har råd til?</p>
-                <p className="text-xs text-brand-400">Vi regner på tomt + hus for ditt budsjett</p>
-              </div>
-              <ArrowRight className="w-4 h-4 text-brand-400 group-hover:translate-x-0.5 transition-transform" />
-            </a>
-          </div>
+          <h1 className="font-display text-3xl font-bold text-tomtly-dark mb-1">
+            Kjøp tomt
+          </h1>
+          <p className="text-brand-600">
+            Tomter med full analyse — hva som kan bygges og hva det koster
+          </p>
         </div>
       </div>
 
@@ -128,6 +117,36 @@ export default function TomtListeSide() {
               <option value="pris_desc">Pris (høyest)</option>
               <option value="areal_desc">Areal (størst)</option>
             </select>
+          </div>
+        </div>
+      </div>
+
+      {/* Vi finner drømmetomten din */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+        <div className="rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg, #1a3325 0%, #2d5a3d 100%)' }}>
+          <div className="p-7 md:p-10">
+            <p className="text-green-300 text-xs font-bold uppercase tracking-widest mb-2">Finner du ikke riktig tomt?</p>
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-white mb-6">
+              Vi finner drømmetomten din
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-7">
+              {[
+                { tittel: 'Vi finner tomten', tekst: 'Vi analyserer eiendommer i området du vil bo og kontakter eier — også tomter som ikke er til salgs' },
+                { tittel: 'Innenfor budsjettet', tekst: 'Vi regner ut tomt + hus + grunnarbeid så du vet nøyaktig hva du har råd til' },
+                { tittel: 'Hustypen du vil ha', tekst: 'Vi presenterer husmodeller tilpasset din ønskede boligstil og tomten' },
+              ].map((p) => (
+                <div key={p.tittel} className="bg-white/10 rounded-xl p-4 border border-white/15">
+                  <p className="text-white font-semibold text-sm mb-1">{p.tittel}</p>
+                  <p className="text-green-200/70 text-xs leading-relaxed">{p.tekst}</p>
+                </div>
+              ))}
+            </div>
+            <a
+              href="#tomtesok"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white text-tomtly-accent text-sm font-semibold rounded-xl hover:bg-green-50 transition-colors"
+            >
+              Fortell oss hva du ser etter <ArrowRight className="w-4 h-4" />
+            </a>
           </div>
         </div>
       </div>
@@ -185,12 +204,183 @@ export default function TomtListeSide() {
         )}
       </div>
 
+      {/* Kart */}
+      <TomterKart />
+
       {/* ── Tomtesøk – hovedseksjon ── */}
       <TomteSokUtvidet />
     </div>
   )
 }
 
+
+// ============================================================
+// KART – sidebar + kart (som kartsiden)
+// ============================================================
+
+function TomterKart() {
+  const mapRef = useRef<HTMLDivElement>(null)
+  const mapInstanceRef = useRef<any>(null)
+  const markersRef = useRef<Record<string, any>>({})
+  const [mapLoaded, setMapLoaded] = useState(false)
+  const [selectedId, setSelectedId] = useState<string | null>(null)
+
+  const selected = TOMTER.find(t => t.id === selectedId)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const loadLeaflet = async () => {
+      if (!document.querySelector('link[href*="leaflet"]')) {
+        const css = document.createElement('link')
+        css.rel = 'stylesheet'
+        css.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'
+        document.head.appendChild(css)
+      }
+      if (!(window as any).L) {
+        await new Promise<void>((resolve) => {
+          const script = document.createElement('script')
+          script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'
+          script.onload = () => resolve()
+          document.head.appendChild(script)
+        })
+      }
+
+      const L = (window as any).L
+      if (!mapRef.current || mapRef.current.querySelector('.leaflet-container')) return
+
+      const avgLat = TOMTER.reduce((s, t) => s + t.lat, 0) / TOMTER.length
+      const avgLng = TOMTER.reduce((s, t) => s + t.lng, 0) / TOMTER.length
+      const map = L.map(mapRef.current).setView([avgLat, avgLng], TOMTER.length > 3 ? 10 : 12)
+      mapInstanceRef.current = map
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors',
+        maxZoom: 19,
+      }).addTo(map)
+
+      const makeIcon = (active: boolean) => L.divIcon({
+        className: 'custom-marker',
+        html: `<div style="background:${active ? '#c4a35a' : '#2d5a3d'};width:32px;height:32px;border-radius:50%;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3);transition:background .2s;"></div>`,
+        iconSize: [32, 32],
+        iconAnchor: [16, 16],
+      })
+
+      TOMTER.forEach(tomt => {
+        const marker = L.marker([tomt.lat, tomt.lng], { icon: makeIcon(false) }).addTo(map)
+        markersRef.current[tomt.id] = { marker, makeIcon }
+        marker.on('click', () => {
+          window.dispatchEvent(new CustomEvent('tomt-kart-selected', { detail: tomt.id }))
+        })
+        const popup = `
+          <div style="min-width:200px;font-family:system-ui,sans-serif;">
+            <img src="${tomt.bilde}" alt="" style="width:calc(100% + 30px);height:120px;object-fit:cover;border-radius:8px 8px 0 0;margin:-15px -15px 10px -15px;" />
+            <strong style="font-size:14px;">${tomt.adresse}</strong><br/>
+            <span style="color:#666;font-size:12px;">${tomt.poststed}, ${tomt.kommune}</span><br/>
+            <span style="font-size:12px;">${tomt.areal_m2} m² &middot; ${(tomt.pris / 1000000).toFixed(1)} MNOK</span>
+            <a href="/tomter/${tomt.id}" style="display:block;text-align:center;margin-top:10px;padding:8px;background:#2d5a3d;color:white;text-decoration:none;border-radius:6px;font-size:13px;font-weight:500;">Se tomten &rarr;</a>
+          </div>
+        `
+        marker.bindPopup(popup, { maxWidth: 280 })
+      })
+
+      setMapLoaded(true)
+    }
+
+    loadLeaflet()
+  }, [])
+
+  useEffect(() => {
+    const handler = (e: CustomEvent) => {
+      const id = e.detail as string
+      setSelectedId(prev => {
+        // Reset old marker
+        if (prev && markersRef.current[prev]) {
+          markersRef.current[prev].marker.setIcon(markersRef.current[prev].makeIcon(false))
+        }
+        // Highlight new
+        if (markersRef.current[id]) {
+          markersRef.current[id].marker.setIcon(markersRef.current[id].makeIcon(true))
+          const tomt = TOMTER.find(t => t.id === id)
+          if (tomt && mapInstanceRef.current) {
+            mapInstanceRef.current.setView([tomt.lat, tomt.lng], 14, { animate: true })
+          }
+        }
+        return id === prev ? null : id
+      })
+    }
+    window.addEventListener('tomt-kart-selected' as any, handler)
+    return () => window.removeEventListener('tomt-kart-selected' as any, handler)
+  }, [])
+
+  function handleSidebarClick(id: string) {
+    window.dispatchEvent(new CustomEvent('tomt-kart-selected', { detail: id }))
+  }
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+      <div className="flex rounded-2xl overflow-hidden border border-brand-200" style={{ height: '520px' }}>
+
+        {/* Sidebar */}
+        <div className="w-72 bg-white border-r border-brand-200 flex flex-col overflow-hidden flex-shrink-0 hidden md:flex">
+          <div className="px-4 py-3 border-b border-brand-200">
+            <p className="text-xs font-semibold text-brand-500 uppercase tracking-wide">{TOMTER.length} tomter</p>
+          </div>
+          <div className="flex-1 overflow-y-auto">
+            {TOMTER.map((t) => (
+              <div key={t.id} className={`border-b border-brand-100 ${selectedId === t.id ? 'bg-forest-50 border-l-4 border-l-tomtly-accent' : ''}`}>
+                <button
+                  onClick={() => handleSidebarClick(t.id)}
+                  className="w-full text-left p-3 hover:bg-brand-50 transition-colors"
+                >
+                  <div className="flex items-start gap-2.5">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={t.bilde} alt="" className="w-14 h-10 object-cover rounded-lg flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-xs text-tomtly-dark truncate">{t.adresse}</h3>
+                      <p className="text-[11px] text-brand-500">{t.poststed}</p>
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <span className="text-[11px] text-brand-400">{formatM2(t.areal_m2)}</span>
+                        <span className="text-[11px] font-semibold text-tomtly-dark">{formatNOK(t.pris)}</span>
+                      </div>
+                    </div>
+                  </div>
+                </button>
+                {selectedId === t.id && (
+                  <div className="px-3 pb-3">
+                    <Link
+                      href={`/tomter/${t.id}`}
+                      className="flex items-center justify-center gap-1 w-full px-3 py-2 bg-tomtly-accent text-white text-xs font-semibold rounded-lg hover:bg-forest-700 transition-colors"
+                    >
+                      Se tomten <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Kart */}
+        <div className="flex-1 relative">
+          <div ref={mapRef} style={{ position: 'absolute', inset: 0 }} />
+          {!mapLoaded && (
+            <div className="absolute inset-0 flex items-center justify-center bg-brand-100">
+              <p className="text-brand-500 text-sm">Laster kart...</p>
+            </div>
+          )}
+          <Link
+            href="/kart"
+            className="absolute top-3 right-3 z-[500] flex items-center gap-1.5 px-3 py-1.5 bg-white/95 text-brand-700 text-xs font-semibold rounded-lg shadow border border-brand-200 hover:bg-white transition-colors"
+          >
+            <MapPin className="w-3.5 h-3.5 text-tomtly-accent" />
+            Fullskjermkart
+          </Link>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 // ============================================================
 // UTVIDET TOMTESØK – budsjett, husstil, fradeling

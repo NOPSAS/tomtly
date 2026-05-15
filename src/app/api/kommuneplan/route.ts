@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getKartInnsyn, getKommuneNavn } from '@/lib/kommune-kartinnsyn'
+import { getKommuneplanSammendrag } from '@/lib/kommuneplan-sammendrag'
 
 // Henter kommuneplanens arealdel og gjeldende reguleringsplaner for en eiendom
 // POST { kommunenummer, gnr, bnr }
@@ -8,6 +9,13 @@ import { getKartInnsyn, getKommuneNavn } from '@/lib/kommune-kartinnsyn'
 const AREALPLANER_BASE = 'https://api.arealplaner.no/api'
 const AREALPLANER_TOKEN = 'D7D7FFB4-1A4A-44EA-BD15-BCDB6CEF8CA5'
 const PLANSLURPEN_BASE = 'https://www.planslurpen.no/api'
+
+// Timeout-konstanter
+const PLANSLURPEN_TIMEOUT = 12000
+const AREALPLANER_KUNDER_TIMEOUT = 12000
+const AREALPLANER_PLANER_TIMEOUT = 15000
+const AREALPLANER_DOKUMENTER_TIMEOUT = 10000
+const AREALPLANER_KP_TIMEOUT = 12000
 
 interface PlanResult {
   kilde: 'planslurpen' | 'arealplaner'
@@ -33,23 +41,32 @@ export async function POST(request: NextRequest) {
   const kommunenavn = getKommuneNavn(knr) || 'Ukjent kommune'
   const kartInnsyn = getKartInnsyn(knr, kommunenavn)
 
+  // Hent statisk kommuneplan-sammendrag
+  const statiskSammendrag = getKommuneplanSammendrag(knr)
+
   const planer: PlanResult[] = []
   let kommuneplan: PlanResult | null = null
   let arealplanerKundeId: number | null = null
+  const feilmeldinger: string[] = []
 
   // ── 1. Hent planer fra Planslurpen (DiBK) ──
   try {
     const res = await fetch(`${PLANSLURPEN_BASE}/planregister/${knr}/${gnr}/${bnr}`, {
-      signal: AbortSignal.timeout(10000),
+      signal: AbortSignal.timeout(PLANSLURPEN_TIMEOUT),
     })
     if (res.ok) {
       const data = await res.json()
       const planListe = data.plan || []
       for (const p of planListe) {
         const planType = p.plantype?.kodebeskrivelse || p.plantype || ''
-        const erKP = planType.toLowerCase().includes('kommuneplan') ||
-          planType.toLowerCase().includes('arealdel') ||
-          (p.plannavn || '').toLowerCase().includes('kommuneplan')
+        const planNavn = (p.plannavn || '').toLowerCase()
+        const planTypeLower = planType.toLowerCase()
+        const erKP = planTypeLower.includes('kommuneplan') ||
+          planTypeLower.includes('arealdel') ||
+          planTypeLower.includes('kommunedelplan') ||
+          planNavn.includes('kommuneplan') ||
+          planNavn.includes('arealdel') ||
+          planNavn.includes('kommunedelplan')
 
         const result: PlanResult = {
           kilde: 'planslurpen',
@@ -63,7 +80,9 @@ export async function POST(request: NextRequest) {
         if (erKP && !kommuneplan) kommuneplan = result
       }
     }
-  } catch {}
+  } catch (err: any) {
+    feilmeldinger.push(`Planslurpen: ${err?.name === 'TimeoutError' ? 'Tidsavbrudd' : (err?.message || 'feil')}`)
+  }
 
   // ── 2. Hent planer fra arealplaner.no ──
   try {
@@ -72,7 +91,7 @@ export async function POST(request: NextRequest) {
     // Finn kunde-ID for denne kommunen
     const kunderRes = await fetch(`${AREALPLANER_BASE}/kunder`, {
       headers: apHeaders,
-      signal: AbortSignal.timeout(10000),
+      signal: AbortSignal.timeout(AREALPLANER_KUNDER_TIMEOUT),
     })
     if (kunderRes.ok) {
       const kunder = await kunderRes.json()
@@ -84,7 +103,7 @@ export async function POST(request: NextRequest) {
         // Hent planer for eiendommen
         const planerRes = await fetch(
           `${AREALPLANER_BASE}/kunder/${kunde.id}/arealplaner?knr=${knr}&gnr=${gnr}&bnr=${bnr}`,
-          { headers: apHeaders, signal: AbortSignal.timeout(10000) }
+          { headers: apHeaders, signal: AbortSignal.timeout(AREALPLANER_PLANER_TIMEOUT) }
         )
 
         if (planerRes.ok) {
@@ -97,16 +116,21 @@ export async function POST(request: NextRequest) {
             const planStatus = typeof ap.planStatus === 'string'
               ? ap.planStatus
               : ap.planStatus?.beskrivelse || ''
-            const erKP = planType.toLowerCase().includes('kommuneplan') ||
-              (ap.planNavn || '').toLowerCase().includes('kommuneplan') ||
-              (ap.planNavn || '').toLowerCase().includes('arealdel')
+            const apPlanNavnLower = (ap.planNavn || '').toLowerCase()
+            const apPlanTypeLower = planType.toLowerCase()
+            const erKP = apPlanTypeLower.includes('kommuneplan') ||
+              apPlanTypeLower.includes('arealdel') ||
+              apPlanTypeLower.includes('kommunedelplan') ||
+              apPlanNavnLower.includes('kommuneplan') ||
+              apPlanNavnLower.includes('arealdel') ||
+              apPlanNavnLower.includes('kommunedelplan')
 
             // Hent dokumenter for planen
             const dokumenter: { navn: string; type: string; url?: string }[] = []
             try {
               const dokRes = await fetch(
                 `${AREALPLANER_BASE}/kunder/${kunde.id}/arealplaner/${ap.id}/dokumenter`,
-                { headers: apHeaders, signal: AbortSignal.timeout(8000) }
+                { headers: apHeaders, signal: AbortSignal.timeout(AREALPLANER_DOKUMENTER_TIMEOUT) }
               )
               if (dokRes.ok) {
                 const docs = await dokRes.json()
@@ -136,7 +160,9 @@ export async function POST(request: NextRequest) {
         }
       }
     }
-  } catch {}
+  } catch (err: any) {
+    feilmeldinger.push(`Arealplaner.no: ${err?.name === 'TimeoutError' ? 'Tidsavbrudd' : (err?.message || 'feil')}`)
+  }
 
   // ── 3. Hent kommuneplanens arealdel separat hvis ikke funnet ──
   if (!kommuneplan && arealplanerKundeId) {
@@ -144,7 +170,7 @@ export async function POST(request: NextRequest) {
       const apHeaders = { 'X-WAAPI-TOKEN': AREALPLANER_TOKEN }
       const kpRes = await fetch(
         `${AREALPLANER_BASE}/kunder/${arealplanerKundeId}/arealplaner?planTypeId=21,20`,
-        { headers: apHeaders, signal: AbortSignal.timeout(10000) }
+        { headers: apHeaders, signal: AbortSignal.timeout(AREALPLANER_KP_TIMEOUT) }
       )
       if (kpRes.ok) {
         const kpPlaner = await kpRes.json()
@@ -169,7 +195,9 @@ export async function POST(request: NextRequest) {
           }
         }
       }
-    } catch {}
+    } catch (err: any) {
+      feilmeldinger.push(`KP-søk: ${err?.name === 'TimeoutError' ? 'Tidsavbrudd' : (err?.message || 'feil')}`)
+    }
   }
 
   // ── 4. Kategoriser planene ──
@@ -202,6 +230,7 @@ export async function POST(request: NextRequest) {
       iKraft: kommuneplan.iKraft,
       dokumenter: kommuneplan.dokumenter || [],
     } : null,
+    kommuneplanSammendrag: statiskSammendrag || null,
     reguleringsplaner: reguleringsplaner.map(p => ({
       kilde: p.kilde,
       planId: p.planId,
@@ -215,5 +244,7 @@ export async function POST(request: NextRequest) {
     antallPlaner: planer.length,
     antallReguleringsplaner: reguleringsplaner.length,
     antallKommuneplaner: kommuneplaner.length,
+    // Vis feilmeldinger kun hvis noe feilet men vi har null planer (hjelper debugging)
+    ...(feilmeldinger.length > 0 && planer.length === 0 ? { advarsler: feilmeldinger } : {}),
   })
 }

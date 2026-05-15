@@ -199,7 +199,7 @@ VIKTIG:
 Returner KUN JSON-objektet, ingen forklaring rundt.`
 
     const response = await client.messages.create({
-      model: 'claude-sonnet-4-20250514',
+      model: 'claude-sonnet-4-6',
       max_tokens: 3000,
       messages: [{
         role: 'user',
@@ -266,15 +266,12 @@ export async function POST(request: NextRequest) {
     })
   }
 
-  // 2. Sjekk Supabase-cache
+  // 2. Sjekk Supabase-cache (valgfritt — feiler ikke hvis Supabase mangler)
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (!supabaseUrl || !supabaseKey) {
-    return NextResponse.json({ error: 'Supabase ikke konfigurert' }, { status: 500 })
-  }
-  const supabase = createClient(supabaseUrl, supabaseKey)
+  const supabase = (supabaseUrl && supabaseKey) ? createClient(supabaseUrl, supabaseKey) : null
 
-  if (!force) {
+  if (!force && supabase) {
     const { data: cached } = await supabase
       .from('kommuneplan_sammendrag_cache')
       .select('*')
@@ -339,7 +336,7 @@ export async function POST(request: NextRequest) {
       try {
         const client = new Anthropic({ apiKey })
         const response = await client.messages.create({
-          model: 'claude-sonnet-4-20250514',
+          model: 'claude-sonnet-4-6',
           max_tokens: 2000,
           messages: [{
             role: 'user',
@@ -397,36 +394,35 @@ VIKTIG: Vær realistisk. Returner KUN JSON.`,
     })
   }
 
-  // 5. Lagre i cache
+  // 5. Lagre i cache (feiler ikke hvis cache-skriving feiler)
   const kilde = claude._kilde === 'claude-generelt' ? 'auto-claude-generelt' : 'auto-claude'
-  const newRow = {
-    kommunenummer: knr,
-    kommunenavn,
-    plan_navn: plan?.planNavn || `Kommuneplanens arealdel — ${kommunenavn}`,
-    plan_id: plan?.planId || plan ? String(plan.id) : knr,
-    i_kraft: plan?.iKraft || null,
-    sammendrag: claude.sammendrag || null,
-    nokkeltall: claude.nokkeltall || [],
-    viktige_bestemmelser: claude.viktige_bestemmelser || [],
-    min_tomtestorrelse: claude.min_tomtestorrelse || null,
-    maks_bya_prosent: claude.maks_bya_prosent || null,
-    maks_bra: claude.maks_bra || null,
-    maks_bya: claude.maks_bya || null,
-    lnfr: claude.lnfr || null,
-    bestemmelser_pdf_url: pdfUrl,
-    source: kilde,
-    updated_at: new Date().toISOString(),
-  }
-
-  const { error: upsertError } = await supabase
-    .from('kommuneplan_sammendrag_cache')
-    .upsert(newRow, { onConflict: 'kommunenummer' })
-
-  if (upsertError) {
-    return NextResponse.json({
-      success: false,
-      error: `Lagring feilet: ${upsertError.message}`,
-    })
+  if (supabase) {
+    try {
+      await supabase
+        .from('kommuneplan_sammendrag_cache')
+        .upsert({
+          kommunenummer: knr,
+          kommunenavn,
+          plan_navn: plan?.planNavn || `Kommuneplanens arealdel — ${kommunenavn}`,
+          plan_id: plan?.planId || (plan ? String((plan as any).id) : knr),
+          i_kraft: plan?.iKraft || null,
+          sammendrag: claude.sammendrag || null,
+          nokkeltall: claude.nokkeltall || [],
+          viktige_bestemmelser: claude.viktige_bestemmelser || [],
+          min_tomtestorrelse: claude.min_tomtestorrelse || null,
+          maks_bya_prosent: claude.maks_bya_prosent || null,
+          maks_bra: claude.maks_bra || null,
+          maks_bya: claude.maks_bya || null,
+          lnfr: claude.lnfr || null,
+          tomtedeling: claude.tomtedeling || null,
+          mua: claude.mua || null,
+          parkering: claude.parkering || null,
+          unntak_plankrav: claude.unntak_plankrav || null,
+          bestemmelser_pdf_url: pdfUrl,
+          source: kilde,
+          updated_at: new Date().toISOString(),
+        }, { onConflict: 'kommunenummer' })
+    } catch {}
   }
 
   return NextResponse.json({
